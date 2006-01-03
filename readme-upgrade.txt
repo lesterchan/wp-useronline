@@ -1,0 +1,34 @@
+-> Upgrade Instructions For Version 1.0x To Version 2.00
+------------------------------------------------------------------
+// Open wp-content/plugins folder
+
+Put:
+------------------------------------------------------------------
+useronline.php
+------------------------------------------------------------------
+
+
+// Open root Wordpress folder
+
+Put:
+------------------------------------------------------------------
+wp-useronline.php
+------------------------------------------------------------------
+
+
+// Remove Previous Traces Of UserOnline Code In Your Theme
+
+
+// Open wp-content/themes/<YOUR THEME NAME>/sidebar.php 
+
+Add:
+------------------------------------------------------------------
+<?php if (function_exists('useronline')): ?>
+<li>
+	<h2>UserOnline</h2>
+	<ul>
+		<li><a href="<?php echo get_settings('home'); ?>/wp-useronline.php"><?php get_useronline(); ?></a></li>
+	</ul>
+</li>
+<?php endif; ?>
+------------------------------------------------------------------
