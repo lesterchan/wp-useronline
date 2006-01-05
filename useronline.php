@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Adds A Useronline Feature To WordPress
-Version: 2.0
+Version: 2.01
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */
@@ -48,7 +48,7 @@ function get_IP() {
 ### Function: Process UserOnline
 add_action('wp_head', 'useronline');
 function useronline() {
-	global $wpdb;
+	global $wpdb, $useronline;
 	// Search Bots
 	$bots = array('Google Bot' => 'googlebot', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'ubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot');
 
@@ -99,14 +99,26 @@ function useronline() {
 
 	// Delete Users
 	$delete_users = $wpdb->query("DELETE FROM $wpdb->useronline WHERE timestamp < $timeout");
+
+	// Count Users Online
+	$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
+	
+	// Get Most User Online
+	$most_useronline = intval(get_settings('useronline_most_users'));
+
+	// Check Whether Current Users Online Is More Than Most Users Online
+	if($useronline > $most_useronline) {
+		$wpdb->query("UPDATE $wpdb->options SET option_value = '$useronline' WHERE option_name = 'useronline_most_users'");
+		$wpdb->query("UPDATE $wpdb->options SET option_value = '".current_time('timestamp')."' WHERE option_name = 'useronline_most_timestamp'");
+		wp_cache_flush();
+	}
 }
 
 
 ### Function: Display UserOnline
 function get_useronline($user = 'User', $users = 'Users', $display = true) {
-	global $wpdb;
-	// Count Total Users Online
-	$useronline = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline");
+	global $useronline;
+	// Display User Online
 	if($display) {
 		if($useronline > 1) {
 			echo "<b>$useronline</b> $users ".__('Online');
@@ -115,6 +127,29 @@ function get_useronline($user = 'User', $users = 'Users', $display = true) {
 		}
 	} else {
 		return $useronline;
+	}
+}
+
+
+### Function: Display Max UserOnline
+function get_most_useronline($display = true) {
+	$most_useronline_users = intval(get_settings('useronline_most_users'));
+	if($display) {
+		echo $most_useronline_users;
+	} else {
+		return $most_useronline_users;
+	}
+}
+
+
+### Function: Display Max UserOnline Date
+function get_most_useronline_date($date_format = 'jS F Y, H:i', $display =true) {
+	$most_useronline_timestamp = get_settings('useronline_most_timestamp');
+	$most_useronline_date = gmdate($date_format, $most_useronline_timestamp);
+	if($display) {
+		echo $most_useronline_date;
+	} else {
+		return$most_useronline_date;
 	}
 }
 ?>

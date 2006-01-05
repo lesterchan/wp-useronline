@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-UserOnline 2.00								|
+|	WordPress 2.0 Plugin: WP-UserOnline 2.01								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -80,7 +80,8 @@ function check_ip($ip) {
 ?>
 <?php get_header(); ?>
 	<div id="content" class="narrowcolumn">
-		<p><?php _e('There Are A Total Of'); ?> <b><?php echo$total['members'].' '.$nicetext['members']; ?></b>, <b><?php echo$total['guests'].' '.$nicetext['guests']; ?></b> <?php _e('And'); ?> <b><?php echo$total['bots'].' '.$nicetext['bots']; ?></b> <?php _e('Online Now'); ?>.<b></b> </p>
+		<p><?php _e('There Are A Total Of'); ?> <b><?php echo$total['members'].' '.$nicetext['members']; ?></b>, <b><?php echo$total['guests'].' '.$nicetext['guests']; ?></b> <?php _e('And'); ?> <b><?php echo $total['bots'].' '.$nicetext['bots']; ?></b> <?php _e('Online Now'); ?>.</p>
+		<p><?php _e('Most users ever online was'); ?> <b><?php get_most_useronline(); ?></b> <?php _e('On'); ?> <b><?php get_most_useronline_date(); ?></b></p>
 		<table width="100%" border="0" cellspacing="1" cellpadding="5">
 		<?php 
 				if($total['members'] > 0) {

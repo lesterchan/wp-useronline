@@ -1,3 +1,45 @@
+-> Upgrade Instructions For Version 2.00 To Version 2.01
+------------------------------------------------------------------
+// Open wp-admin folder
+
+Put:
+------------------------------------------------------------------
+useronline-upgrade.php
+------------------------------------------------------------------
+
+
+// Open wp-content/plugins folder
+
+Overwrite:
+------------------------------------------------------------------
+useronline.php
+------------------------------------------------------------------
+
+
+// Open root Wordpress folder
+
+Overwrite:
+------------------------------------------------------------------
+wp-useronline.php
+------------------------------------------------------------------
+
+
+// Run wp-admin/useronline-upgrade.php
+
+Note:
+------------------------------------------------------------------
+Please remember to remove useronline-upgrade.php after installation.
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 -> Upgrade Instructions For Version 1.0x To Version 2.00
 ------------------------------------------------------------------
 // Open wp-content/plugins folder
