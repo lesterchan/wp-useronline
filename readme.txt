@@ -11,6 +11,7 @@ Updated	-> 1st February 2006
 // Version 2.01 (01-02-2006)
 - NEW: Added Most Users Ever Online
 - FIXED: Added UNIQUE Key Instead Of Primary Key To Test Whether It Will Solve Duplicate Entry Errors 
+- FIXED: Quotes Issue In Page Title
 
 // Version 2.00 (01-01-2006)
 - NEW: Compatible With WordPress 2.0
