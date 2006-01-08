@@ -88,6 +88,7 @@ function useronline() {
 	} else {
 		$make_page = get_bloginfo('name').$make_page;
 	}
+	$make_page = addslashes($make_page);
 
 	// Update User First
 	$update_user = $wpdb->query("UPDATE $wpdb->useronline SET timestamp = '$timestamp', ip = '$ip', location = '$make_page', url = '$url' $where");
