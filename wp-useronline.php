@@ -26,9 +26,6 @@ function useronline_pagetitle($useronline_pagetitle) {
 	return $useronline_pagetitle.' &raquo; UserOnline';
 }
 
-### Search Bots Array
- $bots = array('Google Bot' => 'googlebot', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'ubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot');
-
 ### Reassign Bots Name
 $bots_name = array();
 foreach($bots as $botname => $botlookfor) {
@@ -39,15 +36,16 @@ foreach($bots as $botname => $botlookfor) {
 $usersonline = $wpdb->get_results("SELECT * FROM $wpdb->useronline");
 
 ### Type Of Users Array
-$bots = array();
-$guests = array();
 $members = array();
+$guests = array();
+$bots = array();
 
 ### Users Count
 $total = array();
-$total['bots'] = 0;
-$total['guests'] = 0;
+$total['users'] = 0;
 $total['members'] = 0;
+$total['guests'] = 0;
+$total['bots'] = 0;
 
 ### Process Those User Who Is Online
 if($usersonline) {
@@ -63,13 +61,44 @@ if($usersonline) {
 			$total['members']++;
 		}
 	}
+	$total['users'] = ($total['guests']+$total['bots']+$total['members']);
 }
 
 ### Nice Text For Bots, Guest And Members
 $nicetext = array();
-if($total['bots'] > 1) { $nicetext['bots'] = __('Bots'); } else {	$nicetext['bots'] = __('Bot'); }
-if($total['guests'] > 1) { $nicetext['guests'] = __('Guests'); } else { $nicetext['guests'] = __('Guest'); }
-if($total['members'] > 1) { $nicetext['members'] = __('Members'); } else { $nicetext['members'] = __('Member'); }
+$nicetext['users'] = '';
+$nicetext['members'] = '';
+$nicetext['guests'] = '';
+$nicetext['bots'] = '';
+
+###  Nice Text For Users
+if($total['users'] > 1) {
+	$nicetext['users'] = $total['users'].' '.__('Users');
+} else {
+	$nicetext['users'] = $total['users'].' '.__('User');
+}
+
+###  Nice Text For Members
+if($total['members'] > 1) {
+	$nicetext['members'] = $total['members'].' '.__('Members');
+} else {
+	$nicetext['members'] = $total['members'].' '.__('Member');
+}
+
+
+###  Nice Text For Guests
+if($total['guests'] > 1) { 
+	$nicetext['guests'] = $total['guests'].' '.__('Guests');
+} else {
+	$nicetext['guests'] = $total['guests'].' '.__('Guest'); 
+}
+
+###  Nice Text For Bots
+if($total['bots'] > 1) {
+	$nicetext['bots'] = $total['bots'].' '.__('Bots'); 
+} else {
+	$nicetext['bots'] = $total['bots'].' '.__('Bot'); 
+}
 
 ### Function: Check IP
 function check_ip($ip) {
@@ -80,55 +109,55 @@ function check_ip($ip) {
 ?>
 <?php get_header(); ?>
 	<div id="content" class="narrowcolumn">
-		<p><?php _e('There Are A Total Of'); ?> <b><?php echo$total['members'].' '.$nicetext['members']; ?></b>, <b><?php echo$total['guests'].' '.$nicetext['guests']; ?></b> <?php _e('And'); ?> <b><?php echo $total['bots'].' '.$nicetext['bots']; ?></b> <?php _e('Online Now'); ?>.</p>
-		<p><?php _e('Most users ever online was'); ?> <b><?php get_most_useronline(); ?></b> <?php _e('On'); ?> <b><?php get_most_useronline_date(); ?></b></p>
+		<p>There are a total of <b><?php echo $nicetext['users']; ?></b> online now.</p>
+		<p>Out of which, there are <b><?php echo $nicetext['members']; ?></b>, <b><?php echo $nicetext['guests']; ?></b> and <b><?php echo $nicetext['bots']; ?></b>.</p>
+		<p>Most users ever online was <b><?php get_most_useronline(); ?></b> on <b><?php get_most_useronline_date(); ?></b></p>
 		<table width="100%" border="0" cellspacing="1" cellpadding="5">
-		<?php 
-				if($total['members'] > 0) {
-					echo 	'<tr><td><h2 class="pagetitle">'.$total['members'].' '.$nicetext['members'].' '.__('Online Now').'</h2></td></tr>'."\n";
+		<?php
+			// Print Out Members
+			if($total['members'] > 0) {
+				echo 	'<tr><td><h2 class="pagetitle">'.$nicetext['members'].' '.__('Online Now').'</h2></td></tr>'."\n";
+			}
+			$no=1;
+			if($members) {
+				foreach($members as $member) {
+					echo '<tr>'."\n";
+					echo '<td><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</td>'."\n";
+					echo '</tr>'."\n";
+					$no++;
 				}
+			}
+			// Print Out Guest
+			if($total['guests'] > 0) {
+				echo 	'<tr><td><h2 class="pagetitle">'.$nicetext['guests'].' '.__('Online Now').'</h2></td></tr>'."\n";
+			}
+			$no=1;
+			if($guests) {
+				foreach($guests as $guest) {
+					echo '<tr>'."\n";
+					echo '<td><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</td>'."\n";
+					echo '</tr>'."\n";
+					$no++;
+				}
+			}
+			// Print Out Bots
+			if($total['bots'] > 0) {
+				echo 	'<tr><td><h2 class="pagetitle">'.$nicetext['bots'].' '.__('Online Now').'</h2></td></tr>'."\n";
+			}
+			$no=1;
+			if($bots) {
+				foreach($bots as $bot) {
+					echo '<tr>'."\n";
+					echo '<td><b>#'.$no.' - '.$bot['username'].'</b> '.check_ip($bot['ip']).' on '.gmdate('d.m.Y @ H:i', $bot['timestamp']).'<br />'.$bot['location'].' [<a href="'.$bot['url'].'">url</a>]</td>'."\n";
+					echo '</tr>'."\n";
+					$no++;
+				}
+			}
+			if($total['users'] == 0) {
+				echo 	'<tr><td><h2 class="pagetitle">'.__('No One Is Online Now').'</h2></td></tr>'."\n";
+			}
 		?>
-				<?php
-					$no=1;
-					if($members) {
-						foreach($members as $member) {
-							echo '<tr>'."\n";
-							echo '<td><b>#'.$no.' - <a href="wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</td>'."\n";
-							echo '</tr>'."\n";
-							$no++;
-						}
-					}
-					// Print Out Guest
-					if($total['guests'] > 0) {
-						echo 	'<tr><td><h2 class="pagetitle">'.$total['guests'].' '.$nicetext['guests'].' '.__('Online Now').'</h2></td></tr>'."\n";
-					}
-					$no=1;
-					if($guests) {
-						foreach($guests as $guest) {
-							echo '<tr>'."\n";
-							echo '<td><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</td>'."\n";
-							echo '</tr>'."\n";
-							$no++;
-						}
-					}
-					// Print Out Bots
-					if($total['bots'] > 0) {
-						echo 	'<tr><td><h2 class="pagetitle">'.$total['bots'].' '.$nicetext['bots'].' '.__('Online Now').'</h2></td></tr>'."\n";
-					}
-					$no=1;
-					if($bots) {
-						foreach($bots as $bot) {
-							echo '<tr>'."\n";
-							echo '<td><b>#'.$no.' - '.$bot['username'].'</b> '.check_ip($bot['ip']).' on '.gmdate('d.m.Y @ H:i', $bot['timestamp']).'<br />'.$bot['location'].' [<a href="'.$bot['url'].'">url</a>]</td>'."\n";
-							echo '</tr>'."\n";
-							$no++;
-						}
-					}
-					if($total['members'] == 0 && $total['guests'] == 0 && $total['bots']) {
-						echo 	'<tr><td><h2 class="pagetitle">'.__('No One Is Online Now').'</h2></td></tr>'."\n";
-					}
-				?>
-				</table>
+		</table>
 	</div>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

@@ -30,6 +30,11 @@ Author URI: http://www.lesterchan.net
 ### UserOnline Table Name
 $wpdb->useronline = $table_prefix . 'useronline';
 
+
+### Search Bots Name
+$bots = array('Google Bot' => 'googlebot', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'ubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot');
+
+
 ### Function: Get IP
 function get_IP() {
 	if (empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
@@ -48,9 +53,7 @@ function get_IP() {
 ### Function: Process UserOnline
 add_action('wp_head', 'useronline');
 function useronline() {
-	global $wpdb, $useronline;
-	// Search Bots
-	$bots = array('Google Bot' => 'googlebot', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'ubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot');
+	global $wpdb, $useronline, $bots;
 
 	// Useronline Settings
 	$timeoutseconds = 300;
@@ -151,6 +154,83 @@ function get_most_useronline_date($date_format = 'jS F Y, H:i', $display =true) 
 		echo $most_useronline_date;
 	} else {
 		return$most_useronline_date;
+	}
+}
+
+
+### Function: Display Users Browsing The Page
+function get_users_browsing_page() {
+	global $wpdb, $bots;
+
+	// Get Users Browsing Page
+	$page_url = addslashes(urlencode($_SERVER['REQUEST_URI']));
+	$users_browse = $wpdb->get_results("SELECT username FROM $wpdb->useronline WHERE url = '$page_url'");
+
+	// We Need Arrays
+	$members = array();
+	$total = array();
+	$total['users'] = 0;
+	$total['members'] = 0;
+	$total['guests'] = 0;
+	$total['bots'] = 0;
+	$nicetext = array();
+	$nicetext['members'] = '';
+	$nicetext['guests'] = '';
+	$nicetext['bots'] = '';
+
+	// If There Is Users Browsing, Then We Execute
+	if($users_browse) {
+		// Reassign Bots Name
+		$bots_name = array();
+		foreach($bots as $botname => $botlookfor) {
+			$bots_name[] = $botname;
+		}
+		// Get Users Information
+		foreach($users_browse as $user_browse) {
+			if($user_browse->username == 'Guest') {
+				$total['guests']++;
+			} elseif(in_array($user_browse->username, $bots_name)) {
+				$total['bots']++;
+			} else {
+				$members[] = array('username' => stripslashes($user_browse->username));
+				$total['members']++;
+			}
+		}
+		$total['users'] = ($total['guests']+$total['bots']+$total['members']);
+
+		// Nice Text For Members
+		if($total['members'] > 1) {
+			$nicetext['members'] = $total['members'].' '.__('Members');
+		} else {
+			$nicetext['members'] = $total['members'].' '.__('Member');
+		}
+		// Nice Text For Guests
+		if($total['guests'] > 1) { 
+			$nicetext['guests'] = $total['guests'].' '.__('Guests');
+		} else {
+			$nicetext['guests'] = $total['guests'].' '.__('Guest'); 
+		}
+		// Nice Text For Bots
+		if($total['bots'] > 1) {
+			$nicetext['bots'] = $total['bots'].' '.__('Bots'); 
+		} else {
+			$nicetext['bots'] = $total['bots'].' '.__('Bot'); 
+		}
+		
+		// Print User Count
+		echo __('Users Browsing This Page: ').'<b>'.$total['users'].'</b> ('.$nicetext['members'].', '.$nicetext['guests'].' '.__('and').' '.$nicetext['bots'].')<br />';
+
+		// Print Member Name
+		if($members) {
+			$temp_member = '';
+			foreach($members as $member) {
+				$temp_member .= '<a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a>, ';
+			}
+			echo __('Members').': '.substr($temp_member, 0, -2);
+		}
+	} else {
+		// This Should Not Happen
+		_e('No User Is Browsing This Page');
 	}
 }
 ?>

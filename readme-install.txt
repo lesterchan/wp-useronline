@@ -43,3 +43,33 @@ Add:
 </li>
 <?php endif; ?>
 ------------------------------------------------------------------
+
+
+// To Display Most Number Of Users Online
+
+Use:
+------------------------------------------------------------------
+<?php if (function_exists('useronline')): ?>
+	<p>Most Users Ever Online Is <?php get_most_useronline(); ?> On <?php get_most_useronline_date(); ?></p>
+<?php endif; ?>
+------------------------------------------------------------------
+
+Note:
+------------------------------------------------------------------
+By default, it will be displayed in wp-useronline.php
+------------------------------------------------------------------
+
+
+// To Display Users Browsing A Page
+
+Use:
+------------------------------------------------------------------
+<?php if (function_exists('useronline')): ?>
+	<?php get_users_browsing_page(); ?>
+<?php endif; ?>
+------------------------------------------------------------------
+
+Note:
+------------------------------------------------------------------
+Normally, you can place it in page.php or single.php
+------------------------------------------------------------------
