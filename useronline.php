@@ -166,17 +166,15 @@ function get_users_browsing_page() {
 	$page_url = addslashes(urlencode($_SERVER['REQUEST_URI']));
 	$users_browse = $wpdb->get_results("SELECT username FROM $wpdb->useronline WHERE url = '$page_url'");
 
-	// We Need Arrays
+	// Variables
 	$members = array();
-	$total = array();
-	$total['users'] = 0;
-	$total['members'] = 0;
-	$total['guests'] = 0;
-	$total['bots'] = 0;
-	$nicetext = array();
-	$nicetext['members'] = '';
-	$nicetext['guests'] = '';
-	$nicetext['bots'] = '';
+	$total_users = 0;
+	$total_members = 0;
+	$total_guests = 0;
+	$total_bots = 0;
+	$nicetext_members = '';
+	$nicetext_guests = '';
+	$nicetext_bots = '';
 
 	// If There Is Users Browsing, Then We Execute
 	if($users_browse) {
@@ -188,43 +186,43 @@ function get_users_browsing_page() {
 		// Get Users Information
 		foreach($users_browse as $user_browse) {
 			if($user_browse->username == 'Guest') {
-				$total['guests']++;
+				$total_guests++;
 			} elseif(in_array($user_browse->username, $bots_name)) {
-				$total['bots']++;
+				$total_bots++;
 			} else {
-				$members[] = array('username' => stripslashes($user_browse->username));
-				$total['members']++;
+				$members[] = stripslashes($user_browse->username);
+				$total_members++;
 			}
 		}
-		$total['users'] = ($total['guests']+$total['bots']+$total['members']);
+		$total_users = ($total_guests+$total_bots+$total_members);
 
 		// Nice Text For Members
-		if($total['members'] > 1) {
-			$nicetext['members'] = $total['members'].' '.__('Members');
+		if($total_members > 1) {
+			$nicetext_members = $total_members.' '.__('Members');
 		} else {
-			$nicetext['members'] = $total['members'].' '.__('Member');
+			$nicetext_members = $total_members.' '.__('Member');
 		}
 		// Nice Text For Guests
-		if($total['guests'] > 1) { 
-			$nicetext['guests'] = $total['guests'].' '.__('Guests');
+		if($total_guests > 1) { 
+			$nicetext_guests = $total_guests.' '.__('Guests');
 		} else {
-			$nicetext['guests'] = $total['guests'].' '.__('Guest'); 
+			$nicetext_guests = $total_guests.' '.__('Guest'); 
 		}
 		// Nice Text For Bots
-		if($total['bots'] > 1) {
-			$nicetext['bots'] = $total['bots'].' '.__('Bots'); 
+		if($total_bots > 1) {
+			$nicetext_bots = $total_bots.' '.__('Bots'); 
 		} else {
-			$nicetext['bots'] = $total['bots'].' '.__('Bot'); 
+			$nicetext_bots = $total_bots.' '.__('Bot'); 
 		}
 		
 		// Print User Count
-		echo __('Users Browsing This Page: ').'<b>'.$total['users'].'</b> ('.$nicetext['members'].', '.$nicetext['guests'].' '.__('and').' '.$nicetext['bots'].')<br />';
+		echo __('Users Browsing This Page: ').'<b>'.$total_users.'</b> ('.$nicetext_members.', '.$nicetext_guests.' '.__('and').' '.$nicetext_bots.')<br />';
 
 		// Print Member Name
 		if($members) {
 			$temp_member = '';
 			foreach($members as $member) {
-				$temp_member .= '<a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a>, ';
+				$temp_member .= '<a href="'.get_settings('home').'/wp-stats.php?author='.urlencode($member).'">'.$member.'</a>, ';
 			}
 			echo __('Members').': '.substr($temp_member, 0, -2);
 		}
