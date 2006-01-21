@@ -98,7 +98,7 @@ function useronline() {
 
 	// If No Such User Insert It
 	if(!$update_user) {
-		$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('$timestamp', '$memberonline', '$ip', '$make_page', '$url')");
+		$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('$timestamp', '$memberonline', '$ip', '$make_page', '$url') ON DUPLICATE KEY UPDATE timestamp = '".($timestamp+1)."'");
 	}
 
 	// Delete Users
