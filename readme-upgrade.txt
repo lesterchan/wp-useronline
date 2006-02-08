@@ -1,4 +1,4 @@
--> Upgrade Instructions For Version 2.00 To Version 2.01
+-> Upgrade Instructions For Version 2.0x To Version 2.02
 ------------------------------------------------------------------
 // Open wp-content/plugins folder
 
@@ -14,6 +14,9 @@ Overwrite:
 ------------------------------------------------------------------
 wp-useronline.php
 ------------------------------------------------------------------
+
+
+// Deavtivate And Activate Back WP-UserOnline
 
 
 
@@ -40,6 +43,10 @@ Put:
 ------------------------------------------------------------------
 wp-useronline.php
 ------------------------------------------------------------------
+
+
+// Deavtivate And Activate Back WP-UserOnline
+
 
 
 // Remove Previous Traces Of UserOnline Code In Your Theme
