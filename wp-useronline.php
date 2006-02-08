@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-UserOnline 2.01								|
+|	WordPress 2.0 Plugin: WP-UserOnline 2.02								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -96,7 +96,7 @@ if($total_bots > 1) {
 
 ### Function: Check IP
 function check_ip($ip) {
-	if(isset($_COOKIE['wordpressuser_'.COOKIEHASH])) {
+	if(!empty($_COOKIE[USER_COOKIE])) {
 		return "(<a href=\"http://ws.arin.net/cgi-bin/whois.pl?queryinput=$ip\" target=\"_blank\" title=\"".gethostbyaddr($ip)."\">$ip</a>)";
 	}
 }

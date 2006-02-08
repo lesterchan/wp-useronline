@@ -1,13 +1,5 @@
 -> Installation Instructions
 --------------------------------------------------
-// Open wp-admin folder
-
-Put:
-------------------------------------------------------------------
-useronline-install.php
-------------------------------------------------------------------
-
-
 // Open wp-content/plugins folder
 
 Put:
@@ -25,9 +17,6 @@ wp-useronline.php
 
 
 // Activate useronline plugin
-
-
-// Run wp-admin/useronline-install.php
 
 
 // Open wp-content/themes/<YOUR THEME NAME>/sidebar.php 

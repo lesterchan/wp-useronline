@@ -6,9 +6,11 @@ Website		-> http://www.lesterchan.net/
 Demo		-> http://www.lesterchan.net/wp-useronline.php
 Documentation	-> http://dev.wp-plugins.org/wiki/wp-useronline
 Development	-> http://dev.wp-plugins.org/browser/wp-useronline/
-Updated		-> 1st February 2006
+Updated		-> 1st March 2006
 --------------------------------------------------
 
+// Version 2.02 (01-03-2006)
+- NEW: No More Install/Upgrade File, It Will Install/Upgrade When You Activate The Plugin.
 
 // Version 2.01 (01-02-2006)
 - NEW: Added Users Browsing Page

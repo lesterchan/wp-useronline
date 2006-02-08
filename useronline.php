@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Adds A Useronline Feature To WordPress
-Version: 2.01
+Version: 2.02
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */
@@ -98,7 +98,7 @@ function useronline() {
 
 	// If No Such User Insert It
 	if(!$update_user) {
-		$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('$timestamp', '$memberonline', '$ip', '$make_page', '$url') ON DUPLICATE KEY UPDATE timestamp = '".($timestamp+1)."'");
+		$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('".($timestamp+1)."', '$memberonline', '$ip', '$make_page', '$url')");
 	}
 
 	// Delete Users
@@ -112,9 +112,8 @@ function useronline() {
 
 	// Check Whether Current Users Online Is More Than Most Users Online
 	if($useronline > $most_useronline) {
-		$wpdb->query("UPDATE $wpdb->options SET option_value = '$useronline' WHERE option_name = 'useronline_most_users'");
-		$wpdb->query("UPDATE $wpdb->options SET option_value = '".current_time('timestamp')."' WHERE option_name = 'useronline_most_timestamp'");
-		wp_cache_flush();
+		update_option('useronline_most_users', $useronline);
+		update_option('useronline_most_timestamp', current_time('timestamp'));
 	}
 }
 
@@ -230,5 +229,27 @@ function get_users_browsing_page() {
 		// This Should Not Happen
 		_e('No User Is Browsing This Page');
 	}
+}
+
+
+### Function: Create UserOnline Table
+add_action('activate_useronline.php', 'create_useronline_table');
+function create_useronline_table() {
+	global $wpdb;
+	include(ABSPATH.'/wp-admin/upgrade-functions.php');
+	// Drop UserOnline Table
+	$wpdb->query("DROP TABLE IF EXISTS $wpdb->useronline");
+	// Create UserOnline Table
+	$create_table = "CREATE TABLE $wpdb->useronline (".
+						  " timestamp int(15) NOT NULL default '0',".
+						  " username varchar(50) NOT NULL default '',".
+						  " ip varchar(40) NOT NULL default '',".
+						  " location varchar(255) NOT NULL default '',".
+						  " url varchar(255) NOT NULL default '',".
+						  " UNIQUE KEY (timestamp))";
+	maybe_create_table($wpdb->useronline, $create_table);
+	// Add In Options
+	add_option('useronline_most_users', 1, 'Most Users Ever Online Count');
+	add_option('useronline_most_timestamp', current_time('timestamp'), 'Most Users Ever Online Date');
 }
 ?>
