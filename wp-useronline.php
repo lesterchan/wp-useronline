@@ -96,7 +96,7 @@ if($total_bots > 1) {
 
 ### Function: Check IP
 function check_ip($ip) {
-	if(!empty($_COOKIE[USER_COOKIE])) {
+	if(!empty($_COOKIE[USER_COOKIE]) && ($ip != 'unknown')) {
 		return "(<a href=\"http://ws.arin.net/cgi-bin/whois.pl?queryinput=$ip\" target=\"_blank\" title=\"".gethostbyaddr($ip)."\">$ip</a>)";
 	}
 }

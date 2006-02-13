@@ -32,7 +32,7 @@ $wpdb->useronline = $table_prefix . 'useronline';
 
 
 ### Search Bots Name
-$bots = array('Google Bot' => 'googlebot', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'ubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot');
+$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'ubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com bot' => 'become.com', 'Technorati Blog Bot'=>'technorati');
 
 
 ### Function: Get IP
@@ -92,13 +92,16 @@ function useronline() {
 		$make_page = get_bloginfo('name').$make_page;
 	}
 	$make_page = addslashes($make_page);
+	
+	// Check User First
+	$check_user = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline $where"));	
 
-	// Update User First
-	$update_user = $wpdb->query("UPDATE $wpdb->useronline SET timestamp = '$timestamp', ip = '$ip', location = '$make_page', url = '$url' $where");
-
-	// If No Such User Insert It
-	if(!$update_user) {
-		$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('".($timestamp+1)."', '$memberonline', '$ip', '$make_page', '$url')");
+	// If User Exists, Update User
+	if($check_user > 0) {
+		$update_user = $wpdb->query("UPDATE $wpdb->useronline SET timestamp = '$timestamp', ip = '$ip', location = '$make_page', url = '$url' $where");		
+	// Else Insert User
+	} else {
+		$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('$timestamp', '$memberonline', '$ip', '$make_page', '$url')");
 	}
 
 	// Delete Users
@@ -135,24 +138,28 @@ function get_useronline($user = 'User', $users = 'Users', $display = true) {
 
 
 ### Function: Display Max UserOnline
-function get_most_useronline($display = true) {
-	$most_useronline_users = intval(get_settings('useronline_most_users'));
-	if($display) {
-		echo $most_useronline_users;
-	} else {
-		return $most_useronline_users;
+if(!function_exists('get_most_useronline')) {
+	function get_most_useronline($display = true) {
+		$most_useronline_users = intval(get_settings('useronline_most_users'));
+		if($display) {
+			echo $most_useronline_users;
+		} else {
+			return $most_useronline_users;
+		}
 	}
 }
 
 
 ### Function: Display Max UserOnline Date
-function get_most_useronline_date($date_format = 'jS F Y, H:i', $display =true) {
-	$most_useronline_timestamp = get_settings('useronline_most_timestamp');
-	$most_useronline_date = gmdate($date_format, $most_useronline_timestamp);
-	if($display) {
-		echo $most_useronline_date;
-	} else {
-		return$most_useronline_date;
+if(!function_exists('get_most_useronline_date')) {
+	function get_most_useronline_date($date_format = 'jS F Y, H:i', $display =true) {
+		$most_useronline_timestamp = get_settings('useronline_most_timestamp');
+		$most_useronline_date = gmdate($date_format, $most_useronline_timestamp);
+		if($display) {
+			echo $most_useronline_date;
+		} else {
+			return$most_useronline_date;
+		}
 	}
 }
 
@@ -246,7 +253,7 @@ function create_useronline_table() {
 						  " ip varchar(40) NOT NULL default '',".
 						  " location varchar(255) NOT NULL default '',".
 						  " url varchar(255) NOT NULL default '',".
-						  " UNIQUE KEY (timestamp))";
+						  " PRIMARY KEY (timestamp))";
 	maybe_create_table($wpdb->useronline, $create_table);
 	// Add In Options
 	add_option('useronline_most_users', 1, 'Most Users Ever Online Count');
