@@ -51,6 +51,7 @@ function get_IP() {
 
 
 ### Function: Process UserOnline
+add_action('admin_head', 'useronline');
 add_action('wp_head', 'useronline');
 function useronline() {
 	global $wpdb, $useronline, $bots;
