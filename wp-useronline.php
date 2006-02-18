@@ -93,62 +93,48 @@ if($total_bots > 1) {
 } else {
 	$nicetext_bots = $total_bots.' '.__('Bot'); 
 }
-
-### Function: Check IP
-function check_ip($ip) {
-	if(!empty($_COOKIE[USER_COOKIE]) && ($ip != 'unknown')) {
-		return "(<a href=\"http://ws.arin.net/cgi-bin/whois.pl?queryinput=$ip\" target=\"_blank\" title=\"".gethostbyaddr($ip)."\">$ip</a>)";
-	}
-}
 ?>
 <?php get_header(); ?>
 	<div id="content" class="narrowcolumn">
 		<p>There are a total of <b><?php echo $nicetext_users; ?></b> online now.</p>
 		<p>Out of which, there are <b><?php echo $nicetext_members; ?></b>, <b><?php echo $nicetext_guests; ?></b> and <b><?php echo $nicetext_bots; ?></b>.</p>
 		<p>Most users ever online was <b><?php get_most_useronline(); ?></b> on <b><?php get_most_useronline_date(); ?></b></p>
-		<table width="100%" border="0" cellspacing="1" cellpadding="5">
 		<?php
 			// Print Out Members
 			if($total_members > 0) {
-				echo 	'<tr><td><h2 class="pagetitle">'.$nicetext_members.' '.__('Online Now').'</h2></td></tr>'."\n";
+				echo 	'<h2 class="pagetitle">'.$nicetext_members.' '.__('Online Now').'</h2>'."\n";
 			}
 			$no=1;
 			if($members) {
 				foreach($members as $member) {
-					echo '<tr>'."\n";
-					echo '<td><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</td>'."\n";
-					echo '</tr>'."\n";
-					$no++;
+					echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+						$no++;
 				}
 			}
 			// Print Out Guest
 			if($total_guests > 0) {
-				echo 	'<tr><td><h2 class="pagetitle">'.$nicetext_guests.' '.__('Online Now').'</h2></td></tr>'."\n";
+				echo 	'<h2 class="pagetitle">'.$nicetext_guests.' '.__('Online Now').'</h2>'."\n";
 			}
 			$no=1;
 			if($guests) {
 				foreach($guests as $guest) {
-					echo '<tr>'."\n";
-					echo '<td><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</td>'."\n";
-					echo '</tr>'."\n";
+					echo '<p><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 					$no++;
 				}
 			}
 			// Print Out Bots
 			if($total_bots > 0) {
-				echo 	'<tr><td><h2 class="pagetitle">'.$nicetext_bots.' '.__('Online Now').'</h2></td></tr>'."\n";
+				echo 	'<h2 class="pagetitle">'.$nicetext_bots.' '.__('Online Now').'</h2>'."\n";
 			}
 			$no=1;
 			if($bots) {
 				foreach($bots as $bot) {
-					echo '<tr>'."\n";
-					echo '<td><b>#'.$no.' - '.$bot['username'].'</b> '.check_ip($bot['ip']).' on '.gmdate('d.m.Y @ H:i', $bot['timestamp']).'<br />'.$bot['location'].' [<a href="'.$bot['url'].'">url</a>]</td>'."\n";
-					echo '</tr>'."\n";
+					echo '<p><b>#'.$no.' - '.$bot['username'].'</b> '.check_ip($bot['ip']).' on '.gmdate('d.m.Y @ H:i', $bot['timestamp']).'<br />'.$bot['location'].' [<a href="'.$bot['url'].'">url</a>]</p>'."\n";
 					$no++;
 				}
 			}
 			if($total_users == 0) {
-				echo 	'<tr><td><h2 class="pagetitle">'.__('No One Is Online Now').'</h2></td></tr>'."\n";
+				echo 	'<h2 class="pagetitle">'.__('No One Is Online Now').'</h2>'."\n";
 			}
 		?>
 		</table>
