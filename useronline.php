@@ -71,6 +71,7 @@ function useronline() {
 	$timeout = ($timestamp-$timeoutseconds);
 	$ip = get_IP();
 	$url = addslashes(urlencode($_SERVER['REQUEST_URI']));
+	$useragent= addslashes($_SERVER['HTTP_USER_AGENT']);
 
 	// Check For Members
 	if(!empty($_COOKIE['comment_author_'.COOKIEHASH]))  {
@@ -103,15 +104,12 @@ function useronline() {
 	}
 	$make_page = addslashes($make_page);
 	
-	// Check User First
-	$check_user = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline $where"));	
+	// Update User First
+	$update_user = $wpdb->query("UPDATE $wpdb->useronline SET timestamp = '$timestamp', useragent = '$useragent', ip = '$ip', location = '$make_page', url = '$url' $where");
 
-	// If User Exists, Update User
-	if($check_user > 0) {
-		$update_user = $wpdb->query("UPDATE $wpdb->useronline SET timestamp = '$timestamp', ip = '$ip', location = '$make_page', url = '$url' $where");		
-	// Else Insert User
-	} else {
-		$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('$timestamp', '$memberonline', '$ip', '$make_page', '$url')");
+	// If Update User Failed, Means There Is No User, Thus We Insert User
+	if(!$update_user) {
+		$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('$timestamp', '$memberonline', '$useragent', '$ip', '$make_page', '$url')");
 	}
 
 	// Delete Users
@@ -391,10 +389,11 @@ function create_useronline_table() {
 	$create_table = "CREATE TABLE $wpdb->useronline (".
 						  " timestamp int(15) NOT NULL default '0',".
 						  " username varchar(50) NOT NULL default '',".
-						  " ip varchar(40) NOT NULL default '',".
+						  " useragent char(100) NOT NULL,".
+						  " ip varchar(40) NOT NULL default '',".						 
 						  " location varchar(255) NOT NULL default '',".
 						  " url varchar(255) NOT NULL default '',".
-						  " PRIMARY KEY (timestamp))";
+						  " UNIQUE KEY useronline_id (timestamp,username,ip,useragent))";
 	maybe_create_table($wpdb->useronline, $create_table);
 	// Add In Options
 	add_option('useronline_most_users', 1, 'Most Users Ever Online Count');
