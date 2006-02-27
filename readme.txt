@@ -13,6 +13,7 @@ Updated		-> 1st March 2006
 - NEW: No More Install/Upgrade File, It Will Install/Upgrade When You Activate The Plugin.
 - FIXED: IP 'Unknown' Error, Credit To Brian Layman (http://www.knitchat.com/)
 - FIXED: ON DUPLICATE KEY Error, Credit To Brian Layman (http://www.knitchat.com/)
+- FIXED: DUPLICATE KEY Error By Using DELETE First, Credit To Jody Cairns
 
 // Version 2.01 (01-02-2006)
 - NEW: Added Users Browsing Page
