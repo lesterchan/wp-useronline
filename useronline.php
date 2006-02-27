@@ -63,23 +63,22 @@ function get_IP() {
 add_action('admin_head', 'useronline');
 add_action('wp_head', 'useronline');
 function useronline() {
-	global $wpdb, $useronline, $bots;
-
+	global $wpdb, $useronline, $bots, $user_identity;
 	// Useronline Settings
 	$timeoutseconds = 300;
 	$timestamp = current_time('timestamp');
 	$timeout = ($timestamp-$timeoutseconds);
 	$ip = get_IP();
 	$url = addslashes(urlencode($_SERVER['REQUEST_URI']));
-	$useragent= addslashes($_SERVER['HTTP_USER_AGENT']);
+	$useragent = $_SERVER['HTTP_USER_AGENT'];
 
 	// Check For Members
 	if(!empty($_COOKIE['comment_author_'.COOKIEHASH]))  {
 		$memberonline = addslashes(trim($_COOKIE['comment_author_'.COOKIEHASH]));
 		$where = "WHERE username='$memberonline'";
 	// Check For Admins
-	} elseif(!empty($_COOKIE['wordpressuser_'.COOKIEHASH])) {
-		$memberonline = addslashes(trim($_COOKIE['wordpressuser_'.COOKIEHASH]));
+	} elseif(!empty($user_identity)) {
+		$memberonline = addslashes($user_identity);
 		$where = "WHERE username='$memberonline'";
 	// Check For Guests
 	} else { 
@@ -88,11 +87,14 @@ function useronline() {
 	}
 	// Check For Bot
 	foreach ($bots as $name => $lookfor) { 
-		if (stristr($_SERVER['HTTP_USER_AGENT'], $lookfor) !== false) { 
+		if (stristr($useragent, $lookfor) !== false) { 
 			$memberonline = addslashes($name);
 			$where = "WHERE ip='$ip'";
+			break;
 		} 
 	}
+	$useragent = addslashes($useragent);
+
 	// Check For Page Title
 	$make_page = wp_title('&raquo;', false);
 	if(empty($make_page)) {
@@ -104,16 +106,11 @@ function useronline() {
 	}
 	$make_page = addslashes($make_page);
 	
-	// Update User First
-	$update_user = $wpdb->query("UPDATE $wpdb->useronline SET timestamp = '$timestamp', useragent = '$useragent', ip = '$ip', location = '$make_page', url = '$url' $where");
-
-	// If Update User Failed, Means There Is No User, Thus We Insert User
-	if(!$update_user) {
-		$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('$timestamp', '$memberonline', '$useragent', '$ip', '$make_page', '$url')");
-	}
-
 	// Delete Users
-	$delete_users = $wpdb->query("DELETE FROM $wpdb->useronline WHERE timestamp < $timeout");
+	$delete_users = $wpdb->query("DELETE FROM $wpdb->useronline $where OR (timestamp < $timeout)");
+	
+	// Insert Users
+	$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('$timestamp', '$memberonline', '$useragent', '$ip', '$make_page', '$url')");
 
 	// Count Users Online
 	$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
