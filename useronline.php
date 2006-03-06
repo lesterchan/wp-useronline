@@ -379,7 +379,7 @@ function display_useronline() {
 add_action('activate_useronline.php', 'create_useronline_table');
 function create_useronline_table() {
 	global $wpdb;
-	include(ABSPATH.'/wp-admin/upgrade-functions.php');
+	include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
 	// Drop UserOnline Table
 	$wpdb->query("DROP TABLE IF EXISTS $wpdb->useronline");
 	// Create UserOnline Table
