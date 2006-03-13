@@ -6,8 +6,14 @@ Website		-> http://www.lesterchan.net/
 Demo		-> http://www.lesterchan.net/wp-useronline.php
 Documentation	-> http://dev.wp-plugins.org/wiki/wp-useronline
 Development	-> http://dev.wp-plugins.org/browser/wp-useronline/
-Updated		-> 1st March 2006
+Updated		-> 1st April 2006
 --------------------------------------------------
+
+
+// Version 2.03 (01-04-2006)
+- NEW: Added get_users_browsing_site(); To Display Users Browsing The Site
+- FIXED: wp-stats.php Link
+- FIXED: Some Grammer Errors, Credit To xclouds (http://www.xclouds.com/)
 
 // Version 2.02 (01-03-2006)
 - NEW: No More Install/Upgrade File, It Will Install/Upgrade When You Activate The Plugin.

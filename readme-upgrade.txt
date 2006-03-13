@@ -1,4 +1,4 @@
--> Upgrade Instructions For Version 1.0x To Version 2.02
+-> Upgrade Instructions For Version 1.0x To Version 2.03
 ------------------------------------------------------------------
 // Deactivate WP-UserOnline
 

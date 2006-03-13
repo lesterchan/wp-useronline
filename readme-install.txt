@@ -48,6 +48,19 @@ Note:
 By default, it will be displayed in wp-useronline.php
 ------------------------------------------------------------------
 
+// To Display Users Browsing Site
+
+Use:
+------------------------------------------------------------------
+<?php if (function_exists('useronline')): ?>
+	<?php get_users_browsing_site(); ?>
+<?php endif; ?>
+------------------------------------------------------------------
+
+Note:
+------------------------------------------------------------------
+Normally, you can place it in page.php or single.php
+------------------------------------------------------------------
 
 // To Display Users Browsing A Page
 

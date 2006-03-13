@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-UserOnline 2.02								|
+|	WordPress 2.0 Plugin: WP-UserOnline 2.03								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -66,39 +66,38 @@ if($usersonline) {
 }
 
 ###  Nice Text For Users
-if($total_users > 1) {
-	$nicetext_users = $total_users.' '.__('Users');
-} else {
+if($total_users == 1) {
 	$nicetext_users = $total_users.' '.__('User');
+} else {
+	$nicetext_users = number_format($total_users).' '.__('Users');
 }
 
 ###  Nice Text For Members
-if($total_members > 1) {
-	$nicetext_members = $total_members.' '.__('Members');
-} else {
+if($total_members == 1) {
 	$nicetext_members = $total_members.' '.__('Member');
+} else {
+	$nicetext_members = number_format($total_members).' '.__('Members');
 }
 
 
 ###  Nice Text For Guests
-if($total_guests > 1) { 
-	$nicetext_guests = $total_guests.' '.__('Guests');
+if($total_guests == 1) { 
+	$nicetext_guests = $total_guests.' '.__('Guest');
 } else {
-	$nicetext_guests = $total_guests.' '.__('Guest'); 
+	$nicetext_guests = number_format($total_guests).' '.__('Guests'); 
 }
 
 ###  Nice Text For Bots
-if($total_bots > 1) {
-	$nicetext_bots = $total_bots.' '.__('Bots'); 
-} else {
+if($total_bots == 1) {
 	$nicetext_bots = $total_bots.' '.__('Bot'); 
+} else {
+	$nicetext_bots = number_format($total_bots).' '.__('Bots'); 
 }
 ?>
 <?php get_header(); ?>
 	<div id="content" class="narrowcolumn">
-		<p>There are a total of <b><?php echo $nicetext_users; ?></b> online now.</p>
-		<p>Out of which, there are <b><?php echo $nicetext_members; ?></b>, <b><?php echo $nicetext_guests; ?></b> and <b><?php echo $nicetext_bots; ?></b>.</p>
-		<p>Most users ever online was <b><?php get_most_useronline(); ?></b> on <b><?php get_most_useronline_date(); ?></b></p>
+		<p><?php if ($total_users == 1) { _e('There is '); } else { _e('There are a total of '); } ?><b><?php echo $nicetext_users; ?></b> online now: <b><?php echo $nicetext_members; ?></b>, <b><?php echo $nicetext_guests; ?></b> and <b><?php echo $nicetext_bots; ?></b>.</p>
+		<p>Most users ever online were <b><?php get_most_useronline(); ?></b>, on <b><?php get_most_useronline_date(); ?></b></p>
 		<?php
 			// Print Out Members
 			if($total_members > 0) {
@@ -106,9 +105,17 @@ if($total_bots > 1) {
 			}
 			$no=1;
 			if($members) {
+				$wp_stats = false;
+				if(function_exists('get_totalposts')) {
+					$wp_stats = true;
+				}
 				foreach($members as $member) {
-					echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
-						$no++;
+					if($wp_stats) {
+						echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+					} else {
+						echo '<p><b>#'.$no.' - '.$member['username'].'</b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+					}
+					$no++;
 				}
 			}
 			// Print Out Guest
