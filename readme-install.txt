@@ -59,7 +59,7 @@ Use:
 
 Note:
 ------------------------------------------------------------------
-Normally, you can place it in page.php or single.php
+Normally, you can place it in page.php, single.php or sidebar.php
 ------------------------------------------------------------------
 
 // To Display Users Browsing A Page
@@ -74,4 +74,12 @@ Use:
 Note:
 ------------------------------------------------------------------
 Normally, you can place it in page.php or single.php
+------------------------------------------------------------------
+
+
+// Tutorial On How To Integrate wp-useronline.php With Your Theme
+
+Go To:
+------------------------------------------------------------------
+http://www.lesterchan.net/wordpress/tutorials/integrating/
 ------------------------------------------------------------------
