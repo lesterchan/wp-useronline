@@ -144,7 +144,6 @@ if($total_bots == 1) {
 				echo 	'<h2 class="pagetitle">'.__('No One Is Online Now').'</h2>'."\n";
 			}
 		?>
-		</table>
 	</div>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
