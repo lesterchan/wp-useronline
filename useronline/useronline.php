@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Adds A Useronline Feature To WordPress
-Version: 2.03
+Version: 2.04
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */
@@ -35,27 +35,28 @@ $wpdb->useronline = $table_prefix . 'useronline';
 add_action('admin_menu', 'useronline_menu');
 function useronline_menu() {
 	if (function_exists('add_submenu_page')) {
-		add_submenu_page('index.php',  __('WP-UserOnline'),  __('WP-UserOnline'), 1, 'useronline.php', 'display_useronline');
+		add_submenu_page('index.php',  __('WP-UserOnline'),  __('WP-UserOnline'), 1, 'useronline/useronline.php', 'display_useronline');
+	}
+	if (function_exists('add_options_page')) {
+		add_options_page(__('Useronline'), __('Useronline'), 'manage_options', 'useronline/useronline-options.php') ;
 	}
 }
 
 
-### Search Bots Name
-$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'ubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com bot' => 'become.com');
-
-
-### Function: Get IP
-function get_IP() {
-	if (empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-		$ip_address = $_SERVER["REMOTE_ADDR"];
-	} else {
-		$ip_address = $_SERVER["HTTP_X_FORWARDED_FOR"];
+### Function: Get IP Address
+if(!function_exists('get_ipaddress')) {
+	function get_ipaddress() {
+		if (empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+			$ip_address = $_SERVER["REMOTE_ADDR"];
+		} else {
+			$ip_address = $_SERVER["HTTP_X_FORWARDED_FOR"];
+		}
+		if(strpos($ip_address, ',') !== false) {
+			$ip_address = explode(',', $ip_address);
+			$ip_address = $ip_address[0];
+		}
+		return $ip_address;
 	}
-	if(strpos($ip_address, ',') !== false) {
-		$ip_address = explode(',', $ip_address);
-		$ip_address = $ip_address[0];
-	}
-	return $ip_address;
 }
 
 
@@ -63,12 +64,12 @@ function get_IP() {
 add_action('admin_head', 'useronline');
 add_action('wp_head', 'useronline');
 function useronline() {
-	global $wpdb, $useronline, $bots, $user_identity;
+	global $wpdb, $useronline, $user_identity;
 	// Useronline Settings
-	$timeoutseconds = 300;
+	$timeoutseconds = get_settings('useronline_timeout');
 	$timestamp = current_time('timestamp');
 	$timeout = ($timestamp-$timeoutseconds);
-	$ip = get_IP();
+	$ip = get_ipaddress();
 	$url = addslashes(urlencode($_SERVER['REQUEST_URI']));
 	$useragent = $_SERVER['HTTP_USER_AGENT'];
 
@@ -86,6 +87,7 @@ function useronline() {
 		$where = "WHERE ip='$ip'";
 	}
 	// Check For Bot
+	$bots = get_settings('useronline_bots');
 	foreach ($bots as $name => $lookfor) { 
 		if (stristr($useragent, $lookfor) !== false) { 
 			$memberonline = addslashes($name);
@@ -172,7 +174,7 @@ if(!function_exists('get_most_useronline_date')) {
 
 ### Function: Display Users Browsing The Site
 function get_users_browsing_site() {
-	global $wpdb, $bots;
+	global $wpdb;
 
 	// Get Users Browsing Site
 	$page_url = addslashes(urlencode($_SERVER['REQUEST_URI']));
@@ -191,6 +193,7 @@ function get_users_browsing_site() {
 	// If There Is Users Browsing, Then We Execute
 	if($users_browse) {
 		// Reassign Bots Name
+		$bots = get_settings('useronline_bots');
 		$bots_name = array();
 		foreach($bots as $botname => $botlookfor) {
 			$bots_name[] = $botname;
@@ -251,7 +254,7 @@ function get_users_browsing_site() {
 
 ### Function: Display Users Browsing The Page
 function get_users_browsing_page() {
-	global $wpdb, $bots;
+	global $wpdb;
 
 	// Get Users Browsing Page
 	$page_url = addslashes(urlencode($_SERVER['REQUEST_URI']));
@@ -270,6 +273,7 @@ function get_users_browsing_page() {
 	// If There Is Users Browsing, Then We Execute
 	if($users_browse) {
 		// Reassign Bots Name
+		$bots = get_settings('useronline_bots');
 		$bots_name = array();
 		foreach($bots as $botname => $botlookfor) {
 			$bots_name[] = $botname;
@@ -329,16 +333,36 @@ function get_users_browsing_page() {
 
 ### Function: Check IP
 function check_ip($ip) {
-	if(!empty($_COOKIE[USER_COOKIE]) && ($ip != 'unknown')) {
+	if(is_user_logged_in() && ($ip != 'unknown')) {
 		return "(<a href=\"http://ws.arin.net/cgi-bin/whois.pl?queryinput=$ip\" target=\"_blank\" title=\"".gethostbyaddr($ip)."\">$ip</a>)";
 	}
 }
 
 
+### Function: Output User's Country Flag/Name
+function ip2nation_country($ip, $display_countryname = 0) {
+	if(function_exists('wp_ozh_ip2nation')) {
+		$country_code = wp_ozh_getCountryCode(0, $ip);
+		$country_name = wp_ozh_getCountryName(0, $ip);
+		if($country_name != 'Private') {
+			$temp = '<img src="http://frenchfragfactory.net/images/flag_'.$country_code.'.gif" alt="'.$country_name.'" />';
+			if($display_countryname) {
+				$temp .= $country_name;
+			}
+			return $temp.' ';
+		} else {
+			return;
+		}
+	}
+	return;
+}
+
+
 ### Function: Display UserOnline For Admin
 function display_useronline() {
-	global $wpdb, $bots;
+	global $wpdb;
 	// Reassign Bots Name
+	$bots = get_settings('useronline_bots');
 	$bots_name = array();
 	foreach($bots as $botname => $botlookfor) {
 		$bots_name[] = $botname;
@@ -424,7 +448,7 @@ function display_useronline() {
 				}
 				foreach($members as $member) {
 					if($wp_stats) {
-						echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+						echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 					} else {
 						echo '<p><b>#'.$no.' - '.$member['username'].'</b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 					}
@@ -438,7 +462,7 @@ function display_useronline() {
 			$no=1;
 			if($guests) {
 				foreach($guests as $guest) {
-					echo '<p><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
+					echo '<p><b>#'.$no.' - '.$guest['username'].'</b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 					$no++;
 				}
 				echo '</div>';
@@ -463,24 +487,27 @@ function display_useronline() {
 
 
 ### Function: Create UserOnline Table
-add_action('activate_useronline.php', 'create_useronline_table');
+add_action('activate_useronline/useronline.php', 'create_useronline_table');
 function create_useronline_table() {
 	global $wpdb;
+	$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'pubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com' => 'become.com');
 	include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
 	// Drop UserOnline Table
 	$wpdb->query("DROP TABLE IF EXISTS $wpdb->useronline");
 	// Create UserOnline Table
 	$create_table = "CREATE TABLE $wpdb->useronline (".
-						  " timestamp int(15) NOT NULL default '0',".
-						  " username varchar(50) NOT NULL default '',".
-						  " useragent char(100) NOT NULL,".
-						  " ip varchar(40) NOT NULL default '',".						 
-						  " location varchar(255) NOT NULL default '',".
-						  " url varchar(255) NOT NULL default '',".
-						  " UNIQUE KEY useronline_id (timestamp,username,ip,useragent))";
+							" timestamp int(15) NOT NULL default '0',".
+							" username varchar(50) NOT NULL default '',".
+							" useragent varchar(255) NOT NULL default '',".
+							" ip varchar(40) NOT NULL default '',".						 
+							" location varchar(255) NOT NULL default '',".
+							" url varchar(255) NOT NULL default '',".
+							" UNIQUE KEY useronline_id (timestamp,username,ip,useragent))";
 	maybe_create_table($wpdb->useronline, $create_table);
 	// Add In Options
 	add_option('useronline_most_users', 1, 'Most Users Ever Online Count');
 	add_option('useronline_most_timestamp', current_time('timestamp'), 'Most Users Ever Online Date');
+	add_option('useronline_timeout', 300, 'Timeout In Seconds');
+	add_option('useronline_bots', $bots, 'Bots Name/Useragent');
 }
 ?>

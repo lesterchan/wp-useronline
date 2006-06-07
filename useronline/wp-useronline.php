@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-UserOnline 2.03								|
+|	WordPress 2.0 Plugin: WP-UserOnline 2.04								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -18,7 +18,7 @@
 
 
 ### Require WordPress Header
-require(dirname(__FILE__).'/wp-blog-header.php');
+require('../../../wp-blog-header.php');
 
 ### Function: UserOnline Page Title
 add_filter('wp_title', 'useronline_pagetitle');
@@ -27,6 +27,7 @@ function useronline_pagetitle($useronline_pagetitle) {
 }
 
 ### Reassign Bots Name
+$bots = get_settings('useronline_bots');
 $bots_name = array();
 foreach($bots as $botname => $botlookfor) {
 	$bots_name[] = $botname;
@@ -111,7 +112,7 @@ if($total_bots == 1) {
 				}
 				foreach($members as $member) {
 					if($wp_stats) {
-						echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+						echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 					} else {
 						echo '<p><b>#'.$no.' - '.$member['username'].'</b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 					}
@@ -125,7 +126,7 @@ if($total_bots == 1) {
 			$no=1;
 			if($guests) {
 				foreach($guests as $guest) {
-					echo '<p><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
+					echo '<p><b>#'.$no.' - '.$guest['username'].'</b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 					$no++;
 				}
 			}

@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>	
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>WP-UserOnline 2.04 Readme</title>
+	<style type="text/css" media="screen">
+		/* Default Style */
+		BODY {
+			font-family: Verdana, Arial;
+			font-size: 12px;
+			color: #000000;
+			background: #FFFFFF;
+		}
+		P {
+			padding-left: 10px;
+		}
+		BLOCKQUOTE {
+			margin: 10px 20px 0px 20px;
+			padding: 10px;
+			border: 1px solid #8d8d8d;
+			background-color: #f5f5f5;
+		}
+		LI {
+			margin-top: 20px;
+		}
+		UL LI UL LI {
+			margin-top: 10px;
+		}
+		A, A:active, A:link, A:visited {
+			color: #2d3a4c;
+			text-decoration: none;
+		}
+		A:hover {
+			color: #5577a5;
+			text-decoration: underline;
+		}
+		/* Place Holder Style */
+		#Container {
+			width: 780px;
+			margin-left: auto;
+			margin-right: auto; 
+		}
+		#Content {
+			background-color: #fafafa;
+			border: 1px solid #a2b6cb;
+			padding: 10px;
+			margin-top: -13px;
+		}
+		/* Title Style */
+		#Title {
+			font-family: Verdana, Arial;
+			font-size: 22px;
+			font-weight: bold;
+			color: #389aff;
+			border-bottom: 1px solid #389aff;
+			margin-bottom: 10px;
+		}
+		.SubTitle {
+			font-family: Verdana, Arial;
+			font-size: 18px;
+			font-weight: bold;
+			color: #5b87b4;
+		}
+		.SubSubTitle {
+			font-family: Verdana, Arial;
+			font-size: 14px;
+			font-weight: bold;
+			color: #73a4d6;
+		}
+		/* Tabs */
+		UL#Tabs {
+			font-family: Verdana, Arial;
+			font-size: 12px;
+			font-weight: bold;
+			list-style-type: none;
+			padding-bottom: 28px;
+			border-bottom: 1px solid #a2b6cb;
+			margin-bottom: 12px;
+			z-index: 1;
+		}
+		#Tabs LI.Tab {
+			float: right;
+			height: 25px;
+			background-color: #deedfb;
+			margin: 2px 0px 0px 5px;
+			border: 1px solid #a2b6cb;
+		}
+		#Tabs LI.Tab A {
+			float: left;
+			display: block;
+			color: #666666;
+			text-decoration: none;
+			padding: 5px;
+		}
+		#Tabs LI.Tab A:hover {
+			background-color: #bfe0fe;
+			border-bottom: 1px solid #bfe0fe;
+		}
+		/* Selected Tab */
+		#Tabs LI.SelectedTab {
+			float: right;
+			height: 25px;
+			background-color: #fafafa;
+			margin: 2px 0px 0px 5px;
+			border-top: 1px solid #a2b6cb;
+			border-right: 1px solid #a2b6cb;
+			border-bottom: 1px solid #fafafa;
+			border-left: 1px solid #a2b6cb;
+		}
+		#Tabs LI.SelectedTab A {
+			float: left;
+			display: block;
+			color: #666666;
+			text-decoration: none;
+			padding: 5px;
+			cursor: default;
+		}
+		/* Copyright */
+		#Copyright {
+			text-align: center;
+		}
+	</style>
+	<script type="text/javascript">
+		// Index Page
+		function index() {
+			// Tab
+			document.getElementById('IndexTab').className = 'SelectedTab';
+			document.getElementById('InstallTab').className = 'Tab';
+			document.getElementById('UpgradeTab').className = 'Tab';
+			document.getElementById('UsageTab').className = 'Tab';
+			// Page
+			document.getElementById('Index').style.display= 'block';
+			document.getElementById('IndexTab').className = 'SelectedTab';
+			document.getElementById('Install').style.display = 'none';
+			document.getElementById('Upgrade').style.display = 'none';
+			document.getElementById('Usage').style.display = 'none';
+		}
+		// Installation Page
+		function install() {
+			// Tab
+			document.getElementById('IndexTab').className = 'Tab';
+			document.getElementById('InstallTab').className = 'SelectedTab';
+			document.getElementById('UpgradeTab').className = 'Tab';
+			document.getElementById('UsageTab').className = 'Tab';
+			// Page
+			document.getElementById('Index').style.display= 'none';
+			document.getElementById('Install').style.display = 'block';
+			document.getElementById('Upgrade').style.display = 'none';
+			document.getElementById('Usage').style.display = 'none';
+		}
+		// Upgrade Page
+		function upgrade() {
+			// Tab
+			document.getElementById('IndexTab').className = 'Tab';
+			document.getElementById('InstallTab').className = 'Tab';
+			document.getElementById('UpgradeTab').className = 'SelectedTab';
+			document.getElementById('UpgradeTab').href = 'Tab';
+			document.getElementById('UsageTab').className = 'Tab';
+			// Page
+			document.getElementById('Index').style.display= 'none';
+			document.getElementById('Install').style.display = 'none';
+			document.getElementById('Upgrade').style.display = 'block';
+			document.getElementById('Usage').style.display = 'none';
+		}
+		// Usage Page
+		function usage() {
+			// Tab
+			document.getElementById('IndexTab').className = 'Tab';
+			document.getElementById('InstallTab').className = 'Tab';
+			document.getElementById('UpgradeTab').className = 'Tab';
+			document.getElementById('UsageTab').className = 'SelectedTab';
+			// Page
+			document.getElementById('Index').style.display= 'none';		
+			document.getElementById('Install').style.display = 'none';
+			document.getElementById('Upgrade').style.display = 'none';
+			document.getElementById('Usage').style.display = 'block';
+		}
+</script>
+</head>
+<body>
+<div id="Container">
+	<!-- Title -->
+	<div id="Title">WP-UserOnline 2.04&nbsp;&nbsp;&nbsp;<span style="color: #aaaaaa;">Readme</span></div>
+
+	<!-- Tabs -->
+	<ul id="Tabs">
+		<li id="UsageTab" class="Tab"><a href="#Usage" onclick="usage(); return false;" title="Usage Instructions">Usage</a></li>
+		<li id="UpgradeTab" class="Tab"><a href="#Upgrade" onclick="upgrade(); return false;" title="Upgrade Instructions">Upgrade</a></li>
+		<li id="InstallTab" class="Tab"><a href="#Installation" onclick="install(); return false;" title="Installation Instructions">Installation</a></li>
+		<li id="IndexTab" class="SelectedTab"><a href="#Index" onclick="index(); return false;" title="Index Instructions">Index</a></li>
+	</ul>
+
+	<!-- Content -->
+	<div id="Content">
+		<!-- Index -->
+		<div id="Index">
+			<div class="SubTitle">&raquo; Index</div>
+			<div class="SubSubTitle">Plugin Information</div>
+			<p><b>Author</b><br /><b>&raquo;</b> Lester 'GaMerZ' Chan</p>
+			<p>
+				<b>EMail:</b><br /><b>&raquo;</b>
+				<script type="text/javascript">
+					/* <![CDATA[*/
+					document.write(' <a href="mailto:gamerz84@hotmail.com?Subject=WP-UserOnline%202.04%20Support" title="EMail To gamerz84@hotmail.com">gamerz84@hotmail.com</a>');
+					/* ]]> */
+				</script>
+			</p>
+			<p><b>Website:</b><br /><b>&raquo;</b> <a href="http://www.lesterchan.net/" title="http://www.lesterchan.net/">http://www.lesterchan.net/</a></p>
+			<p><b>Demo:</b><br /><b>&raquo;</b> <a href="http://www.lesterchan.net/wordpress" title="http://www.lesterchan.net/wordpress">http://www.lesterchan.net/wordpress</a></p>
+			<p><b>Documentation:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/wiki/wp-useronline" title="http://dev.wp-plugins.org/wiki/wp-useronline">http://dev.wp-plugins.org/wiki/wp-useronline</a></p>
+			<p><b>Development:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/browser/wp-useronline/" title="http://dev.wp-plugins.org/browser/wp-useronline/">http://dev.wp-plugins.org/browser/wp-useronline/</a></p>
+			<p><b>Support Forums:</b><br /><b>&raquo;</b> <a href="http://forums.lesterchan.net/viewforum.php?f=10" title="http://forums.lesterchan.net/viewforum.php?f=10">http://forums.lesterchan.net/viewforum.php?f=10</a></p>
+			<p><b>Updated:</b><br /><b>&raquo;</b> 1st July 2006</p>
+			<div class="SubSubTitle">Changelog</div>
+			<ul>
+				<li>
+					<b>Version 2.04 (01-07-2006)</b>
+					<ul>
+						<li>NEW: You Can Now Place Users Online Count And Users Browsing Site Data On The Sidebar As A Widget</li>
+						<li>NEW: UserOnline Options Panel And The Code That WP-UserOnline Generated Is XHTML 1.0 Transitional</li>
+						<li>NEW: Added Useronline Options In WP Administration Panel Under 'Options -> Useronline'</li>
+						<li>NEW: If You Have <a href="http://frenchfragfactory.net/ozh/archives/2004/08/27/ip-to-nation-plugin/">ip2nation Plugin</a> Installed, The User's/Guest's Country Flag Will Be Displayed</li>
+					</ul>
+				</li>
+				<li>
+					<b>Version 2.03 (01-04-2006)</b>
+					<ul>
+						<li>NEW: Added get_users_browsing_site(); To Display Users Browsing The Site</li>
+						<li>FIXED: wp-stats.php Link</li>
+						<li>FIXED: Some Grammer Errors, Credit To xclouds (http://www.xclouds.com/)</li>	
+					</ul>
+				</li>
+				<li>
+					<b>Version 2.02 (01-03-2006)</b>
+					<ul>
+						<li>NEW: No More Install/Upgrade File, It Will Install/Upgrade When You Activate The Plugin.</li>
+						<li>FIXED: IP 'Unknown' Error, Credit To Brian Layman (http://www.knitchat.com/)</li>
+						<li>FIXED: ON DUPLICATE KEY Error, Credit To Brian Layman (http://www.knitchat.com/)</li>
+						<li>FIXED: DUPLICATE KEY Error By Using DELETE First, Credit To Jody Cairns (http://steelwhitetable.org/blog/)</li>
+					</ul>
+				</li>
+				<li>
+					<b>Version 2.01 (01-02-2006)</b>
+					<ul>
+						<li>NEW: Added Users Browsing Page</li>
+						<li>NEW: Added Most Users Ever Online</li>
+						<li>FIXED: Added UNIQUE Key Instead Of Primary Key To Test Whether It Will Solve Duplicate Entry Errors</li>
+						<li>FIXED: Quotes Issue In Page Title</li>
+					</ul>
+				</li>
+				<li>
+					<b>Version 2.00 (01-01-2006)</b>
+					<ul>
+						<li>NEW: Compatible With Only WordPress 2.0</li>
+						<li>NEW: Better Installer</li>
+						<li>NEW: GPL License Added</li>
+						<li>NEW: Page Title Added To wp-useronline.php</li>
+						<li>NEW: Added Extra Bots, Credit To Greg Perry (http://www.gregrperry.com/)</li>
+						<li>FIXED: Cleaner Codes</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Installation Instructions -->
+		<div id="Install" style="display: none;">
+			<div class="SubTitle">&raquo; Installation Instructions</div>
+			<ol>
+				<li>
+					Open <b>wp-content/plugins</b> Folder
+				</li>
+				<li>
+					Put:
+					<blockquote>Folder: useronline</blockquote>
+				</li>
+				<li>
+					<b>Activate</b> WP-UserOnline Plugin
+				</li>
+				<li>
+					Refer To <b>Usage</b> For Further Instructions
+				</li>
+			</ol>
+		</div>
+
+		<!-- Upgrade Instructions -->	
+		<div id="Upgrade" style="display: none;">
+			<div class="SubTitle">&raquo; Upgrade Instructions</div>
+			<div class="SubSubTitle">From v1.0x To v2.04</div>
+			<ol>
+				<li>
+					<b>Deactivate</b> WP-UserOnline Plugin
+				</li>
+				<li>
+					Open <b>Root WordPress</b> Folder
+				</li>
+				<li>
+					Delete:
+					<blockquote>File: wp-useronline.php</blockquote>
+				</li>
+				<li>
+					Open <b>wp-content/plugins</b> Folder
+				</li>
+				<li>
+					Delete:
+					<blockquote>File: useronline.php</blockquote>
+				</li>
+				<li>
+					Put:
+					<blockquote>Folder: useronline</blockquote>
+				</li>
+				<li>
+					<b>Activate</b> WP-UserOnline Plugin
+				</li>
+				<li>
+					Refer To <b>Usage</b> For Further Instructions
+				</li>
+			</ol>
+		</div>
+
+		<!-- Usage Instructions -->	
+		<div id="Usage" style="display: none;">
+			<div class="SubTitle">&raquo; Usage Instructions</div>
+			<div class="SubSubTitle">General Usage</div>
+			<ol>
+				<li>
+					Open <b>wp-content/themes/&lt;YOUR THEME NAME&gt;/sidebar.php</b>
+				</li>
+				<li>
+					Add Anywhere:
+					<blockquote>
+						&lt;?php if (function_exists('useronline')): ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;li&gt;<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;UserOnline&lt;/h2&gt;<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="&lt;?php echo get_settings('home'); ?&gt;/wp-content/plugins/useronline/wp-useronline.php"&gt;&lt;?php get_useronline(); ?&gt;&lt;/a&gt;&lt;/li&gt;<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br />
+						&lt;?php endif; ?&gt;
+					</blockquote>
+				</li>
+				<li>
+					Tutorial On How To Integrate wp-useronline.php With Your Theme:
+					<blockquote><a href="http://www.lesterchan.net/wordpress/tutorials/integrating/" target="_blank">http://www.lesterchan.net/wordpress/tutorials/integrating/</a></blockquote>
+				</li>
+			</ol>
+			<div class="SubSubTitle">UserOnline Stats (Outside WP Loop)</div>
+			<ul>
+				<li>
+					To Display <b>Most Number Of Users Online</b>
+				</li>
+				<li>
+					Use:
+					<blockquote>
+						&lt;?php if (function_exists('get_most_useronline')): ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;p&gt;Most Users Ever Online Is &lt;?php get_most_useronline(); ?&gt; On &lt;?php get_most_useronline_date(); ?&gt;&lt;/p&gt;<br />
+						&lt;?php endif; ?&gt;
+					</blockquote>
+				</li>
+				<li>
+					To Display <b>Users Browsing Site</b>
+				</li>
+				<li>
+					Use:
+					<blockquote>
+						&lt;?php if (function_exists('get_users_browsing_site')): ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;?php get_users_browsing_site(); ?&gt;<br />
+						&lt;?php endif; ?&gt;
+					</blockquote>
+				</li>
+				<li>
+					To Display <b>Users Browsing A Page</b>
+				</li>
+				<li>
+					Use:
+					<blockquote>
+						&lt;?php if (function_exists('get_users_browsing_page')): ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;?php get_users_browsing_page(); ?&gt;<br />
+						&lt;?php endif; ?&gt;
+					</blockquote>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<p id="Copyright">WP-UserOnline 2.04<br />Copyright &copy; 2006 Lester 'GaMerZ' Chan. All Rights Reserved.</p>
+</body>
+</html>
