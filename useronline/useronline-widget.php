@@ -41,13 +41,13 @@ function widget_useronline_init() {
 		echo $before_widget.$before_title.$title.$after_title;
 		if (function_exists('useronline')) {
 			echo '<ul>'."\n";
-			echo '<li><a href="'.get_settings('home').'/wp-content/plugins/useronline/wp-useronline.php">';
+			echo '<li><div id="useronline-count">';
 			get_useronline();
-			echo '</a></li>'."\n";
+			echo '</div></li>'."\n";
 			if(intval($options['display_usersbrowsingsite']) == 1) {
-				echo '<li>';
+				echo '<li><div id="useronline-browsing-site">';
 				get_users_browsing_site();
-				echo '</li>'."\n";
+				echo '</div></li>'."\n";
 			}
 			echo '</ul>'."\n";
 		}
@@ -64,13 +64,13 @@ function widget_useronline_init() {
 			$options['display_usersbrowsingsite'] = intval($_POST['useronline-usersbrowsingsite']);
 			update_option('widget_useronline', $options);
 		}
-		echo '<p style="text-align: center;"><label for="useronline-usersbrowsingsite">Display Users Browsing Site Under Users Online Count?</label></p>';
+		echo '<p style="text-align: center;"><label for="useronline-usersbrowsingsite">Display Users Browsing Site Under Users Online Count?</label></p>'."\n";
 		echo '<p style="text-align: center;"><input type="radio" id="useronline-usersbrowsingsite" name="useronline-usersbrowsingsite" value="1"';
 		checked(1, intval($options['display_usersbrowsingsite']));
 		echo ' />&nbsp;Yes&nbsp;&nbsp;&nbsp;<input type="radio" id="useronline-usersbrowsingsite" name="useronline-usersbrowsingsite" value="0"';
 		checked(0, intval($options['display_usersbrowsingsite']));
-		echo ' />&nbsp;No</p>';
-		echo '<input type="hidden" id="useronline-submit" name="useronline-submit" value="1" />';
+		echo ' />&nbsp;No</p>'."\n";
+		echo '<input type="hidden" id="useronline-submit" name="useronline-submit" value="1" />'."\n";
 	}
 
 	// Register Widgets

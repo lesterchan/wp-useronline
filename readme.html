@@ -216,6 +216,7 @@
 				<li>
 					<b>Version 2.04 (01-07-2006)</b>
 					<ul>
+						<li>NEW: AJAX Is Now Used For Updating Users Online Every 1 Minute Without Refreshing The Page</li>
 						<li>NEW: You Can Now Place Users Online Count And Users Browsing Site Data On The Sidebar As A Widget</li>
 						<li>NEW: UserOnline Options Panel And The Code That WP-UserOnline Generated Is XHTML 1.0 Transitional</li>
 						<li>NEW: Added Useronline Options In WP Administration Panel Under 'Options -> Useronline'</li>
@@ -332,7 +333,7 @@
 						&nbsp;&nbsp;&nbsp;&lt;li&gt;<br />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;UserOnline&lt;/h2&gt;<br />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br />
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="&lt;?php echo get_settings('home'); ?&gt;/wp-content/plugins/useronline/wp-useronline.php"&gt;&lt;?php get_useronline(); ?&gt;&lt;/a&gt;&lt;/li&gt;<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;div id="useronline-count"&gt;&lt;?php get_useronline(); ?&gt;&lt;/div&gt;&lt;/li&gt;<br />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br />
 						&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br />
 						&lt;?php endif; ?&gt;
@@ -363,7 +364,7 @@
 					Use:
 					<blockquote>
 						&lt;?php if (function_exists('get_users_browsing_site')): ?&gt;<br />
-						&nbsp;&nbsp;&nbsp;&lt;?php get_users_browsing_site(); ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;div id="useronline-browsing-site"&gt;&lt;?php get_users_browsing_site(); ?&gt;&lt;/div&gt;<br />
 						&lt;?php endif; ?&gt;
 					</blockquote>
 				</li>
@@ -374,7 +375,7 @@
 					Use:
 					<blockquote>
 						&lt;?php if (function_exists('get_users_browsing_page')): ?&gt;<br />
-						&nbsp;&nbsp;&nbsp;&lt;?php get_users_browsing_page(); ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;div id="useronline-browsing-page"&gt;&lt;?php get_users_browsing_page(); ?&gt;&lt;/div&gt;<br />
 						&lt;?php endif; ?&gt;
 					</blockquote>
 				</li>
