@@ -19,16 +19,15 @@
 
 // UserOnline JavaScript Init
 function useronline_init() {
-	useronline_timeout = 60000;
-	// Check Users Count Every 1 Minute
+	// Check Users Count
 	if(document.getElementById('useronline-count') != null ) {
 		setInterval("get_useronline_count()", useronline_timeout);
 	}
-	// Check Users Browsing Site Every 1 Minute
+	// Check Users Browsing Site
 	if(document.getElementById('useronline-browsing-site') != null ) {
 		setInterval("get_useronline_browsingsite()", useronline_timeout);
 	}
-	// Check Users Browsing Page Every 1 Minute
+	// Check Users Browsing Page
 	if(document.getElementById('useronline-browsing-page') != null) {
 		setInterval("get_useronline_browsingpage()", useronline_timeout);
 	}
