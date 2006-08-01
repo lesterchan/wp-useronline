@@ -198,7 +198,7 @@ if(!function_exists('get_most_useronline_date')) {
 
 
 ### Function: Display Users Browsing The Site
-function get_users_browsing_site() {
+function get_users_browsing_site($display = true) {
 	global $wpdb;
 
 	// Get Users Browsing Site
@@ -235,6 +235,11 @@ function get_users_browsing_site() {
 			}
 		}
 		$total_users = ($total_guests+$total_bots+$total_members);
+
+		// If We Do Not Display It, Return Respective Users Count
+		if(!$display) {
+			return array ($total_users, $total_members, $total_guests, $total_bots);
+		} 
 
 		// Nice Text For Guests
 		if($total_guests == 1) { 
@@ -278,7 +283,7 @@ function get_users_browsing_site() {
 
 
 ### Function: Display Users Browsing The Page
-function get_users_browsing_page() {
+function get_users_browsing_page($display = true) {
 	global $wpdb;
 
 	// Get Users Browsing Page
@@ -315,6 +320,11 @@ function get_users_browsing_page() {
 			}
 		}
 		$total_users = ($total_guests+$total_bots+$total_members);
+
+		// If We Do Not Display It, Return Respective Users Count
+		if(!$display) {
+			return array ($total_users, $total_members, $total_guests, $total_bots);
+		} 
 
 		// Nice Text For Members
 		if($total_members == 1) {
