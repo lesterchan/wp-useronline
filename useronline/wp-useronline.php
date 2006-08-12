@@ -26,15 +26,8 @@ function useronline_pagetitle($useronline_pagetitle) {
 	return $useronline_pagetitle.' &raquo; UserOnline';
 }
 
-### Reassign Bots Name
-$bots = get_settings('useronline_bots');
-$bots_name = array();
-foreach($bots as $botname => $botlookfor) {
-	$bots_name[] = $botname;
-}
-
 ### Get The Users Online
-$usersonline = $wpdb->get_results("SELECT * FROM $wpdb->useronline");
+$usersonline = $wpdb->get_results("SELECT * FROM $wpdb->useronline ORDER BY type");
 
 ### Variables Variables Variables
 $members = array();
@@ -52,15 +45,19 @@ $nicetext_bots = '';
 ### Process Those User Who Is Online
 if($usersonline) {
 	foreach($usersonline as $useronline) {
-		if($useronline->username == 'Guest') {
-			$guests[] = array('username' => stripslashes($useronline->username), 'timestamp' => $useronline->timestamp, 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes(urldecode($useronline->url)));
-			$total_guests++;
-		} elseif(in_array($useronline->username, $bots_name)) {
-			$bots[] = array('username' => stripslashes($useronline->username), 'timestamp' => $useronline->timestamp, 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes(urldecode($useronline->url)));
-			$total_bots++;
-		} else {
-			$members[] = array('username' => stripslashes($useronline->username), 'timestamp' => $useronline->timestamp, 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes(urldecode($useronline->url)));
-			$total_members++;
+		switch($useronline->type) {
+			case 'member':
+				$members[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes($useronline->url));
+				$total_members++;
+				break;
+			case 'guest':						
+				$guests[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes($useronline->url));
+				$total_guests++;
+				break;
+			case 'bot':
+				$bots[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes($useronline->url));
+				$total_bots++;
+				break;
 		}
 	}
 	$total_users = ($total_guests+$total_bots+$total_members);
@@ -94,6 +91,12 @@ if($total_bots == 1) {
 } else {
 	$nicetext_bots = number_format($total_bots).' '.__('Bots'); 
 }
+
+### Check Whether WP-Stats Is Activated
+$wp_stats = false;
+if(function_exists('get_totalposts')) {
+	$wp_stats = true;
+}
 ?>
 <?php get_header(); ?>
 	<div id="content" class="narrowcolumn">
@@ -106,19 +109,16 @@ if($total_bots == 1) {
 			}
 			$no=1;
 			if($members) {
-				$wp_stats = false;
-				if(function_exists('get_totalposts')) {
-					$wp_stats = true;
-				}
 				foreach($members as $member) {
 					if($wp_stats) {
-						echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['username'].'">'.$member['username'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+						echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$member['display_name'].'">'.$member['display_name'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 					} else {
 						echo '<p><b>#'.$no.' - '.$member['username'].'</b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 					}
 					$no++;
 				}
 			}
+
 			// Print Out Guest
 			if($total_guests > 0) {
 				echo 	'<h2 class="pagetitle">'.$nicetext_guests.' '.__('Online Now').'</h2>'."\n";
@@ -126,10 +126,14 @@ if($total_bots == 1) {
 			$no=1;
 			if($guests) {
 				foreach($guests as $guest) {
-					echo '<p><b>#'.$no.' - '.$guest['username'].'</b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
-					$no++;
+					if($wp_stats) {
+						echo '<p><b>#'.$no.' - <a href="'.get_settings('home').'/wp-stats.php?author='.$guest['display_name'].'">'.$guest['display_name'].'</a></b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
+					} else {
+						echo '<p><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
+					}
 				}
 			}
+
 			// Print Out Bots
 			if($total_bots > 0) {
 				echo 	'<h2 class="pagetitle">'.$nicetext_bots.' '.__('Online Now').'</h2>'."\n";
@@ -141,6 +145,8 @@ if($total_bots == 1) {
 					$no++;
 				}
 			}
+
+			// Print Out No One Is Online Now
 			if($total_users == 0) {
 				echo 	'<h2 class="pagetitle">'.__('No One Is Online Now').'</h2>'."\n";
 			}

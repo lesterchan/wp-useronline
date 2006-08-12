@@ -37,7 +37,7 @@ function widget_useronline_init() {
 	function widget_useronline($args) {
 		extract($args);
 		$options = get_option('widget_useronline');
-		$title = __('UserOnline');
+		$title = htmlspecialchars($options['title']);
 		echo $before_widget.$before_title.$title.$after_title;
 		if (function_exists('useronline')) {
 			echo '<ul>'."\n";
@@ -58,12 +58,14 @@ function widget_useronline_init() {
 	function widget_useronline_options() {
 		$options = get_option('widget_useronline');
 		if (!is_array($options)) {
-			$options = array('display_usersbrowsingsite' => '0');
+			$options = array('display_usersbrowsingsite' => '0', 'title' => 'UserOnline');
 		}
 		if ($_POST['useronline-submit']) {
 			$options['display_usersbrowsingsite'] = intval($_POST['useronline-usersbrowsingsite']);
+			$options['title'] = strip_tags(stripslashes($_POST['useronline-title']));
 			update_option('widget_useronline', $options);
 		}
+		echo '<p style="text-align: left;"><label for="useronline-title">Widget Title:</label>&nbsp;&nbsp;&nbsp;<input type="text" id="useronline-title" name="useronline-title" value="'.htmlspecialchars($options['title']).'" />';
 		echo '<p style="text-align: center;"><label for="useronline-usersbrowsingsite">Display Users Browsing Site Under Users Online Count?</label></p>'."\n";
 		echo '<p style="text-align: center;"><input type="radio" id="useronline-usersbrowsingsite" name="useronline-usersbrowsingsite" value="1"';
 		checked(1, intval($options['display_usersbrowsingsite']));
@@ -75,7 +77,7 @@ function widget_useronline_init() {
 
 	// Register Widgets
 	register_sidebar_widget('UserOnline', 'widget_useronline');
-	register_widget_control('UserOnline', 'widget_useronline_options', 350, 100);
+	register_widget_control('UserOnline', 'widget_useronline_options', 350, 120);
 }
 
 

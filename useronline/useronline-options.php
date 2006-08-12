@@ -33,12 +33,15 @@ if($_POST['Submit']) {
 		for($i = 0; $i < $n; $i++) {
 		$useronline_bots[trim($useronline_bots_keys[$i])] = trim($useronline_bots_vals[$i]);
 	}
+	$useronline_url = addslashes(trim($_POST['useronline_url']));
 	$update_useronline_queries = array();
 	$update_useronline_text = array();
 	$update_useronline_queries[] = update_option('useronline_timeout', $useronline_timeout);
 	$update_useronline_queries[] = update_option('useronline_bots', $useronline_bots);
+	$update_useronline_queries[] = update_option('useronline_url', $useronline_url);
 	$update_useronline_text[] = __('Useronline Timeout');
 	$update_useronline_text[] = __('Useronline Bots');
+	$update_useronline_text[] = __('Useronline URL');
 	$i=0;
 	$text = '';
 	foreach($update_useronline_queries as $update_useronline_query) {
@@ -74,6 +77,12 @@ $useronline_options_bots_agent = trim($useronline_options_bots_agent);
 					<th align="left" width="30%"><?php _e('Time Out'); ?></th>
 					<td align="left">
 						<input type="text" name="useronline_timeout" value="<?php echo get_settings('useronline_timeout'); ?>" size="4" /><br />How long till it will remove the user from the database (In seconds).
+					</td>
+				</tr>
+				 <tr valign="top">
+					<th align="left" width="30%"><?php _e('UserOnline URL'); ?></th>
+					<td align="left">
+						<input type="text" name="useronline_url" value="<?php echo get_settings('useronline_url'); ?>" size="50" /><br />URL To UserOnline Page.
 					</td>
 				</tr>
 				<tr valign="top"> 

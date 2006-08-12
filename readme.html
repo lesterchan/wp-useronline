@@ -210,13 +210,17 @@
 			<p><b>Documentation:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/wiki/wp-useronline" title="http://dev.wp-plugins.org/wiki/wp-useronline">http://dev.wp-plugins.org/wiki/wp-useronline</a></p>
 			<p><b>Development:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/browser/wp-useronline/" title="http://dev.wp-plugins.org/browser/wp-useronline/">http://dev.wp-plugins.org/browser/wp-useronline/</a></p>
 			<p><b>Support Forums:</b><br /><b>&raquo;</b> <a href="http://forums.lesterchan.net/viewforum.php?f=10" title="http://forums.lesterchan.net/viewforum.php?f=10">http://forums.lesterchan.net/viewforum.php?f=10</a></p>
-			<p><b>Updated:</b><br /><b>&raquo;</b> 1st August 2006</p>
+			<p><b>Updated:</b><br /><b>&raquo;</b> 1st October 2006</p>
+			<p><b>Note:</b><br /><b>&raquo;</b>  I have changed some of WP-UserOnline's structure, So if there is any bug, please contact me immediately.</p>
 			<div class="SubSubTitle">Changelog</div>
 			<ul>
 				<li>
-					<b>Version 2.05 (01-08-2006)</b>
+					<b>Version 2.05 (01-10-2006)</b>
 					<ul>
+						<li>NEW: UserOnline Is Now Embedded Into A Page, And Hence No More Integrating Of UserOnline Page</li>
+						<li>NEW: Changed In WP-UserOnline Structure: Members Mean Registered Users and Guests Mean Comment Authors</li>
 						<li>NEW: get_users_browsing_site(false) And get_users_browsing_page(false) Will Now Return An Array Containing Total Users, Total Members, Total Guests and Total Bots Online</li>
+						<li>NEW: Added Widget Title Option To WP-UserOnline Widget</li>
 						<li>FIXED: Invalid IP Error</li>
 						<li>FIXED: If Site URL Doesn't Match WP Option's Site URL, WP-UserOnline Will Not Work</li>
 					</ul>
@@ -303,19 +307,26 @@
 					Open <b>Root WordPress</b> Folder
 				</li>
 				<li>
-					Delete:
+					Delete file if exists:
 					<blockquote>File: wp-useronline.php</blockquote>
 				</li>
 				<li>
 					Open <b>wp-content/plugins</b> Folder
 				</li>
 				<li>
-					Delete:
+					Put:
+					<blockquote>Folder: useronline</blockquote>
+				</li>
+				<li>
+					Delete file if exists:
 					<blockquote>File: useronline.php</blockquote>
 				</li>
 				<li>
-					Put:
-					<blockquote>Folder: useronline</blockquote>
+					Open <b>wp-content/plugins/useronline</b> Folder
+				</li>
+				<li>
+					Delete file if exists:
+					<blockquote>File: wp-useronline.php</blockquote>
 				</li>
 				<li>
 					<b>Activate</b> WP-UserOnline Plugin
@@ -329,7 +340,7 @@
 		<!-- Usage Instructions -->	
 		<div id="Usage" style="display: none;">
 			<div class="SubTitle">&raquo; Usage Instructions</div>
-			<div class="SubSubTitle">General Usage</div>
+			<div class="SubSubTitle">General Usage (Without Widget)</div>
 			<ol>
 				<li>
 					Open <b>wp-content/themes/&lt;YOUR THEME NAME&gt;/sidebar.php</b>
@@ -347,9 +358,44 @@
 						&lt;?php endif; ?&gt;
 					</blockquote>
 				</li>
+			</ol>
+			<div class="SubSubTitle">General Usage (With Widget)</div>
+			<ol>
 				<li>
-					Tutorial On How To Integrate wp-useronline.php With Your Theme:
-					<blockquote><a href="http://www.lesterchan.net/wordpress/tutorials/integrating/" target="_blank">http://www.lesterchan.net/wordpress/tutorials/integrating/</a></blockquote>
+					<b>Activate</b> WP-UserOnline Widget Plugin
+				</li>
+				<li>
+					Go to 'WP-Admin -> Presentation -> Sidebar Widgets'
+				</li>
+				<li>
+					<b>Drag</b> the UserOnline Widget to your sidebar
+				</li>
+				<li>
+					You can <b>configure</b> the UserOnline Widget by clicking on the configure icon
+				</li>
+				<li>
+					Click 'Save changes'
+				</li>
+				<li>
+					Scroll down for instructions on how to create a <b>UserOnline Page</b>.
+				</li>
+			</ol>
+			<div class="SubSubTitle">UserOnline Page</div>
+			<ol>
+				<li>
+					Go to 'WP-Admin -> Write -> Write Page'
+				</li>
+				<li>
+					Type any title you like in the post's title area
+				</li>
+				<li>
+					Type '<b>&lt;page_useronline&gt</b>' in the post's content area (without the quotes)
+				</li>
+				<li>
+					Type '<b>useronline</b>' in the post's slug area (without the quotes)
+				</li>
+				<li>
+					Click 'Publish'
 				</li>
 			</ol>
 			<div class="SubSubTitle">UserOnline Stats (Outside WP Loop)</div>
