@@ -281,7 +281,7 @@ function get_users_browsing_site($display = true) {
 		if($members) {
 			$temp_member = '';
 			foreach($members as $member) {
-				$temp_member .= '<a href="'.get_settings('home').'/wp-stats.php?author='.urlencode($member).'">'.$member.'</a>, ';
+				$temp_member .= '<a href="'.get_settings('siteurl').'/wp-content/plugins/stats/wp-stats.php?author='.urlencode($member).'">'.$member.'</a>, ';
 			}
 			if(!function_exists('get_totalposts')) {
 				$temp_member = strip_tags($temp_member);
@@ -383,7 +383,7 @@ function get_users_browsing_page($display = true) {
 		if($members) {
 			$temp_member = '';
 			foreach($members as $member) {
-				$temp_member .= '<a href="'.get_settings('home').'/wp-stats.php?author='.urlencode($member).'">'.$member.'</a>, ';
+				$temp_member .= '<a href="'.get_settings('siteurl').'/wp-content/plugins/stats/wp-stats.php?author='.urlencode($member).'">'.$member.'</a>, ';
 			}
 			if(!function_exists('get_totalposts')) {
 				$temp_member = strip_tags($temp_member);
