@@ -38,7 +38,7 @@ function useronline_menu() {
 		add_submenu_page('index.php',  __('WP-UserOnline'),  __('WP-UserOnline'), 1, 'useronline/useronline.php', 'display_useronline');
 	}
 	if (function_exists('add_options_page')) {
-		add_options_page(__('Useronline'), __('Useronline'), 'manage_options', 'useronline/useronline-options.php') ;
+		add_options_page(__('Useronline'), __('Useronline'), 'manage_options', 'useronline/useronline-options.php');
 	}
 }
 
@@ -186,7 +186,7 @@ if(!function_exists('get_useronline')) {
 				echo '<a href="'.$useronline_url.'"><b>'.$useronline.'</b> '.$user.' '.__('Online').'</a>'."\n";
 			}
 		} else {
-			return $useronline;
+			return number_format($useronline);
 		}
 	}
 }
@@ -281,7 +281,7 @@ function get_users_browsing_site($display = true) {
 		if($members) {
 			$temp_member = '';
 			foreach($members as $member) {
-				$temp_member .= '<a href="'.get_settings('siteurl').'/wp-content/plugins/stats/wp-stats.php?author='.urlencode($member).'">'.$member.'</a>, ';
+				$temp_member .= '<a href="'.useronline_stats_page_link(urlencode($member)).'">'.$member.'</a>, ';
 			}
 			if(!function_exists('get_totalposts')) {
 				$temp_member = strip_tags($temp_member);
@@ -383,7 +383,7 @@ function get_users_browsing_page($display = true) {
 		if($members) {
 			$temp_member = '';
 			foreach($members as $member) {
-				$temp_member .= '<a href="'.get_settings('siteurl').'/wp-content/plugins/stats/wp-stats.php?author='.urlencode($member).'">'.$member.'</a>, ';
+				$temp_member .= '<a href="'.useronline_stats_page_link(urlencode($member)).'">'.$member.'</a>, ';
 			}
 			if(!function_exists('get_totalposts')) {
 				$temp_member = strip_tags($temp_member);
@@ -549,7 +549,7 @@ function display_useronline() {
 			if($members) {
 				foreach($members as $member) {
 					if($wp_stats) {
-						echo '<p><b>#'.$no.' - <a href="'.get_settings('siteurl').'/wp-content/plugins/stats/wp-stats.php?author='.$member['display_name'].'">'.$member['display_name'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+						echo '<p><b>#'.$no.' - <a href="'.useronline_stats_page_link($member['display_name']).'">'.$member['display_name'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 					} else {
 						echo '<p><b>#'.$no.' - '.$member['username'].'</b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 					}
@@ -568,7 +568,7 @@ function display_useronline() {
 			if($guests) {
 				foreach($guests as $guest) {
 					if($wp_stats) {
-						echo '<p><b>#'.$no.' - <a href="'.get_settings('siteurl').'/wp-content/plugins/stats/wp-stats.php?author='.$guest['display_name'].'">'.$guest['display_name'].'</a></b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
+						echo '<p><b>#'.$no.' - <a href="'.useronline_stats_page_link($guest['display_name']).'">'.$guest['display_name'].'</a></b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 					} else {
 						echo '<p><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 					}
@@ -700,7 +700,7 @@ function useronline_page() {
 	if($members) {
 		foreach($members as $member) {
 			if($wp_stats) {
-				$useronline_output .= '<p><b>#'.$no.' - <a href="'.get_settings('siteurl').'/wp-content/plugins/stats/wp-stats.php?author='.$member['display_name'].'">'.$member['display_name'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+				$useronline_output .= '<p><b>#'.$no.' - <a href="'.useronline_stats_page_link($member['display_name']).'">'.$member['display_name'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 			} else {
 				$useronline_output .= '<p><b>#'.$no.' - '.$member['username'].'</b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 			}
@@ -716,7 +716,7 @@ function useronline_page() {
 	if($guests) {
 		foreach($guests as $guest) {
 			if($wp_stats) {
-				$useronline_output .= '<p><b>#'.$no.' - <a href="'.get_settings('siteurl').'/wp-content/plugins/stats/wp-stats.php?author='.$guest['display_name'].'">'.$guest['display_name'].'</a></b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
+				$useronline_output .= '<p><b>#'.$no.' - <a href="'.useronline_stats_page_link($guest['display_name']).'">'.$guest['display_name'].'</a></b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 			} else {
 				$useronline_output .= '<p><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 			}
@@ -742,6 +742,18 @@ function useronline_page() {
 
 	// Output UserOnline Page
 	return $useronline_output;
+}
+
+
+### Function: Stats Page Link
+function useronline_stats_page_link($author) {
+	$stats_url = get_settings('stats_url');
+	if(strpos($stats_url, '?') !== false) {
+		$stats_url = "$stats_url&amp;stats_author=$author";
+	} else {
+		$stats_url = "$stats_url?stats_author=$author";
+	}
+	return $stats_url;
 }
 
 

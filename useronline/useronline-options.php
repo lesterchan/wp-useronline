@@ -82,7 +82,7 @@ $useronline_options_bots_agent = trim($useronline_options_bots_agent);
 				 <tr valign="top">
 					<th align="left" width="30%"><?php _e('UserOnline URL'); ?></th>
 					<td align="left">
-						<input type="text" name="useronline_url" value="<?php echo get_settings('useronline_url'); ?>" size="50" /><br />URL To UserOnline Page.
+						<input type="text" name="useronline_url" value="<?php echo get_settings('useronline_url'); ?>" size="50" /><br />URL To UserOnline Page<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2
 					</td>
 				</tr>
 				<tr valign="top"> 
