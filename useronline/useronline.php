@@ -602,9 +602,9 @@ function display_useronline() {
 
 
 ### Function: Place Polls Archive In Content
-add_filter('the_content', 'place_useronlinepage', '12');
+add_filter('the_content', 'place_useronlinepage', '7');
 function place_useronlinepage($content){
-     $content = preg_replace( "/\<page_useronline\>/ise", "useronline_page()", $content); 
+     $content = preg_replace( "/\[page_useronline\]/ise", "useronline_page()", $content); 
     return $content;
 }
 
