@@ -462,142 +462,8 @@ function ip2nation_country($ip, $display_countryname = 0) {
 
 ### Function: Display UserOnline For Admin
 function display_useronline() {
-	global $wpdb;
-	// Get The Users Online
-	$usersonline = $wpdb->get_results("SELECT * FROM $wpdb->useronline ORDER BY type");
-
-	// Variables Variables Variables
-	$members = array();
-	$guests = array();
-	$bots = array();
-	$total_users = 0;
-	$total_members = 0;
-	$total_guests = 0;
-	$total_bots = 0;
-	$nicetext_users = '';
-	$nicetext_members = '';
-	$nicetext_guests = '';
-	$nicetext_bots = '';
-
-	// Process Those User Who Is Online
-	if($usersonline) {
-		foreach($usersonline as $useronline) {
-			switch($useronline->type) {
-				case 'member':
-					$members[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes($useronline->url));
-					$total_members++;
-					break;
-				case 'guest':						
-					$guests[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes($useronline->url));
-					$total_guests++;
-					break;
-				case 'bot':
-					$bots[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes($useronline->url));
-					$total_bots++;
-					break;
-			}
-		}
-		$total_users = ($total_guests+$total_bots+$total_members);
-	}
-
-	//  Nice Text For Users
-	if($total_users == 1) {
-		$nicetext_users = $total_users.' '.__('User');
-	} else {
-		$nicetext_users = number_format($total_users).' '.__('Users');
-	}
-
-	//  Nice Text For Members
-	if($total_members == 1) {
-		$nicetext_members = $total_members.' '.__('Member');
-	} else {
-		$nicetext_members = number_format($total_members).' '.__('Members');
-	}
-
-
-	//  Nice Text For Guests
-	if($total_guests == 1) { 
-		$nicetext_guests = $total_guests.' '.__('Guest');
-	} else {
-		$nicetext_guests = number_format($total_guests).' '.__('Guests'); 
-	}
-
-	//  Nice Text For Bots
-	if($total_bots == 1) {
-		$nicetext_bots = $total_bots.' '.__('Bot'); 
-	} else {
-		$nicetext_bots = number_format($total_bots).' '.__('Bots'); 
-	}
-
-	// Check Whether WP-Stats Is Activated
-	$wp_stats = false;
-	if(function_exists('get_totalposts')) {
-		$wp_stats = true;
-	}
-?>
-	<div class="wrap">
-		<h2>UserOnline Stats</h2>
-		<p><?php if ($total_users == 1) { _e('There is '); } else { _e('There are a total of '); } ?><b><?php echo $nicetext_users; ?></b> online now: <b><?php echo $nicetext_members; ?></b>, <b><?php echo $nicetext_guests; ?></b> and <b><?php echo $nicetext_bots; ?></b>.</p>
-		<p>Most users ever online were <b><?php get_most_useronline(); ?></b>, on <b><?php get_most_useronline_date(); ?></b></p>
-	</div>
-		<?php
-			// Print Out Members
-			if($total_members > 0) {
-				echo 	'<div class="wrap"><h2>'.$nicetext_members.' '.__('Online Now').'</h2>'."\n";
-			}
-			$no=1;
-			if($members) {
-				foreach($members as $member) {
-					if($wp_stats) {
-						echo '<p><b>#'.$no.' - <a href="'.useronline_stats_page_link($member['display_name']).'">'.$member['display_name'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
-					} else {
-						echo '<p><b>#'.$no.' - '.$member['username'].'</b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
-					}
-					$no++;
-				}
-			}
-			if($total_members > 0) {
-				echo '</div>';
-			}
-
-			// Print Out Guest
-			if($total_guests > 0) {
-				echo 	'<div class="wrap"><h2>'.$nicetext_guests.' '.__('Online Now').'</h2>'."\n";
-			}
-			$no=1;
-			if($guests) {
-				foreach($guests as $guest) {
-					if($wp_stats) {
-						echo '<p><b>#'.$no.' - <a href="'.useronline_stats_page_link($guest['display_name']).'">'.$guest['display_name'].'</a></b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
-					} else {
-						echo '<p><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
-					}
-					$no++;
-				}
-			}
-			if($total_guests > 0) {
-				echo '</div>';
-			}
-
-			// Print Out Bots
-			if($total_bots > 0) {
-				echo 	'<div class="wrap"><h2>'.$nicetext_bots.' '.__('Online Now').'</h2>'."\n";
-			}
-			$no=1;
-			if($bots) {
-				foreach($bots as $bot) {
-					echo '<p><b>#'.$no.' - '.$bot['display_name'].'</b> '.check_ip($bot['ip']).' on '.gmdate('d.m.Y @ H:i', $bot['timestamp']).'<br />'.$bot['location'].' [<a href="'.$bot['url'].'">url</a>]</p>'."\n";
-					$no++;
-				}
-			}
-			if($total_bots > 0) {
-				echo '</div>';
-			}
-
-			// Print Out No One Is Online Now
-			if($total_users == 0) {
-				echo 	'<div class="wrap"><h2>'.__('No One Is Online Now').'</h2></div>'."\n";
-			}
+	$useronline_page = useronline_page();
+	echo "<div class=\"wrap\">\n$useronline_page</div>\n";
 }
 
 
@@ -694,7 +560,7 @@ function useronline_page() {
 	$useronline_output .= "<p>Most users ever online were <b>".get_most_useronline(false)."</b>, on <b>".get_most_useronline_date(false)."</b></p>\n";
 	// Print Out Members
 	if($total_members > 0) {
-		$useronline_output .= 	'<h2 class="pagetitle">'.$nicetext_members.' '.__('Online Now').'</h2>'."\n";
+		$useronline_output .= 	'<h2>'.$nicetext_members.' '.__('Online Now').'</h2>'."\n";
 	}
 	$no=1;
 	if($members) {
@@ -710,7 +576,7 @@ function useronline_page() {
 
 	// Print Out Guest
 	if($total_guests > 0) {
-		$useronline_output .= '<h2 class="pagetitle">'.$nicetext_guests.' '.__('Online Now').'</h2>'."\n";
+		$useronline_output .= '<h2>'.$nicetext_guests.' '.__('Online Now').'</h2>'."\n";
 	}
 	$no=1;
 	if($guests) {
@@ -725,7 +591,7 @@ function useronline_page() {
 
 	// Print Out Bots
 	if($total_bots > 0) {
-		$useronline_output .= '<h2 class="pagetitle">'.$nicetext_bots.' '.__('Online Now').'</h2>'."\n";
+		$useronline_output .= '<h2>'.$nicetext_bots.' '.__('Online Now').'</h2>'."\n";
 	}
 	$no=1;
 	if($bots) {
@@ -737,7 +603,7 @@ function useronline_page() {
 
 	// Print Out No One Is Online Now
 	if($total_users == 0) {
-		$useronline_output .= '<h2 class="pagetitle">'.__('No One Is Online Now').'</h2>'."\n";
+		$useronline_output .= '<h2>'.__('No One Is Online Now').'</h2>'."\n";
 	}
 
 	// Output UserOnline Page
@@ -769,7 +635,7 @@ function create_useronline_table() {
 	$create_table = "CREATE TABLE $wpdb->useronline (".
 							" timestamp int(15) NOT NULL default '0',".
 							" userid int(10) NOT NULL default '0',".
-							" username varchar(255) NOT NULL default '',".
+							" username varchar(150) NOT NULL default '',".
 							" displayname varchar(255) NOT NULL default '',".
 							" useragent varchar(255) NOT NULL default '',".
 							" ip varchar(40) NOT NULL default '',".						 
