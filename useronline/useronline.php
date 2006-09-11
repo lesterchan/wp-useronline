@@ -642,7 +642,7 @@ function create_useronline_table() {
 							" location varchar(255) NOT NULL default '',".
 							" url varchar(255) NOT NULL default '',".
 							" type enum('member','guest','bot') NOT NULL default 'guest',".
-							" UNIQUE KEY useronline_id (timestamp,username,ip,useragent))";
+							" UNIQUE KEY useronline_id (timestamp,username,ip,useragent))  ENGINE=MyISAM DEFAULT CHARSET=latin1;";
 	maybe_create_table($wpdb->useronline, $create_table);
 	// Add In Options
 	add_option('useronline_most_users', 1, 'Most Users Ever Online Count');
