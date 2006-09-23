@@ -181,9 +181,9 @@ if(!function_exists('get_useronline')) {
 		// Display User Online
 		if($display) {
 			if($useronline > 1) {
-				echo '<a href="'.$useronline_url.'"><b>'.number_format($useronline).'</b> '.$users.' '.__('Online').'</a>'."\n";
+				echo '<a href="'.$useronline_url.'"><strong>'.number_format($useronline).'</strong> '.$users.' '.__('Online').'</a>'."\n";
 			} else {
-				echo '<a href="'.$useronline_url.'"><b>'.$useronline.'</b> '.$user.' '.__('Online').'</a>'."\n";
+				echo '<a href="'.$useronline_url.'"><strong>'.$useronline.'</strong> '.$user.' '.__('Online').'</a>'."\n";
 			}
 		} else {
 			return number_format($useronline);
@@ -297,7 +297,7 @@ function get_users_browsing_site($display = true) {
 		}
 		// Print User Count
 		$temp_member = substr($temp_member, 0, -2);
-		echo __('Users: ').'<b>'.$temp_member.'</b><br />';
+		echo __('Users: ').'<strong>'.$temp_member.'</strong><br />';
 	} else {
 		// This Should Not Happen
 		_e('No User Is Browsing This Site');
@@ -377,7 +377,7 @@ function get_users_browsing_page($display = true) {
 		}
 		
 		// Print User Count
-		echo __('Users Browsing This Page: ').'<b>'.number_format($total_users).'</b> ('.$nicetext_members.', '.$nicetext_guests.' '.__('and').' '.$nicetext_bots.')<br />';
+		echo __('Users Browsing This Page: ').'<strong>'.number_format($total_users).'</strong> ('.$nicetext_members.', '.$nicetext_guests.' '.__('and').' '.$nicetext_bots.')<br />';
 
 		// Print Member Name
 		if($members) {
@@ -556,8 +556,8 @@ function useronline_page() {
 	} else { 
 		$useronline_output .= __('There are a total of ');
 	}
-	$useronline_output .= "<b>$nicetext_users</b> online now: <b>$nicetext_members</b>, <b>$nicetext_guests</b> and <b>$nicetext_bots</b>.</p>\n";
-	$useronline_output .= "<p>Most users ever online were <b>".get_most_useronline(false)."</b>, on <b>".get_most_useronline_date(false)."</b></p>\n";
+	$useronline_output .= "<strong>$nicetext_users</strong> online now: <strong>$nicetext_members</strong>, <strong>$nicetext_guests</strong> and <strong>$nicetext_bots</strong>.</p>\n";
+	$useronline_output .= "<p>Most users ever online were <strong>".get_most_useronline(false)."</strong>, on <strong>".get_most_useronline_date(false)."</strong></p>\n";
 	// Print Out Members
 	if($total_members > 0) {
 		$useronline_output .= 	'<h2>'.$nicetext_members.' '.__('Online Now').'</h2>'."\n";
@@ -566,9 +566,9 @@ function useronline_page() {
 	if($members) {
 		foreach($members as $member) {
 			if($wp_stats) {
-				$useronline_output .= '<p><b>#'.$no.' - <a href="'.useronline_stats_page_link($member['display_name']).'">'.$member['display_name'].'</a></b> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+				$useronline_output .= '<p><strong>#'.$no.' - <a href="'.useronline_stats_page_link($member['display_name']).'">'.$member['display_name'].'</a></strong> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 			} else {
-				$useronline_output .= '<p><b>#'.$no.' - '.$member['username'].'</b> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+				$useronline_output .= '<p><strong>#'.$no.' - '.$member['username'].'</strong> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 			}
 			$no++;
 		}
@@ -582,9 +582,9 @@ function useronline_page() {
 	if($guests) {
 		foreach($guests as $guest) {
 			if($wp_stats) {
-				$useronline_output .= '<p><b>#'.$no.' - <a href="'.useronline_stats_page_link($guest['display_name']).'">'.$guest['display_name'].'</a></b> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
+				$useronline_output .= '<p><strong>#'.$no.' - <a href="'.useronline_stats_page_link($guest['display_name']).'">'.$guest['display_name'].'</a></strong> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 			} else {
-				$useronline_output .= '<p><b>#'.$no.' - '.$guest['username'].'</b> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
+				$useronline_output .= '<p><strong>#'.$no.' - '.$guest['username'].'</strong> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 			}
 		}
 	}
@@ -596,7 +596,7 @@ function useronline_page() {
 	$no=1;
 	if($bots) {
 		foreach($bots as $bot) {
-			$useronline_output .= '<p><b>#'.$no.' - '.$bot['username'].'</b> '.check_ip($bot['ip']).' on '.gmdate('d.m.Y @ H:i', $bot['timestamp']).'<br />'.$bot['location'].' [<a href="'.$bot['url'].'">url</a>]</p>'."\n";
+			$useronline_output .= '<p><strong>#'.$no.' - '.$bot['username'].'</strong> '.check_ip($bot['ip']).' on '.gmdate('d.m.Y @ H:i', $bot['timestamp']).'<br />'.$bot['location'].' [<a href="'.$bot['url'].'">url</a>]</p>'."\n";
 			$no++;
 		}
 	}

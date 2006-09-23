@@ -88,7 +88,7 @@ $useronline_options_bots_agent = trim($useronline_options_bots_agent);
 				<tr valign="top"> 
 					<th align="left" width="30%"><?php _e('Bots Name/User Agent'); ?></th>
 					<td align="left">
-						Here are a list of bots and their partial browser agents.<br />On the left column will be the <b>Bot's Name</b> and on the right column will be their <b>Partial Browser Agent</b>.<br />Start each entry on a new line.
+						Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line.
 						<br /><br />
 						<textarea cols="20" rows="30" name="useronline_bots_name"><?php echo $useronline_options_bots_name; ?></textarea>
 						<textarea cols="20" rows="30" name="useronline_bots_agent"><?php echo $useronline_options_bots_agent; ?></textarea>						
