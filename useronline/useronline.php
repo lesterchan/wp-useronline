@@ -494,21 +494,22 @@ function useronline_page() {
 	$nicetext_members = '';
 	$nicetext_guests = '';
 	$nicetext_bots = '';
+	$url_front = 'http://'.$_SERVER['SERVER_NAME'];
 
 	// Process Those User Who Is Online
 	if($usersonline) {
 		foreach($usersonline as $useronline) {
 			switch($useronline->type) {
 				case 'member':
-					$members[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes($useronline->url));
+					$members[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => $url_front.stripslashes(urldecode($useronline->url)));
 					$total_members++;
 					break;
 				case 'guest':						
-					$guests[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes($useronline->url));
+					$guests[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => $url_front.stripslashes(urldecode($useronline->url)));
 					$total_guests++;
 					break;
 				case 'bot':
-					$bots[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => stripslashes($useronline->url));
+					$bots[] = array('timestamp' => $useronline->timestamp, 'user_id' => $useronline->userid, 'user_name' => stripslashes($useronline->username), 'display_name' => stripslashes($useronline->displayname), 'user_agent' => stripslashes($useronline->useragent), 'ip' => $useronline->ip, 'location' => stripslashes($useronline->location), 'url' => $url_front.stripslashes(urldecode($useronline->url)));
 					$total_bots++;
 					break;
 			}
@@ -587,6 +588,7 @@ function useronline_page() {
 				$useronline_output .= '<p><strong>#'.$no.' - '.$guest['username'].'</strong> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 			}
 		}
+		$no++;
 	}
 
 	// Print Out Bots
