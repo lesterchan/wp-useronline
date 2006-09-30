@@ -191,6 +191,7 @@ if(!function_exists('get_useronline')) {
 	}
 }
 
+
 ### Function: Display Max UserOnline
 if(!function_exists('get_most_useronline')) {
 	function get_most_useronline($display = true) {
@@ -569,7 +570,7 @@ function useronline_page() {
 			if($wp_stats) {
 				$useronline_output .= '<p><strong>#'.$no.' - <a href="'.useronline_stats_page_link($member['display_name']).'">'.$member['display_name'].'</a></strong> '.ip2nation_country($member['ip']).check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 			} else {
-				$useronline_output .= '<p><strong>#'.$no.' - '.$member['username'].'</strong> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
+				$useronline_output .= '<p><strong>#'.$no.' - '.$member['user_name'].'</strong> '.check_ip($member['ip']).' on '.gmdate('d.m.Y @ H:i', $member['timestamp']).'<br />'.$member['location'].' [<a href="'.$member['url'].'">url</a>]</p>'."\n";
 			}
 			$no++;
 		}
@@ -585,10 +586,10 @@ function useronline_page() {
 			if($wp_stats) {
 				$useronline_output .= '<p><strong>#'.$no.' - <a href="'.useronline_stats_page_link($guest['display_name']).'">'.$guest['display_name'].'</a></strong> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 			} else {
-				$useronline_output .= '<p><strong>#'.$no.' - '.$guest['username'].'</strong> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
+				$useronline_output .= '<p><strong>#'.$no.' - '.$guest['user_name'].'</strong> '.check_ip($guest['ip']).' on '.gmdate('d.m.Y @ H:i', $guest['timestamp']).'<br />'.$guest['location'].' [<a href="'.$guest['url'].'">url</a>]</p>'."\n";
 			}
+			$no++;
 		}
-		$no++;
 	}
 
 	// Print Out Bots
@@ -598,7 +599,7 @@ function useronline_page() {
 	$no=1;
 	if($bots) {
 		foreach($bots as $bot) {
-			$useronline_output .= '<p><strong>#'.$no.' - '.$bot['username'].'</strong> '.check_ip($bot['ip']).' on '.gmdate('d.m.Y @ H:i', $bot['timestamp']).'<br />'.$bot['location'].' [<a href="'.$bot['url'].'">url</a>]</p>'."\n";
+			$useronline_output .= '<p><strong>#'.$no.' - '.$bot['display_name'].'</strong> '.check_ip($bot['ip']).' on '.gmdate('d.m.Y @ H:i', $bot['timestamp']).'<br />'.$bot['location'].' [<a href="'.$bot['url'].'">url</a>]</p>'."\n";
 			$no++;
 		}
 	}
