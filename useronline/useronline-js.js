@@ -68,4 +68,8 @@ function get_useronline_browsingpage() {
 
 
 // Init UserOnline
-window.onload = useronline_init;
+addLoadEvent = function(f) { var old = window.onload
+if (typeof old != 'function') window.onload = f
+else { window.onload = function() { old(); f() }}
+}
+addLoadEvent(useronline_init);
