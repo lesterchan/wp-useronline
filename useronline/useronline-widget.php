@@ -58,20 +58,20 @@ function widget_useronline_init() {
 	function widget_useronline_options() {
 		$options = get_option('widget_useronline');
 		if (!is_array($options)) {
-			$options = array('display_usersbrowsingsite' => '0', 'title' => 'UserOnline');
+			$options = array('display_usersbrowsingsite' => '0', 'title' => __('UserOnline', 'wp-useronline'));
 		}
 		if ($_POST['useronline-submit']) {
 			$options['display_usersbrowsingsite'] = intval($_POST['useronline-usersbrowsingsite']);
 			$options['title'] = strip_tags(stripslashes($_POST['useronline-title']));
 			update_option('widget_useronline', $options);
 		}
-		echo '<p style="text-align: left;"><label for="useronline-title">Widget Title:</label>&nbsp;&nbsp;&nbsp;<input type="text" id="useronline-title" name="useronline-title" value="'.htmlspecialchars($options['title']).'" />';
-		echo '<p style="text-align: center;"><label for="useronline-usersbrowsingsite">Display Users Browsing Site Under Users Online Count?</label></p>'."\n";
+		echo '<p style="text-align: left;"><label for="useronline-title">'.__('Widget Title', 'wp-useronline').':</label>&nbsp;&nbsp;&nbsp;<input type="text" id="useronline-title" name="useronline-title" value="'.htmlspecialchars($options['title']).'" />';
+		echo '<p style="text-align: center;"><label for="useronline-usersbrowsingsite">'.__('Display Users Browsing Site Under Users Online Count?', 'wp-useronline').'</label></p>'."\n";
 		echo '<p style="text-align: center;"><input type="radio" id="useronline-usersbrowsingsite" name="useronline-usersbrowsingsite" value="1"';
 		checked(1, intval($options['display_usersbrowsingsite']));
-		echo ' />&nbsp;Yes&nbsp;&nbsp;&nbsp;<input type="radio" id="useronline-usersbrowsingsite" name="useronline-usersbrowsingsite" value="0"';
+		echo ' />&nbsp;'.__('Yes', 'wp-useronline').'&nbsp;&nbsp;&nbsp;<input type="radio" id="useronline-usersbrowsingsite" name="useronline-usersbrowsingsite" value="0"';
 		checked(0, intval($options['display_usersbrowsingsite']));
-		echo ' />&nbsp;No</p>'."\n";
+		echo ' />&nbsp;'.__('No', 'wp-useronline').'</p>'."\n";
 		echo '<input type="hidden" id="useronline-submit" name="useronline-submit" value="1" />'."\n";
 	}
 
