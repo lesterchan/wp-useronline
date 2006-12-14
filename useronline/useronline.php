@@ -124,7 +124,7 @@ function useronline() {
 		// Check For Guest
 		} else {
 			$user_id = 0;
-			$display_name = 'Guest';
+			$display_name = __('Guest', 'wp-useronline');
 			$user_name = "guest";		
 			$type = 'guest';
 			$where = "WHERE ip = '$ip'";

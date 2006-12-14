@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.06\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-10-31 19:44+0800\n"
-"Last-Translator: Lester Chan <gamerz84@hotmail.com>\n"
+"PO-Revision-Date: 2006-12-14 15:43+0800\n"
+"Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -11,6 +11,7 @@ msgstr ""
 "X-Poedit-Country: SINGAPORE\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: useronline-options.php:42
@@ -94,6 +95,13 @@ msgstr ""
 msgid "Useronline"
 msgstr ""
 
+#: useronline.php:127
+#: useronline.php:268
+#: useronline.php:367
+#: useronline.php:536
+msgid "Guest"
+msgstr ""
+
 #: useronline.php:142
 msgid "Blog Archive"
 msgstr ""
@@ -112,12 +120,6 @@ msgstr ""
 #: useronline.php:182
 #: useronline.php:184
 msgid "Online"
-msgstr ""
-
-#: useronline.php:268
-#: useronline.php:367
-#: useronline.php:536
-msgid "Guest"
 msgstr ""
 
 #: useronline.php:270
