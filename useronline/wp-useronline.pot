@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.06\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-12-14 15:43+0800\n"
+"PO-Revision-Date: 2006-12-21 00:53+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,10 @@ msgstr ""
 
 #: useronline.php:51
 msgid "Useronline"
+msgstr ""
+
+#: useronline.php:121
+msgid "guest"
 msgstr ""
 
 #: useronline.php:127

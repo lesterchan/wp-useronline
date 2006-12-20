@@ -118,7 +118,7 @@ function useronline() {
 		} elseif(!empty($_COOKIE['comment_author_'.COOKIEHASH])) {
 			$user_id = 0;
 			$display_name = addslashes(trim($_COOKIE['comment_author_'.COOKIEHASH]));
-			$user_name = "guest_$display_name";		
+			$user_name = __('guest', 'wp-useronline').'_'.$display_name;		
 			$type = 'guest';
 			$where = "WHERE ip = '$ip'";
 		// Check For Guest
