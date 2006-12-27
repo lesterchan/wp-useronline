@@ -56,7 +56,7 @@ function useronline_menu() {
 ### Function: Displays UserOnline Header
 add_action('wp_head', 'useronline_header');
 function useronline_header() {
-	if(strpos($_SERVER['SCRIPT_NAME'], 'php.cgi') === false) {
+	if(strpos($_SERVER['SCRIPT_NAME'], 'cgi') === false) {
 		$useronline_ajax_url = dirname($_SERVER['SCRIPT_NAME']);
 	} else {
 		$useronline_ajax_url = dirname($_SERVER['PHP_SELF']);
