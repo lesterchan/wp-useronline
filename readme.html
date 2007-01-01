@@ -19,6 +19,7 @@
 			padding: 10px;
 			border: 1px solid #8d8d8d;
 			background-color: #f5f5f5;
+			overflow: auto;
 		}
 		LI {
 			margin-top: 20px;
@@ -409,6 +410,30 @@
 				</li>
 				<li>If you <b>ARE NOT</b> using nice permalinks, you need to go to 'WP-Admin -> Options -> Useronline' and under '<b>UserOnline URL</b>', you need to fill in the URL to the UserOnline Page you created above.</li>
 			</ol>
+			<div class="SubSubTitle">Note</div>
+			<ul>
+				<li>
+					The AJAX feature might not work if your blog homepage directory is different from the directory you installed WordPress in. To solve this issue,
+					<ol>
+						<li>
+							Open <b>useronline.php</b>
+						</li>
+						<li>
+							Find:
+							<blockquote>
+								echo "\t".'var useronline_ajax_url = \''.$useronline_ajax_url.'/wp-content/plugins/useronline/useronline.php\';'."\n";
+							</blockquote>
+						</li>
+						<li>
+							Replace:
+							<blockquote>
+								echo "\t".'var useronline_ajax_url = \''.$useronline_ajax_url.'/WORDPRESS_DIRECTORY/wp-content/plugins/useronline/useronline.php\';'."\n";
+							</blockquote>
+							<p>Where <b>WORDPRESS_DIRECTORY</b> should be the directory name which you installed WordPress in. Note the backslash after your WordPress Directory, you need that.</p>
+						</li>
+					</ol>
+				</li>
+			</ul>
 			<div class="SubSubTitle">UserOnline Stats (Outside WP Loop)</div>
 			<ul>
 				<li>
