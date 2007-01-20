@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-UserOnline 2.06								|
-|	Copyright (c) 2005 Lester "GaMerZ" Chan									|
+|	WordPress 2.1 Plugin: WP-UserOnline 2.10								|
+|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -97,7 +97,7 @@ $useronline_options_bots_agent = trim($useronline_options_bots_agent);
 			</table>
 		</fieldset>
 		<div align="center">
-			<input type="submit" name="Submit" class="button" value="<?php _e('Update Options'); ?>" />&nbsp;&nbsp;<input type="button" name="cancel" value="Cancel" class="button" onclick="javascript:history.go(-1)" /> 
+			<input type="submit" name="Submit" class="button" value="<?php _e('Update Options', 'wp-useronline'); ?>" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-useronline'); ?>" class="button" onclick="javascript:history.go(-1)" /> 
 		</div>
 	</form> 
 </div> 

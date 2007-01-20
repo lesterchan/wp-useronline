@@ -1,8 +1,9 @@
+<?php
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-UserOnline 2.06								|
-|	Copyright (c) 2006 Lester "GaMerZ" Chan									|
+|	WordPress 2.1 Plugin: WP-UserOnline 2.10								|
+|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -10,12 +11,25 @@
 |																							|
 |	File Information:																	|
 |	- Useronline Javascript File														|
-|	- wp-content/plugins/useronline/useronline-js.js	 						|
+|	- wp-content/plugins/useronline/useronline-js.php 						|
 |																							|
 +----------------------------------------------------------------+
 */
 
 
+### Include wp-config.php
+@require('../../../wp-config.php');
+cache_javascript_headers();
+
+### Determine useronline.php Path
+$useronline_ajax_url = dirname($_SERVER['PHP_SELF']);
+if(substr($useronline_ajax_url, -1) == '/') {
+$useronline_ajax_url  = substr($useronline_ajax_url, 0, -1);
+}
+?>
+// Variables
+var useronline_ajax_url = "<?php echo $useronline_ajax_url; ?>/useronline.php";
+var useronline_timeout = <?php echo (get_settings('useronline_timeout')*1000); ?>;
 
 // UserOnline JavaScript Init
 function useronline_init() {

@@ -2,7 +2,7 @@
 <html>
 <head>	
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>WP-UserOnline 2.06 Readme</title>
+	<title>WP-UserOnline 2.10 Readme</title>
 	<style type="text/css" media="screen">
 		/* Default Style */
 		BODY {
@@ -181,7 +181,7 @@
 <body>
 <div id="Container">
 	<!-- Title -->
-	<div id="Title">WP-UserOnline 2.06&nbsp;&nbsp;&nbsp;<span style="color: #aaaaaa;">Readme</span></div>
+	<div id="Title">WP-UserOnline 2.10&nbsp;&nbsp;&nbsp;<span style="color: #aaaaaa;">Readme</span></div>
 
 	<!-- Tabs -->
 	<ul id="Tabs">
@@ -202,7 +202,7 @@
 				<b>EMail:</b><br /><b>&raquo;</b>
 				<script type="text/javascript">
 					/* <![CDATA[*/
-					document.write(' <a href="mailto:gamerz84@hotmail.com?Subject=WP-UserOnline%202.06%20Support" title="EMail To gamerz84@hotmail.com">gamerz84@hotmail.com</a>');
+					document.write(' <a href="mailto:gamerz84@hotmail.com?Subject=WP-UserOnline%202.10%20Support" title="EMail To gamerz84@hotmail.com">gamerz84@hotmail.com</a>');
 					/* ]]> */
 				</script>
 			</p>
@@ -211,10 +211,17 @@
 			<p><b>Documentation:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/wiki/wp-useronline" title="http://dev.wp-plugins.org/wiki/wp-useronline">http://dev.wp-plugins.org/wiki/wp-useronline</a></p>
 			<p><b>Development:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/browser/wp-useronline/" title="http://dev.wp-plugins.org/browser/wp-useronline/">http://dev.wp-plugins.org/browser/wp-useronline/</a></p>
 			<p><b>Support Forums:</b><br /><b>&raquo;</b> <a href="http://forums.lesterchan.net/index.php?board=21.0" title="http://forums.lesterchan.net/index.php?board=21.0">http://forums.lesterchan.net/index.php?board=21.0</a></p>
-			<p><b>Updated:</b><br /><b>&raquo;</b> 2nd January 2007</p>
-			<p><b>Note:</b><br /><b>&raquo;</b> I have localize WP-UserOnline, if there is any bug or some text is not translated properly, please contact me immediately.</p>
+			<p><b>Updated:</b><br /><b>&raquo;</b> 1st February 2007</p>
+			<p><b>Note:</b><br /><b>&raquo;</b> The <b>Installation</b>, <b>Upgrade</b>, <b>Usage</b> Tab at the top of the page.</p>
 			<div class="SubSubTitle">Changelog</div>
 			<ul>
+				<li>
+					<b>Version 2.10 (01-02-2007)</b>
+					<ul>
+						<li>NEW: Works For WordPress 2.1 Only</li>
+						<li>NEW: Renamed useronline-js.js to useronline-js.php To Enable PHP Parsing</li>
+					</ul>
+				</li>
 				<li>
 					<b>Version 2.06 (02-01-2007)</b>
 					<ul>
@@ -309,35 +316,26 @@
 		<!-- Upgrade Instructions -->	
 		<div id="Upgrade" style="display: none;">
 			<div class="SubTitle">&raquo; Upgrade Instructions</div>
-			<div class="SubSubTitle">From v1.0x To v2.06</div>
+			<div class="SubSubTitle">From v1.0x To v2.10</div>
 			<ol>
 				<li>
 					<b>Deactivate</b> WP-UserOnline Plugin
 				</li>
 				<li>
-					Open <b>Root WordPress</b> Folder
-				</li>
-				<li>
-					Delete file if exists:
-					<blockquote>File: wp-useronline.php</blockquote>
-				</li>
-				<li>
 					Open <b>wp-content/plugins</b> Folder
 				</li>
 				<li>
-					Put:
+					Put/Overwrite:
 					<blockquote>Folder: useronline</blockquote>
 				</li>
 				<li>
-					Delete file if exists:
-					<blockquote>File: useronline.php</blockquote>
-				</li>
-				<li>
-					Open <b>wp-content/plugins/useronline</b> Folder
-				</li>
-				<li>
-					Delete file if exists:
-					<blockquote>File: wp-useronline.php</blockquote>
+					Delete these file if exists:
+					<blockquote>
+						File: wp-useronline.php<br />
+						File: wp-content/plugins/useronline.php<br />
+						File: wp-content/plugins/useronline/wp-useronline.php<br />
+						File: wp-content/plugins/useronline/useronline-js.js
+					</blockquote>
 				</li>
 				<li>
 					<b>Activate</b> WP-UserOnline Plugin
@@ -410,30 +408,6 @@
 				</li>
 				<li>If you <b>ARE NOT</b> using nice permalinks, you need to go to 'WP-Admin -> Options -> Useronline' and under '<b>UserOnline URL</b>', you need to fill in the URL to the UserOnline Page you created above.</li>
 			</ol>
-			<div class="SubSubTitle">Note</div>
-			<ul>
-				<li>
-					The AJAX feature might not work if your blog homepage directory is different from the directory you installed WordPress in. To solve this issue,
-					<ol>
-						<li>
-							Open <b>useronline.php</b>
-						</li>
-						<li>
-							Find:
-							<blockquote>
-								echo "\t".'var useronline_ajax_url = \''.$useronline_ajax_url.'/wp-content/plugins/useronline/useronline.php\';'."\n";
-							</blockquote>
-						</li>
-						<li>
-							Replace:
-							<blockquote>
-								echo "\t".'var useronline_ajax_url = \''.$useronline_ajax_url.'/WORDPRESS_DIRECTORY/wp-content/plugins/useronline/useronline.php\';'."\n";
-							</blockquote>
-							<p>Where <b>WORDPRESS_DIRECTORY</b> should be the directory name which you installed WordPress in. Note the backslash after your WordPress Directory, you need that.</p>
-						</li>
-					</ol>
-				</li>
-			</ul>
 			<div class="SubSubTitle">UserOnline Stats (Outside WP Loop)</div>
 			<ul>
 				<li>
@@ -473,6 +447,6 @@
 		</div>
 	</div>
 </div>
-<p id="Copyright">WP-UserOnline 2.06<br />Copyright &copy; 2006 Lester 'GaMerZ' Chan. All Rights Reserved.</p>
+<p id="Copyright">WP-UserOnline 2.10<br />Copyright &copy; 2007 Lester 'GaMerZ' Chan. All Rights Reserved.</p>
 </body>
 </html>
