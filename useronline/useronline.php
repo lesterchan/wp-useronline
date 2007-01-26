@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP-UserOnline
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
-Description: Adds A Useronline Feature To WordPress
+Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
 Version: 2.10
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
@@ -647,14 +647,14 @@ function create_useronline_table() {
 	$create_table = "CREATE TABLE $wpdb->useronline (".
 							" timestamp int(15) NOT NULL default '0',".
 							" userid int(10) NOT NULL default '0',".
-							" username varchar(150) NOT NULL default '',".
+							" username varchar(50) NOT NULL default '',".
 							" displayname varchar(255) NOT NULL default '',".
 							" useragent varchar(255) NOT NULL default '',".
 							" ip varchar(40) NOT NULL default '',".						 
 							" location varchar(255) NOT NULL default '',".
 							" url varchar(255) NOT NULL default '',".
 							" type enum('member','guest','bot') NOT NULL default 'guest',".
-							" UNIQUE KEY useronline_id (timestamp,username,ip,useragent))  ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+							" UNIQUE KEY useronline_id (timestamp,username,ip,useragent)) ENGINE=MyISAM;";
 	maybe_create_table($wpdb->useronline, $create_table);
 	// Add In Options
 	add_option('useronline_most_users', 1, 'Most Users Ever Online Count');
