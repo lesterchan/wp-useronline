@@ -70,7 +70,7 @@ add_action('wp_head', 'useronline');
 function useronline() {
 	global $wpdb, $useronline;
 	// Useronline Settings
-	$timeoutseconds = get_settings('useronline_timeout');
+	$timeoutseconds = get_option('useronline_timeout');
 	$timestamp = current_time('timestamp');
 	$timeout = ($timestamp-$timeoutseconds);
 	$ip = get_ipaddress();
@@ -79,7 +79,7 @@ function useronline() {
 	$current_user = wp_get_current_user();
 
 	// Check For Bot
-	$bots = get_settings('useronline_bots');
+	$bots = get_option('useronline_bots');
 	foreach ($bots as $name => $lookfor) { 
 		if (stristr($useragent, $lookfor) !== false) { 
 			$user_id = 0;
@@ -142,7 +142,7 @@ function useronline() {
 	$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
 	
 	// Get Most User Online
-	$most_useronline = intval(get_settings('useronline_most_users'));
+	$most_useronline = intval(get_option('useronline_most_users'));
 
 	// Check Whether Current Users Online Is More Than Most Users Online
 	if($useronline > $most_useronline) {
@@ -162,7 +162,7 @@ if(!function_exists('get_useronline')) {
 		if(empty($users)) {
 			$users = __('Users', 'wp-useronline');
 		}
-		$useronline_url = get_settings('useronline_url');
+		$useronline_url = get_option('useronline_url');
 		// Display User Online
 		if($display) {
 			if($useronline > 1) {
@@ -180,7 +180,7 @@ if(!function_exists('get_useronline')) {
 ### Function: Display Max UserOnline
 if(!function_exists('get_most_useronline')) {
 	function get_most_useronline($display = true) {
-		$most_useronline_users = intval(get_settings('useronline_most_users'));
+		$most_useronline_users = intval(get_option('useronline_most_users'));
 		if($display) {
 			echo number_format($most_useronline_users);
 		} else {
@@ -193,7 +193,7 @@ if(!function_exists('get_most_useronline')) {
 ### Function: Display Max UserOnline Date
 if(!function_exists('get_most_useronline_date')) {
 	function get_most_useronline_date($display = true, $date_format = 'jS F Y, H:i') {
-		$most_useronline_timestamp = get_settings('useronline_most_timestamp');
+		$most_useronline_timestamp = get_option('useronline_most_timestamp');
 		$most_useronline_date = gmdate($date_format, $most_useronline_timestamp);
 		if($display) {
 			echo $most_useronline_date;
@@ -314,7 +314,7 @@ function get_users_browsing_page($display = true) {
 	// If There Is Users Browsing, Then We Execute
 	if($users_browse) {
 		// Reassign Bots Name
-		$bots = get_settings('useronline_bots');
+		$bots = get_option('useronline_bots');
 		$bots_name = array();
 		foreach($bots as $botname => $botlookfor) {
 			$bots_name[] = $botname;
@@ -601,7 +601,7 @@ function useronline_page() {
 
 ### Function: Stats Page Link
 function useronline_stats_page_link($author) {
-	$stats_url = get_settings('stats_url');
+	$stats_url = get_option('stats_url');
 	if(strpos($stats_url, '?') !== false) {
 		$stats_url = "$stats_url&amp;stats_author=$author";
 	} else {
@@ -662,6 +662,6 @@ function create_useronline_table() {
 	add_option('useronline_timeout', 300, 'Timeout In Seconds');
 	add_option('useronline_bots', $bots, 'Bots Name/Useragent');
 	// Database Upgrade For WP-UserOnline 2.05
-	add_option('useronline_url', get_settings('siteurl').'/useronline/', 'UserOnline Page URL');
+	add_option('useronline_url', get_option('siteurl').'/useronline/', 'UserOnline Page URL');
 }
 ?>

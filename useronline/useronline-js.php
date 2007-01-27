@@ -29,7 +29,7 @@ $useronline_ajax_url  = substr($useronline_ajax_url, 0, -1);
 ?>
 // Variables
 var useronline_ajax_url = "<?php echo $useronline_ajax_url; ?>/useronline.php";
-var useronline_timeout = <?php echo (get_settings('useronline_timeout')*1000); ?>;
+var useronline_timeout = <?php echo (get_option('useronline_timeout')*1000); ?>;
 
 // UserOnline JavaScript Init
 function useronline_init() {

@@ -56,7 +56,7 @@ if($_POST['Submit']) {
 }
 
 ### Get Useronline Bots
-$useronline_options_bots = get_settings('useronline_bots');
+$useronline_options_bots = get_option('useronline_bots');
 $useronline_options_bots_name = '';
 $useronline_options_bots_agent = '';
 foreach($useronline_options_bots as $botname => $botagent) {
@@ -76,13 +76,13 @@ $useronline_options_bots_agent = trim($useronline_options_bots_agent);
 				 <tr valign="top">
 					<th align="left" width="30%"><?php _e('Time Out', 'wp-useronline'); ?></th>
 					<td align="left">
-						<input type="text" name="useronline_timeout" value="<?php echo get_settings('useronline_timeout'); ?>" size="4" /><br /><?php _e('How long till it will remove the user from the database (In seconds).', 'wp-useronline'); ?>
+						<input type="text" name="useronline_timeout" value="<?php echo get_option('useronline_timeout'); ?>" size="4" /><br /><?php _e('How long till it will remove the user from the database (In seconds).', 'wp-useronline'); ?>
 					</td>
 				</tr>
 				 <tr valign="top">
 					<th align="left" width="30%"><?php _e('UserOnline URL', 'wp-useronline'); ?></th>
 					<td align="left">
-						<input type="text" name="useronline_url" value="<?php echo get_settings('useronline_url'); ?>" size="50" /><br /><?php _e('URL To UserOnline Page<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
+						<input type="text" name="useronline_url" value="<?php echo get_option('useronline_url'); ?>" size="50" /><br /><?php _e('URL To UserOnline Page<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
 					</td>
 				</tr>
 				<tr valign="top"> 
