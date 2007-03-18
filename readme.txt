@@ -1,7 +1,7 @@
 === WP-UserOnline ===
 Contributors: GamerZ
 Donate link: http://www.lesterchan.net/wordpress
-Tags: useronline, usersonline, wp-useronline, online, users, user
+Tags: useronline, usersonline, wp-useronline, online, users, user, ajax
 Requires at least: 2.1.0
 Stable tag: 2.10
 
