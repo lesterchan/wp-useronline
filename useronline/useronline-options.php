@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-UserOnline 2.10								|
+|	WordPress 2.1 Plugin: WP-UserOnline 2.11								|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -82,7 +82,7 @@ $useronline_options_bots_agent = trim($useronline_options_bots_agent);
 				 <tr valign="top">
 					<th align="left" width="30%"><?php _e('UserOnline URL', 'wp-useronline'); ?></th>
 					<td align="left">
-						<input type="text" name="useronline_url" value="<?php echo get_option('useronline_url'); ?>" size="50" /><br /><?php _e('URL To UserOnline Page<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
+						<input type="text" name="useronline_url" value="<?php echo get_option('useronline_url'); ?>" size="50" /><br /><?php _e('URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
 					</td>
 				</tr>
 				<tr valign="top"> 

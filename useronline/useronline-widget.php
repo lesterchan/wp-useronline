@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline Widget
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Adds a UserOnline Widget To Display Users Online From WP-UserOnline Plugin. Please Activate WP-UserOnline First.
-Version: 2.10
+Version: 2.11
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */

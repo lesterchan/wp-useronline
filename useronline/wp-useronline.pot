@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-UserOnline 2.10\n"
+"Project-Id-Version: WP-UserOnline 2.11\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-01-27 15:08+0800\n"
+"PO-Revision-Date: 2007-05-07 02:40+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgid "UserOnline URL"
 msgstr ""
 
 #: useronline-options.php:85
-msgid "URL To UserOnline Page<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
 msgstr ""
 
 #: useronline-options.php:89
@@ -99,123 +99,139 @@ msgstr ""
 msgid "Useronline"
 msgstr ""
 
-#: useronline.php:108
+#: useronline.php:111
 msgid "guest"
 msgstr ""
 
-#: useronline.php:114
-#: useronline.php:255
-#: useronline.php:354
-#: useronline.php:523
+#: useronline.php:117
+#: useronline.php:293
+#: useronline.php:392
+#: useronline.php:553
 msgid "Guest"
 msgstr ""
 
-#: useronline.php:129
+#: useronline.php:132
 msgid "Blog Archive"
 msgstr ""
 
-#: useronline.php:160
-#: useronline.php:508
+#: useronline.php:164
+#: useronline.php:538
 msgid "User"
 msgstr ""
 
-#: useronline.php:163
-#: useronline.php:286
-#: useronline.php:510
+#: useronline.php:167
+#: useronline.php:324
+#: useronline.php:540
 msgid "Users"
 msgstr ""
 
-#: useronline.php:169
-#: useronline.php:171
+#: useronline.php:173
+#: useronline.php:175
 msgid "Online"
 msgstr ""
 
-#: useronline.php:257
-#: useronline.php:356
-#: useronline.php:525
+#: useronline.php:205
+#: useronline.php:236
+#: useronline.php:590
+#: useronline.php:592
+#: useronline.php:610
+#: useronline.php:612
+#: useronline.php:625
+#, php-format
+msgid "%s @ %s"
+msgstr ""
+
+#: useronline.php:295
+#: useronline.php:394
+#: useronline.php:555
 msgid "Guests"
 msgstr ""
 
-#: useronline.php:261
-#: useronline.php:360
-#: useronline.php:530
+#: useronline.php:299
+#: useronline.php:398
+#: useronline.php:560
 msgid "Bot"
 msgstr ""
 
-#: useronline.php:263
-#: useronline.php:362
-#: useronline.php:532
+#: useronline.php:301
+#: useronline.php:400
+#: useronline.php:562
 msgid "Bots"
 msgstr ""
 
-#: useronline.php:289
+#: useronline.php:327
 msgid "No User Is Browsing This Site"
 msgstr ""
 
-#: useronline.php:348
-#: useronline.php:515
+#: useronline.php:386
+#: useronline.php:545
 msgid "Member"
 msgstr ""
 
-#: useronline.php:350
-#: useronline.php:377
-#: useronline.php:517
+#: useronline.php:388
+#: useronline.php:415
+#: useronline.php:547
 msgid "Members"
 msgstr ""
 
-#: useronline.php:366
+#: useronline.php:404
 msgid "Users Browsing This Page"
 msgstr ""
 
-#: useronline.php:366
-#: useronline.php:546
+#: useronline.php:404
+#: useronline.php:576
 msgid "and"
 msgstr ""
 
-#: useronline.php:381
+#: useronline.php:419
 msgid "No User Is Browsing This Page"
 msgstr ""
 
-#: useronline.php:542
+#: useronline.php:572
 msgid "There is"
 msgstr ""
 
-#: useronline.php:544
+#: useronline.php:574
 msgid "There are a total of"
 msgstr ""
 
-#: useronline.php:546
+#: useronline.php:576
 msgid "online now"
 msgstr ""
 
-#: useronline.php:547
+#: useronline.php:577
 msgid "Most users ever online were"
 msgstr ""
 
-#: useronline.php:547
-#: useronline.php:556
-#: useronline.php:558
-#: useronline.php:572
-#: useronline.php:574
-#: useronline.php:587
+#: useronline.php:577
+#: useronline.php:590
+#: useronline.php:592
+#: useronline.php:610
+#: useronline.php:612
+#: useronline.php:625
 msgid "on"
 msgstr ""
 
-#: useronline.php:550
-#: useronline.php:566
-#: useronline.php:582
+#: useronline.php:580
+#: useronline.php:600
+#: useronline.php:620
 msgid "Online Now"
 msgstr ""
 
-#: useronline.php:556
-#: useronline.php:558
-#: useronline.php:572
-#: useronline.php:574
 #: useronline.php:587
+#: useronline.php:607
+msgid "referral"
+msgstr ""
+
+#: useronline.php:590
+#: useronline.php:592
+#: useronline.php:610
+#: useronline.php:612
+#: useronline.php:625
 msgid "url"
 msgstr ""
 
-#: useronline.php:594
+#: useronline.php:632
 msgid "No One Is Online Now"
 msgstr ""
 
