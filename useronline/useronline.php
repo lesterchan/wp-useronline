@@ -4,7 +4,7 @@ Plugin Name: WP-UserOnline
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
 Version: 2.11
-Author: GaMerZ
+Author: Lester 'GaMerZ' Chan
 Author URI: http://www.lesterchan.net
 */
 
@@ -206,7 +206,7 @@ if(!function_exists('get_most_useronline_date')) {
 		if($display) {
 			echo $most_useronline_date;
 		} else {
-			return$most_useronline_date;
+			return $most_useronline_date;
 		}
 	}
 }
@@ -483,7 +483,7 @@ function display_useronline() {
 }
 
 
-### Function: Place Polls Archive In Content
+### Function: Place Useronline In Content
 add_filter('the_content', 'place_useronlinepage', '7');
 function place_useronlinepage($content){
      $content = preg_replace( "/\[page_useronline\]/ise", "useronline_page()", $content); 
