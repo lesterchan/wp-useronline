@@ -685,7 +685,7 @@ function create_useronline_table() {
 	$create_table = "CREATE TABLE $wpdb->useronline (".
 							" timestamp int(15) NOT NULL default '0',".
 							" userid int(10) NOT NULL default '0',".
-							" username varchar(50) NOT NULL default '',".
+							" username varchar(20) NOT NULL default '',".
 							" displayname varchar(255) NOT NULL default '',".
 							" useragent varchar(255) NOT NULL default '',".
 							" ip varchar(40) NOT NULL default '',".						 
