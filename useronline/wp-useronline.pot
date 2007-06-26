@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-UserOnline 2.11\n"
+"Project-Id-Version: WP-UserOnline 2.20\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-05-31 19:48+0800\n"
+"PO-Revision-Date: 2007-06-26 15:42+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -14,61 +14,129 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: useronline-options.php:42
-msgid "Useronline Timeout"
-msgstr ""
-
-#: useronline-options.php:43
-msgid "Useronline Bots"
-msgstr ""
-
-#: useronline-options.php:44
-msgid "Useronline URL"
-msgstr ""
-
-#: useronline-options.php:49
-msgid "Updated"
-msgstr ""
-
-#: useronline-options.php:54
-msgid "No Useronline Option Updated"
-msgstr ""
-
-#: useronline-options.php:71
-#: useronline-options.php:74
-msgid "Useronline Options"
-msgstr ""
-
-#: useronline-options.php:77
-msgid "Time Out"
-msgstr ""
-
-#: useronline-options.php:79
-msgid "How long till it will remove the user from the database (In seconds)."
-msgstr ""
-
-#: useronline-options.php:83
-msgid "UserOnline URL"
-msgstr ""
-
-#: useronline-options.php:85
-msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
-msgstr ""
-
-#: useronline-options.php:89
-msgid "Bots Name/User Agent"
-msgstr ""
-
-#: useronline-options.php:91
-msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
-msgstr ""
-
-#: useronline-options.php:100
+#: useronline-options.php:32
+#: useronline-options.php:154
 msgid "Update Options"
 msgstr ""
 
-#: useronline-options.php:100
+#: useronline-options.php:49
+msgid "Useronline Timeout"
+msgstr ""
+
+#: useronline-options.php:50
+msgid "Useronline Bots"
+msgstr ""
+
+#: useronline-options.php:51
+msgid "Useronline URL"
+msgstr ""
+
+#: useronline-options.php:56
+msgid "Updated"
+msgstr ""
+
+#: useronline-options.php:61
+msgid "No Useronline Option Updated"
+msgstr ""
+
+#: useronline-options.php:65
+#: useronline-options.php:202
+msgid "UNINSTALL WP-UserOnline"
+msgstr ""
+
+#: useronline-options.php:72
+#, php-format
+msgid "Table '%s' has been deleted."
+msgstr ""
+
+#: useronline-options.php:81
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr ""
+
+#: useronline-options.php:85
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr ""
+
+#: useronline-options.php:107
+#: useronline-options.php:162
+msgid "Uninstall WP-UserOnline"
+msgstr ""
+
+#: useronline-options.php:108
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
+msgstr ""
+
+#: useronline-options.php:126
+#: useronline-options.php:128
+msgid "Useronline Options"
+msgstr ""
+
+#: useronline-options.php:131
+msgid "Time Out"
+msgstr ""
+
+#: useronline-options.php:133
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr ""
+
+#: useronline-options.php:137
+msgid "UserOnline URL"
+msgstr ""
+
+#: useronline-options.php:139
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr ""
+
+#: useronline-options.php:143
+msgid "Bots Name/User Agent"
+msgstr ""
+
+#: useronline-options.php:145
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr ""
+
+#: useronline-options.php:154
 msgid "Cancel"
+msgstr ""
+
+#: useronline-options.php:164
+msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
+msgstr ""
+
+#: useronline-options.php:167
+msgid "WARNING:"
+msgstr ""
+
+#: useronline-options.php:168
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr ""
+
+#: useronline-options.php:171
+msgid "The following WordPress Options/Tables will be DELETED:"
+msgstr ""
+
+#: useronline-options.php:175
+msgid "WordPress Options"
+msgstr ""
+
+#: useronline-options.php:176
+msgid "WordPress Tables"
+msgstr ""
+
+#: useronline-options.php:201
+#: useronline-widget.php:73
+msgid "Yes"
+msgstr ""
+
+#: useronline-options.php:202
+msgid ""
+"You Are About To Uninstall WP-UserOnline From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
 msgstr ""
 
 #: useronline-widget.php:62
@@ -81,10 +149,6 @@ msgstr ""
 
 #: useronline-widget.php:70
 msgid "Display Users Browsing Site Under Users Online Count?"
-msgstr ""
-
-#: useronline-widget.php:73
-msgid "Yes"
 msgstr ""
 
 #: useronline-widget.php:75
