@@ -458,7 +458,7 @@ function ip2nation_country($ip, $display_countryname = 0) {
 		$mirrors = array("http://frenchfragfactory.net/images", "http://www.lesterchan.net/wordpress/images/flags");
 		if($country_name != 'Private') {
 			foreach($mirrors as $mirror) {
-				if(file($mirror.'/flag_sg.gif')) {
+				if(@file($mirror.'/flag_sg.gif')) {
 					$country_mirror = $mirror;
 					break;
 				}
@@ -670,6 +670,40 @@ function useronline_ajax() {
 		}
 		exit();
 	}
+}
+
+
+### Function: Plug Into WP-Stats
+if(strpos(get_option('stats_url'), $_SERVER['REQUEST_URI']) || strpos($_SERVER['REQUEST_URI'], 'stats-options.php')) {
+	add_filter('wp_stats_page_admin_plugins', 'useronline_page_admin_general_stats');
+	add_filter('wp_stats_page_plugins', 'useronline_page_general_stats');
+}
+
+
+### Function: Add WP-UserOnline General Stats To WP-Stats Page Options
+function useronline_page_admin_general_stats($content) {
+	$stats_display = get_option('stats_display');
+	if($stats_display['useronline'] == 1) {
+		$content .= '<input type="checkbox" name="stats_display[]" value="useronline" checked="checked" />&nbsp;&nbsp;'.__('WP-UserOnline', 'wp-useronline').'<br />'."\n";
+	} else {
+		$content .= '<input type="checkbox" name="stats_display[]" value="useronline" />&nbsp;&nbsp;'.__('WP-UserOnline', 'wp-useronline').'<br />'."\n";
+	}
+	return $content;
+}
+
+
+### Function: Add WP-UserOnline General Stats To WP-Stats Page
+function useronline_page_general_stats($content) {
+	$stats_display = get_option('stats_display');
+	if($stats_display['useronline'] == 1) {
+		$content .= '<p><strong>'.__('WP-UserOnline', 'wp-useronline').'</strong></p>'."\n";
+		$content .= '<ul>'."\n";
+		$content .= '<li><strong>'.get_useronline('', '', false).'</strong> '.__('User(s) Online Now.', 'wp-useronline').'</li>'."\n";
+		$content .= '<li>'.__('Most users ever online was', 'wp-useronline').' <strong>'.get_most_useronline(false).'</strong>.</li>'."\n";
+		$content .= '<li>'.__('On', 'wp-useronline').' <strong>'.get_most_useronline_date(false).'</strong>.</li>'."\n";
+		$content .= '</ul>'."\n";
+	}
+	return $content;
 }
 
 

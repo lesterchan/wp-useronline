@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.20\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-06-26 15:42+0800\n"
+"PO-Revision-Date: 2007-06-28 16:06+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -156,6 +156,9 @@ msgid "No"
 msgstr ""
 
 #: useronline.php:49
+#: useronline.php:687
+#: useronline.php:689
+#: useronline.php:699
 msgid "WP-UserOnline"
 msgstr ""
 
@@ -297,5 +300,17 @@ msgstr ""
 
 #: useronline.php:632
 msgid "No One Is Online Now"
+msgstr ""
+
+#: useronline.php:701
+msgid "User(s) Online Now."
+msgstr ""
+
+#: useronline.php:702
+msgid "Most users ever online was"
+msgstr ""
+
+#: useronline.php:703
+msgid "On"
 msgstr ""
 
