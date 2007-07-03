@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.20\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-06-28 16:06+0800\n"
+"PO-Revision-Date: 2007-07-04 01:54+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -303,7 +303,7 @@ msgid "No One Is Online Now"
 msgstr ""
 
 #: useronline.php:701
-msgid "User(s) Online Now."
+msgid "user(s) online now."
 msgstr ""
 
 #: useronline.php:702
