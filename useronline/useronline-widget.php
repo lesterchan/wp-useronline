@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP-UserOnline Widget
-Plugin URI: http://www.lesterchan.net/portfolio/programming.php
+Plugin URI: http://lesterchan.net/portfolio/programming.php
 Description: Adds a UserOnline Widget to display users online from WP-UserOnline Plugin. You need to activate WP-UserOnline first.
 Version: 2.20
 Author: GaMerZ
-Author URI: http://www.lesterchan.net
+Author URI: http://lesterchan.net
 */
 
 

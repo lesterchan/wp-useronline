@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP-UserOnline
-Plugin URI: http://www.lesterchan.net/portfolio/programming.php
+Plugin URI: http://lesterchan.net/portfolio/programming.php
 Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
 Version: 2.20
 Author: Lester 'GaMerZ' Chan
-Author URI: http://www.lesterchan.net
+Author URI: http://lesterchan.net
 */
 
 
@@ -157,29 +157,37 @@ function useronline() {
 
 ### Function: Display UserOnline
 if(!function_exists('get_useronline')) {
-	function get_useronline($user = '', $users = '', $display = true) {
-		global $useronline;
-		$output = '';
-		if(empty($user)) {
-			$user = __('User', 'wp-useronline');
-		}
-		if(empty($users)) {
-			$users = __('Users', 'wp-useronline');
-		}
-		$useronline_url = get_option('useronline_url');
-		// Display User Online
-		if($display) {
-			if($useronline > 1) {
-				$output = '<a href="'.$useronline_url.'"><strong>'.number_format($useronline).'</strong> '.$users.' '.__('Online', 'wp-useronline').'</a>'."\n";
-			} else {
-				$output = '<a href="'.$useronline_url.'"><strong>'.$useronline.'</strong> '.$user.' '.__('Online', 'wp-useronline').'</a>'."\n";
-			}
-			if(empty($useronline_url)) {
-				$output = strip_tags($output, '<strong>');
-			}
-			echo $output;
+	function get_useronline($deprecated = '', $deprecated2 = '', $display = true) {
+		// Template - Naming Conventions
+		$useronline_naming = get_option('useronline_naming');
+		// Template - User(s) Online
+		$template_useronline = stripslashes(get_option('useronline_template_useronline'));
+		$template_useronline = str_replace('%USERONLINE_PAGE_URL%', get_option('useronline_url'), $template_useronline);
+		$template_useronline = str_replace('%USERONLINE_MOSTONLINE_COUNT%', number_format(get_most_useronline()), $template_useronline);
+		$template_useronline = str_replace('%USERONLINE_MOSTONLINE_DATE%', get_most_useronline_date(), $template_useronline);
+		if(get_useronline_count() == 1) {
+			$template_useronline = str_replace('%USERONLINE_USERS%', stripslashes($useronline_naming['user']), $template_useronline);			
 		} else {
-			return number_format($useronline);
+			$useronline_naming_users = str_replace('%USERONLINE_COUNT%', number_format(get_useronline_count()), stripslashes($useronline_naming['users']));
+			$template_useronline = str_replace('%USERONLINE_USERS%', $useronline_naming_users, $template_useronline);
+		}
+		if($display) {
+			echo $template_useronline;
+		} else {
+			return $template_useronline;
+		}
+	}
+}
+
+
+### Function: Display UserOnline Count
+if(!function_exists('get_useronline_count')) {
+	function get_useronline_count($display = false) {
+		global $useronline;
+		if($display) {
+			echo number_format($useronline);
+		} else {
+			return $useronline;
 		}
 	}
 }
@@ -187,7 +195,7 @@ if(!function_exists('get_useronline')) {
 
 ### Function: Display Max UserOnline
 if(!function_exists('get_most_useronline')) {
-	function get_most_useronline($display = true) {
+	function get_most_useronline($display = false) {
 		$most_useronline_users = intval(get_option('useronline_most_users'));
 		if($display) {
 			echo number_format($most_useronline_users);
@@ -200,7 +208,7 @@ if(!function_exists('get_most_useronline')) {
 
 ### Function: Display Max UserOnline Date
 if(!function_exists('get_most_useronline_date')) {
-	function get_most_useronline_date($display = true) {
+	function get_most_useronline_date($display = false) {
 		$most_useronline_timestamp = get_option('useronline_most_timestamp');
 		$most_useronline_date = gmdate(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), $most_useronline_timestamp);
 		if($display) {
@@ -254,7 +262,6 @@ function get_users_browsing_site($display = true) {
 	$members = array();
 	$guests = array();
 	$bots = array();
-	$total_users = 0;
 	$total_members = 0;
 	$total_guests = 0;
 	$total_bots = 0;
@@ -281,47 +288,90 @@ function get_users_browsing_site($display = true) {
 					break;
 			}
 		}
-		$total_users = ($total_guests+$total_bots+$total_members);
 
 		// If We Do Not Display It, Return Respective Users Count
 		if(!$display) {
-			return array ($total_users, $total_members, $total_guests, $total_bots);
+			return array($total_members, $total_guests, $total_bots);
 		} 
+		
+		// Template - Naming Conventions
+		$useronline_naming = get_option('useronline_naming');
 
-		// Nice Text For Guests
-		if($total_guests == 1) { 
-			$nicetext_guests = $total_guests.' '.__('Guest', 'wp-useronline');
+		// Template - User(s) Browsing Site
+		$options_browsingsite = get_option('useronline_template_browsingsite');
+		$separator_members_browsingsite = stripslashes($options_browsingsite[0]);
+		$separator_guests_browsingsite = stripslashes($options_browsingsite[1]);
+		$separator_bots_browsingsite = stripslashes($options_browsingsite[2]);
+		$template_browsingsite = stripslashes($options_browsingsite[3]);
+
+		// Nice Text For Users
+		if(get_useronline_count() == 1) {
+			$template_browsingsite = str_replace('%USERONLINE_USERS%', stripslashes($useronline_naming['user']), $template_browsingsite);		
 		} else {
-			$nicetext_guests = number_format($total_guests).' '.__('Guests', 'wp-useronline'); 
-		}
-		// Nice Text For Bots
-		if($total_bots == 1) {
-			$nicetext_bots = $total_bots.' '.__('Bot', 'wp-useronline'); 
-		} else {
-			$nicetext_bots = number_format($total_bots).' '.__('Bots', 'wp-useronline'); 
+			$useronline_naming_users = str_replace('%USERONLINE_COUNT%', number_format(get_useronline_count()), stripslashes($useronline_naming['users']));
+			$template_browsingsite = str_replace('%USERONLINE_USERS%', $useronline_naming_users, $template_browsingsite);
 		}
 
 		// Print Member Name
 		if($members) {
 			$temp_member = '';
-			foreach($members as $member) {
-				$temp_member .= '<a href="'.useronline_stats_page_link(urlencode($member)).'">'.$member.'</a>, ';
-			}
 			if(!function_exists('get_totalposts')) {
-				$temp_member = strip_tags($temp_member);
+				foreach($members as $member) {
+					$temp_member .= $member.$separator_members_browsingsite;
+				}
+			} else {
+				foreach($members as $member) {
+					$temp_member .= '<a href="'.useronline_stats_page_link(urlencode($member)).'">'.$member.'</a>'.$separator_members_browsingsite;
+				}
 			}
+			$template_browsingsite = str_replace('%USERONLINE_MEMBER_NAMES%', substr($temp_member, 0, -strlen($separator_members_browsingsite)), $template_browsingsite);
+		} else {
+			$template_browsingsite = str_replace('%USERONLINE_MEMBER_NAMES%', '', $template_browsingsite);
 		}
-		// Print Guests
-		if($total_guests > 0) {
-			$temp_member .= $nicetext_guests.', ';
+
+		// Nice Text For Members
+		if($total_members > 1) { 
+			$useronline_naming_members = str_replace('%USERONLINE_COUNT%', number_format($total_members), stripslashes($useronline_naming['members']));
+			$template_browsingsite = str_replace('%USERONLINE_MEMBERS%', $useronline_naming_members, $template_browsingsite);
+		} elseif($total_members == 1) {
+			$template_browsingsite = str_replace('%USERONLINE_MEMBERS%', stripslashes($useronline_naming['member']), $template_browsingsite);
+		} else {
+			$template_browsingsite = str_replace('%USERONLINE_MEMBERS%', '', $template_browsingsite);
 		}
-		// Print Bots
-		if($total_bots > 0) {
-			$temp_member .= $nicetext_bots.', ';
+		
+		// Nice Text For Guests
+		if($total_guests > 1) {
+			$useronline_naming_guests = str_replace('%USERONLINE_COUNT%', number_format($total_guests), stripslashes($useronline_naming['guests']));
+			$template_browsingsite = str_replace('%USERONLINE_GUESTS%', $useronline_naming_guests, $template_browsingsite);
+		} elseif($total_guests == 1) {			
+			$template_browsingsite = str_replace('%USERONLINE_GUESTS%', stripslashes($useronline_naming['guest']), $template_browsingsite);
+		} else {
+			$template_browsingsite = str_replace('%USERONLINE_GUESTS%', '', $template_browsingsite);
 		}
-		// Print User Count
-		$temp_member = substr($temp_member, 0, -2);
-		echo __('Users', 'wp-useronline').': <strong>'.$temp_member.'</strong><br />';
+
+		// Nice Text For Bots
+		if($total_bots > 1) {
+			$useronline_naming_bots = str_replace('%USERONLINE_COUNT%', number_format($total_bots), stripslashes($useronline_naming['bots']));
+			$template_browsingsite = str_replace('%USERONLINE_BOTS%', $useronline_naming_bots, $template_browsingsite);
+		} elseif($total_bots == 1) {			
+			$template_browsingsite = str_replace('%USERONLINE_BOTS%', stripslashes($useronline_naming['bot']), $template_browsingsite);
+		} else {
+			$template_browsingsite = str_replace('%USERONLINE_BOTS%', '', $template_browsingsite);
+		}
+		// Seperators
+		if($total_members > 0 && $total_guests > 0) {
+			$template_browsingsite = str_replace('%USERONLINE_GUESTS_SEPERATOR%', $separator_guests_browsingsite, $template_browsingsite);
+		} else {
+			$template_browsingsite = str_replace('%USERONLINE_GUESTS_SEPERATOR%', '', $template_browsingsite);
+		}
+		if($total_guests > 0 && $total_bots > 0) {
+			$template_browsingsite = str_replace('%USERONLINE_BOTS_SEPERATOR%', $separator_bots_browsingsite, $template_browsingsite);
+		} else {
+			$template_browsingsite = str_replace('%USERONLINE_BOTS_SEPERATOR%', '', $template_browsingsite);
+		}
+
+		// Output The Template
+		echo $template_browsingsite;
 	} else {
 		// This Should Not Happen
 		_e('No User Is Browsing This Site', 'wp-useronline');
@@ -381,39 +431,85 @@ function get_users_browsing_page($display = true) {
 			return array ($total_users, $total_members, $total_guests, $total_bots);
 		} 
 
-		// Nice Text For Members
-		if($total_members == 1) {
-			$nicetext_members = $total_members.' '.__('Member', 'wp-useronline');
+		// Template - Naming Conventions
+		$useronline_naming = get_option('useronline_naming');
+
+		// Template - User(s) Browsing Site
+		$options_browsingpage = get_option('useronline_template_browsingpage');
+		$separator_members_browsingpage = stripslashes($options_browsingpage[0]);
+		$separator_guests_browsingpage = stripslashes($options_browsingpage[1]);
+		$separator_bots_browsingpage = stripslashes($options_browsingpage[2]);
+		$template_browsingpage = stripslashes($options_browsingpage[3]);
+
+		// Nice Text For Users
+		if($total_users == 1) {
+			$template_browsingpage = str_replace('%USERONLINE_USERS%', stripslashes($useronline_naming['user']), $template_browsingpage);		
 		} else {
-			$nicetext_members = number_format($total_members).' '.__('Members', 'wp-useronline');
+			$useronline_naming_users = str_replace('%USERONLINE_COUNT%', number_format($total_users), stripslashes($useronline_naming['users']));
+			$template_browsingpage = str_replace('%USERONLINE_USERS%', $useronline_naming_users, $template_browsingpage);
 		}
-		// Nice Text For Guests
-		if($total_guests == 1) { 
-			$nicetext_guests = $total_guests.' '.__('Guest', 'wp-useronline');
-		} else {
-			$nicetext_guests = number_format($total_guests).' '.__('Guests', 'wp-useronline'); 
-		}
-		// Nice Text For Bots
-		if($total_bots == 1) {
-			$nicetext_bots = $total_bots.' '.__('Bot', 'wp-useronline'); 
-		} else {
-			$nicetext_bots = number_format($total_bots).' '.__('Bots', 'wp-useronline'); 
-		}
-		
-		// Print User Count
-		echo __('Users Browsing This Page', 'wp-useronline').': <strong>'.number_format($total_users).'</strong> ('.$nicetext_members.', '.$nicetext_guests.' '.__('and', 'wp-useronline').' '.$nicetext_bots.')<br />';
 
 		// Print Member Name
 		if($members) {
 			$temp_member = '';
-			foreach($members as $member) {
-				$temp_member .= '<a href="'.useronline_stats_page_link(urlencode($member)).'">'.$member.'</a>, ';
-			}
 			if(!function_exists('get_totalposts')) {
-				$temp_member = strip_tags($temp_member);
+				foreach($members as $member) {
+					$temp_member .= $member.$separator_members_browsingpage;
+				}
+			} else {
+				foreach($members as $member) {
+					$temp_member .= '<a href="'.useronline_stats_page_link(urlencode($member)).'">'.$member.'</a>'.$separator_members_browsingpage;
+				}
 			}
-			echo __('Members', 'wp-useronline').': '.substr($temp_member, 0, -2);
+			$template_browsingpage = str_replace('%USERONLINE_MEMBER_NAMES%', substr($temp_member, 0, -strlen($separator_members_browsingpage)), $template_browsingpage);
+		} else {
+			$template_browsingpage = str_replace('%USERONLINE_MEMBER_NAMES%', '', $template_browsingpage);
 		}
+
+		// Nice Text For Members
+		if($total_members > 1) { 
+			$useronline_naming_members = str_replace('%USERONLINE_COUNT%', number_format($total_members), stripslashes($useronline_naming['members']));
+			$template_browsingpage = str_replace('%USERONLINE_MEMBERS%', $useronline_naming_members, $template_browsingpage);
+		} elseif($total_members == 1) {
+			$template_browsingpage = str_replace('%USERONLINE_MEMBERS%', stripslashes($useronline_naming['member']), $template_browsingpage);
+		} else {
+			$template_browsingpage = str_replace('%USERONLINE_MEMBERS%', '', $template_browsingpage);
+		}
+		
+		// Nice Text For Guests
+		if($total_guests > 1) {
+			$useronline_naming_guests = str_replace('%USERONLINE_COUNT%', number_format($total_guests), stripslashes($useronline_naming['guests']));
+			$template_browsingpage = str_replace('%USERONLINE_GUESTS%', $useronline_naming_guests, $template_browsingpage);
+		} elseif($total_guests == 1) {			
+			$template_browsingpage = str_replace('%USERONLINE_GUESTS%', stripslashes($useronline_naming['guest']), $template_browsingpage);
+		} else {
+			$template_browsingpage = str_replace('%USERONLINE_GUESTS%', '', $template_browsingpage);
+		}
+
+		// Nice Text For Bots
+		if($total_bots > 1) {
+			$useronline_naming_bots = str_replace('%USERONLINE_COUNT%', number_format($total_bots), stripslashes($useronline_naming['bots']));
+			$template_browsingpage = str_replace('%USERONLINE_BOTS%', $useronline_naming_bots, $template_browsingpage);
+		} elseif($total_bots == 1) {			
+			$template_browsingpage = str_replace('%USERONLINE_BOTS%', stripslashes($useronline_naming['bot']), $template_browsingpage);
+		} else {
+			$template_browsingpage = str_replace('%USERONLINE_BOTS%', '', $template_browsingpage);
+		}
+		// Seperators
+		if($total_members > 0 && $total_guests > 0) {
+			$template_browsingpage = str_replace('%USERONLINE_GUESTS_SEPERATOR%', $separator_guests_browsingpage, $template_browsingpage);
+		} else {
+			$template_browsingpage = str_replace('%USERONLINE_GUESTS_SEPERATOR%', '', $template_browsingpage);
+		}
+		if($total_guests > 0 && $total_bots > 0) {
+			$template_browsingpage = str_replace('%USERONLINE_BOTS_SEPERATOR%', $separator_bots_browsingpage, $template_browsingpage);
+		} else {
+			$template_browsingpage = str_replace('%USERONLINE_BOTS_SEPERATOR%', '', $template_browsingpage);
+		}
+
+
+		// Output The Template
+		echo $template_browsingpage;
 	} else {
 		// This Should Not Happen
 		_e('No User Is Browsing This Page', 'wp-useronline');
@@ -455,7 +551,7 @@ function ip2nation_country($ip, $display_countryname = 0) {
 		$country_code = wp_ozh_getCountryCode(0, $ip);
 		$country_name = wp_ozh_getCountryName(0, $ip);
 		$country_mirror = '';
-		$mirrors = array("http://frenchfragfactory.net/images", "http://www.lesterchan.net/wordpress/images/flags");
+		$mirrors = array("http://frenchfragfactory.net/images", "http://lesterchan.net/wordpress/images/flags");
 		if($country_name != 'Private') {
 			foreach($mirrors as $mirror) {
 				if(@file($mirror.'/flag_sg.gif')) {
@@ -574,7 +670,7 @@ function useronline_page() {
 		$useronline_output .= __('There are a total of', 'wp-useronline').' ';
 	}
 	$useronline_output .= "<strong>$nicetext_users</strong> ".__('online now', 'wp-useronline').": <strong>$nicetext_members</strong>, <strong>$nicetext_guests</strong> ".__('and', 'wp-useronline')." <strong>$nicetext_bots</strong>.</p>\n";
-	$useronline_output .= '<p>'.__('Most users ever online were', 'wp-useronline')." <strong>".get_most_useronline(false)."</strong>, ".__('on', 'wp-useronline')." <strong>".get_most_useronline_date(false)."</strong></p>\n";
+	$useronline_output .= '<p>'.__('Most users ever online were', 'wp-useronline')." <strong>".number_format(get_most_useronline())."</strong>, ".__('on', 'wp-useronline')." <strong>".get_most_useronline_date()."</strong></p>\n";
 	// Print Out Members
 	if($total_members > 0) {
 		$useronline_output .= 	'<h2>'.$nicetext_members.' '.__('Online Now', 'wp-useronline').'</h2>'."\n";
@@ -698,9 +794,9 @@ function useronline_page_general_stats($content) {
 	if($stats_display['useronline'] == 1) {
 		$content .= '<p><strong>'.__('WP-UserOnline', 'wp-useronline').'</strong></p>'."\n";
 		$content .= '<ul>'."\n";
-		$content .= '<li><strong>'.get_useronline('', '', false).'</strong> '.__('user(s) online now.', 'wp-useronline').'</li>'."\n";
-		$content .= '<li>'.__('Most users ever online was', 'wp-useronline').' <strong>'.get_most_useronline(false).'</strong>.</li>'."\n";
-		$content .= '<li>'.__('On', 'wp-useronline').' <strong>'.get_most_useronline_date(false).'</strong>.</li>'."\n";
+		$content .= '<li><strong>'.number_format(get_useronline_count()).'</strong> '.__('user(s) online now.', 'wp-useronline').'</li>'."\n";
+		$content .= '<li>'.__('Most users ever online was', 'wp-useronline').' <strong>'.number_format(get_most_useronline()).'</strong>.</li>'."\n";
+		$content .= '<li>'.__('On', 'wp-useronline').' <strong>'.get_most_useronline_date().'</strong>.</li>'."\n";
 		$content .= '</ul>'."\n";
 	}
 	return $content;
@@ -736,5 +832,10 @@ function create_useronline_table() {
 	add_option('useronline_bots', $bots, 'Bots Name/Useragent');
 	// Database Upgrade For WP-UserOnline 2.05
 	add_option('useronline_url', get_option('siteurl').'/useronline/', 'UserOnline Page URL');
+	// Database Upgrade For WP-UserOnline 2.20
+	add_option('useronline_naming', array('user' => __('1 User', 'wp-useronline'), 'users' => __('%USERONLINE_COUNT% Users', 'wp-useronline'), 'member' => __('1 Member', 'wp-useronline'), 'members' => __('%USERONLINE_COUNT% Members', 'wp-useronline'), 'guest' => __('1 Guest', 'wp-useronline'), 'guests' => __('%USERONLINE_COUNT% Guests', 'wp-useronline'), 'bot' => __('1 Bot', 'wp-useronline'), 'bots' => __('%USERONLINE_COUNT% Bots', 'wp-useronline')),'Member(s), Guest(s) or Bot(s)');
+	add_option('useronline_template_useronline', '<a href="%USERONLINE_PAGE_URL%" title="%USERONLINE_USERS%"><strong>%USERONLINE_USERS%</strong> '.__('Online', 'wp-useronline').'</a>', 'Useronline Template');
+	add_option('useronline_template_browsingsite', array(', ', ', ', ', ', __('Users', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
+	add_option('useronline_template_browsingpage', array(', ', ', ', ', ',  '<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'.__('Users', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
 }
 ?>
