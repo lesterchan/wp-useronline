@@ -364,7 +364,7 @@ function get_users_browsing_site($display = true) {
 		} else {
 			$template_browsingsite = str_replace('%USERONLINE_GUESTS_SEPERATOR%', '', $template_browsingsite);
 		}
-		if($total_guests > 0 && $total_bots > 0) {
+		if(($total_guests > 0 || $total_members > 0) && $total_bots > 0) {
 			$template_browsingsite = str_replace('%USERONLINE_BOTS_SEPERATOR%', $separator_bots_browsingsite, $template_browsingsite);
 		} else {
 			$template_browsingsite = str_replace('%USERONLINE_BOTS_SEPERATOR%', '', $template_browsingsite);
@@ -501,7 +501,7 @@ function get_users_browsing_page($display = true) {
 		} else {
 			$template_browsingpage = str_replace('%USERONLINE_GUESTS_SEPERATOR%', '', $template_browsingpage);
 		}
-		if($total_guests > 0 && $total_bots > 0) {
+		if(($total_guests > 0 || $total_members > 0) && $total_bots > 0) {
 			$template_browsingpage = str_replace('%USERONLINE_BOTS_SEPERATOR%', $separator_bots_browsingpage, $template_browsingpage);
 		} else {
 			$template_browsingpage = str_replace('%USERONLINE_BOTS_SEPERATOR%', '', $template_browsingpage);
