@@ -67,12 +67,12 @@ function widget_useronline_init() {
 			update_option('widget_useronline', $options);
 		}
 		echo '<p style="text-align: left;"><label for="useronline-title">'.__('Widget Title', 'wp-useronline').':</label>&nbsp;&nbsp;&nbsp;<input type="text" id="useronline-title" name="useronline-title" value="'.htmlspecialchars($options['title']).'" />';
-		echo '<p style="text-align: center;"><label for="useronline-usersbrowsingsite">'.__('Display Users Browsing Site Under Users Online Count?', 'wp-useronline').'</label></p>'."\n";
-		echo '<p style="text-align: center;"><input type="radio" id="useronline-usersbrowsingsite" name="useronline-usersbrowsingsite" value="1"';
+		echo '<p style="text-align: center;">'.__('Display Users Browsing Site Under Users Online Count?', 'wp-useronline').'</p>'."\n";
+		echo '<p style="text-align: center;"><input type="radio" id="useronline-usersbrowsingsite-1" name="useronline-usersbrowsingsite" value="1"';
 		checked(1, intval($options['display_usersbrowsingsite']));
-		echo ' />&nbsp;'.__('Yes', 'wp-useronline').'&nbsp;&nbsp;&nbsp;<input type="radio" id="useronline-usersbrowsingsite" name="useronline-usersbrowsingsite" value="0"';
+		echo ' />&nbsp;<label for="useronline-usersbrowsingsite-1">'.__('Yes', 'wp-useronline').'</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="useronline-usersbrowsingsite-0" name="useronline-usersbrowsingsite" value="0"';
 		checked(0, intval($options['display_usersbrowsingsite']));
-		echo ' />&nbsp;'.__('No', 'wp-useronline').'</p>'."\n";
+		echo ' />&nbsp;<label for="useronline-usersbrowsingsite-0">'.__('No', 'wp-useronline').'</label></p>'."\n";
 		echo '<input type="hidden" id="useronline-submit" name="useronline-submit" value="1" />'."\n";
 	}
 

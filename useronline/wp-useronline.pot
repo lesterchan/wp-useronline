@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.20\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-08-15 21:50+0800\n"
+"PO-Revision-Date: 2007-08-29 01:02+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -86,60 +86,60 @@ msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnl
 msgstr ""
 
 #: useronline-options.php:153
-#: useronline.php:837
+#: useronline.php:843
 msgid "Online"
 msgstr ""
 
 #: useronline-options.php:160
-#: useronline.php:836
+#: useronline.php:842
 msgid "1 User"
 msgstr ""
 
 #: useronline-options.php:161
-#: useronline.php:836
+#: useronline.php:842
 msgid "%USERONLINE_COUNT% Users"
 msgstr ""
 
 #: useronline-options.php:162
-#: useronline.php:836
+#: useronline.php:842
 msgid "1 Member"
 msgstr ""
 
 #: useronline-options.php:163
-#: useronline.php:836
+#: useronline.php:842
 msgid "%USERONLINE_COUNT% Members"
 msgstr ""
 
 #: useronline-options.php:164
-#: useronline.php:836
+#: useronline.php:842
 msgid "1 Guest"
 msgstr ""
 
 #: useronline-options.php:165
-#: useronline.php:836
+#: useronline.php:842
 msgid "%USERONLINE_COUNT% Guests"
 msgstr ""
 
 #: useronline-options.php:166
-#: useronline.php:836
+#: useronline.php:842
 msgid "1 Bot"
 msgstr ""
 
 #: useronline-options.php:167
-#: useronline.php:836
+#: useronline.php:842
 msgid "%USERONLINE_COUNT% Bots"
 msgstr ""
 
 #: useronline-options.php:173
 #: useronline-options.php:179
 #: useronline.php:636
-#: useronline.php:838
-#: useronline.php:839
+#: useronline.php:844
+#: useronline.php:845
 msgid "Users"
 msgstr ""
 
 #: useronline-options.php:179
-#: useronline.php:839
+#: useronline.php:845
 msgid "Browsing This Page."
 msgstr ""
 

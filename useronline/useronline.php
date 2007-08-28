@@ -780,9 +780,9 @@ if(strpos(get_option('stats_url'), $_SERVER['REQUEST_URI']) || strpos($_SERVER['
 function useronline_page_admin_general_stats($content) {
 	$stats_display = get_option('stats_display');
 	if($stats_display['useronline'] == 1) {
-		$content .= '<input type="checkbox" name="stats_display[]" value="useronline" checked="checked" />&nbsp;&nbsp;'.__('WP-UserOnline', 'wp-useronline').'<br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_useronline" value="useronline" checked="checked" />&nbsp;&nbsp;<label for="wpstats_useronline">'.__('WP-UserOnline', 'wp-useronline').'</label><br />'."\n";
 	} else {
-		$content .= '<input type="checkbox" name="stats_display[]" value="useronline" />&nbsp;&nbsp;'.__('WP-UserOnline', 'wp-useronline').'<br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_useronline" value="useronline" />&nbsp;&nbsp;<label for="wpstats_useronline">'.__('WP-UserOnline', 'wp-useronline').'</label><br />'."\n";
 	}
 	return $content;
 }
@@ -808,7 +808,13 @@ add_action('activate_useronline/useronline.php', 'create_useronline_table');
 function create_useronline_table() {
 	global $wpdb;
 	$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'pubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com' => 'become.com');
-	include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
+	if(@is_file(ABSPATH.'/wp-admin/upgrade-functions.php')) {
+		include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
+	} elseif(@is_file(ABSPATH.'/wp-admin/includes/upgrade.php')) {
+		include_once(ABSPATH.'/wp-admin/includes/upgrade.php');
+	} else {
+		die('We have problem finding your \'/wp-admin/upgrade-functions.php\' and \'/wp-admin/includes/upgrade.php\'');
+	}
 	// Drop UserOnline Table
 	$wpdb->query("DROP TABLE IF EXISTS $wpdb->useronline");
 	// Create UserOnline Table
