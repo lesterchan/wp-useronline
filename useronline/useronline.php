@@ -34,8 +34,11 @@ if (!function_exists('add_action')) {
 }
 
 
-### Create Text Domain For Translation
-load_plugin_textdomain('wp-useronline', 'wp-content/plugins/useronline');
+### Create Text Domain For Translations
+add_action('init', 'useronline_textdomain');
+function useronline_textdomain() {
+	load_plugin_textdomain('wp-useronline', 'wp-content/plugins/useronline');
+}
 
 
 ### UserOnline Table Name
