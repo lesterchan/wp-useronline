@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-UserOnline 2.21\n"
+"Project-Id-Version: WP-UserOnline 2.30\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-10-14 16:04+0800\n"
+"PO-Revision-Date: 2007-10-21 19:03+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -14,49 +14,44 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: useronline-options.php:32
-#: useronline-options.php:320
-msgid "Update Options"
-msgstr ""
-
-#: useronline-options.php:65
+#: useronline-options.php:63
 msgid "Useronline Timeout"
 msgstr ""
 
-#: useronline-options.php:66
+#: useronline-options.php:64
 msgid "Useronline Bots"
 msgstr ""
 
-#: useronline-options.php:67
+#: useronline-options.php:65
 msgid "Useronline URL"
 msgstr ""
 
-#: useronline-options.php:68
+#: useronline-options.php:66
 msgid "Useronline Naming Conventions"
 msgstr ""
 
-#: useronline-options.php:69
+#: useronline-options.php:67
 msgid "User(s) Online Template"
 msgstr ""
 
-#: useronline-options.php:70
+#: useronline-options.php:68
 msgid "User(s) Browsing Site Template"
 msgstr ""
 
-#: useronline-options.php:71
+#: useronline-options.php:69
 msgid "User(s) Browsing Page Template"
 msgstr ""
 
-#: useronline-options.php:76
+#: useronline-options.php:74
 msgid "Updated"
 msgstr ""
 
-#: useronline-options.php:81
+#: useronline-options.php:79
 msgid "No Useronline Option Updated"
 msgstr ""
 
 #: useronline-options.php:85
-#: useronline-options.php:368
+#: useronline-options.php:371
 msgid "UNINSTALL WP-UserOnline"
 msgstr ""
 
@@ -76,7 +71,7 @@ msgid "Error deleting Setting Key '%s'."
 msgstr ""
 
 #: useronline-options.php:127
-#: useronline-options.php:328
+#: useronline-options.php:331
 msgid "Uninstall WP-UserOnline"
 msgstr ""
 
@@ -86,183 +81,184 @@ msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnl
 msgstr ""
 
 #: useronline-options.php:153
-#: useronline.php:846
+#: wp-useronline.php:846
 msgid "Online"
 msgstr ""
 
 #: useronline-options.php:160
-#: useronline.php:845
+#: wp-useronline.php:845
 msgid "1 User"
 msgstr ""
 
 #: useronline-options.php:161
-#: useronline.php:845
+#: wp-useronline.php:845
 msgid "%USERONLINE_COUNT% Users"
 msgstr ""
 
 #: useronline-options.php:162
-#: useronline.php:845
+#: wp-useronline.php:845
 msgid "1 Member"
 msgstr ""
 
 #: useronline-options.php:163
-#: useronline.php:845
+#: wp-useronline.php:845
 msgid "%USERONLINE_COUNT% Members"
 msgstr ""
 
 #: useronline-options.php:164
-#: useronline.php:845
+#: wp-useronline.php:845
 msgid "1 Guest"
 msgstr ""
 
 #: useronline-options.php:165
-#: useronline.php:845
+#: wp-useronline.php:845
 msgid "%USERONLINE_COUNT% Guests"
 msgstr ""
 
 #: useronline-options.php:166
-#: useronline.php:845
+#: wp-useronline.php:845
 msgid "1 Bot"
 msgstr ""
 
 #: useronline-options.php:167
-#: useronline.php:845
+#: wp-useronline.php:845
 msgid "%USERONLINE_COUNT% Bots"
 msgstr ""
 
 #: useronline-options.php:173
 #: useronline-options.php:179
-#: useronline.php:639
-#: useronline.php:847
-#: useronline.php:848
+#: wp-useronline.php:639
+#: wp-useronline.php:847
+#: wp-useronline.php:848
 msgid "Users"
 msgstr ""
 
 #: useronline-options.php:179
-#: useronline.php:848
+#: wp-useronline.php:848
 msgid "Browsing This Page."
 msgstr ""
 
 #: useronline-options.php:185
-#: useronline-options.php:187
+#: useronline-options.php:190
 msgid "Useronline Options"
 msgstr ""
 
-#: useronline-options.php:190
+#: useronline-options.php:187
+#: useronline-options.php:323
+msgid "Update Options &raquo;"
+msgstr ""
+
+#: useronline-options.php:193
 msgid "Time Out"
 msgstr ""
 
-#: useronline-options.php:192
+#: useronline-options.php:195
 msgid "How long till it will remove the user from the database (In seconds)."
 msgstr ""
 
-#: useronline-options.php:196
+#: useronline-options.php:199
 msgid "UserOnline URL"
 msgstr ""
 
-#: useronline-options.php:198
+#: useronline-options.php:201
 msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
 msgstr ""
 
-#: useronline-options.php:202
+#: useronline-options.php:205
 msgid "Bots Name/User Agent"
 msgstr ""
 
-#: useronline-options.php:204
+#: useronline-options.php:207
 msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
 msgstr ""
 
-#: useronline-options.php:212
+#: useronline-options.php:215
 msgid "Naming Conventions:"
 msgstr ""
 
-#: useronline-options.php:213
-#: useronline-options.php:250
-#: useronline-options.php:262
-#: useronline-options.php:291
+#: useronline-options.php:216
+#: useronline-options.php:253
+#: useronline-options.php:265
+#: useronline-options.php:294
 msgid "Allowed Variables:"
 msgstr ""
 
-#: useronline-options.php:215
-#: useronline-options.php:255
-#: useronline-options.php:270
-#: useronline-options.php:299
+#: useronline-options.php:218
+#: useronline-options.php:258
+#: useronline-options.php:273
+#: useronline-options.php:302
 msgid "Restore Default Template"
 msgstr ""
 
-#: useronline-options.php:220
+#: useronline-options.php:223
 msgid "Singular Form"
 msgstr ""
 
-#: useronline-options.php:221
+#: useronline-options.php:224
 msgid "Plural Form"
 msgstr ""
 
-#: useronline-options.php:245
+#: useronline-options.php:248
 msgid "Useronline Templates"
 msgstr ""
 
-#: useronline-options.php:249
+#: useronline-options.php:252
 msgid "User(s) Online:"
 msgstr ""
 
-#: useronline-options.php:261
+#: useronline-options.php:264
 msgid "User(s) Browsing Site:"
 msgstr ""
 
-#: useronline-options.php:275
-#: useronline-options.php:304
+#: useronline-options.php:278
+#: useronline-options.php:307
 msgid "Member Names Separator"
 msgstr ""
 
-#: useronline-options.php:276
-#: useronline-options.php:305
+#: useronline-options.php:279
+#: useronline-options.php:308
 msgid "Guests Separator"
 msgstr ""
 
-#: useronline-options.php:277
-#: useronline-options.php:306
+#: useronline-options.php:280
+#: useronline-options.php:309
 msgid "Bots Separator"
 msgstr ""
 
-#: useronline-options.php:290
+#: useronline-options.php:293
 msgid "User(s) Browsing Page:"
 msgstr ""
 
-#: useronline-options.php:320
-msgid "Cancel"
-msgstr ""
-
-#: useronline-options.php:330
+#: useronline-options.php:333
 msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
 msgstr ""
 
-#: useronline-options.php:333
+#: useronline-options.php:336
 msgid "WARNING:"
 msgstr ""
 
-#: useronline-options.php:334
+#: useronline-options.php:337
 msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
 msgstr ""
 
-#: useronline-options.php:337
+#: useronline-options.php:340
 msgid "The following WordPress Options/Tables will be DELETED:"
 msgstr ""
 
-#: useronline-options.php:341
+#: useronline-options.php:344
 msgid "WordPress Options"
 msgstr ""
 
-#: useronline-options.php:342
+#: useronline-options.php:345
 msgid "WordPress Tables"
 msgstr ""
 
-#: useronline-options.php:367
-#: useronline-widget.php:73
+#: useronline-options.php:370
+#: wp-useronline-widget.php:73
 msgid "Yes"
 msgstr ""
 
-#: useronline-options.php:368
+#: useronline-options.php:371
 msgid ""
 "You Are About To Uninstall WP-UserOnline From WordPress.\\n"
 "This Action Is Not Reversible.\\n"
@@ -270,150 +266,150 @@ msgid ""
 " Choose [Cancel] To Stop, [OK] To Uninstall."
 msgstr ""
 
-#: useronline-widget.php:62
+#: wp-useronline-widget.php:62
 msgid "UserOnline"
 msgstr ""
 
-#: useronline-widget.php:69
+#: wp-useronline-widget.php:69
 msgid "Widget Title"
 msgstr ""
 
-#: useronline-widget.php:70
+#: wp-useronline-widget.php:70
 msgid "Display Users Browsing Site Under Users Online Count?"
 msgstr ""
 
-#: useronline-widget.php:75
+#: wp-useronline-widget.php:75
 msgid "No"
 msgstr ""
 
-#: useronline.php:52
-#: useronline.php:786
-#: useronline.php:788
-#: useronline.php:798
+#: wp-useronline.php:52
+#: wp-useronline.php:786
+#: wp-useronline.php:788
+#: wp-useronline.php:798
 msgid "WP-UserOnline"
 msgstr ""
 
-#: useronline.php:55
+#: wp-useronline.php:55
 msgid "Useronline"
 msgstr ""
 
-#: useronline.php:114
+#: wp-useronline.php:114
 msgid "guest"
 msgstr ""
 
-#: useronline.php:120
-#: useronline.php:652
+#: wp-useronline.php:120
+#: wp-useronline.php:652
 msgid "Guest"
 msgstr ""
 
-#: useronline.php:135
+#: wp-useronline.php:135
 msgid "Blog Archive"
 msgstr ""
 
-#: useronline.php:216
-#: useronline.php:247
-#: useronline.php:689
-#: useronline.php:691
-#: useronline.php:709
-#: useronline.php:711
-#: useronline.php:724
+#: wp-useronline.php:216
+#: wp-useronline.php:247
+#: wp-useronline.php:689
+#: wp-useronline.php:691
+#: wp-useronline.php:709
+#: wp-useronline.php:711
+#: wp-useronline.php:724
 #, php-format
 msgid "%s @ %s"
 msgstr ""
 
-#: useronline.php:380
+#: wp-useronline.php:380
 msgid "No User Is Browsing This Site"
 msgstr ""
 
-#: useronline.php:518
+#: wp-useronline.php:518
 msgid "No User Is Browsing This Page"
 msgstr ""
 
-#: useronline.php:637
+#: wp-useronline.php:637
 msgid "User"
 msgstr ""
 
-#: useronline.php:644
+#: wp-useronline.php:644
 msgid "Member"
 msgstr ""
 
-#: useronline.php:646
+#: wp-useronline.php:646
 msgid "Members"
 msgstr ""
 
-#: useronline.php:654
+#: wp-useronline.php:654
 msgid "Guests"
 msgstr ""
 
-#: useronline.php:659
+#: wp-useronline.php:659
 msgid "Bot"
 msgstr ""
 
-#: useronline.php:661
+#: wp-useronline.php:661
 msgid "Bots"
 msgstr ""
 
-#: useronline.php:671
+#: wp-useronline.php:671
 msgid "There is"
 msgstr ""
 
-#: useronline.php:673
+#: wp-useronline.php:673
 msgid "There are a total of"
 msgstr ""
 
-#: useronline.php:675
+#: wp-useronline.php:675
 msgid "online now"
 msgstr ""
 
-#: useronline.php:675
+#: wp-useronline.php:675
 msgid "and"
 msgstr ""
 
-#: useronline.php:676
+#: wp-useronline.php:676
 msgid "Most users ever online were"
 msgstr ""
 
-#: useronline.php:676
-#: useronline.php:689
-#: useronline.php:691
-#: useronline.php:709
-#: useronline.php:711
-#: useronline.php:724
+#: wp-useronline.php:676
+#: wp-useronline.php:689
+#: wp-useronline.php:691
+#: wp-useronline.php:709
+#: wp-useronline.php:711
+#: wp-useronline.php:724
 msgid "on"
 msgstr ""
 
-#: useronline.php:679
-#: useronline.php:699
-#: useronline.php:719
+#: wp-useronline.php:679
+#: wp-useronline.php:699
+#: wp-useronline.php:719
 msgid "Online Now"
 msgstr ""
 
-#: useronline.php:686
-#: useronline.php:706
+#: wp-useronline.php:686
+#: wp-useronline.php:706
 msgid "referral"
 msgstr ""
 
-#: useronline.php:689
-#: useronline.php:691
-#: useronline.php:709
-#: useronline.php:711
-#: useronline.php:724
+#: wp-useronline.php:689
+#: wp-useronline.php:691
+#: wp-useronline.php:709
+#: wp-useronline.php:711
+#: wp-useronline.php:724
 msgid "url"
 msgstr ""
 
-#: useronline.php:731
+#: wp-useronline.php:731
 msgid "No One Is Online Now"
 msgstr ""
 
-#: useronline.php:800
+#: wp-useronline.php:800
 msgid "user(s) online now."
 msgstr ""
 
-#: useronline.php:801
+#: wp-useronline.php:801
 msgid "Most users ever online was"
 msgstr ""
 
-#: useronline.php:802
+#: wp-useronline.php:802
 msgid "On"
 msgstr ""
 

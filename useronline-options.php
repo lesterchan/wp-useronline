@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.3 Plugin: WP-UserOnline 2.21								|
+|	WordPress 2.3 Plugin: WP-UserOnline 2.30								|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -11,77 +11,77 @@
 |																							|
 |	File Information:																	|
 |	- Useronline Options Page														|
-|	- wp-content/plugins/useronline/useronline-options.php				|
+|	- wp-content/plugins/wp-useronline/useronline-options.php			|
 |																							|
 +----------------------------------------------------------------+
 */
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('useronline/useronline-options.php');
+$base_name = plugin_basename('wp-useronline/useronline-options.php');
 $base_page = 'admin.php?page='.$base_name;
 $mode = trim($_GET['mode']);
 $useronline_tables = array($wpdb->useronline);
 $useronline_settings = array('useronline_most_users', 'useronline_most_timestamp', 'useronline_timeout', 'useronline_bots', 'useronline_url', 'useronline_naming', 'useronline_template_useronline', 'useronline_template_browsingsite', 'useronline_template_browsingpage', 'widget_useronline');
 
 
-### Form Processing 
+### Form Processing
+// Update Options
+if(!empty($_POST['Submit'])) {
+	$useronline_bots = array();
+	$useronline_timeout = intval($_POST['useronline_timeout']);
+	$useronline_bots_name = explode("\n", trim($_POST['useronline_bots_name']));
+	$useronline_bots_agent = explode("\n", trim($_POST['useronline_bots_agent']));	
+	$useronline_bots_keys = array_values((array) $useronline_bots_name);
+	$useronline_bots_vals = array_values((array) $useronline_bots_agent);
+	$n = max(count($useronline_bots_keys), count($useronline_bots_vals));
+	for($i = 0; $i < $n; $i++) {
+		$useronline_bots[trim($useronline_bots_keys[$i])] = trim($useronline_bots_vals[$i]);
+	}
+	$useronline_url = trim($_POST['useronline_url']);
+	$useronline_naming_user = trim($_POST['useronline_naming_user']);
+	$useronline_naming_users = trim($_POST['useronline_naming_users']);
+	$useronline_naming_member = trim($_POST['useronline_naming_member']);
+	$useronline_naming_members = trim($_POST['useronline_naming_members']);
+	$useronline_naming_guest = trim($_POST['useronline_naming_guest']);
+	$useronline_naming_guests = trim($_POST['useronline_naming_guests']);
+	$useronline_naming_bot = trim($_POST['useronline_naming_bot']);
+	$useronline_naming_bots = trim($_POST['useronline_naming_bots']);
+	$useronline_naming = array('user' => $useronline_naming_user, 'users' => $useronline_naming_users, 'member' => $useronline_naming_member, 'members' => $useronline_naming_members, 'guest' => $useronline_naming_guest, 'guests' => $useronline_naming_guests, 'bot' => $useronline_naming_bot, 'bots' => $useronline_naming_bots);
+	$useronline_template_useronline = trim($_POST['useronline_template_useronline']);
+	$useronline_template_browsingsite = array($_POST['useronline_separator_browsingsite_members'], $_POST['useronline_separator_browsingsite_guests'], $_POST['useronline_separator_browsingsite_bots'], trim($_POST['useronline_template_browsingsite']));
+	$useronline_template_browsingpage = array($_POST['useronline_separator_browsingpage_members'], $_POST['useronline_separator_browsingpage_guests'], $_POST['useronline_separator_browsingpage_bots'], trim($_POST['useronline_template_browsingpage']));
+	$update_useronline_queries = array();
+	$update_useronline_text = array();
+	$update_useronline_queries[] = update_option('useronline_timeout', $useronline_timeout);
+	$update_useronline_queries[] = update_option('useronline_bots', $useronline_bots);
+	$update_useronline_queries[] = update_option('useronline_url', $useronline_url);
+	$update_useronline_queries[] = update_option('useronline_naming', $useronline_naming);
+	$update_useronline_queries[] = update_option('useronline_template_useronline', $useronline_template_useronline);
+	$update_useronline_queries[] = update_option('useronline_template_browsingsite', $useronline_template_browsingsite);
+	$update_useronline_queries[] = update_option('useronline_template_browsingpage', $useronline_template_browsingpage);
+	$update_useronline_text[] = __('Useronline Timeout', 'wp-useronline');
+	$update_useronline_text[] = __('Useronline Bots', 'wp-useronline');
+	$update_useronline_text[] = __('Useronline URL', 'wp-useronline');
+	$update_useronline_text[] = __('Useronline Naming Conventions', 'wp-useronline');
+	$update_useronline_text[] = __('User(s) Online Template', 'wp-useronline');
+	$update_useronline_text[] = __('User(s) Browsing Site Template', 'wp-useronline');
+	$update_useronline_text[] = __('User(s) Browsing Page Template', 'wp-useronline');
+	$i=0;
+	$text = '';
+	foreach($update_useronline_queries as $update_useronline_query) {
+		if($update_useronline_query) {
+			$text .= '<font color="green">'.$update_useronline_text[$i].' '.__('Updated', 'wp-useronline').'</font><br />';
+		}
+		$i++;
+	}
+	if(empty($text)) {
+		$text = '<font color="red">'.__('No Useronline Option Updated', 'wp-useronline').'</font>';
+	}
+}
+// Uninstall WP-UserOnline
 if(!empty($_POST['do'])) {
-	// Decide What To Do
-	switch($_POST['do']) {
-		case __('Update Options', 'wp-useronline'):
-			$useronline_bots = array();
-			$useronline_timeout = intval($_POST['useronline_timeout']);
-			$useronline_bots_name = explode("\n", trim($_POST['useronline_bots_name']));
-			$useronline_bots_agent = explode("\n", trim($_POST['useronline_bots_agent']));	
-			$useronline_bots_keys = array_values((array) $useronline_bots_name);
-			$useronline_bots_vals = array_values((array) $useronline_bots_agent);
-			$n = max(count($useronline_bots_keys), count($useronline_bots_vals));
-				for($i = 0; $i < $n; $i++) {
-				$useronline_bots[trim($useronline_bots_keys[$i])] = trim($useronline_bots_vals[$i]);
-			}
-			$useronline_url = trim($_POST['useronline_url']);
-			$useronline_naming_user = trim($_POST['useronline_naming_user']);
-			$useronline_naming_users = trim($_POST['useronline_naming_users']);
-			$useronline_naming_member = trim($_POST['useronline_naming_member']);
-			$useronline_naming_members = trim($_POST['useronline_naming_members']);
-			$useronline_naming_guest = trim($_POST['useronline_naming_guest']);
-			$useronline_naming_guests = trim($_POST['useronline_naming_guests']);
-			$useronline_naming_bot = trim($_POST['useronline_naming_bot']);
-			$useronline_naming_bots = trim($_POST['useronline_naming_bots']);
-			$useronline_naming = array('user' => $useronline_naming_user, 'users' => $useronline_naming_users, 'member' => $useronline_naming_member, 'members' => $useronline_naming_members, 'guest' => $useronline_naming_guest, 'guests' => $useronline_naming_guests, 'bot' => $useronline_naming_bot, 'bots' => $useronline_naming_bots);
-			$useronline_template_useronline = trim($_POST['useronline_template_useronline']);
-			$useronline_template_browsingsite = array($_POST['useronline_separator_browsingsite_members'], $_POST['useronline_separator_browsingsite_guests'], $_POST['useronline_separator_browsingsite_bots'], trim($_POST['useronline_template_browsingsite']));
-			$useronline_template_browsingpage = array($_POST['useronline_separator_browsingpage_members'], $_POST['useronline_separator_browsingpage_guests'], $_POST['useronline_separator_browsingpage_bots'], trim($_POST['useronline_template_browsingpage']));
-			$update_useronline_queries = array();
-			$update_useronline_text = array();
-			$update_useronline_queries[] = update_option('useronline_timeout', $useronline_timeout);
-			$update_useronline_queries[] = update_option('useronline_bots', $useronline_bots);
-			$update_useronline_queries[] = update_option('useronline_url', $useronline_url);
-			$update_useronline_queries[] = update_option('useronline_naming', $useronline_naming);
-			$update_useronline_queries[] = update_option('useronline_template_useronline', $useronline_template_useronline);
-			$update_useronline_queries[] = update_option('useronline_template_browsingsite', $useronline_template_browsingsite);
-			$update_useronline_queries[] = update_option('useronline_template_browsingpage', $useronline_template_browsingpage);
-			$update_useronline_text[] = __('Useronline Timeout', 'wp-useronline');
-			$update_useronline_text[] = __('Useronline Bots', 'wp-useronline');
-			$update_useronline_text[] = __('Useronline URL', 'wp-useronline');
-			$update_useronline_text[] = __('Useronline Naming Conventions', 'wp-useronline');
-			$update_useronline_text[] = __('User(s) Online Template', 'wp-useronline');
-			$update_useronline_text[] = __('User(s) Browsing Site Template', 'wp-useronline');
-			$update_useronline_text[] = __('User(s) Browsing Page Template', 'wp-useronline');
-			$i=0;
-			$text = '';
-			foreach($update_useronline_queries as $update_useronline_query) {
-				if($update_useronline_query) {
-					$text .= '<font color="green">'.$update_useronline_text[$i].' '.__('Updated', 'wp-useronline').'</font><br />';
-				}
-				$i++;
-			}
-			if(empty($text)) {
-				$text = '<font color="red">'.__('No Useronline Option Updated', 'wp-useronline').'</font>';
-			}
-			break;
-		// Uninstall WP-UserOnline
+	switch($_POST['do']) {		
 		case __('UNINSTALL WP-UserOnline', 'wp-useronline') :
 			if(trim($_POST['uninstall_useronline_yes']) == 'yes') {
 				echo '<div id="message" class="updated fade">';
@@ -119,9 +119,9 @@ if(!empty($_POST['do'])) {
 switch($mode) {
 		//  Deactivating WP-UserOnline
 		case 'end-UNINSTALL':
-			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=useronline/useronline.php';
+			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=wp-useronline/wp-useronline.php';
 			if(function_exists('wp_nonce_url')) { 
-				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_useronline/useronline.php');
+				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-useronline/wp-useronline.php');
 			}
 			echo '<div class="wrap">';
 			echo '<h2>'.__('Uninstall WP-UserOnline', 'wp-useronline').'</h2>';
@@ -182,7 +182,10 @@ switch($mode) {
 </script>
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <div class="wrap"> 
-	<h2><?php _e('Useronline Options', 'wp-useronline'); ?></h2> 
+	<h2><?php _e('Useronline Options', 'wp-useronline'); ?></h2>
+	<p class="submit">
+		<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-useronline'); ?>" />
+	</p>
 	<fieldset class="options">
 		<legend><?php _e('Useronline Options', 'wp-useronline'); ?></legend>
 		<table width="100%"  border="0" cellspacing="3" cellpadding="3">
@@ -316,9 +319,9 @@ switch($mode) {
 			</tr>
 		</table>
 	</fieldset>
-	<div align="center">
-		<input type="submit" name="do" class="button" value="<?php _e('Update Options', 'wp-useronline'); ?>" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-useronline'); ?>" class="button" onclick="javascript:history.go(-1)" /> 
-	</div>
+	<p class="submit">
+		<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-useronline'); ?>" />
+	</p>
 </div>
 </form>
 

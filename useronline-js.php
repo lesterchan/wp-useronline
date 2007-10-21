@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.3 Plugin: WP-UserOnline 2.21								|
+|	WordPress 2.3 Plugin: WP-UserOnline 2.30								|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -11,7 +11,7 @@
 |																							|
 |	File Information:																	|
 |	- Useronline Javascript File														|
-|	- wp-content/plugins/useronline/useronline-js.php 						|
+|	- wp-content/plugins/wp-useronline/useronline-js.php 				|
 |																							|
 +----------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@ $useronline_ajax_url  = substr($useronline_ajax_url, 0, -1);
 }
 ?>
 // Variables
-var useronline_ajax_url = "<?php echo $useronline_ajax_url; ?>/useronline.php";
+var useronline_ajax_url = "<?php echo $useronline_ajax_url; ?>/wp-useronline.php";
 var useronline_timeout = <?php echo (get_option('useronline_timeout')*1000); ?>;
 
 // UserOnline JavaScript Init
