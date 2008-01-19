@@ -82,7 +82,7 @@ function useronline() {
 	$useragent = $_SERVER['HTTP_USER_AGENT'];
 	$current_user = wp_get_current_user();
 	if(!empty($_SERVER['HTTP_REFERER'])) {
-		$referral = addslashes(urlencode($_SERVER['HTTP_REFERER']));
+		$referral = addslashes(urlencode(strip_tags($_SERVER['HTTP_REFERER'])));
 	}
 	// Check For Bot
 	$bots = get_option('useronline_bots');
