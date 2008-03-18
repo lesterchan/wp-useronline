@@ -1,3 +1,21 @@
+/*
++----------------------------------------------------------------+
+|																							|
+|	WordPress 2.5 Plugin: WP-UserOnline 2.30								|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
+|																							|
+|	File Written By:																	|
+|	- Lester "GaMerZ" Chan															|
+|	- http://lesterchan.net															|
+|																							|
+|	File Information:																	|
+|	- Useronline Javascript File														|
+|	- wp-content/plugins/wp-useronline/useronline-js.js					|
+|																							|
++----------------------------------------------------------------+
+*/
+
+
 // UserOnline JavaScript Init
 function useronline_init() {
 	// Check Users Count
