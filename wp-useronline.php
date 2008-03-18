@@ -694,9 +694,9 @@ function useronline_page() {
 		$wp_stats = true;
 	}
 	if ($total_users == 1) { 
-		$useronline_output .= '<p>'.sprintf(__('There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>.</p>', 'wp-useronline'), $nicetext_users, $nicetext_members, $nicetext_guests, $nicetext_bots).'</p>';
+		$useronline_output .= '<p>'.sprintf(__('There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>.', 'wp-useronline'), $nicetext_users, $nicetext_members, $nicetext_guests, $nicetext_bots).'</p>';
 	} else { 
-		$useronline_output .= '<p>'.sprintf(__('There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>.</p>', 'wp-useronline'), $nicetext_users, $nicetext_members, $nicetext_guests, $nicetext_bots).'</p>';
+		$useronline_output .= '<p>'.sprintf(__('There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>.', 'wp-useronline'), $nicetext_users, $nicetext_members, $nicetext_guests, $nicetext_bots).'</p>';
 	}
 	$useronline_output .= '<p>'.sprintf(__('Most users ever online were <strong>%s</strong>, on <strong>%s</strong>', 'wp-useronline'), number_format_i18n(get_most_useronline()), get_most_useronline_date()).'</p>';
 	// Print Out Members
