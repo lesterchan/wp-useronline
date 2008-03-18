@@ -1,36 +1,3 @@
-<?php
-/*
-+----------------------------------------------------------------+
-|																							|
-|	WordPress 2.3 Plugin: WP-UserOnline 2.30								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
-|																							|
-|	File Written By:																	|
-|	- Lester "GaMerZ" Chan															|
-|	- http://lesterchan.net															|
-|																							|
-|	File Information:																	|
-|	- Useronline Javascript File														|
-|	- wp-content/plugins/wp-useronline/useronline-js.php 				|
-|																							|
-+----------------------------------------------------------------+
-*/
-
-
-### Include wp-config.php
-@require('../../../wp-config.php');
-cache_javascript_headers();
-
-### Determine useronline.php Path
-$useronline_ajax_url = dirname($_SERVER['PHP_SELF']);
-if(substr($useronline_ajax_url, -1) == '/') {
-$useronline_ajax_url  = substr($useronline_ajax_url, 0, -1);
-}
-?>
-// Variables
-var useronline_ajax_url = "<?php echo $useronline_ajax_url; ?>/wp-useronline.php";
-var useronline_timeout = <?php echo (get_option('useronline_timeout')*1000); ?>;
-
 // UserOnline JavaScript Init
 function useronline_init() {
 	// Check Users Count
@@ -82,8 +49,12 @@ function get_useronline_browsingpage() {
 
 
 // Init UserOnline
-addLoadEvent = function(f) { var old = window.onload
-if (typeof old != 'function') window.onload = f
-else { window.onload = function() { old(); f() }}
-}
+addLoadEvent = function(f) {
+	var old = window.onload;
+	if (typeof old != 'function') {
+		window.onload = f;
+	} else {
+		window.onload = function() { old(); f(); };
+	}
+};
 addLoadEvent(useronline_init);

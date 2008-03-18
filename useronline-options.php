@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.3 Plugin: WP-UserOnline 2.30								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
+|	WordPress 2.5 Plugin: WP-UserOnline 2.30								|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
