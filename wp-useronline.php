@@ -835,6 +835,7 @@ function useronline_page_general_stats($content) {
 ### Function: Create UserOnline Table
 add_action('activate_wp-useronline/wp-useronline.php', 'create_useronline_table');
 function create_useronline_table() {
+	global $wpdb;
 	$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'pubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com' => 'become.com');
 	if(@is_file(ABSPATH.'/wp-admin/upgrade-functions.php')) {
 		include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
