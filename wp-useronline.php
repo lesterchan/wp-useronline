@@ -10,7 +10,7 @@ Author URI: http://lesterchan.net
 
 
 /*  
-	Copyright 2008  Lester Chan  (email : gamerz84@hotmail.com)
+	Copyright 2008  Lester Chan  (email : lesterchan@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -610,11 +610,10 @@ function useronline_rightnow() {
 }
 
 
-### Function: Place Useronline In Content
-add_filter('the_content', 'place_useronlinepage', '7');
-function place_useronlinepage($content){
-     $content = preg_replace( "/\[page_useronline\]/ise", "useronline_page()", $content); 
-    return $content;
+### Function: Short Code For Inserting Users Online Into Page
+add_shortcode('page_useronline', 'useronline_page_shortcode');
+function useronline_page_shortcode($atts) {
+	return useronline_page();
 }
 
 
