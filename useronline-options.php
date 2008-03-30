@@ -183,46 +183,45 @@ switch($mode) {
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <div class="wrap"> 
 	<h2><?php _e('Useronline Options', 'wp-useronline'); ?></h2>
-	<p class="submit">
-		<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-useronline'); ?>" />
-	</p>
-	<fieldset class="options">
-		<legend><?php _e('Useronline Options', 'wp-useronline'); ?></legend>
-		<table width="100%"  border="0" cellspacing="3" cellpadding="3">
-			 <tr valign="top">
-				<th align="left" width="30%"><?php _e('Time Out', 'wp-useronline'); ?></th>
-				<td align="left">
-					<input type="text" name="useronline_timeout" value="<?php echo get_option('useronline_timeout'); ?>" size="4" /><br /><?php _e('How long till it will remove the user from the database (In seconds).', 'wp-useronline'); ?>
-				</td>
-			</tr>
-			 <tr valign="top">
-				<th align="left" width="30%"><?php _e('UserOnline URL', 'wp-useronline'); ?></th>
-				<td align="left">
-					<input type="text" name="useronline_url" value="<?php echo get_option('useronline_url'); ?>" size="50" /><br /><?php _e('URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
-				</td>
-			</tr>
-			<tr valign="top"> 
-				<th align="left" width="30%"><?php _e('Bots Name/User Agent', 'wp-useronline'); ?></th>
-				<td align="left">
-					<?php _e('Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot\'s Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line.', 'wp-useronline'); ?>
-					<br /><br />
-					<textarea cols="20" rows="30" name="useronline_bots_name"><?php echo $useronline_options_bots_name; ?></textarea>
-					<textarea cols="20" rows="30" name="useronline_bots_agent"><?php echo $useronline_options_bots_agent; ?></textarea>						
-				</td> 
-			</tr>
-			<tr valign="top"> 
-					<td width="30%" align="left">
-						<strong><?php _e('Naming Conventions:', 'wp-useronline'); ?></strong><br /><br /><br />
-						<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
-						- %USERONLINE_COUNT%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_naming();" class="button" />
-					</td>
-				<td align="left">
-					<table width="100%"  border="0" cellspacing="3" cellpadding="3">
+	<h3><?php _e('Useronline Options', 'wp-useronline'); ?></h3>
+	<table class="form-table">
+		 <tr>
+			<th scope="row" valign="top"><?php _e('Time Out', 'wp-useronline'); ?></th>
+			<td>
+				<input type="text" name="useronline_timeout" value="<?php echo get_option('useronline_timeout'); ?>" size="4" /><br /><?php _e('How long till it will remove the user from the database (In seconds).', 'wp-useronline'); ?>
+			</td>
+		</tr>
+		 <tr>
+			<th scope="row" valign="top"><?php _e('UserOnline URL', 'wp-useronline'); ?></th>
+			<td>
+				<input type="text" name="useronline_url" value="<?php echo get_option('useronline_url'); ?>" size="50" /><br /><?php _e('URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
+			</td>
+		</tr>
+		<tr> 
+			<th scope="row" valign="top"><?php _e('Bots Name/User Agent', 'wp-useronline'); ?></th>
+			<td>
+				<?php _e('Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot\'s Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line.', 'wp-useronline'); ?>
+				<br /><br />
+				<textarea cols="20" rows="30" name="useronline_bots_name"><?php echo $useronline_options_bots_name; ?></textarea>
+				<textarea cols="20" rows="30" name="useronline_bots_agent"><?php echo $useronline_options_bots_agent; ?></textarea>						
+			</td> 
+		</tr>
+		<tr> 
+			<td width="30%">
+				<strong><?php _e('Naming Conventions:', 'wp-useronline'); ?></strong><br /><br /><br />
+				<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
+				- %USERONLINE_COUNT%<br /><br />
+				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_naming();" class="button" />
+			</td>
+			<td>
+				<table class="form-table">
+					<thead>
 						 <tr>
 							<th><?php _e('Singular Form', 'wp-useronline'); ?></th>
 							<th><?php _e('Plural Form', 'wp-useronline'); ?></th>
 						 </tr>
+					 </thead>
+					 <tbody>
 						 <tr>
 							<td><input type="text" id="useronline_naming_user" name="useronline_naming_user" value="<?php echo stripslashes($useronline_options_naming['user']); ?>" size="20" /></td>
 							<td><input type="text" id="useronline_naming_users" name="useronline_naming_users" value="<?php echo stripslashes($useronline_options_naming['users']); ?>" size="40" /></td>
@@ -239,91 +238,98 @@ switch($mode) {
 							<td><input type="text" id="useronline_naming_bot" name="useronline_naming_bot" value="<?php echo stripslashes($useronline_options_naming['bot']); ?>" size="20" /></td>
 							<td><input type="text" id="useronline_naming_bots" name="useronline_naming_bots" value="<?php echo stripslashes($useronline_options_naming['bots']); ?>" size="40" /></td>
 						 </tr>
-					</table>
-				</td> 
-			</tr>
-		</table>
-	</fieldset>
-	<fieldset class="options">
-		<legend><?php _e('Useronline Templates', 'wp-useronline'); ?></legend>
-		<table width="100%"  border="0" cellspacing="3" cellpadding="3">
-			 <tr valign="top">
-				<td width="30%" align="left">
-					<strong><?php _e('User(s) Online:', 'wp-useronline'); ?></strong><br /><br /><br />
-					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
-					- %USERONLINE_USERS%<br />
-					- %USERONLINE_PAGE_URL%<br />
-					- %USERONLINE_MOSTONLINE_COUNT%<br />
-					- %USERONLINE_MOSTONLINE_DATE%<br /><br />
-					<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_templates('useronline');" class="button" />
-				</td>
-				<td align="left"><textarea cols="80" rows="12" id="useronline_template_useronline" name="useronline_template_useronline"><?php echo htmlspecialchars(stripslashes(get_option('useronline_template_useronline'))); ?></textarea></td>
-			</tr>
-			 <tr valign="top">
-				<td width="30%" align="left">
-					<strong><?php _e('User(s) Browsing Site:', 'wp-useronline'); ?></strong><br /><br /><br />
-					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
-					- %USERONLINE_USERS%<br />					
-					- %USERONLINE_MEMBERS%<br />
-					- %USERONLINE_MEMBER_NAMES%<br />
-					- %USERONLINE_GUESTS_SEPERATOR%<br />	
-					- %USERONLINE_GUESTS%<br />
-					- %USERONLINE_BOTS_SEPERATOR%<br />
-					- %USERONLINE_BOTS%<br /><br />
-					<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_browsing_site();" class="button" />
-				</td>
-				<td align="left">
-					<table width="90%"  border="0" cellspacing="3" cellpadding="3">
+					 </tbody>
+				</table>
+				<br />
+			</td> 
+		</tr>
+	</table>
+
+	<h3><?php _e('Useronline Templates', 'wp-useronline'); ?></h3>
+	<table class="form-table">
+		 <tr>
+			<td width="30%">
+				<strong><?php _e('User(s) Online:', 'wp-useronline'); ?></strong><br /><br /><br />
+				<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
+				- %USERONLINE_USERS%<br />
+				- %USERONLINE_PAGE_URL%<br />
+				- %USERONLINE_MOSTONLINE_COUNT%<br />
+				- %USERONLINE_MOSTONLINE_DATE%<br /><br />
+				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_templates('useronline');" class="button" />
+			</td>
+			<td><textarea cols="80" rows="12" id="useronline_template_useronline" name="useronline_template_useronline"><?php echo htmlspecialchars(stripslashes(get_option('useronline_template_useronline'))); ?></textarea></td>
+		</tr>
+		 <tr>
+			<td width="30%">
+				<strong><?php _e('User(s) Browsing Site:', 'wp-useronline'); ?></strong><br /><br /><br />
+				<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
+				- %USERONLINE_USERS%<br />					
+				- %USERONLINE_MEMBERS%<br />
+				- %USERONLINE_MEMBER_NAMES%<br />
+				- %USERONLINE_GUESTS_SEPERATOR%<br />	
+				- %USERONLINE_GUESTS%<br />
+				- %USERONLINE_BOTS_SEPERATOR%<br />
+				- %USERONLINE_BOTS%<br /><br />
+				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_browsing_site();" class="button" />
+			</td>
+			<td>
+				<table class="form-table">
+					<thead>
 						 <tr>
 							<th><?php _e('Member Names Separator', 'wp-useronline'); ?></th>
 							<th><?php _e('Guests Separator', 'wp-useronline'); ?></th>
 							<th><?php _e('Bots Separator', 'wp-useronline'); ?></th>
 						 </tr>
-						 <tr>
-							<td><input type="text" id="useronline_separator_browsingsite_members" name="useronline_separator_browsingsite_members" value="<?php echo stripslashes($useronline_template_browsingsite[0]); ?>" size="15" /></td>
-							<td><input type="text" id="useronline_separator_browsingsite_guests" name="useronline_separator_browsingsite_guests" value="<?php echo stripslashes($useronline_template_browsingsite[1]); ?>" size="15" /></td>
-							<td><input type="text" id="useronline_separator_browsingsite_bots" name="useronline_separator_browsingsite_bots" value="<?php echo stripslashes($useronline_template_browsingsite[2]); ?>" size="15" /></td>
-						 </tr>
-					</table>
-					<textarea cols="80" rows="12" id="useronline_template_browsingsite" name="useronline_template_browsingsite"><?php echo htmlspecialchars(stripslashes($useronline_template_browsingsite[3])); ?></textarea>
-				</td>
-			</tr>
-		 <tr valign="top">
-				<td width="30%" align="left">
-					<strong><?php _e('User(s) Browsing Page:', 'wp-useronline'); ?></strong><br /><br /><br />
-					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
-					- %USERONLINE_USERS%<br />					
-					- %USERONLINE_MEMBERS%<br />
-					- %USERONLINE_MEMBER_NAMES%<br />
-					- %USERONLINE_GUESTS_SEPERATOR%<br />	
-					- %USERONLINE_GUESTS%<br />
-					- %USERONLINE_BOTS_SEPERATOR%<br />
-					- %USERONLINE_BOTS%<br /><br />
-					<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_browsing_page();" class="button" />
-				</td>
-				<td align="left">
-					<table width="90%"  border="0" cellspacing="3" cellpadding="3">
+					 </thead>
+					 <tr>
+						<td><input type="text" id="useronline_separator_browsingsite_members" name="useronline_separator_browsingsite_members" value="<?php echo stripslashes($useronline_template_browsingsite[0]); ?>" size="15" /></td>
+						<td><input type="text" id="useronline_separator_browsingsite_guests" name="useronline_separator_browsingsite_guests" value="<?php echo stripslashes($useronline_template_browsingsite[1]); ?>" size="15" /></td>
+						<td><input type="text" id="useronline_separator_browsingsite_bots" name="useronline_separator_browsingsite_bots" value="<?php echo stripslashes($useronline_template_browsingsite[2]); ?>" size="15" /></td>
+					 </tr>
+				</table>
+				<br />
+				<textarea cols="80" rows="12" id="useronline_template_browsingsite" name="useronline_template_browsingsite"><?php echo htmlspecialchars(stripslashes($useronline_template_browsingsite[3])); ?></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td width="30%">
+				<strong><?php _e('User(s) Browsing Page:', 'wp-useronline'); ?></strong><br /><br /><br />
+				<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
+				- %USERONLINE_USERS%<br />					
+				- %USERONLINE_MEMBERS%<br />
+				- %USERONLINE_MEMBER_NAMES%<br />
+				- %USERONLINE_GUESTS_SEPERATOR%<br />	
+				- %USERONLINE_GUESTS%<br />
+				- %USERONLINE_BOTS_SEPERATOR%<br />
+				- %USERONLINE_BOTS%<br /><br />
+				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_browsing_page();" class="button" />
+			</td>
+			<td>
+				<table class="form-table">
+					<thead>
 						 <tr>
 							<th><?php _e('Member Names Separator', 'wp-useronline'); ?></th>
 							<th><?php _e('Guests Separator', 'wp-useronline'); ?></th>
 							<th><?php _e('Bots Separator', 'wp-useronline'); ?></th>
 						 </tr>
-						 <tr>
-							<td><input type="text" id="useronline_separator_browsingpage_members" name="useronline_separator_browsingpage_members" value="<?php echo stripslashes($useronline_template_browsingpage[0]); ?>" size="15" /></td>
-							<td><input type="text" id="useronline_separator_browsingpage_guests" name="useronline_separator_browsingpage_guests" value="<?php echo stripslashes($useronline_template_browsingpage[1]); ?>" size="15" /></td>
-							<td><input type="text" id="useronline_separator_browsingpage_bots" name="useronline_separator_browsingpage_bots" value="<?php echo stripslashes($useronline_template_browsingpage[2]); ?>" size="15" /></td>
-						 </tr>
-					</table>
-					<textarea cols="80" rows="12" id="useronline_template_browsingpage" name="useronline_template_browsingpage"><?php echo htmlspecialchars(stripslashes($useronline_template_browsingpage[3])); ?></textarea>
-				</td>
-			</tr>
-		</table>
-	</fieldset>
+					 </thead>
+					 <tr>
+						<td><input type="text" id="useronline_separator_browsingpage_members" name="useronline_separator_browsingpage_members" value="<?php echo stripslashes($useronline_template_browsingpage[0]); ?>" size="15" /></td>
+						<td><input type="text" id="useronline_separator_browsingpage_guests" name="useronline_separator_browsingpage_guests" value="<?php echo stripslashes($useronline_template_browsingpage[1]); ?>" size="15" /></td>
+						<td><input type="text" id="useronline_separator_browsingpage_bots" name="useronline_separator_browsingpage_bots" value="<?php echo stripslashes($useronline_template_browsingpage[2]); ?>" size="15" /></td>
+					 </tr>
+				</table>
+				<br />
+				<textarea cols="80" rows="12" id="useronline_template_browsingpage" name="useronline_template_browsingpage"><?php echo htmlspecialchars(stripslashes($useronline_template_browsingpage[3])); ?></textarea>
+			</td>
+		</tr>
+	</table>
 	<p class="submit">
-		<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-useronline'); ?>" />
+		<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'wp-useronline'); ?>" />
 	</p>
 </div>
 </form>
+<p>&nbsp;</p>
 
 <!-- Uninstall WP-UserOnline -->
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
@@ -339,13 +345,15 @@ switch($mode) {
 	<p style="text-align: left; color: red">
 		<strong><?php _e('The following WordPress Options/Tables will be DELETED:', 'wp-useronline'); ?></strong><br />
 	</p>
-	<table width="70%"  border="0" cellspacing="3" cellpadding="3">
-		<tr class="thead">
-			<td align="center"><strong><?php _e('WordPress Options', 'wp-useronline'); ?></strong></td>
-			<td align="center"><strong><?php _e('WordPress Tables', 'wp-useronline'); ?></strong></td>
-		</tr>
+	<table class="widefat">
+		<thead>
+			<tr>
+				<th><?php _e('WordPress Options', 'wp-polls'); ?></th>
+				<th><?php _e('WordPress Tables', 'wp-polls'); ?></th>
+			</tr>
+		</thead>
 		<tr>
-			<td valign="top" style="background-color: #eee;">
+			<td valign="top">
 				<ol>
 				<?php
 					foreach($useronline_settings as $settings) {
@@ -354,7 +362,7 @@ switch($mode) {
 				?>
 				</ol>
 			</td>
-			<td valign="top" style="background-color: #eee;">
+			<td valign="top" class="alternate">
 				<ol>
 				<?php
 					foreach($useronline_tables as $tables) {

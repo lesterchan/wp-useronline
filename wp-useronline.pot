@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.30\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-03-30 16:46+0800\n"
+"PO-Revision-Date: 2008-03-30 17:35+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <lesterchan@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgid "No Useronline Option Updated"
 msgstr ""
 
 #: useronline-options.php:85
-#: useronline-options.php:371
+#: useronline-options.php:379
 msgid "UNINSTALL WP-UserOnline"
 msgstr ""
 
@@ -71,7 +71,7 @@ msgid "Error deleting Setting Key '%s'."
 msgstr ""
 
 #: useronline-options.php:127
-#: useronline-options.php:331
+#: useronline-options.php:337
 msgid "Uninstall WP-UserOnline"
 msgstr ""
 
@@ -139,62 +139,57 @@ msgid "Browsing This Page."
 msgstr ""
 
 #: useronline-options.php:185
-#: useronline-options.php:190
+#: useronline-options.php:186
 msgid "Useronline Options"
 msgstr ""
 
-#: useronline-options.php:187
-#: useronline-options.php:323
-msgid "Update Options &raquo;"
-msgstr ""
-
-#: useronline-options.php:193
+#: useronline-options.php:189
 msgid "Time Out"
 msgstr ""
 
-#: useronline-options.php:195
+#: useronline-options.php:191
 msgid "How long till it will remove the user from the database (In seconds)."
 msgstr ""
 
-#: useronline-options.php:199
+#: useronline-options.php:195
 msgid "UserOnline URL"
 msgstr ""
 
-#: useronline-options.php:201
+#: useronline-options.php:197
 msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
 msgstr ""
 
-#: useronline-options.php:205
+#: useronline-options.php:201
 msgid "Bots Name/User Agent"
 msgstr ""
 
-#: useronline-options.php:207
+#: useronline-options.php:203
 msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
 msgstr ""
 
-#: useronline-options.php:215
+#: useronline-options.php:211
 msgid "Naming Conventions:"
 msgstr ""
 
-#: useronline-options.php:216
+#: useronline-options.php:212
 #: useronline-options.php:253
 #: useronline-options.php:265
-#: useronline-options.php:294
+#: useronline-options.php:297
 msgid "Allowed Variables:"
 msgstr ""
 
-#: useronline-options.php:218
+#: useronline-options.php:214
 #: useronline-options.php:258
 #: useronline-options.php:273
-#: useronline-options.php:302
+#: useronline-options.php:305
 msgid "Restore Default Template"
 msgstr ""
 
-#: useronline-options.php:223
+#: useronline-options.php:220
 msgid "Singular Form"
 msgstr ""
 
-#: useronline-options.php:224
+#: useronline-options.php:221
 msgid "Plural Form"
 msgstr ""
 
@@ -210,55 +205,59 @@ msgstr ""
 msgid "User(s) Browsing Site:"
 msgstr ""
 
-#: useronline-options.php:278
-#: useronline-options.php:307
+#: useronline-options.php:279
+#: useronline-options.php:311
 msgid "Member Names Separator"
 msgstr ""
 
-#: useronline-options.php:279
-#: useronline-options.php:308
+#: useronline-options.php:280
+#: useronline-options.php:312
 msgid "Guests Separator"
 msgstr ""
 
-#: useronline-options.php:280
-#: useronline-options.php:309
+#: useronline-options.php:281
+#: useronline-options.php:313
 msgid "Bots Separator"
 msgstr ""
 
-#: useronline-options.php:293
+#: useronline-options.php:296
 msgid "User(s) Browsing Page:"
 msgstr ""
 
-#: useronline-options.php:333
+#: useronline-options.php:328
+msgid "Save Changes"
+msgstr ""
+
+#: useronline-options.php:339
 msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
 msgstr ""
 
-#: useronline-options.php:336
+#: useronline-options.php:342
 msgid "WARNING:"
 msgstr ""
 
-#: useronline-options.php:337
+#: useronline-options.php:343
 msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
 msgstr ""
 
-#: useronline-options.php:340
+#: useronline-options.php:346
 msgid "The following WordPress Options/Tables will be DELETED:"
 msgstr ""
 
-#: useronline-options.php:344
+#: useronline-options.php:351
 msgid "WordPress Options"
 msgstr ""
 
-#: useronline-options.php:345
+#: useronline-options.php:352
 msgid "WordPress Tables"
 msgstr ""
 
-#: useronline-options.php:370
+#: useronline-options.php:378
 #: wp-useronline-widget.php:73
 msgid "Yes"
 msgstr ""
 
-#: useronline-options.php:371
+#: useronline-options.php:379
 msgid ""
 "You Are About To Uninstall WP-UserOnline From WordPress.\\n"
 "This Action Is Not Reversible.\\n"
