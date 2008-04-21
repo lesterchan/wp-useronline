@@ -550,7 +550,7 @@ function check_ip($ip) {
 	$user_level = intval($current_user->user_level);
 	$ip2long = ip2long($ip);
 	if($user_level == 10 && ($ip != 'unknown') && $ip == long2ip($ip2long) && $ip2long !== false) {
-		return "(<a href=\"http://ws.arin.net/cgi-bin/whois.pl?queryinput=$ip\" target=\"_blank\" title=\"".gethostbyaddr($ip)."\">$ip</a>)";
+		return "(<a href=\"http://ws.arin.net/cgi-bin/whois.pl?queryinput=$ip\" title=\"".gethostbyaddr($ip)."\">$ip</a>)";
 	}
 }
 
