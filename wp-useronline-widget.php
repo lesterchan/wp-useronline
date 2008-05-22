@@ -38,7 +38,7 @@ function widget_useronline_init() {
 	function widget_useronline($args) {
 		extract($args);
 		$options = get_option('widget_useronline');
-		$title = htmlspecialchars($options['title']);
+		$title = htmlspecialchars(stripslashes($options['title']));
 		echo $before_widget.$before_title.$title.$after_title;
 		if (function_exists('useronline')) {
 			echo '<ul>'."\n";
@@ -63,7 +63,7 @@ function widget_useronline_init() {
 		}
 		if ($_POST['useronline-submit']) {
 			$options['display_usersbrowsingsite'] = intval($_POST['useronline-usersbrowsingsite']);
-			$options['title'] = strip_tags(stripslashes($_POST['useronline-title']));
+			$options['title'] = strip_tags($_POST['useronline-title']);
 			update_option('widget_useronline', $options);
 		}
 		echo '<p style="text-align: left;"><label for="useronline-title">'.__('Widget Title', 'wp-useronline').':</label>&nbsp;&nbsp;&nbsp;<input type="text" id="useronline-title" name="useronline-title" value="'.htmlspecialchars($options['title']).'" />';
