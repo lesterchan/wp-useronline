@@ -331,7 +331,7 @@ function get_users_browsing_site($display = true) {
 				}
 			} else {
 				foreach($members as $member) {
-					$temp_member .= '<a href="'.useronline_stats_page_link(urlencode($member)).'">'.$member.'</a>'.$separator_members_browsingsite;
+					$temp_member .= useronline_stats_page_link($member).$separator_members_browsingsite;
 				}
 			}
 			$template_browsingsite = str_replace('%USERONLINE_MEMBER_NAMES%', substr($temp_member, 0, -strlen($separator_members_browsingsite)), $template_browsingsite);
@@ -468,7 +468,7 @@ function get_users_browsing_page($display = true) {
 				}
 			} else {
 				foreach($members as $member) {
-					$temp_member .= '<a href="'.useronline_stats_page_link(urlencode($member)).'">'.$member.'</a>'.$separator_members_browsingpage;
+					$temp_member .= useronline_stats_page_link($member).$separator_members_browsingpage;
 				}
 			}
 			$template_browsingpage = str_replace('%USERONLINE_MEMBER_NAMES%', substr($temp_member, 0, -strlen($separator_members_browsingpage)), $template_browsingpage);
@@ -719,7 +719,7 @@ function useronline_page() {
 				$referral_output = ' [<a href="'.format_url($member['referral']).'">'.__('referral', 'wp-useronline').'</a>]';
 			}
 			if($wp_stats) {
-				$useronline_output .= '<p><strong>#'.$no.' - <a href="'.useronline_stats_page_link($member['display_name']).'">'.$member['display_name'].'</a></strong> '.ip2nation_country($member['ip']).check_ip($member['ip']).' '.__('on', 'wp-useronline').' '.mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $member['timestamp'])).'<br />'.$member['location'].' [<a href="'.format_url($member['url']).'">'.__('url', 'wp-useronline').'</a>]'.$referral_output.'</p>'."\n";
+				$useronline_output .= '<p><strong>#'.$no.' - '.useronline_stats_page_link($member['display_name']).'</strong> '.ip2nation_country($member['ip']).check_ip($member['ip']).' '.__('on', 'wp-useronline').' '.mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $member['timestamp'])).'<br />'.$member['location'].' [<a href="'.format_url($member['url']).'">'.__('url', 'wp-useronline').'</a>]'.$referral_output.'</p>'."\n";
 			} else {
 				$useronline_output .= '<p><strong>#'.$no.' - '.$member['display_name'].'</strong> '.ip2nation_country($member['ip']).check_ip($member['ip']).' '.__('on', 'wp-useronline').' '.mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $member['timestamp'])).'<br />'.$member['location'].' [<a href="'.format_url($member['url']).'">'.__('url', 'wp-useronline').'</a>]'.$referral_output.'</p>'."\n";
 			}
@@ -739,7 +739,7 @@ function useronline_page() {
 				$referral_output = '[<a href="'.format_url($guest['referral']).'">'.__('referral', 'wp-useronline').'</a>]';
 			}
 			if($wp_stats) {
-				$useronline_output .= '<p><strong>#'.$no.' - <a href="'.useronline_stats_page_link($guest['display_name']).'">'.$guest['display_name'].'</a></strong> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' '.__('on', 'wp-useronline').' '.mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $guest['timestamp'])).'<br />'.$guest['location'].' [<a href="'.format_url($guest['url']).'">'.__('url', 'wp-useronline').'</a>]'.$referral_output.'</p>'."\n";
+				$useronline_output .= '<p><strong>#'.$no.' - '.useronline_stats_page_link($guest['display_name']).'</strong> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' '.__('on', 'wp-useronline').' '.mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $guest['timestamp'])).'<br />'.$guest['location'].' [<a href="'.format_url($guest['url']).'">'.__('url', 'wp-useronline').'</a>]'.$referral_output.'</p>'."\n";
 			} else {
 				$useronline_output .= '<p><strong>#'.$no.' - '.$guest['display_name'].'</strong> '.ip2nation_country($guest['ip']).check_ip($guest['ip']).' '.__('on', 'wp-useronline').' '.mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $guest['timestamp'])).'<br />'.$guest['location'].' [<a href="'.format_url($guest['url']).'">'.__('url', 'wp-useronline').'</a>]'.$referral_output.'</p>'."\n";
 			}
@@ -771,11 +771,16 @@ function useronline_page() {
 
 ### Function: Stats Page Link
 function useronline_stats_page_link($author) {
-	$stats_url = get_option('stats_url');
-	if(strpos($stats_url, '?') !== false) {
-		$stats_url = "$stats_url&amp;stats_author=$author";
-	} else {
-		$stats_url = "$stats_url?stats_author=$author";
+	$stats_url = '';
+	if(function_exists('stats_page')) {
+		$stats_url = get_option('stats_url');
+		$author_encode = urlencode($author);
+		if(strpos($stats_url, '?') !== false) {
+			$stats_url = "$stats_url&amp;stats_author=$author_encode";
+		} else {
+			$stats_url = "$stats_url?stats_author=$author_encode";
+		}
+		return '<a href="'.$stats_url.'" title="'.$author.'">'.$author.'</a>';
 	}
 	return $stats_url;
 }
