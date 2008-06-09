@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.31\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-05 17:39+0800\n"
-"PO-Revision-Date: 2008-06-05 17:39+0800\n"
+"POT-Creation-Date: 2008-06-10 03:34+0800\n"
+"PO-Revision-Date: 2008-06-10 03:35+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester Chan <lesterchan@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -82,60 +82,60 @@ msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnl
 msgstr ""
 
 #: useronline-options.php:153
-#: wp-useronline.php:879
+#: wp-useronline.php:888
 msgid "Online"
 msgstr ""
 
 #: useronline-options.php:160
-#: wp-useronline.php:878
+#: wp-useronline.php:887
 msgid "1 User"
 msgstr ""
 
 #: useronline-options.php:161
-#: wp-useronline.php:878
+#: wp-useronline.php:887
 msgid "%USERONLINE_COUNT% Users"
 msgstr ""
 
 #: useronline-options.php:162
-#: wp-useronline.php:878
+#: wp-useronline.php:887
 msgid "1 Member"
 msgstr ""
 
 #: useronline-options.php:163
-#: wp-useronline.php:878
+#: wp-useronline.php:887
 msgid "%USERONLINE_COUNT% Members"
 msgstr ""
 
 #: useronline-options.php:164
-#: wp-useronline.php:878
+#: wp-useronline.php:887
 msgid "1 Guest"
 msgstr ""
 
 #: useronline-options.php:165
-#: wp-useronline.php:878
+#: wp-useronline.php:887
 msgid "%USERONLINE_COUNT% Guests"
 msgstr ""
 
 #: useronline-options.php:166
-#: wp-useronline.php:878
+#: wp-useronline.php:887
 msgid "1 Bot"
 msgstr ""
 
 #: useronline-options.php:167
-#: wp-useronline.php:878
+#: wp-useronline.php:887
 msgid "%USERONLINE_COUNT% Bots"
 msgstr ""
 
 #: useronline-options.php:173
 #: useronline-options.php:179
 #: wp-useronline.php:674
-#: wp-useronline.php:880
-#: wp-useronline.php:881
+#: wp-useronline.php:889
+#: wp-useronline.php:890
 msgid "Users"
 msgstr ""
 
 #: useronline-options.php:179
-#: wp-useronline.php:881
+#: wp-useronline.php:890
 msgid "Browsing This Page."
 msgstr ""
 
