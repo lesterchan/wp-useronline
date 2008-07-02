@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.31\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-10 03:55+0800\n"
-"PO-Revision-Date: 2008-06-10 03:55+0800\n"
+"POT-Creation-Date: 2008-07-02 18:28+0800\n"
+"PO-Revision-Date: 2008-07-02 18:28+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester Chan <lesterchan@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -82,60 +82,60 @@ msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnl
 msgstr ""
 
 #: useronline-options.php:153
-#: wp-useronline.php:893
+#: wp-useronline.php:917
 msgid "Online"
 msgstr ""
 
 #: useronline-options.php:160
-#: wp-useronline.php:892
+#: wp-useronline.php:916
 msgid "1 User"
 msgstr ""
 
 #: useronline-options.php:161
-#: wp-useronline.php:892
+#: wp-useronline.php:916
 msgid "%USERONLINE_COUNT% Users"
 msgstr ""
 
 #: useronline-options.php:162
-#: wp-useronline.php:892
+#: wp-useronline.php:916
 msgid "1 Member"
 msgstr ""
 
 #: useronline-options.php:163
-#: wp-useronline.php:892
+#: wp-useronline.php:916
 msgid "%USERONLINE_COUNT% Members"
 msgstr ""
 
 #: useronline-options.php:164
-#: wp-useronline.php:892
+#: wp-useronline.php:916
 msgid "1 Guest"
 msgstr ""
 
 #: useronline-options.php:165
-#: wp-useronline.php:892
+#: wp-useronline.php:916
 msgid "%USERONLINE_COUNT% Guests"
 msgstr ""
 
 #: useronline-options.php:166
-#: wp-useronline.php:892
+#: wp-useronline.php:916
 msgid "1 Bot"
 msgstr ""
 
 #: useronline-options.php:167
-#: wp-useronline.php:892
+#: wp-useronline.php:916
 msgid "%USERONLINE_COUNT% Bots"
 msgstr ""
 
 #: useronline-options.php:173
 #: useronline-options.php:179
-#: wp-useronline.php:674
-#: wp-useronline.php:894
-#: wp-useronline.php:895
+#: wp-useronline.php:698
+#: wp-useronline.php:918
+#: wp-useronline.php:919
 msgid "Users"
 msgstr ""
 
 #: useronline-options.php:179
-#: wp-useronline.php:895
+#: wp-useronline.php:919
 msgid "Browsing This Page."
 msgstr ""
 
@@ -282,143 +282,143 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: wp-useronline.php:53
-#: wp-useronline.php:824
-#: wp-useronline.php:826
-#: wp-useronline.php:836
+#: wp-useronline.php:77
+#: wp-useronline.php:848
+#: wp-useronline.php:850
+#: wp-useronline.php:860
 msgid "WP-UserOnline"
 msgstr ""
 
-#: wp-useronline.php:56
+#: wp-useronline.php:80
 msgid "Useronline"
 msgstr ""
 
-#: wp-useronline.php:121
+#: wp-useronline.php:145
 msgid "guest"
 msgstr ""
 
-#: wp-useronline.php:127
-#: wp-useronline.php:687
+#: wp-useronline.php:151
+#: wp-useronline.php:711
 msgid "Guest"
 msgstr ""
 
-#: wp-useronline.php:142
+#: wp-useronline.php:166
 msgid "Blog Archive"
 msgstr ""
 
-#: wp-useronline.php:223
-#: wp-useronline.php:254
-#: wp-useronline.php:722
-#: wp-useronline.php:724
-#: wp-useronline.php:742
-#: wp-useronline.php:744
-#: wp-useronline.php:757
+#: wp-useronline.php:247
+#: wp-useronline.php:278
+#: wp-useronline.php:746
+#: wp-useronline.php:748
+#: wp-useronline.php:766
+#: wp-useronline.php:768
+#: wp-useronline.php:781
 #, php-format
 msgid "%s @ %s"
 msgstr ""
 
-#: wp-useronline.php:387
+#: wp-useronline.php:411
 msgid "No User Is Browsing This Site"
 msgstr ""
 
-#: wp-useronline.php:525
+#: wp-useronline.php:549
 msgid "No User Is Browsing This Page"
 msgstr ""
 
-#: wp-useronline.php:589
+#: wp-useronline.php:613
 msgid "Users Online Now"
 msgstr ""
 
-#: wp-useronline.php:601
+#: wp-useronline.php:625
 #, php-format
 msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
 msgstr ""
 
-#: wp-useronline.php:603
+#: wp-useronline.php:627
 #, php-format
 msgid "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
 msgstr ""
 
-#: wp-useronline.php:608
-#: wp-useronline.php:709
+#: wp-useronline.php:632
+#: wp-useronline.php:733
 #, php-format
 msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
 msgstr ""
 
-#: wp-useronline.php:672
+#: wp-useronline.php:696
 msgid "User"
 msgstr ""
 
-#: wp-useronline.php:679
+#: wp-useronline.php:703
 msgid "Member"
 msgstr ""
 
-#: wp-useronline.php:681
+#: wp-useronline.php:705
 msgid "Members"
 msgstr ""
 
-#: wp-useronline.php:689
+#: wp-useronline.php:713
 msgid "Guests"
 msgstr ""
 
-#: wp-useronline.php:694
+#: wp-useronline.php:718
 msgid "Bot"
 msgstr ""
 
-#: wp-useronline.php:696
+#: wp-useronline.php:720
 msgid "Bots"
 msgstr ""
 
-#: wp-useronline.php:705
+#: wp-useronline.php:729
 #, php-format
 msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
 msgstr ""
 
-#: wp-useronline.php:707
+#: wp-useronline.php:731
 #, php-format
 msgid "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
 msgstr ""
 
-#: wp-useronline.php:712
-#: wp-useronline.php:732
-#: wp-useronline.php:752
+#: wp-useronline.php:736
+#: wp-useronline.php:756
+#: wp-useronline.php:776
 msgid "Online Now"
 msgstr ""
 
-#: wp-useronline.php:719
-#: wp-useronline.php:739
+#: wp-useronline.php:743
+#: wp-useronline.php:763
 msgid "referral"
 msgstr ""
 
-#: wp-useronline.php:722
-#: wp-useronline.php:724
-#: wp-useronline.php:742
-#: wp-useronline.php:744
-#: wp-useronline.php:757
+#: wp-useronline.php:746
+#: wp-useronline.php:748
+#: wp-useronline.php:766
+#: wp-useronline.php:768
+#: wp-useronline.php:781
 msgid "on"
 msgstr ""
 
-#: wp-useronline.php:722
-#: wp-useronline.php:724
-#: wp-useronline.php:742
-#: wp-useronline.php:744
-#: wp-useronline.php:757
+#: wp-useronline.php:746
+#: wp-useronline.php:748
+#: wp-useronline.php:766
+#: wp-useronline.php:768
+#: wp-useronline.php:781
 msgid "url"
 msgstr ""
 
-#: wp-useronline.php:764
+#: wp-useronline.php:788
 msgid "No One Is Online Now"
 msgstr ""
 
-#: wp-useronline.php:838
+#: wp-useronline.php:862
 msgid "user(s) online now."
 msgstr ""
 
-#: wp-useronline.php:839
+#: wp-useronline.php:863
 msgid "Most users ever online was"
 msgstr ""
 
-#: wp-useronline.php:840
+#: wp-useronline.php:864
 msgid "On"
 msgstr ""
 
