@@ -622,9 +622,9 @@ function useronline_rightnow() {
 	$total_users = get_useronline_count(false);
 	echo '<p>';
 	if ($total_users == 1) { 
-		printf(__('There is <strong><a href="%s">%s user</a></strong> online now.', 'wp-useronline'), get_option('siteurl').'/wp-admin/index.php?page=wp-stats/wp-stats.php', number_format_i18n($total_users));
+		printf(__('There is <strong><a href="%s">%s user</a></strong> online now.', 'wp-useronline'), get_option('siteurl').'/wp-admin/index.php?page=wp-useronline/wp-useronline.php', number_format_i18n($total_users));
 	} else { 
-		printf(__('There are a total of <strong><a href="%s">%s users</a></strong> online now.', 'wp-useronline'), get_option('siteurl').'/wp-admin/index.php?page=wp-stats/wp-stats.php', number_format_i18n($total_users));
+		printf(__('There are a total of <strong><a href="%s">%s users</a></strong> online now.', 'wp-useronline'), get_option('siteurl').'/wp-admin/index.php?page=wp-useronline/wp-useronline.php', number_format_i18n($total_users));
 	}
 	echo '<br />';
 	get_users_browsing_site();
