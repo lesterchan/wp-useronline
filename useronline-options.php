@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.5 Plugin: WP-UserOnline 2.31								|
+|	WordPress 2.6 Plugin: WP-UserOnline 2.40								|
 |	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -170,13 +170,13 @@ switch($mode) {
 		document.getElementById('useronline_separator_browsingsite_members').value = ', ';
 		document.getElementById('useronline_separator_browsingsite_guests').value = ', ';
 		document.getElementById('useronline_separator_browsingsite_bots').value = ', ';
-		document.getElementById('useronline_template_browsingsite').value = "<?php _e('Users', 'wp-useronline'); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>";
+		document.getElementById('useronline_template_browsingsite').value = "<?php echo(_c('Users|Template Element', 'wp-useronline')); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>";
 	}
 	function useronline_default_browsing_page() {
 		document.getElementById('useronline_separator_browsingpage_members').value = ', ';
 		document.getElementById('useronline_separator_browsingpage_guests').value = ', ';
 		document.getElementById('useronline_separator_browsingpage_bots').value = ', ';
-		document.getElementById('useronline_template_browsingpage').value = "<strong>%USERONLINE_USERS%</strong> <?php _e('Browsing This Page.', 'wp-useronline'); ?><br /><?php _e('Users', 'wp-useronline'); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>";
+		document.getElementById('useronline_template_browsingpage').value = "<strong>%USERONLINE_USERS%</strong> <?php _e('Browsing This Page.', 'wp-useronline'); ?><br /><?php echo(_c('Users|Template Element', 'wp-useronline')); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>";
 	}
 /* ]]> */
 </script>
