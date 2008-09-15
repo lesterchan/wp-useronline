@@ -66,7 +66,7 @@ function widget_useronline_init() {
 			$options['title'] = strip_tags($_POST['useronline-title']);
 			update_option('widget_useronline', $options);
 		}
-		echo '<p style="text-align: left;"><label for="useronline-title">'.__('Widget Title', 'wp-useronline').':</label>&nbsp;&nbsp;&nbsp;<input type="text" id="useronline-title" name="useronline-title" value="'.htmlspecialchars(stripslashes($options['title'])).'" />';
+		echo '<p><label for="useronline-title">'.__('Widget Title', 'wp-useronline').':</label>&nbsp;&nbsp;&nbsp;<input type="text" id="useronline-title" name="useronline-title" value="'.htmlspecialchars(stripslashes($options['title'])).'" />';
 		echo '<p style="text-align: center;">'.__('Display Users Browsing Site Under Users Online Count?', 'wp-useronline').'</p>'."\n";
 		echo '<p style="text-align: center;"><input type="radio" id="useronline-usersbrowsingsite-1" name="useronline-usersbrowsingsite" value="1"';
 		checked(1, intval($options['display_usersbrowsingsite']));

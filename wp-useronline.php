@@ -389,6 +389,10 @@ function get_users_browsing_site($display = true) {
 		echo $template_browsingsite;
 	} else {
 		// This Should Not Happen
+		global $l10n;
+		if (!isset($l10n['wp-useronline'])) {
+			useronline_textdomain();
+		}
 		_e('No User Is Browsing This Site', 'wp-useronline');
 	}
 }
@@ -527,6 +531,10 @@ function get_users_browsing_page($display = true) {
 		echo $template_browsingpage;
 	} else {
 		// This Should Not Happen
+    global $l10n;
+    if (!isset($l10n['wp-useronline'])) {
+      useronline_textdomain();
+    }
 		_e('No User Is Browsing This Page', 'wp-useronline');
 	}
 }
@@ -770,7 +778,7 @@ function useronline_page() {
 	}
 
 	// Output UserOnline Page
-	return $useronline_output;
+	return apply_filters('useronline_page', $useronline_output);
 }
 
 
@@ -853,6 +861,7 @@ function useronline_page_general_stats($content) {
 add_action('activate_wp-useronline/wp-useronline.php', 'create_useronline_table');
 function create_useronline_table() {
 	global $wpdb;
+  useronline_textdomain();
 	$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'pubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com' => 'become.com');
 	if(@is_file(ABSPATH.'/wp-admin/upgrade-functions.php')) {
 		include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
@@ -896,7 +905,7 @@ function create_useronline_table() {
 	// Database Upgrade For WP-UserOnline 2.20
 	add_option('useronline_naming', array('user' => __('1 User', 'wp-useronline'), 'users' => __('%USERONLINE_COUNT% Users', 'wp-useronline'), 'member' => __('1 Member', 'wp-useronline'), 'members' => __('%USERONLINE_COUNT% Members', 'wp-useronline'), 'guest' => __('1 Guest', 'wp-useronline'), 'guests' => __('%USERONLINE_COUNT% Guests', 'wp-useronline'), 'bot' => __('1 Bot', 'wp-useronline'), 'bots' => __('%USERONLINE_COUNT% Bots', 'wp-useronline')),'Member(s), Guest(s) or Bot(s)');
 	add_option('useronline_template_useronline', '<a href="%USERONLINE_PAGE_URL%" title="%USERONLINE_USERS%"><strong>%USERONLINE_USERS%</strong> '.__('Online', 'wp-useronline').'</a>', 'Useronline Template');
-	add_option('useronline_template_browsingsite', array(', ', ', ', ', ', __('Users', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
-	add_option('useronline_template_browsingpage', array(', ', ', ', ', ',  '<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'.__('Users', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
+	add_option('useronline_template_browsingsite', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __('Users', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
+	add_option('useronline_template_browsingpage', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ',  '<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'.__('Users', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
 }
 ?>

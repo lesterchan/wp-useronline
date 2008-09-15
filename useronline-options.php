@@ -167,15 +167,15 @@ switch($mode) {
 		document.getElementById('useronline_naming_bots').value = "<?php _e('%USERONLINE_COUNT% Bots', 'wp-useronline'); ?>";
 	}
 	function useronline_default_browsing_site() {
-		document.getElementById('useronline_separator_browsingsite_members').value = ', ';
-		document.getElementById('useronline_separator_browsingsite_guests').value = ', ';
-		document.getElementById('useronline_separator_browsingsite_bots').value = ', ';
+		document.getElementById('useronline_separator_browsingsite_members').value = "<?php _e(',', 'wp-useronline') ?> ";
+		document.getElementById('useronline_separator_browsingsite_guests').value = "<?php _e(',', 'wp-useronline') ?> ";
+		document.getElementById('useronline_separator_browsingsite_bots').value = "<?php _e(',', 'wp-useronline') ?> ";
 		document.getElementById('useronline_template_browsingsite').value = "<?php echo(_c('Users|Template Element', 'wp-useronline')); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>";
 	}
 	function useronline_default_browsing_page() {
-		document.getElementById('useronline_separator_browsingpage_members').value = ', ';
-		document.getElementById('useronline_separator_browsingpage_guests').value = ', ';
-		document.getElementById('useronline_separator_browsingpage_bots').value = ', ';
+		document.getElementById('useronline_separator_browsingpage_members').value = "<?php _e(',', 'wp-useronline') ?> ";
+		document.getElementById('useronline_separator_browsingpage_guests').value = "<?php _e(',', 'wp-useronline') ?> ";
+		document.getElementById('useronline_separator_browsingpage_bots').value = "<?php _e(',', 'wp-useronline') ?> ";
 		document.getElementById('useronline_template_browsingpage').value = "<strong>%USERONLINE_USERS%</strong> <?php _e('Browsing This Page.', 'wp-useronline'); ?><br /><?php echo(_c('Users|Template Element', 'wp-useronline')); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>";
 	}
 /* ]]> */
@@ -194,7 +194,7 @@ switch($mode) {
 		 <tr>
 			<th scope="row" valign="top"><?php _e('UserOnline URL', 'wp-useronline'); ?></th>
 			<td>
-				<input type="text" name="useronline_url" value="<?php echo get_option('useronline_url'); ?>" size="50" /><br /><?php _e('URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
+				<input type="text" name="useronline_url" value="<?php echo get_option('useronline_url'); ?>" size="50" dir="ltr" /><br /><?php _e('URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
 			</td>
 		</tr>
 		<tr> 
@@ -202,8 +202,8 @@ switch($mode) {
 			<td>
 				<?php _e('Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot\'s Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line.', 'wp-useronline'); ?>
 				<br /><br />
-				<textarea cols="20" rows="30" name="useronline_bots_name"><?php echo $useronline_options_bots_name; ?></textarea>
-				<textarea cols="20" rows="30" name="useronline_bots_agent"><?php echo $useronline_options_bots_agent; ?></textarea>						
+				<textarea cols="20" rows="30" name="useronline_bots_name" dir="ltr"><?php echo $useronline_options_bots_name; ?></textarea>
+				<textarea cols="20" rows="30" name="useronline_bots_agent" dir="ltr"><?php echo $useronline_options_bots_agent; ?></textarea>						
 			</td> 
 		</tr>
 		<tr> 
@@ -335,14 +335,14 @@ switch($mode) {
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <div class="wrap"> 
 	<h2><?php _e('Uninstall WP-UserOnline', 'wp-useronline'); ?></h2>
-	<p style="text-align: left;">
+	<p>
 		<?php _e('Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here.', 'wp-useronline'); ?>
 	</p>
-	<p style="text-align: left; color: red">
+	<p style="color: red">
 		<strong><?php _e('WARNING:', 'wp-useronline'); ?></strong><br />
 		<?php _e('Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first.', 'wp-useronline'); ?>
 	</p>
-	<p style="text-align: left; color: red">
+	<p style="color: red">
 		<strong><?php _e('The following WordPress Options/Tables will be DELETED:', 'wp-useronline'); ?></strong><br />
 	</p>
 	<table class="widefat">
