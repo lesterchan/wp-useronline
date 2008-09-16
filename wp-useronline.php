@@ -389,10 +389,10 @@ function get_users_browsing_site($display = true) {
 		echo $template_browsingsite;
 	} else {
 		// This Should Not Happen
-		global $l10n;
-		if (!isset($l10n['wp-useronline'])) {
-			useronline_textdomain();
-		}
+    global $l10n;
+    if (!isset($l10n['wp-useronline'])) {
+      useronline_textdomain();
+    }
 		_e('No User Is Browsing This Site', 'wp-useronline');
 	}
 }
@@ -682,14 +682,14 @@ function useronline_page() {
 
 	// Nice Text For Users
 	if($total_users == 1) {
-		$nicetext_users = $total_users.' '.__('User', 'wp-useronline');
+		$nicetext_users = number_format_i18n($total_users).' '.__('User', 'wp-useronline');
 	} else {
 		$nicetext_users = number_format_i18n($total_users).' '.__('Users', 'wp-useronline');
 	}
 
 	//  Nice Text For Members
 	if($total_members == 1) {
-		$nicetext_members = $total_members.' '.__('Member', 'wp-useronline');
+		$nicetext_members = number_format_i18n($total_members).' '.__('Member', 'wp-useronline');
 	} else {
 		$nicetext_members = number_format_i18n($total_members).' '.__('Members', 'wp-useronline');
 	}
@@ -697,14 +697,14 @@ function useronline_page() {
 
 	// Nice Text For Guests
 	if($total_guests == 1) { 
-		$nicetext_guests = $total_guests.' '.__('Guest', 'wp-useronline');
+		$nicetext_guests = number_format_i18n($total_guests).' '.__('Guest', 'wp-useronline');
 	} else {
 		$nicetext_guests = number_format_i18n($total_guests).' '.__('Guests', 'wp-useronline'); 
 	}
 
 	//  Nice Text For Bots
 	if($total_bots == 1) {
-		$nicetext_bots = $total_bots.' '.__('Bot', 'wp-useronline'); 
+		$nicetext_bots = number_format_i18n($total_bots).' '.__('Bot', 'wp-useronline'); 
 	} else {
 		$nicetext_bots = number_format_i18n($total_bots).' '.__('Bots', 'wp-useronline'); 
 	}
@@ -905,7 +905,7 @@ function create_useronline_table() {
 	// Database Upgrade For WP-UserOnline 2.20
 	add_option('useronline_naming', array('user' => __('1 User', 'wp-useronline'), 'users' => __('%USERONLINE_COUNT% Users', 'wp-useronline'), 'member' => __('1 Member', 'wp-useronline'), 'members' => __('%USERONLINE_COUNT% Members', 'wp-useronline'), 'guest' => __('1 Guest', 'wp-useronline'), 'guests' => __('%USERONLINE_COUNT% Guests', 'wp-useronline'), 'bot' => __('1 Bot', 'wp-useronline'), 'bots' => __('%USERONLINE_COUNT% Bots', 'wp-useronline')),'Member(s), Guest(s) or Bot(s)');
 	add_option('useronline_template_useronline', '<a href="%USERONLINE_PAGE_URL%" title="%USERONLINE_USERS%"><strong>%USERONLINE_USERS%</strong> '.__('Online', 'wp-useronline').'</a>', 'Useronline Template');
-	add_option('useronline_template_browsingsite', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __('Users', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
-	add_option('useronline_template_browsingpage', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ',  '<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'.__('Users', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
+	add_option('useronline_template_browsingsite', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __('Users:', 'wp-useronline').' <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
+	add_option('useronline_template_browsingpage', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ',  '<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'.__('Users:', 'wp-useronline').' <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
 }
 ?>
