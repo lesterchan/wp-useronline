@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.40\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-16 19:54+0800\n"
-"PO-Revision-Date: 2008-09-16 19:54+0800\n"
+"POT-Creation-Date: 2008-09-16 21:36+0800\n"
+"PO-Revision-Date: 2008-09-16 21:36+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester Chan <lesterchan@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -139,6 +139,8 @@ msgstr ""
 
 #: useronline-options.php:173
 #: useronline-options.php:179
+#: wp-useronline.php:908
+#: wp-useronline.php:909
 msgid "Users|Template Element"
 msgstr ""
 
@@ -438,10 +440,5 @@ msgstr[1] ""
 
 #: wp-useronline.php:853
 msgid "On"
-msgstr ""
-
-#: wp-useronline.php:908
-#: wp-useronline.php:909
-msgid "Users:"
 msgstr ""
 
