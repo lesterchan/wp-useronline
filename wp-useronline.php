@@ -568,30 +568,36 @@ function check_ip($ip) {
 }
 
 
+### Function: Get User's Country Name/Code
+function get_user_origin($ip) {
+	global $wpdb, $cache_ips;
+	if (!isset($cache_ips[$ip])) {
+		$cache_ips[$ip] = $wpdb->get_row("SELECT c.country, c.code FROM ip2nationCountries c, ip2nation i WHERE i.ip < INET_ATON('$ip') AND c.code = i.country ORDER BY i.ip DESC LIMIT 1");
+	}
+	return $cache_ips[$ip];
+}
+
+
 ### Function: Output User's Country Flag/Name
 function ip2nation_country($ip, $display_countryname = 0) {
-	if(function_exists('wp_ozh_ip2nation')) {
-		$country_code = wp_ozh_getCountryCode(0, $ip);
-		$country_name = wp_ozh_getCountryName(0, $ip);
-		$country_mirror = '';
-		$mirrors = array('http://lesterchan.net/wp-content/themes/lesterchan/images/flags');
-		if($country_name != 'Private') {
-			foreach($mirrors as $mirror) {
-				if(@file($mirror.'/sg.gif')) {
-					$country_mirror = $mirror;
-					break;
-				}
+	//$country_mirror = 'http://lesterchan.net/wp-content/themes/lesterchan/images/flags';
+	$country_mirror = plugins_url('wp-useronline/images/flags');
+	$country_imgtype = 'png';
+	$origin = get_user_origin($ip);
+	$output = '';
+	if($origin) {
+		$country_code = $origin->code;
+		$country_name = $origin->country;
+		if($country_name != 'Private') {				
+			if(@file_exists(WP_PLUGIN_DIR.'/wp-useronline/images/flags/sg.'.$country_imgtype) !== false) {
+				$output .= '<img src="'.$country_mirror.'/'.$country_code.'.'.$country_imgtype.'" alt="'.$country_name.'" title="'.$country_name.'" /> ';
 			}
-			$temp = '<img src="'.$mirror.'/'.$country_code.'.png" alt="'.$country_name.'" title="'.$country_name.'" />';
 			if($display_countryname) {
-				$temp .= $country_name;
+				$output .= $country_name.' ';
 			}
-			return $temp.' ';
-		} else {
-			return;
 		}
 	}
-	return;
+	return $output;
 }
 
 
