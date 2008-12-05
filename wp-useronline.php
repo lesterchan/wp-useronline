@@ -605,6 +605,7 @@ function ip2nation_country($ip, $display_countryname = 0) {
 function display_useronline() {
 	$useronline_page = useronline_page();
 	echo '<div class="wrap">'."\n";
+	screen_icon();
 	echo '<h2>'.__('Users Online Now', 'wp-useronline').'</h2>'."\n";
 	echo $useronline_page;
 	echo '</div>'."\n";

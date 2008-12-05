@@ -181,7 +181,8 @@ switch($mode) {
 /* ]]> */
 </script>
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
-<div class="wrap"> 
+<div class="wrap">
+	<?php screen_icon(); ?>
 	<h2><?php _e('Useronline Options', 'wp-useronline'); ?></h2>
 	<h3><?php _e('Useronline Options', 'wp-useronline'); ?></h3>
 	<table class="form-table">
@@ -334,7 +335,7 @@ switch($mode) {
 <!-- Uninstall WP-UserOnline -->
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <div class="wrap"> 
-	<h2><?php _e('Uninstall WP-UserOnline', 'wp-useronline'); ?></h2>
+	<h3><?php _e('Uninstall WP-UserOnline', 'wp-useronline'); ?></h3>
 	<p>
 		<?php _e('Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here.', 'wp-useronline'); ?>
 	</p>
