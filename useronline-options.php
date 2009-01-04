@@ -349,8 +349,8 @@ switch($mode) {
 	<table class="widefat">
 		<thead>
 			<tr>
-				<th><?php _e('WordPress Options', 'wp-polls'); ?></th>
-				<th><?php _e('WordPress Tables', 'wp-polls'); ?></th>
+				<th><?php _e('WordPress Options', 'wp-useronline'); ?></th>
+				<th><?php _e('WordPress Tables', 'wp-useronline'); ?></th>
 			</tr>
 		</thead>
 		<tr>
