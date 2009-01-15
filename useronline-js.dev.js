@@ -21,13 +21,13 @@ useronlineL10n.timeout = parseInt(useronlineL10n.timeout);
 
 // UserOnline JavaScript Init
 function useronline_init() {
-	if(jQuery('#useronline-count')) {
+	if(jQuery('#useronline-count').length) {
 		setInterval("get_useronline_count()", useronlineL10n.timeout);
 	}
-	if(jQuery('#useronline-browsing-site')) {
+	if(jQuery('#useronline-browsing-site').length) {
 		setInterval("get_useronline_browsingsite()", useronlineL10n.timeout);
 	}
-	if(jQuery('#useronline-browsing-page')) {
+	if(jQuery('#useronline-browsing-page').length) {
 		setInterval("get_useronline_browsingpage()", useronlineL10n.timeout);
 	}
 }
