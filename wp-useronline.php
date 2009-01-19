@@ -63,10 +63,17 @@ function useronline_menu() {
 }
 
 
+### Function: Print Out jQuery Script At The Top
+add_action('wp_head', 'useronline_javascripts_header');
+function useronline_javascripts_header() {
+	wp_print_scripts('jquery');
+}
+
+
 ### Function: Enqueue Useronline Javascripts
 add_action('wp_footer', 'useronline_javascripts');
 function useronline_javascripts() {
-	wp_register_script('wp-useronline', plugins_url('wp-useronline/useronline-js.js'), array('jquery'), '2.50');
+	wp_register_script('wp-useronline', plugins_url('wp-useronline/useronline-js.js'), array('jquery'), '2.50', true);
 	wp_localize_script('wp-useronline', 'useronlineL10n', array(
 		'ajax_url' => plugins_url('wp-useronline/wp-useronline.php'),
 		'timeout' => (get_option('useronline_timeout')*1000)
