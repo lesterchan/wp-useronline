@@ -153,30 +153,30 @@ switch($mode) {
 				default_template = "<a href=\"%USERONLINE_PAGE_URL%\" title=\"%USERONLINE_USERS%\"><strong>%USERONLINE_USERS%</strong> <?php _e('Online', 'wp-useronline'); ?></a>";
 				break;
 		}
-		document.getElementById("useronline_template_" + template).value = default_template;
+		jQuery("#useronline_template_" + template).val(default_template);
 	}
 
 	function useronline_default_naming() {
-		document.getElementById('useronline_naming_user').value = "<?php _e('1 User', 'wp-useronline'); ?>";
-		document.getElementById('useronline_naming_users').value = "<?php _e('%USERONLINE_COUNT% Users', 'wp-useronline'); ?>";
-		document.getElementById('useronline_naming_member').value = "<?php _e('1 Member', 'wp-useronline'); ?>";
-		document.getElementById('useronline_naming_members').value = "<?php _e('%USERONLINE_COUNT% Members', 'wp-useronline'); ?>";
-		document.getElementById('useronline_naming_guest').value = "<?php _e('1 Guest', 'wp-useronline'); ?>";
-		document.getElementById('useronline_naming_guests').value = "<?php _e('%USERONLINE_COUNT% Guests', 'wp-useronline'); ?>";
-		document.getElementById('useronline_naming_bot').value = "<?php _e('1 Bot', 'wp-useronline'); ?>";
-		document.getElementById('useronline_naming_bots').value = "<?php _e('%USERONLINE_COUNT% Bots', 'wp-useronline'); ?>";
+		jQuery("#useronline_naming_user").val("<?php _e('1 User', 'wp-useronline'); ?>");
+		jQuery("#useronline_naming_users").val("<?php _e('%USERONLINE_COUNT% Users', 'wp-useronline'); ?>");
+		jQuery("#useronline_naming_member").val("<?php _e('1 Member', 'wp-useronline'); ?>");
+		jQuery("#useronline_naming_members").val("<?php _e('%USERONLINE_COUNT% Members', 'wp-useronline'); ?>");
+		jQuery("#useronline_naming_guest").val("<?php _e('1 Guest', 'wp-useronline'); ?>");
+		jQuery("#useronline_naming_guests").val("<?php _e('%USERONLINE_COUNT% Guests', 'wp-useronline'); ?>");
+		jQuery("#useronline_naming_bot").val("<?php _e('1 Bot', 'wp-useronline'); ?>");
+		jQuery("#useronline_naming_bots").val("<?php _e('%USERONLINE_COUNT% Bots', 'wp-useronline'); ?>");
 	}
 	function useronline_default_browsing_site() {
-		document.getElementById('useronline_separator_browsingsite_members').value = "<?php _e(',', 'wp-useronline') ?> ";
-		document.getElementById('useronline_separator_browsingsite_guests').value = "<?php _e(',', 'wp-useronline') ?> ";
-		document.getElementById('useronline_separator_browsingsite_bots').value = "<?php _e(',', 'wp-useronline') ?> ";
-		document.getElementById('useronline_template_browsingsite').value = "<?php echo(_c('Users|Template Element', 'wp-useronline')); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>";
+		jQuery("#useronline_separator_browsingsite_members").val("<?php _e(',', 'wp-useronline') ?> ");
+		jQuery("#useronline_separator_browsingsite_guests").val("<?php _e(',', 'wp-useronline') ?> ");
+		jQuery("#useronline_separator_browsingsite_bots").val("<?php _e(',', 'wp-useronline') ?> ");
+		jQuery("#useronline_template_browsingsite").val("<?php echo(_c('Users|Template Element', 'wp-useronline')); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>");
 	}
 	function useronline_default_browsing_page() {
-		document.getElementById('useronline_separator_browsingpage_members').value = "<?php _e(',', 'wp-useronline') ?> ";
-		document.getElementById('useronline_separator_browsingpage_guests').value = "<?php _e(',', 'wp-useronline') ?> ";
-		document.getElementById('useronline_separator_browsingpage_bots').value = "<?php _e(',', 'wp-useronline') ?> ";
-		document.getElementById('useronline_template_browsingpage').value = "<strong>%USERONLINE_USERS%</strong> <?php _e('Browsing This Page.', 'wp-useronline'); ?><br /><?php echo(_c('Users|Template Element', 'wp-useronline')); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>";
+		jQuery("#useronline_separator_browsingpage_members").val("<?php _e(',', 'wp-useronline') ?> ");
+		jQuery("#useronline_separator_browsingpage_guests").val("<?php _e(',', 'wp-useronline') ?> ");
+		jQuery("#useronline_separator_browsingpage_bots").val("<?php _e(',', 'wp-useronline') ?> ");
+		jQuery("#useronline_template_browsingpage").val("<strong>%USERONLINE_USERS%</strong> <?php _e('Browsing This Page.', 'wp-useronline'); ?><br /><?php echo(_c('Users|Template Element', 'wp-useronline')); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>");
 	}
 /* ]]> */
 </script>
