@@ -144,7 +144,7 @@ function useronline() {
 	// Check For Page Title
 	$make_page = wp_title('&raquo;', false);
 	if(empty($make_page)) {
-		$make_page = get_bloginfo('name');
+		$make_page = get_bloginfo('name').' &raquo; '.$_SERVER['REQUEST_URI']; 
 	} elseif(is_single()) {
 		$make_page = get_bloginfo('name').' &raquo; '.__('Blog Archive', 'wp-useronline').' '.$make_page;
 	} else {
