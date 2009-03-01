@@ -333,7 +333,7 @@ switch($mode) {
 <p>&nbsp;</p>
 
 <!-- Uninstall WP-UserOnline -->
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
 <div class="wrap"> 
 	<h3><?php _e('Uninstall WP-UserOnline', 'wp-useronline'); ?></h3>
 	<p>
