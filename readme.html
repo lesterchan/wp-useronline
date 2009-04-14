@@ -298,6 +298,8 @@
 						<li>NEW: Renamed useronline-js.js To useronline-js.dev.js</li>
 						<li>NEW: Translate Javascript Variables Using wp_localize_script()</li>
 						<li>NEW: Use _n() Instead Of __ngettext() And _n_noop() Instead Of __ngettext_noop()</li>
+						<li>NEW: Uses New Widget Class From WordPress</li>
+						<li>NEW: Merge Widget Code To wp-useronline.php And Remove wp-useronline-widget.php</li>
 						<li>FIXED: Uses $_SERVER['PHP_SELF'] With plugin_basename(__FILE__) Instead Of Just $_SERVER['REQUEST_URI']</li>
 						<li>FIXED: Pages Without Name, Use Pages Use $_SERVER['REQUEST_URI'] Instead</li>						
 					</ul>
@@ -549,19 +551,10 @@
 			<div class="SubSubTitle">General Usage (With Widget)</div>
 			<ol>
 				<li>
-					<strong>Activate</strong> WP-UserOnline Widget Plugin
-				</li>
-				<li>
 					Go to '<strong>WP-Admin -> Appearance -> Widgets</strong>'
 				</li>
 				<li>
-					You can <strong>add</strong> the UserOnline Widget by clicking on the 'Add' link besides it.
-				</li>
-				<li>
-					After adding, you can <strong>configure</strong> the UserOnline Widget by clicking on the 'Edit' link besides it.
-				</li>
-				<li>
-					Click 'Save Changes'
+					The widget name is <strong>UserOnline</strong>.
 				</li>
 				<li>
 					Scroll down for instructions on how to create a <strong>UserOnline Page</strong>.
@@ -587,7 +580,7 @@
 				<li>
 					Click 'Publish'
 				</li>
-				<li>If you <strong>ARE NOT</strong> using nice permalinks, you need to go to 'WP-Admin -> Settings -> Useronline' and under '<strong>UserOnline URL</strong>', you need to fill in the URL to the UserOnline Page you created above.</li>
+				<li>If you <strong>ARE NOT</strong> using nice permalinks, you need to go to 'WP-Admin -> Settings -> UserOnline' and under '<strong>UserOnline URL</strong>', you need to fill in the URL to the UserOnline Page you created above.</li>
 			</ol>
 			<div class="SubSubTitle">UserOnline Stats (Outside WP Loop)</div>
 			<ul>
