@@ -58,7 +58,7 @@ function useronline_menu() {
 		add_submenu_page('index.php',  __('WP-UserOnline', 'wp-useronline'),  __('WP-UserOnline', 'wp-useronline'), 1, 'wp-useronline/wp-useronline.php', 'display_useronline');
 	}
 	if (function_exists('add_options_page')) {
-		add_options_page(__('Useronline', 'wp-useronline'), __('Useronline', 'wp-useronline'), 'manage_options', 'wp-useronline/useronline-options.php');
+		add_options_page(__('UserOnline', 'wp-useronline'), __('UserOnline', 'wp-useronline'), 'manage_options', 'wp-useronline/useronline-options.php');
 	}
 }
 
