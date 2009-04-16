@@ -882,23 +882,35 @@ function useronline_page_general_stats($content) {
 		echo '<ul>'."\n";
 		switch($type) {
 			case 'users_online':
+				echo '<li><div id="useronline-count">';
 				get_useronline();
+				echo '</div></li>'."\n";
 				break;
 			case 'users_browsing_page':
+				echo '<li><div id="useronline-browsing-page">';
 				get_users_browsing_page();
+				echo '</div></li>'."\n";
 				break;
 			case 'users_browsing_site':
+				echo '<li><div id="useronline-browsing-site">';
 				get_users_browsing_site();
+				echo '</div></li>'."\n";
 				break;
 			case 'users_online_browsing_page':
+				echo '<li><div id="useronline-count">';
 				get_useronline();
-				echo '<br />';
+				echo '</div></li>'."\n";
+				echo '<li><div id="useronline-browsing-page">';
 				get_users_browsing_page();
+				echo '</div></li>'."\n";
 				break;
 			case 'users_online_browsing_site':
+				echo '<li><div id="useronline-count">';
 				get_useronline();
-				echo '<br />';
+				echo '</div></li>'."\n";
+				echo '<li><div id="useronline-browsing-site">';
 				get_users_browsing_site();
+				echo '</div></li>'."\n";
 				break;
 		}
 		echo '</ul>'."\n";
