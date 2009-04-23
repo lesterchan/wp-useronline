@@ -250,7 +250,7 @@ function is_online($user_login) {
 //add_action('wp_head', 'update_memberlastvisit');
 function update_memberlastvisit() {
 	global $current_user, $user_ID;
-	if(!empty($current_user) && intval($user_ID) > 0) {
+	if(!empty($current_user) && is_user_logged_in()) {
 		update_user_option($user_ID, 'member_last_login', current_time('timestamp'));   
 	}
 }
