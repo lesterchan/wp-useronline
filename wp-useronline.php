@@ -876,8 +876,8 @@ function useronline_page_general_stats($content) {
 	// Display Widget
 	function widget($args, $instance) {
 		extract($args);
-		$title = attribute_escape($instance['title']);
-		$type = attribute_escape($instance['type']);
+		$title = attr($instance['title']);
+		$type = attr($instance['type']);
 		echo $before_widget.$before_title.$title.$after_title;
 		echo '<ul>'."\n";
 		switch($type) {
@@ -932,8 +932,8 @@ function useronline_page_general_stats($content) {
 	function form($instance) {
 		global $wpdb;
 		$instance = wp_parse_args((array) $instance, array('title' => __('UserOnline', 'wp-useronline'), 'type' => 'users_online'));
-		$title = attribute_escape($instance['title']);
-		$type = attribute_escape($instance['type']);
+		$title = attr($instance['title']);
+		$type = attr($instance['type']);
 ?>
 		<p>
 			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'wp-useronline'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label>
