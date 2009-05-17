@@ -876,7 +876,7 @@ function useronline_page_general_stats($content) {
 	// Display Widget
 	function widget($args, $instance) {
 		extract($args);
-		$title = esc_attr($instance['title']);
+		$title = apply_filters('widget_title', esc_attr($instance['title']));
 		$type = esc_attr($instance['type']);
 		echo $before_widget.$before_title.$title.$after_title;
 		echo '<ul>'."\n";
