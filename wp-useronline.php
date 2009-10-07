@@ -554,7 +554,7 @@ if(!function_exists('get_ipaddress')) {
 			$ip_address = explode(',', $ip_address);
 			$ip_address = $ip_address[0];
 		}
-		return $ip_address;
+		return esc_attr($ip_address);
 	}
 }
 
