@@ -323,7 +323,7 @@ function useronline_template_list($users_browse, $display) {
 	if ( $members ) {
 		$temp_member = '';
 		foreach ( $members as $member )
-			$temp_member .= useronline_stats_page_link($member).$separator_members_browsingpage;
+			$temp_member .= get_useronline_display_name($member).$separator_members_browsingpage;
 
 		$template_browsingpage = str_ireplace('%USERONLINE_MEMBER_NAMES%', substr($temp_member, 0, -strlen($separator_members_browsingpage)), $template_browsingpage);
 	} else {
@@ -503,7 +503,7 @@ function useronline_print_list($count, $users, $nicetext) {
 		if ( !empty($user['referral']) )
 			$referral_output = ' [<a href="'.esc_url($user['referral']).'">'.__('referral', 'wp-useronline').'</a>]';
 
-		$output .= '<p><strong>#'.number_format_i18n($no).' - '.useronline_stats_page_link($user['displayname']).'</strong> '.ip2nation_country($user['ip']).check_ip($user['ip']).' '.__('on', 'wp-useronline').' '.mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $user['timestamp'])).'<br />'.$user['location'].' [<a href="'.esc_url($user['url']).'">'.__('url', 'wp-useronline').'</a>]'.$referral_output.'</p>'."\n";
+		$output .= '<p><strong>#'.number_format_i18n($no).' - '.get_useronline_display_name($user['displayname']).'</strong> '.ip2nation_country($user['ip']).check_ip($user['ip']).' '.__('on', 'wp-useronline').' '.mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $user['timestamp'])).'<br />'.$user['location'].' [<a href="'.esc_url($user['url']).'">'.__('url', 'wp-useronline').'</a>]'.$referral_output.'</p>'."\n";
 		$no++;
 	}
 	
@@ -511,19 +511,9 @@ function useronline_print_list($count, $users, $nicetext) {
 }
 
 
-### Function: Stats Page Link
-function useronline_stats_page_link($author) {
-	static $wp_stats;
-	$wp_stats = function_exists('stats_page');
-
-	if ( !$wp_stats )
-		return $author;
-
-	$stats_url = add_query_arg('stats_author', urlencode($author), get_option('stats_url'));
-
-	return '<a href="'.$stats_url.'" title="'.$author.'">'.$author.'</a>';
+function get_useronline_display_name($user) {
+	return apply_filters('useronline_display_name', $user);
 }
-
 
 ### Function: Process AJAX Request
 add_action('wp_ajax_useronline', 'useronline_ajax');
@@ -549,39 +539,6 @@ function useronline_ajax() {
 	die();
 }
 
-
-### Function: Plug Into WP-Stats
-if ( strpos(get_option('stats_url' ), $_SERVER['REQUEST_URI']) || strpos($_SERVER['REQUEST_URI'], 'stats-options.php') || strpos($_SERVER['REQUEST_URI'], 'wp-stats/wp-stats.php')) {
-	add_filter('wp_stats_page_admin_plugins', 'useronline_page_admin_general_stats');
-	add_filter('wp_stats_page_plugins', 'useronline_page_general_stats');
-}
-
-
-### Function: Add WP-UserOnline General Stats To WP-Stats Page Options
-function useronline_page_admin_general_stats($content) {
-	$stats_display = get_option('stats_display');
-	if ( $stats_display['useronline'] == 1 ) {
-		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_useronline" value="useronline" checked="checked" />&nbsp;&nbsp;<label for="wpstats_useronline">'.__('WP-UserOnline', 'wp-useronline').'</label><br />'."\n";
-	} else {
-		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_useronline" value="useronline" />&nbsp;&nbsp;<label for="wpstats_useronline">'.__('WP-UserOnline', 'wp-useronline').'</label><br />'."\n";
-	}
-	return $content;
-}
-
-
-### Function: Add WP-UserOnline General Stats To WP-Stats Page
-function useronline_page_general_stats($content) {
-	$stats_display = get_option('stats_display');
-	if ( $stats_display['useronline'] == 1 ) {
-		$content .= '<p><strong>'.__('WP-UserOnline', 'wp-useronline').'</strong></p>'."\n";
-		$content .= '<ul>'."\n";
-		$content .= '<li>'.sprintf(_n('<strong>%s</strong> user online now.', '<strong>%s</strong> users online now.', get_useronline_count(), 'wp-useronline'), number_format_i18n(get_useronline_count())).'</li>'."\n";
-		$content .= '<li>'.sprintf(_n('Most users ever online was <strong>%s</strong>.', 'Most users ever online was <strong>%s</strong>.', get_most_useronline(), 'wp-useronline'), number_format_i18n(get_most_useronline())).'</li>'."\n";
-		$content .= '<li>'.__('On', 'wp-useronline').' <strong>'.get_most_useronline_date().'</strong>.</li>'."\n";
-		$content .= '</ul>'."\n";
-	}
-	return $content;
-}
 
 ### Class: WP-UserOnline Widget
  class WP_Widget_UserOnline extends WP_Widget {
@@ -646,7 +603,7 @@ function useronline_page_general_stats($content) {
 		return $instance;
 	}
 
-	// DIsplay Widget Control Form
+	// Display Widget Control Form
 	function form($instance) {
 		global $wpdb;
 		$instance = wp_parse_args((array) $instance, array('title' => __('UserOnline', 'wp-useronline'), 'type' => 'users_online'));
@@ -741,4 +698,7 @@ function create_useronline_table() {
 	add_option('useronline_template_browsingsite', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', _c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
 	add_option('useronline_template_browsingpage', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ',  '<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
 }
+
+if ( function_exists('stats_page') )
+	require_once dirname(__FILE__) . 'wp-stats.php';
 
