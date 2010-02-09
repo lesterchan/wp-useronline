@@ -1,5 +1,5 @@
 === WP-UserOnline ===
-Contributors: GamerZ
+Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/wordpress
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
 Requires at least: 2.8

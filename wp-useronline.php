@@ -545,15 +545,13 @@ function get_users_browsing_page($display = true) {
 ### Function: Get IP Address
 if(!function_exists('get_ipaddress')) {
 	function get_ipaddress() {
-		if (empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-			$ip_address = $_SERVER["REMOTE_ADDR"];
-		} else {
+		if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) )
 			$ip_address = $_SERVER["HTTP_X_FORWARDED_FOR"];
-		}
-		if(strpos($ip_address, ',') !== false) {
-			$ip_address = explode(',', $ip_address);
-			$ip_address = $ip_address[0];
-		}
+		else
+			$ip_address = $_SERVER["REMOTE_ADDR"];
+
+		list($ip_address) = explode(',', $ip_address);
+
 		return esc_attr($ip_address);
 	}
 }
@@ -964,11 +962,14 @@ function widget_useronline_init() {
 
 
 ### Function: Create UserOnline Table
-add_action('activate_wp-useronline/wp-useronline.php', 'create_useronline_table');
+register_activation_hook(__FILE__, 'create_useronline_table');
 function create_useronline_table() {
 	global $wpdb;
-  useronline_textdomain();
+	
+	useronline_textdomain();
+
 	$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'pubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com' => 'become.com');
+
 	if(@is_file(ABSPATH.'/wp-admin/upgrade-functions.php')) {
 		include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
 	} elseif(@is_file(ABSPATH.'/wp-admin/includes/upgrade.php')) {
@@ -976,6 +977,7 @@ function create_useronline_table() {
 	} else {
 		die('We have problem finding your \'/wp-admin/upgrade-functions.php\' and \'/wp-admin/includes/upgrade.php\'');
 	}
+
 	$charset_collate = '';
 	if($wpdb->supports_collation()) {
 		if(!empty($wpdb->charset)) {
@@ -985,33 +987,38 @@ function create_useronline_table() {
 			$charset_collate .= " COLLATE $wpdb->collate";
 		}
 	}
+
 	// Drop UserOnline Table
 	$wpdb->query("DROP TABLE IF EXISTS $wpdb->useronline");
 	// Create UserOnline Table
 	$create_table = "CREATE TABLE $wpdb->useronline (".
-							" timestamp int(15) NOT NULL default '0',".
-							" userid int(10) NOT NULL default '0',".
-							" username varchar(20) NOT NULL default '',".
-							" displayname varchar(255) NOT NULL default '',".
-							" useragent varchar(255) NOT NULL default '',".
-							" ip varchar(40) NOT NULL default '',".						 
-							" location varchar(255) NOT NULL default '',".
-							" url varchar(255) NOT NULL default '',".							
-							" type enum('member','guest','bot') NOT NULL default 'guest',".
-							" referral varchar(255) NOT NULL default '',".
-							" UNIQUE KEY useronline_id (timestamp,username,ip,useragent)) $charset_collate;";
+		" timestamp int(15) NOT NULL default '0',".
+		" userid int(10) NOT NULL default '0',".
+		" username varchar(20) NOT NULL default '',".
+		" displayname varchar(255) NOT NULL default '',".
+		" useragent varchar(255) NOT NULL default '',".
+		" ip varchar(40) NOT NULL default '',".						 
+		" location varchar(255) NOT NULL default '',".
+		" url varchar(255) NOT NULL default '',".							
+		" type enum('member','guest','bot') NOT NULL default 'guest',".
+		" referral varchar(255) NOT NULL default '',".
+		" UNIQUE KEY useronline_id (timestamp,username,ip,useragent)) $charset_collate;";
+
 	maybe_create_table($wpdb->useronline, $create_table);
+
 	// Add In Options
 	add_option('useronline_most_users', 1, 'Most Users Ever Online Count');
 	add_option('useronline_most_timestamp', current_time('timestamp'), 'Most Users Ever Online Date');
 	add_option('useronline_timeout', 300, 'Timeout In Seconds');
 	add_option('useronline_bots', $bots, 'Bots Name/Useragent');
+
 	// Database Upgrade For WP-UserOnline 2.05
 	add_option('useronline_url', site_url('useronline/'), 'UserOnline Page URL');
+
 	// Database Upgrade For WP-UserOnline 2.20
 	add_option('useronline_naming', array('user' => __('1 User', 'wp-useronline'), 'users' => __('%USERONLINE_COUNT% Users', 'wp-useronline'), 'member' => __('1 Member', 'wp-useronline'), 'members' => __('%USERONLINE_COUNT% Members', 'wp-useronline'), 'guest' => __('1 Guest', 'wp-useronline'), 'guests' => __('%USERONLINE_COUNT% Guests', 'wp-useronline'), 'bot' => __('1 Bot', 'wp-useronline'), 'bots' => __('%USERONLINE_COUNT% Bots', 'wp-useronline')),'Member(s), Guest(s) or Bot(s)');
 	add_option('useronline_template_useronline', '<a href="%USERONLINE_PAGE_URL%" title="%USERONLINE_USERS%"><strong>%USERONLINE_USERS%</strong> '.__('Online', 'wp-useronline').'</a>', 'Useronline Template');
 	add_option('useronline_template_browsingsite', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', _c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
 	add_option('useronline_template_browsingpage', array(__(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ', __(',', 'wp-useronline').' ',  '<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'), 'User Browsing Site Template');
 }
-?>
+
