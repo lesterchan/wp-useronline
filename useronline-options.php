@@ -1,22 +1,4 @@
 <?php
-/*
-+----------------------------------------------------------------+
-|																							|
-|	WordPress 2.8 Plugin: WP-UserOnline 2.50								|
-|	Copyright (c) 2009 Lester "GaMerZ" Chan									|
-|																							|
-|	File Written By:																	|
-|	- Lester "GaMerZ" Chan															|
-|	- http://lesterchan.net															|
-|																							|
-|	File Information:																	|
-|	- Useronline Options Page														|
-|	- wp-content/plugins/wp-useronline/useronline-options.php			|
-|																							|
-+----------------------------------------------------------------+
-*/
-
-
 ### Variables Variables Variables
 $base_name = plugin_basename('wp-useronline/useronline-options.php');
 $base_page = 'admin.php?page='.$base_name;
@@ -27,7 +9,7 @@ $useronline_settings = array('useronline_most_users', 'useronline_most_timestamp
 
 ### Form Processing
 // Update Options
-if(!empty($_POST['Submit'])) {
+if ( !empty($_POST['Submit'] )) {
 	$useronline_bots = array();
 	$useronline_timeout = intval($_POST['useronline_timeout']);
 	$useronline_bots_name = explode("\n", trim($_POST['useronline_bots_name']));
@@ -69,24 +51,24 @@ if(!empty($_POST['Submit'])) {
 	$update_useronline_text[] = __('User(s) Browsing Page Template', 'wp-useronline');
 	$i=0;
 	$text = '';
-	foreach($update_useronline_queries as $update_useronline_query) {
-		if($update_useronline_query) {
+	foreach ( $update_useronline_queries as $update_useronline_query ) {
+		if ( $update_useronline_query ) {
 			$text .= '<font color="green">'.$update_useronline_text[$i].' '.__('Updated', 'wp-useronline').'</font><br />';
 		}
 		$i++;
 	}
-	if(empty($text)) {
+	if ( empty($text )) {
 		$text = '<font color="red">'.__('No Useronline Option Updated', 'wp-useronline').'</font>';
 	}
 }
 // Uninstall WP-UserOnline
-if(!empty($_POST['do'])) {
+if ( !empty($_POST['do'] )) {
 	switch($_POST['do']) {		
 		case __('UNINSTALL WP-UserOnline', 'wp-useronline') :
-			if(trim($_POST['uninstall_useronline_yes']) == 'yes') {
+			if ( trim($_POST['uninstall_useronline_yes'] ) == 'yes') {
 				echo '<div id="message" class="updated fade">';
 				echo '<p>';
-				foreach($useronline_tables as $table) {
+				foreach ( $useronline_tables as $table ) {
 					$wpdb->query("DROP TABLE {$table}");
 					echo '<font style="color: green;">';
 					printf(__('Table \'%s\' has been deleted.', 'wp-useronline'), "<strong><em>{$table}</em></strong>");
@@ -94,9 +76,9 @@ if(!empty($_POST['do'])) {
 				}
 				echo '</p>';
 				echo '<p>';
-				foreach($useronline_settings as $setting) {
+				foreach ( $useronline_settings as $setting ) {
 					$delete_setting = delete_option($setting);
-					if($delete_setting) {
+					if ( $delete_setting ) {
 						echo '<font color="green">';
 						printf(__('Setting Key \'%s\' has been deleted.', 'wp-useronline'), "<strong><em>{$setting}</em></strong>");
 						echo '</font><br />';
@@ -120,7 +102,7 @@ switch($mode) {
 		//  Deactivating WP-UserOnline
 		case 'end-UNINSTALL':
 			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=wp-useronline/wp-useronline.php';
-			if(function_exists('wp_nonce_url')) { 
+			if ( function_exists('wp_nonce_url' )) { 
 				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-useronline/wp-useronline.php');
 			}
 			echo '<div class="wrap">';
@@ -136,14 +118,14 @@ switch($mode) {
 		$useronline_template_browsingpage = get_option('useronline_template_browsingpage');
 		$useronline_options_bots_name = '';
 		$useronline_options_bots_agent = '';
-		foreach($useronline_options_bots as $botname => $botagent) {
+		foreach ( $useronline_options_bots as $botname => $botagent ) {
 			$useronline_options_bots_name .= $botname."\n";
 			$useronline_options_bots_agent .= $botagent."\n";
 		}
 		$useronline_options_bots_name = trim($useronline_options_bots_name);
 		$useronline_options_bots_agent = trim($useronline_options_bots_agent);
 ?>
-<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
+<?php if ( !empty($text )) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <script type="text/javascript">
 /* <![CDATA[*/
 	function useronline_default_templates(template) {
@@ -357,7 +339,7 @@ switch($mode) {
 			<td valign="top">
 				<ol>
 				<?php
-					foreach($useronline_settings as $settings) {
+					foreach ( $useronline_settings as $settings ) {
 						echo '<li>'.$settings.'</li>'."\n";
 					}
 				?>
@@ -366,7 +348,7 @@ switch($mode) {
 			<td valign="top" class="alternate">
 				<ol>
 				<?php
-					foreach($useronline_tables as $tables) {
+					foreach ( $useronline_tables as $tables ) {
 						echo '<li>'.$tables.'</li>'."\n";
 					}
 				?>
