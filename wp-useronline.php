@@ -559,12 +559,10 @@ if(!function_exists('get_ipaddress')) {
 
 ### Function: Check IP
 function check_ip($ip) {
-	if ( !current_user_can('administrator') )
+	if ( ! current_user_can('administrator') || empty($ip) || $ip == 'unknown' )
 		return;
 
-	$ip2long = ip2long($ip);
-	if ( ($ip != 'unknown') && $ip == long2ip($ip2long) && $ip2long !== false )
-		return "<span dir=\"ltr\">(<a href=\"http://ws.arin.net/cgi-bin/whois.pl?queryinput=$ip\" title=\"".gethostbyaddr($ip)."\">$ip</a>)</span>";
+	return '<span dir="ltr">(<a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=' . $ip . '" title="'.gethostbyaddr($ip).'">' . $ip . '</a>)</span>';
 }
 
 
