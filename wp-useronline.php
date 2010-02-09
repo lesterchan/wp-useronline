@@ -559,12 +559,12 @@ if(!function_exists('get_ipaddress')) {
 
 ### Function: Check IP
 function check_ip($ip) {
-	$current_user = wp_get_current_user();
-	$user_level = intval($current_user->wp_user_level);
+	if ( !current_user_can('administrator') )
+		return;
+
 	$ip2long = ip2long($ip);
-	if($user_level == 10 && ($ip != 'unknown') && $ip == long2ip($ip2long) && $ip2long !== false) {
+	if ( ($ip != 'unknown') && $ip == long2ip($ip2long) && $ip2long !== false )
 		return "<span dir=\"ltr\">(<a href=\"http://ws.arin.net/cgi-bin/whois.pl?queryinput=$ip\" title=\"".gethostbyaddr($ip)."\">$ip</a>)</span>";
-	}
 }
 
 
