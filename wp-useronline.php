@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
-Version: 2.50
+Version: 2.60
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -28,17 +28,6 @@ Author URI: http://lesterchan.net
 */
 
 
-### Load WP-Config File If This File Is Called Directly
-if (!function_exists('add_action')) {
-	$wp_root = '../../..';
-	if (file_exists($wp_root.'/wp-load.php')) {
-		require_once($wp_root.'/wp-load.php');
-	} else {
-		require_once($wp_root.'/wp-config.php');
-	}
-}
-
-
 ### Create Text Domain For Translations
 add_action('init', 'useronline_textdomain');
 function useronline_textdomain() {
@@ -54,28 +43,18 @@ $wpdb->useronline = $wpdb->prefix.'useronline';
 ### Function: WP-UserOnline Menu
 add_action('admin_menu', 'useronline_menu');
 function useronline_menu() {
-	if (function_exists('add_submenu_page')) {
-		add_submenu_page('index.php',  __('WP-UserOnline', 'wp-useronline'),  __('WP-UserOnline', 'wp-useronline'), 1, 'wp-useronline/wp-useronline.php', 'display_useronline');
-	}
-	if (function_exists('add_options_page')) {
-		add_options_page(__('UserOnline', 'wp-useronline'), __('UserOnline', 'wp-useronline'), 'manage_options', 'wp-useronline/useronline-options.php');
-	}
-}
+	add_submenu_page('index.php',  __('WP-UserOnline', 'wp-useronline'),  __('WP-UserOnline', 'wp-useronline'), 1, 'wp-useronline/wp-useronline.php', 'display_useronline');
 
-
-### Function: Print Out jQuery Script At The Top
-add_action('wp_head', 'useronline_javascripts_header');
-function useronline_javascripts_header() {
-	wp_print_scripts('jquery');
+	add_options_page(__('UserOnline', 'wp-useronline'), __('UserOnline', 'wp-useronline'), 'manage_options', 'wp-useronline/useronline-options.php');
 }
 
 
 ### Function: Enqueue Useronline Javascripts/CSS
-add_action('wp_enqueue_scripts', 'useronline_scripts');
+add_action('template_redirect', 'useronline_scripts');
 function useronline_scripts() {
-	wp_enqueue_script('wp-useronline', plugins_url('wp-useronline/useronline-js.js'), array('jquery'), '2.50', true);
+	wp_enqueue_script('wp-useronline', plugins_url('useronline-js.js', __FILE__), array('jquery'), '2.50', true);
 	wp_localize_script('wp-useronline', 'useronlineL10n', array(
-		'ajax_url' => plugins_url('wp-useronline/wp-useronline.php'),
+		'ajax_url' => admin_url('admin-ajax.php'),
 		'timeout' => (get_option('useronline_timeout')*1000)
 	));
 }
@@ -143,29 +122,29 @@ function useronline() {
 
 	// Check For Page Title
 	$make_page = wp_title('&raquo;', false);
-	if(empty($make_page)) {
+	if ( empty($make_page) ) {
 		$make_page = get_bloginfo('name').' &raquo; '.$_SERVER['REQUEST_URI']; 
-	} elseif(is_single()) {
+	} elseif ( is_singular() ) {
 		$make_page = get_bloginfo('name').' &raquo; '.__('Blog Archive', 'wp-useronline').' '.$make_page;
 	} else {
 		$make_page = get_bloginfo('name').$make_page;
 	}
 	$make_page = addslashes($make_page);
-	
+
 	// Delete Users
 	$delete_users = $wpdb->query("DELETE FROM $wpdb->useronline $where OR (timestamp < $timeout)");
-	
+
 	// Insert Users
-	$insert_user = $wpdb->query("INSERT INTO $wpdb->useronline VALUES ('$timestamp', '$user_id', '$user_name', '$display_name', '$useragent', '$ip', '$make_page', '$url', '$type', '$referral')");
+	$insert_user = $wpdb->insert($wpdb->useronline, compact('timestamp', 'user_id', 'user_name', 'display_name', 'useragent', 'ip', 'make_page', 'url', 'type', 'referral'));
 
 	// Count Users Online
 	$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
-	
+
 	// Get Most User Online
 	$most_useronline = intval(get_option('useronline_most_users'));
 
 	// Check Whether Current Users Online Is More Than Most Users Online
-	if($useronline > $most_useronline) {
+	if ( $useronline > $most_useronline ) {
 		update_option('useronline_most_users', $useronline);
 		update_option('useronline_most_timestamp', current_time('timestamp'));
 	}
@@ -173,75 +152,68 @@ function useronline() {
 
 
 ### Function: Display UserOnline
-if(!function_exists('get_useronline')) {
-	function get_useronline($display = true) {
-		// Template - Naming Conventions
-		$useronline_naming = get_option('useronline_naming');
-		// Template - User(s) Online
-		$template_useronline = stripslashes(get_option('useronline_template_useronline'));
-		$template_useronline = str_replace('%USERONLINE_PAGE_URL%', get_option('useronline_url'), $template_useronline);
-		$template_useronline = str_replace('%USERONLINE_MOSTONLINE_COUNT%', number_format_i18n(get_most_useronline()), $template_useronline);
-		$template_useronline = str_replace('%USERONLINE_MOSTONLINE_DATE%', get_most_useronline_date(), $template_useronline);
-		if(get_useronline_count() == 1) {
-			$template_useronline = str_replace('%USERONLINE_USERS%', stripslashes($useronline_naming['user']), $template_useronline);			
-		} else {
-			$useronline_naming_users = str_replace('%USERONLINE_COUNT%', number_format_i18n(get_useronline_count()), stripslashes($useronline_naming['users']));
-			$template_useronline = str_replace('%USERONLINE_USERS%', $useronline_naming_users, $template_useronline);
-		}
-		if($display) {
-			echo $template_useronline;
-		} else {
-			return $template_useronline;
-		}
+function get_useronline($display = true) {
+	// Template - Naming Conventions
+	$useronline_naming = get_option('useronline_naming');
+	// Template - User(s) Online
+	$template_useronline = stripslashes(get_option('useronline_template_useronline'));
+	$template_useronline = str_replace('%USERONLINE_PAGE_URL%', get_option('useronline_url'), $template_useronline);
+	$template_useronline = str_replace('%USERONLINE_MOSTONLINE_COUNT%', number_format_i18n(get_most_useronline()), $template_useronline);
+	$template_useronline = str_replace('%USERONLINE_MOSTONLINE_DATE%', get_most_useronline_date(), $template_useronline);
+	if(get_useronline_count() == 1) {
+		$template_useronline = str_replace('%USERONLINE_USERS%', stripslashes($useronline_naming['user']), $template_useronline);			
+	} else {
+		$useronline_naming_users = str_replace('%USERONLINE_COUNT%', number_format_i18n(get_useronline_count()), stripslashes($useronline_naming['users']));
+		$template_useronline = str_replace('%USERONLINE_USERS%', $useronline_naming_users, $template_useronline);
+	}
+	if($display) {
+		echo $template_useronline;
+	} else {
+		return $template_useronline;
 	}
 }
 
 
 ### Function: Display UserOnline Count
-if(!function_exists('get_useronline_count')) {
-	function get_useronline_count($display = false) {
-		global $useronline;
-		if($display) {
-			echo number_format_i18n($useronline);
-		} else {
-			return $useronline;
-		}
-	}
+function get_useronline_count($display = false) {
+	global $wpdb, $useronline;
+
+	if ( ! isset($useronline) )
+		$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
+
+	if ( !$display )
+		return $useronline;
+
+	echo number_format_i18n($useronline);
 }
 
 
 ### Function: Display Max UserOnline
-if(!function_exists('get_most_useronline')) {
-	function get_most_useronline($display = false) {
-		$most_useronline_users = intval(get_option('useronline_most_users'));
-		if($display) {
-			echo number_format_i18n($most_useronline_users);
-		} else {
-			return $most_useronline_users;
-		}
+function get_most_useronline($display = false) {
+	$most_useronline_users = intval(get_option('useronline_most_users'));
+	if($display) {
+		echo number_format_i18n($most_useronline_users);
+	} else {
+		return $most_useronline_users;
 	}
 }
 
-
 ### Function: Display Max UserOnline Date
-if(!function_exists('get_most_useronline_date')) {
-	function get_most_useronline_date($display = false) {
-		$most_useronline_timestamp = get_option('useronline_most_timestamp');
-		$most_useronline_date = mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $most_useronline_timestamp));
-		if($display) {
-			echo $most_useronline_date;
-		} else {
-			return $most_useronline_date;
-		}
+function get_most_useronline_date($display = false) {
+	$most_useronline_timestamp = get_option('useronline_most_timestamp');
+	$most_useronline_date = mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $most_useronline_timestamp));
+	if($display) {
+		echo $most_useronline_date;
+	} else {
+		return $most_useronline_date;
 	}
 }
 
 
 ### Function Check If User Is Online
-function is_online($user_login) { 
+function is_online($user_login) {
 	global $wpdb;
-	$is_online = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline WHERE username = '$user_login' LIMIT 1");
-	return intval($is_online);
+	return intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline WHERE username = '$user_login' LIMIT 1"));
 }
 
 
@@ -805,26 +777,27 @@ function useronline_stats_page_link($author) {
 
 
 ### Function: Process AJAX Request
-useronline_ajax();
+add_action('wp_ajax_useronline', 'useronline_ajax');
+add_action('wp_ajax_nopriv_useronline', 'useronline_ajax');
 function useronline_ajax() {
-	global $wpdb, $useronline;
-	$mode = trim($_GET['useronline_mode']);
-	if(!empty($mode)) {
-		header('Content-Type: text/html; charset='.get_option('blog_charset'));
-		switch($mode) {
-			case 'useronline_count':
-				$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
-				get_useronline();
-				break;
-			case 'useronline_browsingsite':
-				get_users_browsing_site();				
-				break;
-			case 'useronline_browsingpage':
-				get_users_browsing_page();
-				break;
-		}
-		exit();
+	$mode = trim($_POST['mode']);
+
+	if ( empty($mode) )
+		return;
+
+	switch($mode) {
+		case 'count':
+			get_useronline();
+			break;
+		case 'browsingsite':
+			get_users_browsing_site();				
+			break;
+		case 'browsingpage':
+			get_users_browsing_page();
+			break;
 	}
+
+	die();
 }
 
 
