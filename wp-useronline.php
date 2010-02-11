@@ -482,7 +482,7 @@ function useronline_ajax() {
 
 
 ### Class: WP-UserOnline Widget
- class WP_Widget_UserOnline extends WP_Widget {
+class WP_Widget_UserOnline extends WP_Widget {
 	// Constructor
 	function WP_Widget_UserOnline() {
 		$widget_ops = array('description' => __('WP-UserOnline users online statistics', 'wp-useronline'));
