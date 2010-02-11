@@ -40,19 +40,10 @@ global $wpdb;
 $wpdb->useronline = $wpdb->prefix.'useronline';
 
 
-### Function: WP-UserOnline Menu
-add_action('admin_menu', 'useronline_menu');
-function useronline_menu() {
-	add_submenu_page('index.php',  __('WP-UserOnline', 'wp-useronline'),  __('WP-UserOnline', 'wp-useronline'), 'read', 'wp-useronline/wp-useronline.php', 'display_useronline');
-
-	add_options_page(__('UserOnline', 'wp-useronline'), __('UserOnline', 'wp-useronline'), 'manage_options', 'wp-useronline/useronline-options.php');
-}
-
-
 ### Function: Enqueue Useronline Javascripts/CSS
 add_action('template_redirect', 'useronline_scripts');
 function useronline_scripts() {
-	wp_enqueue_script('wp-useronline', plugins_url('useronline-js.js', __FILE__), array('jquery'), '2.50', true);
+	wp_enqueue_script('wp-useronline', plugins_url('useronline-js.js', __FILE__), array('jquery'), '2.60', true);
 	wp_localize_script('wp-useronline', 'useronlineL10n', array(
 		'ajax_url' => admin_url('admin-ajax.php'),
 		'timeout' => (get_option('useronline_timeout')*1000)
@@ -254,7 +245,7 @@ function get_users_browsing_site($display = true) {
 	if ( !$users_browse )
 		return;
 
-	return useronline_template_list('site', $users_browse, $display);
+	return _useronline_template_list('site', $users_browse, $display);
 }
 
 ### Function: Display Users Browsing The Page
@@ -267,31 +258,10 @@ function get_users_browsing_page($display = true) {
 	if ( !$users_browse )
 		return;
 
-	return useronline_template_list('page', $users_browse, $display);
+	return _useronline_template_list('page', $users_browse, $display);
 }
 
-function get_useronline_buckets($users) {
-	$buckets = array();
-
-	foreach ( $users as $user )
-		$buckets[$user->type][] = $user->displayname;
-
-	return $buckets;
-}
-
-function get_useronline_counts($buckets) {
-	$counts = array();
-
-	$total = 0;
-	foreach ( array('member', 'guest', 'bot') as $type )
-		$total += $counts[$type] = count(@$buckets[$type]);
-
-	$counts['user'] = $total;
-
-	return $counts;
-}
-
-function useronline_template_list($type, $users_browse, $display) {
+function _useronline_template_list($type, $users_browse, $display) {
 	// Get Users Information
 	$buckets = get_useronline_buckets($users_browse);
 	$counts = get_useronline_counts($buckets);
@@ -347,6 +317,27 @@ function useronline_template_list($type, $users_browse, $display) {
 	echo $template;
 }
 
+function get_useronline_buckets($users) {
+	$buckets = array();
+
+	foreach ( $users as $user )
+		$buckets[$user->type][] = $user->displayname;
+
+	return $buckets;
+}
+
+function get_useronline_counts($buckets) {
+	$counts = array();
+
+	$total = 0;
+	foreach ( array('member', 'guest', 'bot') as $type )
+		$total += $counts[$type] = count(@$buckets[$type]);
+
+	$counts['user'] = $total;
+
+	return $counts;
+}
+
 
 ### Function: Get IP Address
 function useronline_get_ipaddress() {
@@ -366,54 +357,8 @@ function check_ip($ip) {
 	if ( ! current_user_can('administrator') || empty($ip) || $ip == 'unknown' )
 		return;
 
-	return '<span dir="ltr">(<a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=' . $ip . '" title="'.gethostbyaddr($ip).'">' . $ip . '</a>)</span>';
+	return '<span dir="ltr">(<a href="http://whois.domaintools.com/' . $ip . '" title="'.gethostbyaddr($ip).'">' . $ip . '</a>)</span>';
 }
-
-
-### Function: Get User's Country Name/Code
-// See http://planetozh.com/blog/2004/08/ip-to-nation-plugin/
-function get_user_origin($ip) {
-	global $wpdb, $cache_ips;
-	if (!isset($cache_ips[$ip])) {
-		$cache_ips[$ip] = $wpdb->get_row("SELECT c.country, c.code FROM ip2nationCountries c, ip2nation i WHERE i.ip < INET_ATON('$ip') AND c.code = i.country ORDER BY i.ip DESC LIMIT 1");
-	}
-	return $cache_ips[$ip];
-}
-
-
-### Function: Output User's Country Flag/Name
-function ip2nation_country($ip, $display_countryname = 0) {
-	//$country_mirror = 'http://lesterchan.net/wp-content/themes/lesterchan/images/flags';
-	$country_mirror = plugins_url('wp-useronline/images/flags');
-	$country_imgtype = 'png';
-	$origin = get_user_origin($ip);
-	$output = '';
-	if ( $origin ) {
-		$country_code = $origin->code;
-		$country_name = $origin->country;
-		if ( $country_name != 'Private' ) {				
-			if ( @file_exists(WP_PLUGIN_DIR.'/wp-useronline/images/flags/sg.'.$country_imgtype ) !== false) {
-				$output .= '<img src="'.$country_mirror.'/'.$country_code.'.'.$country_imgtype.'" alt="'.$country_name.'" title="'.$country_name.'" /> ';
-			}
-			if ( $display_countryname ) {
-				$output .= $country_name.' ';
-			}
-		}
-	}
-	return $output;
-}
-
-
-### Function: Display UserOnline For Admin
-function display_useronline() {
-	$useronline_page = useronline_page();
-	echo '<div class="wrap">'."\n";
-	screen_icon();
-	echo '<h2>'.__('Users Online Now', 'wp-useronline').'</h2>'."\n";
-	echo $useronline_page;
-	echo '</div>'."\n";
-}
-
 
 ### Function Display UserOnline For Admin's Right Now
 add_action('rightnow_end', 'useronline_rightnow');
@@ -437,11 +382,7 @@ function useronline_rightnow() {
 
 
 ### Function: Short Code For Inserting Users Online Into Page
-add_shortcode('page_useronline', 'useronline_page_shortcode');
-function useronline_page_shortcode($atts) {
-	return useronline_page();
-}
-
+add_shortcode('page_useronline', 'useronline_page');
 
 ### Function: UserOnline Page
 function useronline_page() {
@@ -479,13 +420,13 @@ function useronline_page() {
 	else
 		foreach ( array('member', 'guest', 'bot') as $type )
 			if ( $counts[$type] )
-				$output .= useronline_print_list($counts[$type], $user_buckets[$type], $nicetexts[$type]);
+				$output .= _useronline_print_list($counts[$type], $user_buckets[$type], $nicetexts[$type]);
 
 	// Output UserOnline Page
 	return apply_filters('useronline_page', $output);
 }
 
-function useronline_print_list($count, $users, $nicetext) {
+function _useronline_print_list($count, $users, $nicetext) {
 	$output = "<h2>$nicetext ".__('Online Now', 'wp-useronline')."</h2>\n";
 
 	$on = __('on', 'wp-useronline');
@@ -497,7 +438,7 @@ function useronline_print_list($count, $users, $nicetext) {
 	foreach ( $users as $user ) {
 		$nr = number_format_i18n($i++);
 		$name = get_useronline_display_name($user['displayname']);
-		$ip = ip2nation_country($user['ip']).check_ip($user['ip']);
+		$ip = check_ip($user['ip']);
 		$date = mysql2date($date_str, gmdate('Y-m-d H:i:s', $user['timestamp']));
 		$location = $user['location'];
 		$current_link = '[<a href="'.esc_url($user['url']).'">'.$url.'</a>]';
@@ -610,8 +551,8 @@ function useronline_ajax() {
 		global $wpdb;
 		$instance = wp_parse_args((array) $instance, array(
 			'title' => __('UserOnline', 'wp-useronline'), 
-			'type' => 'users_online')
-		);
+			'type' => 'users_online'
+		));
 		$title = esc_attr($instance['title']);
 		$type = esc_attr($instance['type']);
 ?>
@@ -728,4 +669,7 @@ function create_useronline_table() {
 
 if ( function_exists('stats_page') )
 	require_once dirname(__FILE__) . 'wp-stats.php';
+
+if ( is_admin() )
+	require_once dirname(__FILE__) . 'admin.php';
 
