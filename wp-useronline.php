@@ -449,7 +449,7 @@ function useronline_page() {
 		'user' => array(__('User', 'wp-useronline'), __('Users', 'wp-useronline')),
 		'member' => array(__('Member', 'wp-useronline'), __('Members', 'wp-useronline')),
 		'guest' => array(__('Guest', 'wp-useronline'), __('Guests', 'wp-useronline')),
-		'bot' => array(__('Bot', 'wp-useronline'), __('Bot', 'wp-useronline')),
+		'bot' => array(__('Bot', 'wp-useronline'), __('Bots', 'wp-useronline')),
 	);
 
 	foreach ( $texts as $type => $strings )
