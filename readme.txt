@@ -13,6 +13,11 @@ This plugin enables you to display how many users are online on your Wordpress b
 
 [Demo](http://lesterchan.net/wordpress/useronline/) | [Translations](http://dev.wp-plugins.org/browser/wp-useronline/i18n/) | [Support Forums](http://forums.lesterchan.net/index.php?board=21.0)
 
+Credits:
+* __ngetext() by Anna Ozeritskaya
+* Right-To-Left language support by [Kambiz R. Khojasteh](http://persian-programming.com/)
+* Maintained by [scribu](http://scribu.net)
+
 == Installation ==
 
 You can either install it automatically from the WordPress admin, or do it manually:

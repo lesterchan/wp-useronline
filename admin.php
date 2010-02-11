@@ -93,57 +93,51 @@ class UserOnline_Options extends scbAdminPage {
 		if ( empty($_POST['Submit'] ))
 			return;
 
-		$bots = array();
 		$timeout = intval($_POST['useronline_timeout']);
-		$bots_name = explode("\n", trim($_POST['useronline_bots_name']));
-		$bots_agent = explode("\n", trim($_POST['useronline_bots_agent']));	
+		$url = trim(stripslashes($_POST['useronline_url']));
+
+		$bots = array();
+		$bots_name = explode("\n", trim(stripslashes($_POST['useronline_bots_name'])));
+		$bots_agent = explode("\n", trim(stripslashes($_POST['useronline_bots_agent'])));
+
 		$bots_keys = array_values((array) $bots_name);
 		$bots_vals = array_values((array) $bots_agent);
 		$n = max(count($bots_keys), count($bots_vals));
 
-		for($i = 0; $i < $n; $i++)
+		for ( $i = 0; $i < $n; $i++ )
 			$bots[trim($bots_keys[$i])] = trim($bots_vals[$i]);
 
-		$url = trim($_POST['useronline_url']);
-		$naming_user = trim($_POST['useronline_naming_user']);
-		$naming_users = trim($_POST['useronline_naming_users']);
-		$naming_member = trim($_POST['useronline_naming_member']);
-		$naming_members = trim($_POST['useronline_naming_members']);
-		$naming_guest = trim($_POST['useronline_naming_guest']);
-		$naming_guests = trim($_POST['useronline_naming_guests']);
-		$naming_bot = trim($_POST['useronline_naming_bot']);
-		$naming_bots = trim($_POST['useronline_naming_bots']);
-		$naming = array('user' => $naming_user, 'users' => $naming_users, 'member' => $naming_member, 'members' => $naming_members, 'guest' => $naming_guest, 'guests' => $naming_guests, 'bot' => $naming_bot, 'bots' => $naming_bots);
-		$template_useronline = trim($_POST['useronline_template_useronline']);
-		$template_browsingsite = array($_POST['useronline_separator_browsingsite_members'], $_POST['useronline_separator_browsingsite_guests'], $_POST['useronline_separator_browsingsite_bots'], trim($_POST['useronline_template_browsingsite']));
-		$template_browsingpage = array($_POST['useronline_separator_browsingpage_members'], $_POST['useronline_separator_browsingpage_guests'], $_POST['useronline_separator_browsingpage_bots'], trim($_POST['useronline_template_browsingpage']));
-		$update_useronline_queries = array();
-		$update_useronline_text = array();
+		$naming = array();
+		foreach ( array('user', 'users', 'member', 'members', 'guest', 'guests', 'bot', 'bots') as $key )
+			$naming[$key] = trim(stripslashes($_POST["useronline_naming_$key"]));
+
+		$template_useronline = trim(stripslashes($_POST['useronline_template_useronline']));
+
+		foreach ( array('browsingsite', 'browsingpage') as $key ) {
+			$template = array();
+			foreach ( array('members', 'guests', 'bots') as $type )
+				$template[] = trim(stripslashes($_POST["useronline_separator_{$key}_{$type}"]));
+			update_option("useronline_template_{$key}", $template);
+		}
 
 		update_option('useronline_timeout', $timeout);
 		update_option('useronline_bots', $bots);
 		update_option('useronline_url', $url);
 		update_option('useronline_naming', $naming);
 		update_option('useronline_template_useronline', $template_useronline);
-		update_option('useronline_template_browsingsite', $template_browsingsite);
-		update_option('useronline_template_browsingpage', $template_browsingpage);
 
 		$this->admin_msg(__('Settings updated.', 'wp-useronline'));
 	}
 
 	function page_content() {
 		$options_naming = get_option('useronline_naming');
-		$options_bots = get_option('useronline_bots');
+
 		$template_browsingsite = get_option('useronline_template_browsingsite');
 		$template_browsingpage = get_option('useronline_template_browsingpage');
-		$options_bots_name = '';
-		$options_bots_agent = '';
-		foreach ( $options_bots as $botname => $botagent ) {
-			$options_bots_name .= $botname."\n";
-			$options_bots_agent .= $botagent."\n";
-		}
-		$options_bots_name = trim($options_bots_name);
-		$options_bots_agent = trim($options_bots_agent);
+
+		$options_bots = get_option('useronline_bots');
+		$options_bots_name = implode("\n", array_keys($options_bots));
+		$options_bots_agent = implode("\n", array_values($options_bots));
 ?>
 	<form method="post" action="">
 		<table class="form-table">
