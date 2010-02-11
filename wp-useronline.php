@@ -157,18 +157,17 @@ class UserOnline_Core {
 		}
 
 		// Check For Page Title
-		if ( is_admin() )
-			$location = get_bloginfo('name').' &raquo; '.get_admin_page_title();
-		else {
+		if ( is_admin() ) {
+			$location = ' &raquo; '.__('Admin', 'wp-useronline').' &raquo; '.get_admin_page_title();
+		} else {
 			$location = wp_title('&raquo;', false);
 			if ( empty($location) ) {
-				$location = get_bloginfo('name').' &raquo; '.$_SERVER['REQUEST_URI']; 
+				$location = ' &raquo; '.$_SERVER['REQUEST_URI']; 
 			} elseif ( is_singular() ) {
-				$location = get_bloginfo('name').' &raquo; '.__('Blog Archive', 'wp-useronline').' '.$location;
-			} else {
-				$location = get_bloginfo('name').$location;
+				$location = ' &raquo; '.__('Archive', 'wp-useronline').' '.$location;
 			}
 		}
+		$location = get_bloginfo('name').$location;
 
 		// Delete Users
 // DEBUG
