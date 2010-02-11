@@ -117,6 +117,7 @@ class UserOnline_Options extends scbAdminPage {
 			$template = array();
 			foreach ( array('members', 'guests', 'bots') as $type )
 				$template[] = trim(stripslashes($_POST["useronline_separator_{$key}_{$type}"]));
+			$template[] = trim(stripslashes($_POST["useronline_template_{$key}"]));
 			update_option("useronline_template_{$key}", $template);
 		}
 
@@ -144,28 +145,28 @@ class UserOnline_Options extends scbAdminPage {
 			 <tr>
 				<th scope="row" valign="top"><?php _e('Time Out', 'wp-useronline'); ?></th>
 				<td>
-					<input type="text" name="useronline_timeout" value="<?php echo get_option('useronline_timeout'); ?>" size="4" /><br /><?php _e('How long till it will remove the user from the database (In seconds).', 'wp-useronline'); ?>
+					<input type="text" name="useronline_timeout" value="<?php echo esc_attr(get_option('useronline_timeout')); ?>" size="4" /><br /><?php _e('How long till it will remove the user from the database (In seconds).', 'wp-useronline'); ?>
 				</td>
 			</tr>
 			 <tr>
 				<th scope="row" valign="top"><?php _e('UserOnline URL', 'wp-useronline'); ?></th>
 				<td>
-					<input type="text" name="useronline_url" value="<?php echo get_option('useronline_url'); ?>" size="50" dir="ltr" /><br /><?php _e('URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
+					<input type="text" name="useronline_url" value="<?php echo esc_attr(get_option('useronline_url')); ?>" size="50" dir="ltr" /><br /><?php _e('URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
 				</td>
 			</tr>
-			<tr> 
+			<tr>
 				<th scope="row" valign="top"><?php _e('Bots Name/User Agent', 'wp-useronline'); ?></th>
 				<td>
 					<?php _e('Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot\'s Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line.', 'wp-useronline'); ?>
 					<br /><br />
-					<textarea cols="20" rows="30" name="useronline_bots_name" dir="ltr"><?php echo $options_bots_name; ?></textarea>
-					<textarea cols="20" rows="30" name="useronline_bots_agent" dir="ltr"><?php echo $options_bots_agent; ?></textarea>						
-				</td> 
+					<textarea cols="20" rows="30" name="useronline_bots_name" dir="ltr"><?php echo esc_html($options_bots_name); ?></textarea>
+					<textarea cols="20" rows="30" name="useronline_bots_agent" dir="ltr"><?php echo esc_html($options_bots_agent); ?></textarea>
+				</td>
 			</tr>
-			<tr> 
+			<tr>
 				<td width="30%">
 					<strong><?php _e('Naming Conventions:', 'wp-useronline'); ?></strong><br /><br /><br />
-					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
+					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />
 					- %USERONLINE_COUNT%<br /><br />
 					<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_naming();" class="button" />
 				</td>
@@ -178,26 +179,19 @@ class UserOnline_Options extends scbAdminPage {
 							 </tr>
 						 </thead>
 						 <tbody>
-							 <tr>
-								<td><input type="text" id="useronline_naming_user" name="useronline_naming_user" value="<?php echo stripslashes($options_naming['user']); ?>" size="20" /></td>
-								<td><input type="text" id="useronline_naming_users" name="useronline_naming_users" value="<?php echo stripslashes($options_naming['users']); ?>" size="40" /></td>
-							 </tr>
-							 <tr>
-								<td><input type="text" id="useronline_naming_member" name="useronline_naming_member" value="<?php echo stripslashes($options_naming['member']); ?>" size="20" /></td>
-								<td><input type="text" id="useronline_naming_members" name="useronline_naming_members" value="<?php echo stripslashes($options_naming['members']); ?>" size="40" /></td>
-							 </tr>
-							 <tr>
-								 <td><input type="text" id="useronline_naming_guest" name="useronline_naming_guest" value="<?php echo stripslashes($options_naming['guest']); ?>" size="20" /></td>
-								<td><input type="text" id="useronline_naming_guests" name="useronline_naming_guests" value="<?php echo stripslashes($options_naming['guests']); ?>" size="40" /></td>
-							 </tr>
-							 <tr>
-								<td><input type="text" id="useronline_naming_bot" name="useronline_naming_bot" value="<?php echo stripslashes($options_naming['bot']); ?>" size="20" /></td>
-								<td><input type="text" id="useronline_naming_bots" name="useronline_naming_bots" value="<?php echo stripslashes($options_naming['bots']); ?>" size="40" /></td>
-							 </tr>
+							<?php foreach ( array('user', 'member', 'guest', 'bot') as $type ) {
+								echo
+								html('tr',
+									html('td', "<input id='useronline_naming_$type' name='useronline_naming_$type' value='"
+										.esc_attr($options_naming[$type]) . "' type='text' size='20' />")
+									.html('td', "<input id='useronline_naming_{$type}s' name='useronline_naming_{$type}s' value='"
+										.esc_attr($options_naming[$type . 's']) . "' type='text' size='40' />")
+								);
+							} ?>
 						 </tbody>
 					</table>
 					<br />
-				</td> 
+				</td>
 			</tr>
 		</table>
 
@@ -213,7 +207,7 @@ class UserOnline_Options extends scbAdminPage {
 					- %USERONLINE_MOSTONLINE_DATE%<br /><br />
 					<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_templates('useronline');" class="button" />
 				</td>
-				<td><textarea cols="80" rows="12" id="useronline_template_useronline" name="useronline_template_useronline"><?php echo htmlspecialchars(stripslashes(get_option('useronline_template_useronline'))); ?></textarea></td>
+				<td><textarea cols="80" rows="12" id="useronline_template_useronline" name="useronline_template_useronline"><?php echo htmlspecialchars(get_option('useronline_template_useronline')); ?></textarea></td>
 			</tr>
 			 <tr>
 				<td width="30%">
@@ -238,13 +232,13 @@ class UserOnline_Options extends scbAdminPage {
 							 </tr>
 						 </thead>
 						 <tr>
-							<td><input type="text" id="useronline_separator_browsingsite_members" name="useronline_separator_browsingsite_members" value="<?php echo stripslashes($template_browsingsite[0]); ?>" size="15" /></td>
-							<td><input type="text" id="useronline_separator_browsingsite_guests" name="useronline_separator_browsingsite_guests" value="<?php echo stripslashes($template_browsingsite[1]); ?>" size="15" /></td>
-							<td><input type="text" id="useronline_separator_browsingsite_bots" name="useronline_separator_browsingsite_bots" value="<?php echo stripslashes($template_browsingsite[2]); ?>" size="15" /></td>
+						 	<?php foreach ( array('members', 'guests', 'bots') as $i => $type ) { ?>
+							<td><input type="text" id="useronline_separator_browsingsite_<?php echo $type; ?>" name="useronline_separator_browsingsite_<?php echo $type; ?>" value="<?php echo esc_attr($template_browsingsite[$i]); ?>" size="15" /></td>
+							<?php } ?>
 						 </tr>
 					</table>
 					<br />
-					<textarea cols="80" rows="12" id="useronline_template_browsingsite" name="useronline_template_browsingsite"><?php echo htmlspecialchars(stripslashes($template_browsingsite[3])); ?></textarea>
+					<textarea cols="80" rows="12" id="useronline_template_browsingsite" name="useronline_template_browsingsite"><?php echo htmlspecialchars($template_browsingsite[3]); ?></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -276,7 +270,7 @@ class UserOnline_Options extends scbAdminPage {
 						 </tr>
 					</table>
 					<br />
-					<textarea cols="80" rows="12" id="useronline_template_browsingpage" name="useronline_template_browsingpage"><?php echo htmlspecialchars(stripslashes($template_browsingpage[3])); ?></textarea>
+					<textarea cols="80" rows="12" id="useronline_template_browsingpage" name="useronline_template_browsingpage"><?php echo htmlspecialchars($template_browsingpage[3]); ?></textarea>
 				</td>
 			</tr>
 		</table>
