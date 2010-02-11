@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
-Version: 2.60
+Version: 2.60b
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -241,12 +241,12 @@ function get_memberlastvisit($user_id = 0) {
 function get_users_browsing_site($display = true) {
 	global $wpdb;
 
-	$users_browse = $wpdb->get_results("SELECT displayname, type FROM $wpdb->useronline ORDER BY type");
+	$users_online = $wpdb->get_results("SELECT displayname, type FROM $wpdb->useronline ORDER BY type");
 
-	if ( !$users_browse )
+	if ( !$users_online )
 		return;
 
-	return _useronline_template_list('site', $users_browse, $display);
+	return _useronline_template_list('site', $users_online, $display);
 }
 
 ### Function: Display Users Browsing The Page
@@ -254,17 +254,17 @@ function get_users_browsing_page($display = true) {
 	global $wpdb;
 
 	$page_url = esc_sql(urlencode($_SERVER['REQUEST_URI']));
-	$users_browse = $wpdb->get_results("SELECT displayname, type FROM $wpdb->useronline WHERE url = '$page_url' ORDER BY type");
+	$users_online = $wpdb->get_results("SELECT displayname, type FROM $wpdb->useronline WHERE url = '$page_url' ORDER BY type");
 
-	if ( !$users_browse )
+	if ( !$users_online )
 		return;
 
-	return _useronline_template_list('page', $users_browse, $display);
+	return _useronline_template_list('page', $users_online, $display);
 }
 
-function _useronline_template_list($type, $users_browse, $display) {
+function _useronline_template_list($type, $users_online, $display) {
 	// Get Users Information
-	$buckets = get_useronline_buckets($users_browse);
+	$buckets = get_useronline_buckets($users_online);
 	$counts = get_useronline_counts($buckets);
 
 	if ( !$display )
@@ -293,7 +293,7 @@ function _useronline_template_list($type, $users_browse, $display) {
 	// Counts
 	foreach ( array('member', 'guest', 'bot') as $type ) {
 		if ( $counts[$type] > 1 )
-			$number = str_ireplace('%USERONLINE_COUNT%', number_format_i18n($total_members), $naming[$type . 's']);
+			$number = str_ireplace('%USERONLINE_COUNT%', number_format_i18n($counts[$type]), $naming[$type . 's']);
 		elseif ( $counts[$type] == 1 )
 			$number = $naming[$type];
 		else
