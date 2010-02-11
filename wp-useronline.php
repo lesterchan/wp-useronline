@@ -157,18 +157,22 @@ class UserOnline_Core {
 		}
 
 		// Check For Page Title
-		$location = wp_title('&raquo;', false);
-		if ( empty($location) ) {
-			$location = get_bloginfo('name').' &raquo; '.$_SERVER['REQUEST_URI']; 
-		} elseif ( is_singular() ) {
-			$location = get_bloginfo('name').' &raquo; '.__('Blog Archive', 'wp-useronline').' '.$location;
-		} else {
-			$location = get_bloginfo('name').$location;
+		if ( is_admin() )
+			$location = get_bloginfo('name').' &raquo; '.get_admin_page_title();
+		else {
+			$location = wp_title('&raquo;', false);
+			if ( empty($location) ) {
+				$location = get_bloginfo('name').' &raquo; '.$_SERVER['REQUEST_URI']; 
+			} elseif ( is_singular() ) {
+				$location = get_bloginfo('name').' &raquo; '.__('Blog Archive', 'wp-useronline').' '.$location;
+			} else {
+				$location = get_bloginfo('name').$location;
+			}
 		}
 
 		// Delete Users
 // DEBUG
-// $wpdb->query("DELETE FROM $wpdb->useronline");
+#$wpdb->query("DELETE FROM $wpdb->useronline");
 
 		$delete_users = $wpdb->query("DELETE FROM $wpdb->useronline $where OR (timestamp < $timeout)");
 
