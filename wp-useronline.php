@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
-Version: 2.60a2
+Version: 2.60b2
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -355,7 +355,7 @@ function _useronline_template_list($type, $users_online, $display) {
 	if ( $members ) {
 		$temp_member = array();
 		foreach ( $members as $member )
-			$temp_member[] = get_useronline_display_name($member);
+			$temp_member[] = get_useronline_display_name($member, 'member');
 		$temp_member = implode($separator_members, $temp_member);
 	}
 	$template = str_ireplace('%USERONLINE_MEMBER_NAMES%', $temp_member, $template);
@@ -470,13 +470,13 @@ function useronline_page() {
 	else
 		foreach ( array('member', 'guest', 'bot') as $type )
 			if ( $counts[$type] )
-				$output .= _useronline_print_list($counts[$type], $user_buckets[$type], $nicetexts[$type]);
+				$output .= _useronline_print_list($counts[$type], $user_buckets[$type], $nicetexts[$type], $type);
 
 	// Output UserOnline Page
 	return apply_filters('useronline_page', $output);
 }
 
-function _useronline_print_list($count, $users, $nicetext) {
+function _useronline_print_list($count, $users, $nicetext, $type) {
 	$output = html('h2', "$nicetext ".__('Online Now', 'wp-useronline'));
 
 	$on = __('on', 'wp-useronline');
@@ -486,7 +486,7 @@ function _useronline_print_list($count, $users, $nicetext) {
 	$i=1;
 	foreach ( $users as $user ) {
 		$nr = number_format_i18n($i++);
-		$name = get_useronline_display_name($user['displayname']);
+		$name = get_useronline_display_name($user['displayname'], $type);
 		$ip = check_ip($user['ip']);
 		$date = useronline_get_date($user['timestamp']);
 		$location = $user['location'];
@@ -502,8 +502,8 @@ function _useronline_print_list($count, $users, $nicetext) {
 	return $output;
 }
 
-function get_useronline_display_name($user) {
-	return apply_filters('useronline_display_name', $user);
+function get_useronline_display_name($user, $type) {
+	return apply_filters('useronline_display_name', $user, $type);
 }
 
 class UserOnline_Widget extends scbWidget {
