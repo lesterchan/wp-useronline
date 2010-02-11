@@ -18,9 +18,9 @@ class UserOnline_Admin_Page extends scbAdminPage {
 		$total_users = get_useronline_count(false);
 
 		$str = _n(
-			__('There is <strong><a href="%s">%s user</a></strong> online now.', 'wp-useronline'),
-			__('There are a total of <strong><a href="%s">%s users</a></strong> online now.', 'wp-useronline'),
-			$total_users
+			'There is <strong><a href="%s">%s user</a></strong> online now.',
+			'There are a total of <strong><a href="%s">%s users</a></strong> online now.',
+			$total_users, 'wp-useronline'
 		);
 
 		echo '<p>';
