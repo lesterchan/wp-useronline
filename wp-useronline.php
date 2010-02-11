@@ -666,6 +666,18 @@ function create_useronline_table() {
 	));
 }
 
+register_uninstall_hook(__FILE__, 'useronline_uninstall');
+function useronline_uninstall() {
+	global $wpdb;
+
+	$wpdb->query("DROP TABLE $wpdb->useronline");
+
+	$useronline_settings = array('useronline_most_users', 'useronline_most_timestamp', 'useronline_timeout', 'useronline_bots', 'useronline_url', 'useronline_naming', 'useronline_template_useronline', 'useronline_template_browsingsite', 'useronline_template_browsingpage', 'widget_useronline');
+
+	foreach ( $useronline_settings as $setting )
+		delete_option($setting);
+}
+
 if ( function_exists('stats_page') )
 	require_once dirname(__FILE__) . '/wp-stats.php';
 

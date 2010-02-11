@@ -1,11 +1,4 @@
 <?php
-### Variables Variables Variables
-$base_name = plugin_basename('wp-useronline/useronline-options.php');
-$base_page = 'admin.php?page='.$base_name;
-$mode = trim($_GET['mode']);
-$useronline_tables = array($wpdb->useronline);
-$useronline_settings = array('useronline_most_users', 'useronline_most_timestamp', 'useronline_timeout', 'useronline_bots', 'useronline_url', 'useronline_naming', 'useronline_template_useronline', 'useronline_template_browsingsite', 'useronline_template_browsingpage', 'widget_useronline');
-
 
 ### Form Processing
 // Update Options
@@ -61,69 +54,19 @@ if ( !empty($_POST['Submit'] )) {
 		$text = '<font color="red">'.__('No Useronline Option Updated', 'wp-useronline').'</font>';
 	}
 }
-// Uninstall WP-UserOnline
-if ( !empty($_POST['do'] )) {
-	switch($_POST['do']) {		
-		case __('UNINSTALL WP-UserOnline', 'wp-useronline') :
-			if ( trim($_POST['uninstall_useronline_yes'] ) == 'yes') {
-				echo '<div id="message" class="updated fade">';
-				echo '<p>';
-				foreach ( $useronline_tables as $table ) {
-					$wpdb->query("DROP TABLE {$table}");
-					echo '<font style="color: green;">';
-					printf(__('Table \'%s\' has been deleted.', 'wp-useronline'), "<strong><em>{$table}</em></strong>");
-					echo '</font><br />';
-				}
-				echo '</p>';
-				echo '<p>';
-				foreach ( $useronline_settings as $setting ) {
-					$delete_setting = delete_option($setting);
-					if ( $delete_setting ) {
-						echo '<font color="green">';
-						printf(__('Setting Key \'%s\' has been deleted.', 'wp-useronline'), "<strong><em>{$setting}</em></strong>");
-						echo '</font><br />';
-					} else {
-						echo '<font color="red">';
-						printf(__('Error deleting Setting Key \'%s\'.', 'wp-useronline'), "<strong><em>{$setting}</em></strong>");
-						echo '</font><br />';
-					}
-				}
-				echo '</p>';
-				echo '</div>'; 
-				$mode = 'end-UNINSTALL';
-			}
-			break;
-	}
+
+$useronline_options_naming = get_option('useronline_naming');
+$useronline_options_bots = get_option('useronline_bots');
+$useronline_template_browsingsite = get_option('useronline_template_browsingsite');
+$useronline_template_browsingpage = get_option('useronline_template_browsingpage');
+$useronline_options_bots_name = '';
+$useronline_options_bots_agent = '';
+foreach ( $useronline_options_bots as $botname => $botagent ) {
+	$useronline_options_bots_name .= $botname."\n";
+	$useronline_options_bots_agent .= $botagent."\n";
 }
-
-
-### Determines Which Mode It Is
-switch($mode) {
-		//  Deactivating WP-UserOnline
-		case 'end-UNINSTALL':
-			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=wp-useronline/wp-useronline.php';
-			if ( function_exists('wp_nonce_url' )) { 
-				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-useronline/wp-useronline.php');
-			}
-			echo '<div class="wrap">';
-			echo '<h2>'.__('Uninstall WP-UserOnline', 'wp-useronline').'</h2>';
-			echo '<p><strong>'.sprintf(__('<a href="%s">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically.', 'wp-useronline'), $deactivate_url).'</strong></p>';
-			echo '</div>';
-			break;
-	// Main Page
-	default:
-		$useronline_options_naming = get_option('useronline_naming');
-		$useronline_options_bots = get_option('useronline_bots');
-		$useronline_template_browsingsite = get_option('useronline_template_browsingsite');
-		$useronline_template_browsingpage = get_option('useronline_template_browsingpage');
-		$useronline_options_bots_name = '';
-		$useronline_options_bots_agent = '';
-		foreach ( $useronline_options_bots as $botname => $botagent ) {
-			$useronline_options_bots_name .= $botname."\n";
-			$useronline_options_bots_agent .= $botagent."\n";
-		}
-		$useronline_options_bots_name = trim($useronline_options_bots_name);
-		$useronline_options_bots_agent = trim($useronline_options_bots_agent);
+$useronline_options_bots_name = trim($useronline_options_bots_name);
+$useronline_options_bots_agent = trim($useronline_options_bots_agent);
 ?>
 <?php if ( !empty($text )) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <script type="text/javascript">
@@ -312,57 +255,4 @@ switch($mode) {
 	</p>
 </div>
 </form>
-<p>&nbsp;</p>
 
-<!-- Uninstall WP-UserOnline -->
-<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
-<div class="wrap"> 
-	<h3><?php _e('Uninstall WP-UserOnline', 'wp-useronline'); ?></h3>
-	<p>
-		<?php _e('Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here.', 'wp-useronline'); ?>
-	</p>
-	<p style="color: red">
-		<strong><?php _e('WARNING:', 'wp-useronline'); ?></strong><br />
-		<?php _e('Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first.', 'wp-useronline'); ?>
-	</p>
-	<p style="color: red">
-		<strong><?php _e('The following WordPress Options/Tables will be DELETED:', 'wp-useronline'); ?></strong><br />
-	</p>
-	<table class="widefat">
-		<thead>
-			<tr>
-				<th><?php _e('WordPress Options', 'wp-useronline'); ?></th>
-				<th><?php _e('WordPress Tables', 'wp-useronline'); ?></th>
-			</tr>
-		</thead>
-		<tr>
-			<td valign="top">
-				<ol>
-				<?php
-					foreach ( $useronline_settings as $settings ) {
-						echo '<li>'.$settings.'</li>'."\n";
-					}
-				?>
-				</ol>
-			</td>
-			<td valign="top" class="alternate">
-				<ol>
-				<?php
-					foreach ( $useronline_tables as $tables ) {
-						echo '<li>'.$tables.'</li>'."\n";
-					}
-				?>
-				</ol>
-			</td>
-		</tr>
-	</table>
-	<p>&nbsp;</p>
-	<p style="text-align: center;">
-		<input type="checkbox" name="uninstall_useronline_yes" value="yes" />&nbsp;<?php _e('Yes', 'wp-useronline'); ?><br /><br />
-		<input type="submit" name="do" value="<?php _e('UNINSTALL WP-UserOnline', 'wp-useronline'); ?>" class="button" onclick="return confirm('<?php _e('You Are About To Uninstall WP-UserOnline From WordPress.\nThis Action Is Not Reversible.\n\n Choose [Cancel] To Stop, [OK] To Uninstall.', 'wp-useronline'); ?>')" />
-	</p>
-</div> 
-</form>
-<?php
-} // End switch($mode)
-?>
