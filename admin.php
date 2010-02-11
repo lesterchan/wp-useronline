@@ -142,33 +142,32 @@ class UserOnline_Options extends scbAdminPage {
 			$options_bots_name .= $botname."\n";
 			$options_bots_agent .= $botagent."\n";
 		}
-		$options_bots_name = trim($options_bots_name);
+		$options_bots_name = esc_html(trim($options_bots_name));
 		$options_bots_agent = trim($options_bots_agent);
+
+		$out = $this->form_row(array(
+			'title' = __('Time Out', 'wp-useronline'),
+			'name' => 'useronline_timeout',
+			'value' => get_option('useronline_timeout'),
+			'desc' => ___('How long till it will remove the user from the database (In seconds).', 'wp-useronline')
+			'extra' => 'size="4"',
+		));
+
+		$out .= $this->form_row(array(
+			'title' = __('UserOnline URL', 'wp-useronline'),
+			'name' => 'useronline_url',
+			'value' => get_option('useronline_url'),
+			'desc' => ___('How long till it will remove the user from the database (In seconds).', 'wp-useronline')
+			'extra' => 'size="50" dir="ltr"',
+		));
+
+		$out .= $this->form_row_wrap(__('Bots Name/User Agent', 'wp-useronline'), 
+			html('p', __('Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot\'s Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line.', 'wp-useronline')
+			.html('textarea cols="20" rows="30" name="useronline_bots_name" dir="ltr"', $options_bots_name)
+			.html('textarea cols="20" rows="30" name="useronline_bots_agent" dir="ltr"', $options_bots_agent)
+		));
+
 ?>
-	<form method="post" action="">
-		<table class="form-table">
-			 <tr>
-				<th scope="row" valign="top"><?php _e('Time Out', 'wp-useronline'); ?></th>
-				<td>
-					<input type="text" name="useronline_timeout" value="<?php echo get_option('useronline_timeout'); ?>" size="4" /><br /><?php _e('How long till it will remove the user from the database (In seconds).', 'wp-useronline'); ?>
-				</td>
-			</tr>
-			 <tr>
-				<th scope="row" valign="top"><?php _e('UserOnline URL', 'wp-useronline'); ?></th>
-				<td>
-					<input type="text" name="useronline_url" value="<?php echo get_option('useronline_url'); ?>" size="50" dir="ltr" /><br /><?php _e('URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
-				</td>
-			</tr>
-			<tr> 
-				<th scope="row" valign="top"><?php _e('Bots Name/User Agent', 'wp-useronline'); ?></th>
-				<td>
-					<?php _e('Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot\'s Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line.', 'wp-useronline'); ?>
-					<br /><br />
-					<textarea cols="20" rows="30" name="useronline_bots_name" dir="ltr"><?php echo $options_bots_name; ?></textarea>
-					<textarea cols="20" rows="30" name="useronline_bots_agent" dir="ltr"><?php echo $options_bots_agent; ?></textarea>						
-				</td> 
-			</tr>
-			<tr> 
 				<td width="30%">
 					<strong><?php _e('Naming Conventions:', 'wp-useronline'); ?></strong><br /><br /><br />
 					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
