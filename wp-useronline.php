@@ -34,113 +34,139 @@ function useronline_textdomain() {
 	load_plugin_textdomain('wp-useronline', false, 'wp-useronline');
 }
 
-### Function: Enqueue Useronline Javascripts/CSS
-add_action('template_redirect', 'useronline_scripts');
-function useronline_scripts() {
-	wp_enqueue_script('wp-useronline', plugins_url('useronline-js.js', __FILE__), array('jquery'), '2.60', true);
-	wp_localize_script('wp-useronline', 'useronlineL10n', array(
-		'ajax_url' => admin_url('admin-ajax.php'),
-		'timeout' => (get_option('useronline_timeout')*1000)
-	));
-}
+class UserOnline_Core {
+	function init() {
+		add_action('template_redirect', array(__CLASS__, 'scripts'));
 
+		add_action('admin_head', array(__CLASS__, 'record'));
+		add_action('wp_head', array(__CLASS__, 'record'));
 
-### Function: Process UserOnline
-add_action('admin_head', 'useronline');
-add_action('wp_head', 'useronline');
-function useronline() {
-	global $wpdb, $useronline;
-
-	$timeoutseconds = get_option('useronline_timeout');
-	$timestamp = current_time('timestamp');
-	$timeout = $timestamp - $timeoutseconds;
-
-	$ip = useronline_get_ipaddress();
-	$url = $_SERVER['REQUEST_URI'];
-
-	$referral = '';
-	$useragent = $_SERVER['HTTP_USER_AGENT'];
-	$current_user = wp_get_current_user();
-	if ( !empty($_SERVER['HTTP_REFERER'] ))
-		$referral = strip_tags($_SERVER['HTTP_REFERER']);
-
-	// Check For Bot
-	$bots = get_option('useronline_bots');
-	$bot_found = false;
-	foreach ($bots as $name => $lookfor) {
-		if ( stristr($useragent, $lookfor) === false )
-			continue;
-
-		$userid = 0;
-		$displayname = $name;
-		$username = $lookfor;
-		$type = 'bot';
-		$where = "WHERE ip = '$ip'";
-		$bot_found = true;
-
-		break;
+		add_action('wp_ajax_useronline', array(__CLASS__, 'ajax'));
+		add_action('wp_ajax_nopriv_useronline', array(__CLASS__, 'ajax'));
 	}
 
-	// If No Bot Is Found, Then We Check Members And Guests
-	if ( !$bot_found ) {
-		// Check For Member
-		if ( $current_user->ID > 0 ) {
-			$userid = $current_user->ID;
-			$displayname = $current_user->display_name;
-			$username = $current_user->user_login;
-			$type = 'member';
-			$where = "WHERE userid = '$userid'";
-		// Check For Comment Author (Guest)
-		} elseif ( !empty($_COOKIE['comment_author_'.COOKIEHASH] )) {
+	function scripts() {
+		wp_enqueue_script('wp-useronline', plugins_url('useronline-js.js', __FILE__), array('jquery'), '2.60', true);
+		wp_localize_script('wp-useronline', 'useronlineL10n', array(
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'timeout' => (get_option('useronline_timeout')*1000)
+		));
+	}
+
+	function record() {
+		global $wpdb, $useronline;
+
+		$timeoutseconds = get_option('useronline_timeout');
+		$timestamp = current_time('timestamp');
+		$timeout = $timestamp - $timeoutseconds;
+
+		$ip = useronline_get_ipaddress();
+		$url = $_SERVER['REQUEST_URI'];
+
+		$referral = '';
+		$useragent = $_SERVER['HTTP_USER_AGENT'];
+		$current_user = wp_get_current_user();
+		if ( !empty($_SERVER['HTTP_REFERER'] ))
+			$referral = strip_tags($_SERVER['HTTP_REFERER']);
+
+		// Check For Bot
+		$bots = get_option('useronline_bots');
+		$bot_found = false;
+		foreach ($bots as $name => $lookfor) {
+			if ( stristr($useragent, $lookfor) === false )
+				continue;
+
 			$userid = 0;
-			$displayname = trim($_COOKIE['comment_author_'.COOKIEHASH]);
-			$username = __('guest', 'wp-useronline').'_'.$displayname;	
-			$type = 'guest';
+			$displayname = $name;
+			$username = $lookfor;
+			$type = 'bot';
 			$where = "WHERE ip = '$ip'";
-		// Check For Guest
-		} else {
-			$userid = 0;
-			$displayname = __('Guest', 'wp-useronline');
-			$username = "guest";
-			$type = 'guest';
-			$where = "WHERE ip = '$ip'";
+			$bot_found = true;
+
+			break;
 		}
-	}
 
-	// Check For Page Title
-	$location = wp_title('&raquo;', false);
-	if ( empty($location) ) {
-		$location = get_bloginfo('name').' &raquo; '.$_SERVER['REQUEST_URI']; 
-	} elseif ( is_singular() ) {
-		$location = get_bloginfo('name').' &raquo; '.__('Blog Archive', 'wp-useronline').' '.$location;
-	} else {
-		$location = get_bloginfo('name').$location;
-	}
+		// If No Bot Is Found, Then We Check Members And Guests
+		if ( !$bot_found ) {
+			// Check For Member
+			if ( $current_user->ID > 0 ) {
+				$userid = $current_user->ID;
+				$displayname = $current_user->display_name;
+				$username = $current_user->user_login;
+				$type = 'member';
+				$where = "WHERE userid = '$userid'";
+			// Check For Comment Author (Guest)
+			} elseif ( !empty($_COOKIE['comment_author_'.COOKIEHASH] )) {
+				$userid = 0;
+				$displayname = trim($_COOKIE['comment_author_'.COOKIEHASH]);
+				$username = __('guest', 'wp-useronline').'_'.$displayname;	
+				$type = 'guest';
+				$where = "WHERE ip = '$ip'";
+			// Check For Guest
+			} else {
+				$userid = 0;
+				$displayname = __('Guest', 'wp-useronline');
+				$username = "guest";
+				$type = 'guest';
+				$where = "WHERE ip = '$ip'";
+			}
+		}
 
-	// Delete Users
+		// Check For Page Title
+		$location = wp_title('&raquo;', false);
+		if ( empty($location) ) {
+			$location = get_bloginfo('name').' &raquo; '.$_SERVER['REQUEST_URI']; 
+		} elseif ( is_singular() ) {
+			$location = get_bloginfo('name').' &raquo; '.__('Blog Archive', 'wp-useronline').' '.$location;
+		} else {
+			$location = get_bloginfo('name').$location;
+		}
+
+		// Delete Users
 // DEBUG
 // $wpdb->query("DELETE FROM $wpdb->useronline");
 
-	$delete_users = $wpdb->query("DELETE FROM $wpdb->useronline $where OR (timestamp < $timeout)");
+		$delete_users = $wpdb->query("DELETE FROM $wpdb->useronline $where OR (timestamp < $timeout)");
 
-	// Insert Users
-	$data = compact('timestamp', 'userid', 'username', 'displayname', 'useragent', 'ip', 'location', 'url', 'type', 'referral');
-	$data = stripslashes_deep($data);
-	$insert_user = $wpdb->insert($wpdb->useronline, $data);
+		// Insert Users
+		$data = compact('timestamp', 'userid', 'username', 'displayname', 'useragent', 'ip', 'location', 'url', 'type', 'referral');
+		$data = stripslashes_deep($data);
+		$insert_user = $wpdb->insert($wpdb->useronline, $data);
 
-	// Count Users Online
-	$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
+		// Count Users Online
+		$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
 
-	// Get Most User Online
-	$most_useronline = intval(get_option('useronline_most_users'));
+		// Get Most User Online
+		$most_useronline = intval(get_option('useronline_most_users'));
 
-	// Check Whether Current Users Online Is More Than Most Users Online
-	if ( $useronline > $most_useronline ) {
-		update_option('useronline_most_users', $useronline);
-		update_option('useronline_most_timestamp', current_time('timestamp'));
+		// Check Whether Current Users Online Is More Than Most Users Online
+		if ( $useronline > $most_useronline ) {
+			update_option('useronline_most_users', $useronline);
+			update_option('useronline_most_timestamp', current_time('timestamp'));
+		}
+	}
+	
+	function ajax() {
+		$mode = trim($_POST['mode']);
+
+		if ( empty($mode) )
+			return;
+
+		switch($mode) {
+			case 'count':
+				get_useronline();
+				break;
+			case 'browsingsite':
+				get_users_browsing_site();				
+				break;
+			case 'browsingpage':
+				get_users_browsing_page();
+				break;
+		}
+
+		die();
 	}
 }
-
 
 ### Function: Display UserOnline
 function get_useronline($display = true) {
@@ -336,7 +362,6 @@ function get_useronline_counts($buckets) {
 	return $counts;
 }
 
-
 ### Function: Get IP Address
 function useronline_get_ipaddress() {
 	if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) )
@@ -357,28 +382,6 @@ function check_ip($ip) {
 
 	return '<span dir="ltr">(<a href="http://whois.domaintools.com/' . $ip . '" title="'.gethostbyaddr($ip).'">' . $ip . '</a>)</span>';
 }
-
-### Function Display UserOnline For Admin's Right Now
-add_action('rightnow_end', 'useronline_rightnow');
-function useronline_rightnow() {
-	$total_users = get_useronline_count(false);
-
-	$str = _n(
-		__('There is <strong><a href="%s">%s user</a></strong> online now.', 'wp-useronline'),
-		__('There are a total of <strong><a href="%s">%s users</a></strong> online now.', 'wp-useronline'),
-		$total_users
-	);
-
-	echo '<p>';
-	printf($str, admin_url('index.php?page=wp-useronline/wp-useronline.php'), number_format_i18n($total_users));
-
-	echo '<br />';
-	get_users_browsing_site();
-	echo '.<br />';
-	echo _useronline_most_users();
-	echo '</p>'."\n";
-}
-
 
 ### Function: Short Code For Inserting Users Online Into Page
 add_shortcode('page_useronline', 'useronline_page');
@@ -455,31 +458,6 @@ function _useronline_print_list($count, $users, $nicetext) {
 function get_useronline_display_name($user) {
 	return apply_filters('useronline_display_name', $user);
 }
-
-### Function: Process AJAX Request
-add_action('wp_ajax_useronline', 'useronline_ajax');
-add_action('wp_ajax_nopriv_useronline', 'useronline_ajax');
-function useronline_ajax() {
-	$mode = trim($_POST['mode']);
-
-	if ( empty($mode) )
-		return;
-
-	switch($mode) {
-		case 'count':
-			get_useronline();
-			break;
-		case 'browsingsite':
-			get_users_browsing_site();				
-			break;
-		case 'browsingpage':
-			get_users_browsing_page();
-			break;
-	}
-
-	die();
-}
-
 
 class UserOnline_Widget extends scbWidget {
 	function UserOnline_Widget() {
@@ -642,6 +620,8 @@ function _useronline_init() {
 		referral varchar(255) NOT NULL default '',
 		UNIQUE KEY useronline_id (timestamp,username,ip,useragent)
 	");
+
+	UserOnline_Core::init();
 
 	scbWidget::init('UserOnline_Widget', __FILE__);
 

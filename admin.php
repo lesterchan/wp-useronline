@@ -17,3 +17,23 @@ function display_useronline() {
 	echo '</div>'."\n";
 }
 
+add_action('rightnow_end', 'useronline_rightnow');
+function useronline_rightnow() {
+	$total_users = get_useronline_count(false);
+
+	$str = _n(
+		__('There is <strong><a href="%s">%s user</a></strong> online now.', 'wp-useronline'),
+		__('There are a total of <strong><a href="%s">%s users</a></strong> online now.', 'wp-useronline'),
+		$total_users
+	);
+
+	echo '<p>';
+	printf($str, admin_url('index.php?page=wp-useronline/wp-useronline.php'), number_format_i18n($total_users));
+
+	echo '<br />';
+	get_users_browsing_site();
+	echo '.<br />';
+	echo _useronline_most_users();
+	echo '</p>'."\n";
+}
+
