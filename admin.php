@@ -206,7 +206,6 @@ class UserOnline_Options extends scbAdminPage {
 				</td>
 				<td><textarea cols="80" rows="12" id="useronline_template_useronline" name="useronline_template_useronline"><?php echo htmlspecialchars(get_option('useronline_template_useronline')); ?></textarea></td>
 			</tr>
-
 <?php $this->template(__('User(s) Browsing Site:', 'wp-useronline'), 'site'); ?>
 <?php $this->template(__('User(s) Browsing Page:', 'wp-useronline'), 'page'); ?>
 		</table>
@@ -243,9 +242,13 @@ class UserOnline_Options extends scbAdminPage {
 							 </tr>
 						 </thead>
 						 <tr>
-						 	<?php foreach ( array('members', 'guests', 'bots') as $i => $type ) { ?>
-							<td><input type="text" id="useronline_separator_browsing<?php echo $option; ?>_<?php echo $type; ?>" name="useronline_separator_browsing<?php echo $option . '_' . $type; ?>" value="<?php echo esc_attr($template[$i]); ?>" size="15" /></td>
-							<?php } ?>
+						 	<?php foreach ( array('members', 'guests', 'bots') as $i => $type ) {
+						 		$name = "useronline_separator_browsing{$option}_{$type}";
+						 		echo
+						 		html('td',
+						 			"<input type='text' id='$name' name='$name' value='" . esc_attr($template[$i]) . "' size='15' />"
+						 		);
+							} ?>
 						 </tr>
 					</table>
 					<br />
