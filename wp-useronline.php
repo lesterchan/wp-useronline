@@ -34,12 +34,6 @@ function useronline_textdomain() {
 	load_plugin_textdomain('wp-useronline', false, 'wp-useronline');
 }
 
-
-### UserOnline Table Name
-global $wpdb;
-$wpdb->useronline = $wpdb->prefix.'useronline';
-
-
 ### Function: Enqueue Useronline Javascripts/CSS
 add_action('template_redirect', 'useronline_scripts');
 function useronline_scripts() {
@@ -188,6 +182,9 @@ function get_useronline_count($display = false) {
 	echo number_format_i18n($useronline);
 }
 
+function _useronline_most_users() {
+	return sprintf(__('Most users ever online were <strong>%s</strong>, on <strong>%s</strong>', 'wp-useronline'), number_format_i18n(get_most_useronline()), get_most_useronline_date());
+}
 
 ### Function: Display Max UserOnline
 function get_most_useronline($display = false) {
@@ -365,19 +362,20 @@ function check_ip($ip) {
 add_action('rightnow_end', 'useronline_rightnow');
 function useronline_rightnow() {
 	$total_users = get_useronline_count(false);
-	echo '<p>';
+
 	$str = _n(
 		__('There is <strong><a href="%s">%s user</a></strong> online now.', 'wp-useronline'),
 		__('There are a total of <strong><a href="%s">%s users</a></strong> online now.', 'wp-useronline'),
 		$total_users
 	);
 
+	echo '<p>';
 	printf($str, admin_url('index.php?page=wp-useronline/wp-useronline.php'), number_format_i18n($total_users));
 
 	echo '<br />';
 	get_users_browsing_site();
 	echo '.<br />';
-	printf(__('Most users ever online were <strong>%s</strong>, on <strong>%s</strong>', 'wp-useronline'), number_format_i18n(get_most_useronline()), get_most_useronline_date());
+	echo _useronline_most_users();
 	echo '</p>'."\n";
 }
 
@@ -413,11 +411,12 @@ function useronline_page() {
 		$counts['user']
 	);
 
-	$output  = '<p>'.sprintf($text, $nicetexts['user'], $nicetexts['member'], $nicetexts['guest'], $nicetexts['bot']).'</p>';
-	$output .= '<p>'.sprintf(__('Most users ever online were <strong>%s</strong>, on <strong>%s</strong>', 'wp-useronline'), 									number_format_i18n(get_most_useronline()), get_most_useronline_date()).'</p>';
+	$output = 
+	html('p', sprintf($text, $nicetexts['user'], $nicetexts['member'], $nicetexts['guest'], $nicetexts['bot']))
+	.html('p', _useronline_most_users());
 
 	if ( $counts['user'] == 0 )
-		$output .= '<h2>'.__('No One Is Online Now', 'wp-useronline')."</h2>\n";
+		$output .= html('h2', __('No One Is Online Now', 'wp-useronline'));
 	else
 		foreach ( array('member', 'guest', 'bot') as $type )
 			if ( $counts[$type] )
@@ -428,10 +427,11 @@ function useronline_page() {
 }
 
 function _useronline_print_list($count, $users, $nicetext) {
-	$output = "<h2>$nicetext ".__('Online Now', 'wp-useronline')."</h2>\n";
+	$output = html('h2', "$nicetext ".__('Online Now', 'wp-useronline'));
 
 	$on = __('on', 'wp-useronline');
 	$url = __('url', 'wp-useronline');
+	$referral = __('referral', 'wp-useronline');
 
 	$i=1;
 	foreach ( $users as $user ) {
@@ -440,13 +440,13 @@ function _useronline_print_list($count, $users, $nicetext) {
 		$ip = check_ip($user['ip']);
 		$date = useronline_get_date($user['timestamp']);
 		$location = $user['location'];
-		$current_link = '[<a href="'.esc_url($user['url']).'">'.$url.'</a>]';
+		$current_link = '[' . html_link(esc_url($user['url']), $url) .']';
 
 		$referral_link = '';
 		if ( !empty($user['referral']) )
-			$referral_link = '[<a href="'.esc_url($user['referral']).'">'.__('referral', 'wp-useronline').'</a>]';
+			$referral_link = '[' . html_link(esc_url($user['referral']), $referral) . ']';
 
-		$output .= "<p><strong>#$nr - $name</strong> $ip $on $date<br/>$location $current_link $referral_link</p>\n";
+		$output .= html('p', "<strong>#$nr - $name</strong> $ip $on $date<br/>$location $current_link $referral_link") . "\n";
 	}
 
 	return $output;
@@ -481,20 +481,15 @@ function useronline_ajax() {
 }
 
 
-### Class: WP-UserOnline Widget
-class WP_Widget_UserOnline extends WP_Widget {
-	// Constructor
-	function WP_Widget_UserOnline() {
+class UserOnline_Widget extends scbWidget {
+	function UserOnline_Widget() {
 		$widget_ops = array('description' => __('WP-UserOnline users online statistics', 'wp-useronline'));
 		$this->WP_Widget('useronline', __('UserOnline', 'wp-useronline'), $widget_ops);
 	}
 
-	// Display Widget
-	function widget($args, $instance) {
-		extract($args);
-		$title = apply_filters('widget_title', esc_attr($instance['title']));
+	function content($instance) {
 		$type = esc_attr($instance['type']);
-		echo $before_widget.$before_title.$title.$after_title;
+
 		echo '<ul>'."\n";
 		switch($type) {
 			case 'users_online':
@@ -530,10 +525,8 @@ class WP_Widget_UserOnline extends WP_Widget {
 				break;
 		}
 		echo "</ul>\n";
-		echo $after_widget;
 	}
 
-	// When Widget Control Form Is Posted
 	function update($new_instance, $old_instance) {
 		if ( !isset($new_instance['submit']) )
 			return false;
@@ -545,7 +538,6 @@ class WP_Widget_UserOnline extends WP_Widget {
 		return $instance;
 	}
 
-	// Display Widget Control Form
 	function form($instance) {
 		global $wpdb;
 		$instance = wp_parse_args((array) $instance, array(
@@ -575,67 +567,23 @@ class WP_Widget_UserOnline extends WP_Widget {
 	}
 }
 
-
-### Function: Init WP-UserOnline Widget
-add_action('widgets_init', 'widget_useronline_init');
-function widget_useronline_init() {
-	register_widget('WP_Widget_UserOnline');
-}
-
-
 ### Function: Create UserOnline Table
-register_activation_hook(__FILE__, 'create_useronline_table');
-function create_useronline_table() {
+register_activation_hook(__FILE__, 'useronline_install');
+function useronline_install() {
 	global $wpdb;
-	
+
 	useronline_textdomain();
 
 	$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'pubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com' => 'become.com');
 
-	if ( @is_file(ABSPATH.'/wp-admin/upgrade-functions.php') ) {
-		include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
-	} elseif ( @is_file(ABSPATH.'/wp-admin/includes/upgrade.php') ) {
-		include_once(ABSPATH.'/wp-admin/includes/upgrade.php');
-	} else {
-		die('We have problem finding your \'/wp-admin/upgrade-functions.php\' and \'/wp-admin/includes/upgrade.php\'');
-	}
-
-	$charset_collate = '';
-	if ( $wpdb->supports_collation() ) {
-		if ( !empty($wpdb->charset )) {
-			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-		}
-		if ( !empty($wpdb->collate )) {
-			$charset_collate .= " COLLATE $wpdb->collate";
-		}
-	}
-
-	// Drop UserOnline Table
-	$wpdb->query("DROP TABLE IF EXISTS $wpdb->useronline");
-	// Create UserOnline Table
-	$create_table = "CREATE TABLE $wpdb->useronline (".
-		" timestamp int(15) NOT NULL default '0',".
-		" userid int(10) NOT NULL default '0',".
-		" username varchar(20) NOT NULL default '',".
-		" displayname varchar(255) NOT NULL default '',".
-		" useragent varchar(255) NOT NULL default '',".
-		" ip varchar(40) NOT NULL default '',".						 
-		" location varchar(255) NOT NULL default '',".
-		" url varchar(255) NOT NULL default '',".							
-		" type enum('member','guest','bot') NOT NULL default 'guest',".
-		" referral varchar(255) NOT NULL default '',".
-		" UNIQUE KEY useronline_id (timestamp,username,ip,useragent)) $charset_collate;";
-
-	maybe_create_table($wpdb->useronline, $create_table);
-
 	// Add In Options
-	add_option('useronline_most_users', 1, 'Most Users Ever Online Count');
-	add_option('useronline_most_timestamp', current_time('timestamp'), 'Most Users Ever Online Date');
-	add_option('useronline_timeout', 300, 'Timeout In Seconds');
-	add_option('useronline_bots', $bots, 'Bots Name/Useragent');
+	add_option('useronline_most_users', 1);
+	add_option('useronline_most_timestamp', current_time('timestamp'));
+	add_option('useronline_timeout', 300);
+	add_option('useronline_bots', $bots);
 
 	// Database Upgrade For WP-UserOnline 2.05
-	add_option('useronline_url', site_url('useronline/'), 'UserOnline Page URL');
+	add_option('useronline_url', '');
 
 	// Database Upgrade For WP-UserOnline 2.20
 	add_option('useronline_naming', array(
@@ -678,9 +626,30 @@ function useronline_uninstall() {
 		delete_option($setting);
 }
 
-if ( function_exists('stats_page') )
-	require_once dirname(__FILE__) . '/wp-stats.php';
+function _useronline_init() {
+	require_once dirname(__FILE__) . '/scb/load.php';
 
-if ( is_admin() )
-	require_once dirname(__FILE__) . '/admin.php';
+	new scbTable('useronline', __FILE__, "
+		timestamp int(15) NOT NULL default '0',
+		userid int(10) NOT NULL default '0',
+		username varchar(20) NOT NULL default '',
+		displayname varchar(255) NOT NULL default '',
+		useragent varchar(255) NOT NULL default '',
+		ip varchar(40) NOT NULL default '',				 
+		location varchar(255) NOT NULL default '',
+		url varchar(255) NOT NULL default '',
+		type enum('member','guest','bot') NOT NULL default 'guest',
+		referral varchar(255) NOT NULL default '',
+		UNIQUE KEY useronline_id (timestamp,username,ip,useragent)
+	");
+
+	scbWidget::init('UserOnline_Widget', __FILE__);
+
+	if ( function_exists('stats_page') )
+		require_once dirname(__FILE__) . '/wp-stats.php';
+
+	if ( is_admin() )
+		require_once dirname(__FILE__) . '/admin.php';
+}
+_useronline_init();
 
