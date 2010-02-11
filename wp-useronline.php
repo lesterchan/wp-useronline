@@ -201,15 +201,17 @@ function get_most_useronline($display = false) {
 
 ### Function: Display Max UserOnline Date
 function get_most_useronline_date($display = false) {
-	$most_useronline_timestamp = get_option('useronline_most_timestamp');
-	$most_useronline_date = mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $most_useronline_timestamp));
-	if ( $display ) {
-		echo $most_useronline_date;
-	} else {
+	$most_useronline_date = useronline_get_date(get_option('useronline_most_timestamp'));
+
+	if ( !$display )
 		return $most_useronline_date;
-	}
+
+	echo $most_useronline_date;
 }
 
+function useronline_get_date($timestamp) {
+	return date_i18n(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), $timestamp, true);
+}
 
 ### Function Check If User Is Online
 function is_online($user_login) {
@@ -231,8 +233,7 @@ function update_memberlastvisit() {
 
 ### Function: Get Member last Visit
 function get_memberlastvisit($user_id = 0) {
-	$date_format = sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format'));
-	return mysql2date($date_format, gmdate('Y-m-d H:i:s', get_user_option('member_last_login', $user_id)));
+	return useronline_get_date(get_user_option('member_last_login', $user_id));
 }
 
 
@@ -432,14 +433,12 @@ function _useronline_print_list($count, $users, $nicetext) {
 	$on = __('on', 'wp-useronline');
 	$url = __('url', 'wp-useronline');
 
-	$date_str = sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format'));
-
 	$i=1;
 	foreach ( $users as $user ) {
 		$nr = number_format_i18n($i++);
 		$name = get_useronline_display_name($user['displayname']);
 		$ip = check_ip($user['ip']);
-		$date = mysql2date($date_str, gmdate('Y-m-d H:i:s', $user['timestamp']));
+		$date = useronline_get_date($user['timestamp']);
 		$location = $user['location'];
 		$current_link = '[<a href="'.esc_url($user['url']).'">'.$url.'</a>]';
 
@@ -668,8 +667,8 @@ function create_useronline_table() {
 }
 
 if ( function_exists('stats_page') )
-	require_once dirname(__FILE__) . 'wp-stats.php';
+	require_once dirname(__FILE__) . '/wp-stats.php';
 
 if ( is_admin() )
-	require_once dirname(__FILE__) . 'admin.php';
+	require_once dirname(__FILE__) . '/admin.php';
 
