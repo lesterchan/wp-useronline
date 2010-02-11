@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
-Version: 2.60b
+Version: 2.60a2
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -27,13 +27,6 @@ Author URI: http://lesterchan.net
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
-### Create Text Domain For Translations
-add_action('init', 'useronline_textdomain');
-function useronline_textdomain() {
-	load_plugin_textdomain('wp-useronline', false, 'wp-useronline');
-}
-
 class UserOnline_Core {
 	function init() {
 		add_action('template_redirect', array(__CLASS__, 'scripts'));
@@ -43,6 +36,57 @@ class UserOnline_Core {
 
 		add_action('wp_ajax_useronline', array(__CLASS__, 'ajax'));
 		add_action('wp_ajax_nopriv_useronline', array(__CLASS__, 'ajax'));
+
+		register_activation_hook(__FILE__, array(__CLASS__, 'install'));
+		register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
+	}
+
+	function useronline_install() {
+		$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'pubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com' => 'become.com');
+
+		// Add In Options
+		add_option('useronline_most_users', 1);
+		add_option('useronline_most_timestamp', current_time('timestamp'));
+		add_option('useronline_timeout', 300);
+		add_option('useronline_bots', $bots);
+
+		// Database Upgrade For WP-UserOnline 2.05
+		add_option('useronline_url', '');
+
+		// Database Upgrade For WP-UserOnline 2.20
+		add_option('useronline_naming', array(
+			'user' => __('1 User', 'wp-useronline'), 
+			'users' => __('%USERONLINE_COUNT% Users', 'wp-useronline'), 
+			'member' => __('1 Member', 'wp-useronline'), 
+			'members' => __('%USERONLINE_COUNT% Members', 'wp-useronline'), 
+			'guest' => __('1 Guest', 'wp-useronline'),
+			'guests' => __('%USERONLINE_COUNT% Guests', 'wp-useronline'),
+			'bot' => __('1 Bot', 'wp-useronline'),
+			'bots' => __('%USERONLINE_COUNT% Bots', 'wp-useronline')
+		));
+
+		add_option('useronline_template_useronline', '<a href="%USERONLINE_PAGE_URL%" title="%USERONLINE_USERS%"><strong>%USERONLINE_USERS%</strong> '.__('Online', 'wp-useronline').'</a>');
+
+		add_option('useronline_template_browsingsite', array(
+			__(',', 'wp-useronline').' ',
+			__(',', 'wp-useronline').' ', 
+			__(',', 'wp-useronline').' ', 
+			_c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
+		));
+
+		add_option('useronline_template_browsingpage', array(
+			__(',', 'wp-useronline').' ',
+			__(',', 'wp-useronline').' ',
+			__(',', 'wp-useronline').' ', 
+			'<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
+		));
+	}
+
+	function useronline_uninstall() {
+		$useronline_settings = array('useronline_most_users', 'useronline_most_timestamp', 'useronline_timeout', 'useronline_bots', 'useronline_url', 'useronline_naming', 'useronline_template_useronline', 'useronline_template_browsingsite', 'useronline_template_browsingpage', 'widget_useronline');
+
+		foreach ( $useronline_settings as $setting )
+			delete_option($setting);
 	}
 
 	function scripts() {
@@ -545,67 +589,10 @@ class UserOnline_Widget extends scbWidget {
 	}
 }
 
-### Function: Create UserOnline Table
-register_activation_hook(__FILE__, 'useronline_install');
-function useronline_install() {
-	global $wpdb;
-
-	useronline_textdomain();
-
-	$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'pubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com' => 'become.com');
-
-	// Add In Options
-	add_option('useronline_most_users', 1);
-	add_option('useronline_most_timestamp', current_time('timestamp'));
-	add_option('useronline_timeout', 300);
-	add_option('useronline_bots', $bots);
-
-	// Database Upgrade For WP-UserOnline 2.05
-	add_option('useronline_url', '');
-
-	// Database Upgrade For WP-UserOnline 2.20
-	add_option('useronline_naming', array(
-		'user' => __('1 User', 'wp-useronline'), 
-		'users' => __('%USERONLINE_COUNT% Users', 'wp-useronline'), 
-		'member' => __('1 Member', 'wp-useronline'), 
-		'members' => __('%USERONLINE_COUNT% Members', 'wp-useronline'), 
-		'guest' => __('1 Guest', 'wp-useronline'),
-		'guests' => __('%USERONLINE_COUNT% Guests', 'wp-useronline'),
-		'bot' => __('1 Bot', 'wp-useronline'),
-		'bots' => __('%USERONLINE_COUNT% Bots', 'wp-useronline')
-	));
-
-	add_option('useronline_template_useronline', '<a href="%USERONLINE_PAGE_URL%" title="%USERONLINE_USERS%"><strong>%USERONLINE_USERS%</strong> '.__('Online', 'wp-useronline').'</a>');
-
-	add_option('useronline_template_browsingsite', array(
-		__(',', 'wp-useronline').' ',
-		__(',', 'wp-useronline').' ', 
-		__(',', 'wp-useronline').' ', 
-		_c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
-	));
-
-	add_option('useronline_template_browsingpage', array(
-		__(',', 'wp-useronline').' ',
-		__(',', 'wp-useronline').' ',
-		__(',', 'wp-useronline').' ', 
-		'<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
-	));
-}
-
-register_uninstall_hook(__FILE__, 'useronline_uninstall');
-function useronline_uninstall() {
-	global $wpdb;
-
-	$wpdb->query("DROP TABLE $wpdb->useronline");
-
-	$useronline_settings = array('useronline_most_users', 'useronline_most_timestamp', 'useronline_timeout', 'useronline_bots', 'useronline_url', 'useronline_naming', 'useronline_template_useronline', 'useronline_template_browsingsite', 'useronline_template_browsingpage', 'widget_useronline');
-
-	foreach ( $useronline_settings as $setting )
-		delete_option($setting);
-}
-
 function _useronline_init() {
 	require_once dirname(__FILE__) . '/scb/load.php';
+
+	load_plugin_textdomain('wp-useronline', false, basename(dirname(__FILE__)));
 
 	new scbTable('useronline', __FILE__, "
 		timestamp int(15) NOT NULL default '0',
