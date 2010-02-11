@@ -618,8 +618,11 @@ function _useronline_init() {
 	if ( function_exists('stats_page') )
 		require_once dirname(__FILE__) . '/wp-stats.php';
 
-	if ( is_admin() )
+	if ( is_admin() ) {
 		require_once dirname(__FILE__) . '/admin.php';
+		require_once dirname(__FILE__) . '/useronline-options.php';
+		new UserOnline_Options(__FILE__);
+	}
 }
 _useronline_init();
 

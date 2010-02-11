@@ -4,8 +4,6 @@
 add_action('admin_menu', 'useronline_menu');
 function useronline_menu() {
 	add_submenu_page('index.php',  __('WP-UserOnline', 'wp-useronline'),  __('WP-UserOnline', 'wp-useronline'), 'read', 'wp-useronline/wp-useronline.php', 'display_useronline');
-
-	add_options_page(__('UserOnline', 'wp-useronline'), __('UserOnline', 'wp-useronline'), 'manage_options', 'wp-useronline/useronline-options.php');
 }
 
 ### Function: Display UserOnline For Admin
