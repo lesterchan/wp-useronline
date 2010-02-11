@@ -1,38 +1,41 @@
 <?php
 
-### Function: WP-UserOnline Menu
-add_action('admin_menu', 'useronline_menu');
-function useronline_menu() {
-	add_submenu_page('index.php',  __('WP-UserOnline', 'wp-useronline'),  __('WP-UserOnline', 'wp-useronline'), 'read', 'wp-useronline/wp-useronline.php', 'display_useronline');
-}
+class UserOnline_Admin_Page extends scbAdminPage {
+	function setup() {
+		$this->textdomain = 'wp-useronline';
 
-### Function: Display UserOnline For Admin
-function display_useronline() {
-	echo '<div class="wrap">'."\n";
-	screen_icon();
-	echo '<h2>'.__('Users Online Now', 'wp-useronline').'</h2>'."\n";
-	echo useronline_page();
-	echo '</div>'."\n";
-}
+		$this->args = array(
+			'page_title' => __('Users Online Now', $this->textdomain),
+			'menu_title' => __('WP-UserOnline', $this->textdomain),
+			'parent' => 'index.php',
+			'capability' => 'read'
+		);
+		
+		add_action('rightnow_end', array($this, 'rightnow'));
+	}
 
-add_action('rightnow_end', 'useronline_rightnow');
-function useronline_rightnow() {
-	$total_users = get_useronline_count(false);
+	function rightnow() {
+		$total_users = get_useronline_count(false);
 
-	$str = _n(
-		__('There is <strong><a href="%s">%s user</a></strong> online now.', 'wp-useronline'),
-		__('There are a total of <strong><a href="%s">%s users</a></strong> online now.', 'wp-useronline'),
-		$total_users
-	);
+		$str = _n(
+			__('There is <strong><a href="%s">%s user</a></strong> online now.', 'wp-useronline'),
+			__('There are a total of <strong><a href="%s">%s users</a></strong> online now.', 'wp-useronline'),
+			$total_users
+		);
 
-	echo '<p>';
-	printf($str, admin_url('index.php?page=wp-useronline/wp-useronline.php'), number_format_i18n($total_users));
+		echo '<p>';
+		printf($str, add_query_arg('page', $this->args['page_slug'], admin_url('index.php')), number_format_i18n($total_users));
 
-	echo '<br />';
-	get_users_browsing_site();
-	echo '.<br />';
-	echo _useronline_most_users();
-	echo '</p>'."\n";
+		echo '<br />';
+		get_users_browsing_site();
+		echo '.<br />';
+		echo _useronline_most_users();
+		echo '</p>'."\n";
+	}
+
+	function page_content() {
+		echo useronline_page();	
+	}
 }
 
 class UserOnline_Options extends scbAdminPage {
@@ -40,8 +43,8 @@ class UserOnline_Options extends scbAdminPage {
 		$this->textdomain = 'wp-useronline';
 
 		$this->args = array(
-			'page_title' => __('Useronline Options', $this->textdomain),
-			'menu_title' => __('Useronline', $this->textdomain),
+			'page_title' => __('UserOnline Options', $this->textdomain),
+			'menu_title' => __('UserOnline', $this->textdomain),
 		);
 	}
 
