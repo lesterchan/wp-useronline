@@ -3,6 +3,7 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/wordpress
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
 Requires at least: 2.8
+Tested up to: 2.9.1
 Stable tag: 2.50
 
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
@@ -89,118 +90,126 @@ To Display *Users Browsing A Page* use:
 
 == Frequently Asked Questions ==
 
-[WP-UserOnline Support Forums](http://forums.lesterchan.net/index.php?board=21.0 "WP-UserOnline Support Forums")
+= Error on activation: "Parse error: syntax error, unexpected T_CLASS..." =
+
+Make sure your host is running PHP 5. Add this line to wp-config.php to check:
+
+`var_dump(PHP_VERSION);`
+
+== Upgrade Notice ==
+
+**Requires PHP5**
 
 == Changelog ==
 
 = 2.60 (2010-02-X) =
 * use domaintools.com instead of arin.net
 * removed ip2nation code and flag images
-* easier uninstallation procedure
+* simpler uninstallation procedure
 * cleaner code
 
 = 2.50 (2009-06-01) =
-* NEW: Works For WordPress 2.8 Only
-* NEW: Javascript Now Placed At The Footer
-* NEW: Uses jQuery Instead Of tw-sack
-* NEW: Minified Javascript Instead Of Packed Javascript
-* NEW: Renamed useronline-js-packed.js To useronline-js.js
-* NEW: Renamed useronline-js.js To useronline-js.dev.js
-* NEW: Translate Javascript Variables Using wp_localize_script()
-* NEW: Use _n() Instead Of __ngettext() And _n_noop() Instead Of __ngettext_noop()
-* NEW: Uses New Widget Class From WordPress
-* NEW: Merge Widget Code To wp-useronline.php And Remove wp-useronline-widget.php
-* FIXED: Uses $_SERVER['PHP_SELF'] With plugin_basename(__FILE__) Instead Of Just $_SERVER['REQUEST_URI']
-* FIXED: Pages Without Name, Use Pages Use $_SERVER['REQUEST_URI'] Instead
+* new: Works For WordPress 2.8 Only
+* new: Javascript Now Placed At The Footer
+* new: Uses jQuery Instead Of tw-sack
+* new: Minified Javascript Instead Of Packed Javascript
+* new: Renamed useronline-js-packed.js To useronline-js.js
+* new: Renamed useronline-js.js To useronline-js.dev.js
+* new: Translate Javascript Variables Using wp_localize_script()
+* new: Use _n() Instead Of __ngettext() And _n_noop() Instead Of __ngettext_noop()
+* new: Uses New Widget Class From WordPress
+* new: Merge Widget Code To wp-useronline.php And Remove wp-useronline-widget.php
+* fixed: Uses $_SERVER['PHP_SELF'] With plugin_basename(__FILE__) Instead Of Just $_SERVER['REQUEST_URI']
+* fixed: Pages Without Name, Use Pages Use $_SERVER['REQUEST_URI'] Instead
 
 = 2.40 (2008-12-12) =
-* NEW: Works For WordPress 2.7 Only
-* NEW: Uses plugins_url() And site_url()
-* NEW: Cache IPs of ip2nation by Kambiz R. Khojasteh
-* NEW: Country Flags Images Are Now Included As Part Of The Plugin
-* NEW: Right To Left Language Support by Kambiz R. Khojasteh
-* NEW: Better Translation Using __ngetext() by Anna Ozeritskaya
-* NEW: Output Of useronline_page() Applied To "useronline_page" Filter by Kambiz R. Khojasteh
-* NEW: Called useronline_textdomain() In create_useronline_table() by Kambiz R. Khojasteh
-* FIXED: SSL Support
+* new: Works For WordPress 2.7 Only
+* new: Uses plugins_url() And site_url()
+* new: Cache IPs of ip2nation by Kambiz R. Khojasteh
+* new: Country Flags Images Are Now Included As Part Of The Plugin
+* new: Right To Left Language Support by Kambiz R. Khojasteh
+* new: Better Translation Using __ngetext() by Anna Ozeritskaya
+* new: Output Of useronline_page() Applied To "useronline_page" Filter by Kambiz R. Khojasteh
+* new: Called useronline_textdomain() In create_useronline_table() by Kambiz R. Khojasteh
+* fixed: SSL Support
 
 = 2.31 (2008-07-16) =
-* NEW: Works For WordPress 2.6
-* FIXED: MYSQL Charset Issue Should Be Solved
-* FIXED: Do Not Show WP-Stats Link If There Is No WP-Stats
+* new: Works For WordPress 2.6
+* fixed: MYSQL Charset Issue Should Be Solved
+* fixed: Do Not Show WP-Stats Link If There Is No WP-Stats
 
 = 2.30 (2008-06-01) =
-* NEW: Works For WordPress 2.5 Only
-* NEW: Uses Shortcode API
-* NEW: Uses /wp-useronline/ Folder Instead Of /useronline/
-* NEW: Uses wp-useronline.php Instead Of useronline.php
-* NEW: Uses wp-useronline-widget.php Instead Of useronline-widget.php
-* NEW: Renamed useronline-js.php To useronline-js.js and Move The Dynamic Javascript Variables To The PHP Pages
-* NEW: Uses useronline-js-packed.js
-* NEW: Added Users Online To Dashboard "Right Now"
-* NEW: Use number_format_i18n() Instead
-* FIXED: Should Use display_name Instead Of user_name If WP-Stats Is Not Installed
-* FIXED: XSS Vulnerability
+* new: Works For WordPress 2.5 Only
+* new: Uses Shortcode API
+* new: Uses /wp-useronline/ Folder Instead Of /useronline/
+* new: Uses wp-useronline.php Instead Of useronline.php
+* new: Uses wp-useronline-widget.php Instead Of useronline-widget.php
+* new: Renamed useronline-js.php To useronline-js.js and Move The Dynamic Javascript Variables To The PHP Pages
+* new: Uses useronline-js-packed.js
+* new: Added Users Online To Dashboard "Right Now"
+* new: Use number_format_i18n() Instead
+* fixed: Should Use display_name Instead Of user_name If WP-Stats Is Not Installed
+* fixed: XSS Vulnerability
 
 = 2.20 (2007-10-01) =
-* NEW: Works For WordPress 2.3 Only
+* new: Works For WordPress 2.3 Only
 NEW:Templates Options Added
-* NEW: Ability To Uninstall WP-UserOnline
-* NEW: Uses WP-Stats Filter To Add Stats Into WP-Stats Page
+* new: Ability To Uninstall WP-UserOnline
+* new: Uses WP-Stats Filter To Add Stats Into WP-Stats Page
 
 = 2.11 (2007-06-01) =
-* NEW: Referral Link Is Now Shown On The UserOnline Page
-* FIXED: Uses WordPress's Default Date And Time Format
-* FIXED: Able To Leave Blank For 'UserOnline URL' Option To Disable Link To UserOnline Page
+* new: Referral Link Is Now Shown On The UserOnline Page
+* fixed: Uses WordPress's Default Date And Time Format
+* fixed: Able To Leave Blank For 'UserOnline URL' Option To Disable Link To UserOnline Page
 
 = 2.10 (2007-02-01) =
-* NEW: Works For WordPress 2.1 Only
-* NEW: Renamed useronline-js.js to useronline-js.php To Enable PHP Parsing
+* new: Works For WordPress 2.1 Only
+* new: Renamed useronline-js.js to useronline-js.php To Enable PHP Parsing
 
 = 2.06 (2007-01-02) =
-* NEW: useronline.php Now Handles The AJAX Processing Instead Of index.php
-* NEW: Localize WP-UserOnline
-* FIXED: JavaScript onLoad Function Conflict By zeug
-* FIXED: AJAX Not Working On Servers Running On PHP CGI
-* FIXED: IP2Nation Will Now Work Whether Or Not WP-Stats Is Activated
+* new: useronline.php Now Handles The AJAX Processing Instead Of index.php
+* new: Localize WP-UserOnline
+* fixed: JavaScript onLoad Function Conflict By zeug
+* fixed: AJAX Not Working On Servers Running On PHP CGI
+* fixed: IP2Nation Will Now Work Whether Or Not WP-Stats Is Activated
 
 = 2.05 (2006-10-01) =
-* NEW: UserOnline Is Now Embedded Into A Page, And Hence No More Integrating Of UserOnline Page (Removed wp-useronline.php)
-* NEW: Changed In WP-UserOnline Structure: Members Mean Registered Users and Guests Mean Comment Authors
-* NEW: get_users_browsing_site(false) And get_users_browsing_page(false) Will Now Return An Array Containing Total Users, Total Members, Total Guests and Total Bots Online
-* NEW: Added Widget Title Option To WP-UserOnline Widget
-* FIXED: Invalid IP Error
-* FIXED: If Site URL Doesn't Match WP Option's Site URL, WP-UserOnline Will Not Work
+* new: UserOnline Is Now Embedded Into A Page, And Hence No More Integrating Of UserOnline Page (Removed wp-useronline.php)
+* new: Changed In WP-UserOnline Structure: Members Mean Registered Users and Guests Mean Comment Authors
+* new: get_users_browsing_site(false) And get_users_browsing_page(false) Will Now Return An Array Containing Total Users, Total Members, Total Guests and Total Bots Online
+* new: Added Widget Title Option To WP-UserOnline Widget
+* fixed: Invalid IP Error
+* fixed: If Site URL Doesn't Match WP Option's Site URL, WP-UserOnline Will Not Work
 
 = 2.04 (2006-07-01) =
-* NEW: AJAX Is Now Used For Updating Users Online Every 1 Minute Without Refreshing The Page
-* NEW: You Can Now Place Users Online Count And Users Browsing Site Data On The Sidebar As A Widget
-* NEW: UserOnline Options Panel And The Code That WP-UserOnline Generated Is XHTML 1.0 Transitional
-* NEW: Added Useronline Options In WP Administration Panel Under 'Options -> Useronline'
-* NEW: If You Have ip2nation Plugin Installed, The User's/Guest's Country Flag Will Be Displayed
+* new: AJAX Is Now Used For Updating Users Online Every 1 Minute Without Refreshing The Page
+* new: You Can Now Place Users Online Count And Users Browsing Site Data On The Sidebar As A Widget
+* new: UserOnline Options Panel And The Code That WP-UserOnline Generated Is XHTML 1.0 Transitional
+* new: Added Useronline Options In WP Administration Panel Under 'Options -> Useronline'
+* new: If You Have ip2nation Plugin Installed, The User's/Guest's Country Flag Will Be Displayed
 
 = 2.03 (2006-04-01) =
-* NEW: Added get_users_browsing_site(); To Display Users Browsing The Site
-* FIXED: wp-stats.php Link
-* FIXED: Some Grammer Errors, Credit To xclouds (http://www.xclouds.com/)
+* new: Added get_users_browsing_site(); To Display Users Browsing The Site
+* fixed: wp-stats.php Link
+* fixed: Some Grammer Errors, Credit To xclouds (http://www.xclouds.com/)
 
 = 2.02 (2006-03-01) =
-* NEW: No More Install/Upgrade File, It Will Install/Upgrade When You Activate The Plugin.
-* FIXED: IP 'Unknown' Error, Credit To Brian Layman (http://www.knitchat.com/)
-* FIXED: ON DUPLICATE KEY Error, Credit To Brian Layman (http://www.knitchat.com/)
-* FIXED: DUPLICATE KEY Error By Using DELETE First, Credit To Jody Cairns (http://steelwhitetable.org/blog/)
+* new: No More Install/Upgrade File, It Will Install/Upgrade When You Activate The Plugin.
+* fixed: IP 'Unknown' Error, Credit To Brian Layman (http://www.knitchat.com/)
+* fixed: ON DUPLICATE KEY Error, Credit To Brian Layman (http://www.knitchat.com/)
+* fixed: DUPLICATE KEY Error By Using DELETE First, Credit To Jody Cairns (http://steelwhitetable.org/blog/)
 
 = 2.01 (2006-02-01) =
-* NEW: Added Users Browsing Page
-* NEW: Added Most Users Ever Online
-* FIXED: Added UNIQUE Key Instead Of Primary Key To Test Whether It Will Solve Duplicate Entry Errors
-* FIXED: Quotes Issue In Page Title
+* new: Added Users Browsing Page
+* new: Added Most Users Ever Online
+* fixed: Added UNIQUE Key Instead Of Primary Key To Test Whether It Will Solve Duplicate Entry Errors
+* fixed: Quotes Issue In Page Title
 
 = 2.00 (2006-01-01) =
-* NEW: Compatible With Only WordPress 2.0
-* NEW: Better Installer
-* NEW: GPL License Added
-* NEW: Page Title Added To wp-useronline.php
-* NEW: Added Extra Bots, Credit To Greg Perry (http://www.gregrperry.com/)
-* FIXED: Cleaner Codes
+* new: Compatible With Only WordPress 2.0
+* new: Better Installer
+* new: GPL License Added
+* new: Page Title Added To wp-useronline.php
+* new: Added Extra Bots, Credit To Greg Perry (http://www.gregrperry.com/)
+* fixed: Cleaner Codes
 

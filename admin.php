@@ -8,7 +8,8 @@ class UserOnline_Admin_Page extends scbAdminPage {
 			'page_title' => __('Users Online Now', $this->textdomain),
 			'menu_title' => __('WP-UserOnline', $this->textdomain),
 			'parent' => 'index.php',
-			'capability' => 'read'
+			'capability' => 'read',
+			'action_link' => false,
 		);
 		
 		add_action('rightnow_end', array($this, 'rightnow'));

@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
-Version: 2.60b2
+Version: 2.60rc
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -44,7 +44,9 @@ class UserOnline_Core {
 		register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
 	}
 
-	function useronline_install() {
+	function install() {
+		self::clear_table();
+
 		$bots = array('Google Bot' => 'googlebot', 'Google Bot' => 'google', 'MSN' => 'msnbot', 'Alex' => 'ia_archiver', 'Lycos' => 'lycos', 'Ask Jeeves' => 'jeeves', 'Altavista' => 'scooter', 'AllTheWeb' => 'fast-webcrawler', 'Inktomi' => 'slurp@inktomi', 'Turnitin.com' => 'turnitinbot', 'Technorati' => 'technorati', 'Yahoo' => 'yahoo', 'Findexa' => 'findexa', 'NextLinks' => 'findlinks', 'Gais' => 'gaisbo', 'WiseNut' => 'zyborg', 'WhoisSource' => 'surveybot', 'Bloglines' => 'bloglines', 'BlogSearch' => 'blogsearch', 'PubSub' => 'pubsub', 'Syndic8' => 'syndic8', 'RadioUserland' => 'userland', 'Gigabot' => 'gigabot', 'Become.com' => 'become.com');
 
 		// Add In Options
@@ -54,7 +56,7 @@ class UserOnline_Core {
 		add_option('useronline_bots', $bots);
 
 		// Database Upgrade For WP-UserOnline 2.05
-		add_option('useronline_url', '');
+		add_option('useronline_url', site_url('useronline/'));
 
 		// Database Upgrade For WP-UserOnline 2.20
 		add_option('useronline_naming', array(
@@ -85,7 +87,7 @@ class UserOnline_Core {
 		));
 	}
 
-	function useronline_uninstall() {
+	function uninstall() {
 		$useronline_settings = array('useronline_most_users', 'useronline_most_timestamp', 'useronline_timeout', 'useronline_bots', 'useronline_url', 'useronline_naming', 'useronline_template_useronline', 'useronline_template_browsingsite', 'useronline_template_browsingpage', 'widget_useronline');
 
 		foreach ( $useronline_settings as $setting )
@@ -96,7 +98,7 @@ class UserOnline_Core {
 		wp_enqueue_script('wp-useronline', plugins_url('useronline-js.js', __FILE__), array('jquery'), '2.60', true);
 		wp_localize_script('wp-useronline', 'useronlineL10n', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
-			'timeout' => (get_option('useronline_timeout')*1000)
+			'timeout' => get_option('useronline_timeout')*1000
 		));
 	}
 
@@ -173,9 +175,6 @@ class UserOnline_Core {
 		$location = get_bloginfo('name').$location;
 
 		// Delete Users
-// DEBUG
-#$wpdb->query("DELETE FROM $wpdb->useronline");
-
 		$delete_users = $wpdb->query("DELETE FROM $wpdb->useronline $where OR (timestamp < $timeout)");
 
 		// Insert Users
@@ -226,6 +225,12 @@ class UserOnline_Core {
 		list($ip_address) = explode(',', $ip_address);
 
 		return $ip_address;
+	}
+
+	private function clear_table() {
+		global $wpdb;
+
+		$wpdb->query("DELETE FROM $wpdb->useronline");
 	}
 }
 
