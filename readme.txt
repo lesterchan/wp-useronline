@@ -14,8 +14,9 @@ This plugin enables you to display how many users are online on your Wordpress b
 
 [Demo](http://lesterchan.net/wordpress/useronline/) | [Translations](http://dev.wp-plugins.org/browser/wp-useronline/i18n/) | [Support Forums](http://forums.lesterchan.net/index.php?board=21.0)
 
-Credits:
-* __ngetext() by Anna Ozeritskaya
+= Credits =
+
+* __ngetext() by [Anna Ozeritskaya](http://hweia.ru/)
 * Right-To-Left language support by [Kambiz R. Khojasteh](http://persian-programming.com/)
 * Maintained by [scribu](http://scribu.net)
 
@@ -44,11 +45,13 @@ Open `wp-content/themes/<YOUR THEME NAME>/sidebar.php` and add Anywhere:
 `
 
 **General Usage (With Widget)**
+
 1. Go to `WP-Admin -> Appearance -> Widgets`
 1. The widget name is <strong>UserOnline</strong>.
 1. Scroll down for instructions on how to create a *UserOnline Page*.
 
 **UserOnline Page**
+
 1. Go to `WP-Admin -> Pages -> Add New`
 1. Type any title you like in the post's title area
 1. If you **ARE** using nice permalinks, after typing the title, WordPress will generate the permalink to the page. You will see an 'Edit' link just beside the permalink.
@@ -103,10 +106,11 @@ Make sure your host is running PHP 5. Add this line to wp-config.php to check:
 == Changelog ==
 
 = 2.60 (2010-02-X) =
+* display admin page titles
 * use domaintools.com instead of arin.net
 * removed ip2nation code and flag images
 * simpler uninstallation procedure
-* cleaner code
+* much cleaner code
 
 = 2.50 (2009-06-01) =
 * new: Works For WordPress 2.8 Only

@@ -5,13 +5,10 @@ class UserOnline_WpStats {
 		add_filter('wp_stats_page_admin_plugins', array(__CLASS__, 'page_admin_general_stats'));
 		add_filter('wp_stats_page_plugins', array(__CLASS__, 'page_general_stats'));
 
-		add_filter('useronline_display_name', array(__CLASS__, 'stats_page_link'), 10, 2);
+		add_filter('useronline_display_name', array(__CLASS__, 'stats_page_link'));
 	}
 
-	function stats_page_link($author, $type) {
-		if ( 'member' != $type )
-			return $author;
-
+	function stats_page_link($author) {
 		$stats_url = add_query_arg('stats_author', urlencode($author), get_option('stats_url'));
 
 		return html_link($stats_url, $author);
