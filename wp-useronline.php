@@ -357,7 +357,7 @@ function useronline_page() {
 
 	$output = 
 	html('p', sprintf($text, $nicetexts['user'], $nicetexts['member'], $nicetexts['guest'], $nicetexts['bot']))
-	.html('p', UserOnline_Template::format_most_users());
+	.html('p', UserOnline_Template::format_most_users())
 	.UserOnline_Template::detailed_list($counts, $user_buckets, $nicetexts);
 
 	return apply_filters('useronline_page', $output);
@@ -424,7 +424,7 @@ class UserOnline_Template {
 		echo $template;	
 	}
 
-	function detailed_list($counts, $users, $nicetexts) {
+	function detailed_list($counts, $user_buckets, $nicetexts) {
 		if ( $counts['user'] == 0 )
 			return html('h2', __('No One Is Online Now', 'wp-useronline'));
 

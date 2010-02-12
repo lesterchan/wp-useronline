@@ -29,7 +29,7 @@ class UserOnline_Admin_Page extends scbAdminPage {
 		echo '<br />';
 		get_users_browsing_site();
 		echo '.<br />';
-		echo _useronline_most_users();
+		echo UserOnline_Template::format_most_users();
 		echo '</p>'."\n";
 	}
 
