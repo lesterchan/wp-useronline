@@ -4,7 +4,7 @@ Donate link: http://lesterchan.net/wordpress
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
 Requires at least: 2.8
 Tested up to: 2.9.1
-Stable tag: 2.50
+Stable tag: 2.60
 
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
 
@@ -105,12 +105,13 @@ Make sure your host is running PHP 5. Add this line to wp-config.php to check:
 
 == Changelog ==
 
-= 2.60 (2010-02-X) =
+= 2.60 (2010-02-12) =
 * display admin page titles
 * use domaintools.com instead of arin.net
 * removed ip2nation code and flag images
 * simpler uninstallation procedure
 * much cleaner code
+* [more info](http://scribu.net/wordpress/wp-useronline/wu-2-60.html)
 
 = 2.50 (2009-06-01) =
 * new: Works For WordPress 2.8 Only
