@@ -105,6 +105,9 @@ Make sure your host is running PHP 5. Add this line to wp-config.php to check:
 
 == Changelog ==
 
+= 2.61 (2010-02-12) =
+* fix fatal error with scbWidget
+
 = 2.60 (2010-02-12) =
 * display admin page titles
 * use domaintools.com instead of arin.net
@@ -158,7 +161,7 @@ Make sure your host is running PHP 5. Add this line to wp-config.php to check:
 
 = 2.20 (2007-10-01) =
 * new: Works For WordPress 2.3 Only
-NEW:Templates Options Added
+* new: Templates Options Added
 * new: Ability To Uninstall WP-UserOnline
 * new: Uses WP-Stats Filter To Add Stats Into WP-Stats Page
 
