@@ -34,7 +34,7 @@ You can either install it automatically from the WordPress admin, or do it manua
 Open `wp-content/themes/<YOUR THEME NAME>/sidebar.php` and add Anywhere:
 
 `
-<?php if (function_exists('useronline')): ?>
+<?php if (function_exists('get_useronline')): ?>
    <li>
       <h2>UserOnline</h2>
       <ul>
