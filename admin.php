@@ -16,7 +16,7 @@ class UserOnline_Admin_Page extends scbAdminPage {
 	}
 
 	function rightnow() {
-		$total_users = get_useronline_count(false);
+		$total_users = get_users_online_count();
 
 		$str = _n(
 			'There is <strong><a href="%s">%s user</a></strong> online now.',
@@ -28,14 +28,14 @@ class UserOnline_Admin_Page extends scbAdminPage {
 		printf($str, add_query_arg('page', $this->args['page_slug'], admin_url('index.php')), number_format_i18n($total_users));
 
 		echo '<br />';
-		get_users_browsing_site();
+		users_browsing_site();
 		echo '.<br />';
 		echo UserOnline_Template::format_most_users();
 		echo '</p>'."\n";
 	}
 
 	function page_content() {
-		echo useronline_page();	
+		echo users_online_page();	
 	}
 }
 

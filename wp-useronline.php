@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://wordpress.org/extend/plugins/wp-useronline/
 Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
-Version: 2.61
+Version: 2.70a
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -38,7 +38,7 @@ class UserOnline_Core {
 		add_action('wp_ajax_useronline', array(__CLASS__, 'ajax'));
 		add_action('wp_ajax_nopriv_useronline', array(__CLASS__, 'ajax'));
 
-		add_shortcode('page_useronline', 'useronline_page');
+		add_shortcode('page_useronline', 'users_online_page');
 
 		register_activation_hook(__FILE__, array(__CLASS__, 'install'));
 		register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
@@ -203,7 +203,7 @@ class UserOnline_Core {
 
 		switch($mode) {
 			case 'count':
-				get_useronline();
+				users_online();
 				break;
 			case 'browsingsite':
 				get_users_browsing_site();				
@@ -234,61 +234,6 @@ class UserOnline_Core {
 	}
 }
 
-### Function: Display UserOnline
-function get_useronline($display = true) {
-	$template = get_option('useronline_template_useronline');
-	$template = str_replace('%USERONLINE_PAGE_URL%', get_option('useronline_url'), $template);
-	$template = str_replace('%USERONLINE_MOSTONLINE_COUNT%', number_format_i18n(get_most_useronline()), $template);
-	$template = str_replace('%USERONLINE_MOSTONLINE_DATE%', get_most_useronline_date(), $template);
-
-	$template = UserOnline_Template::format_count($template, get_useronline_count());
-
-	if ( !$display )
-		return $template;
-
-	echo $template;
-}
-
-### Function: Display UserOnline Count
-function get_useronline_count($display = false) {
-	global $wpdb, $useronline;
-
-	if ( ! isset($useronline) )
-		$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
-
-	if ( !$display )
-		return $useronline;
-
-	echo number_format_i18n($useronline);
-}
-
-### Function: Display Max UserOnline
-function get_most_useronline($display = false) {
-	$most_useronline_users = intval(get_option('useronline_most_users'));
-	if ( $display ) {
-		echo number_format_i18n($most_useronline_users);
-	} else {
-		return $most_useronline_users;
-	}
-}
-
-### Function: Display Max UserOnline Date
-function get_most_useronline_date($display = false) {
-	$most_useronline_date = UserOnline_Template::format_date(get_option('useronline_most_timestamp'));
-
-	if ( !$display )
-		return $most_useronline_date;
-
-	echo $most_useronline_date;
-}
-
-### Function Check If User Is Online
-function is_online($user_login) {
-	global $wpdb;
-	return intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline WHERE username = '$user_login' LIMIT 1"));
-}
-
-
 
 ### Function: Update Member last Visit
 //add_action('wp_head', 'update_memberlastvisit');
@@ -305,34 +250,8 @@ function get_memberlastvisit($user_id = 0) {
 	return UserOnline_Template::format_date(get_user_option('member_last_login', $user_id));
 }
 
-
-### Function: Display Users Browsing The Site
-function get_users_browsing_site($display = true) {
-	global $wpdb;
-
-	$users_online = $wpdb->get_results("SELECT displayname, type FROM $wpdb->useronline ORDER BY type");
-
-	if ( !$users_online )
-		return;
-
-	return UserOnline_Template::compact_list('site', $users_online, $display);
-}
-
-### Function: Display Users Browsing The Page
-function get_users_browsing_page($display = true) {
-	global $wpdb;
-
-	$page_url = esc_sql(urlencode($_SERVER['REQUEST_URI']));
-	$users_online = $wpdb->get_results("SELECT displayname, type FROM $wpdb->useronline WHERE url = '$page_url' ORDER BY type");
-
-	if ( !$users_online )
-		return;
-
-	return UserOnline_Template::compact_list('page', $users_online, $display);
-}
-
 ### Function: UserOnline Page
-function useronline_page() {
+function users_online_page() {
 	global $wpdb;
 
 	$usersonline = $wpdb->get_results("SELECT * FROM $wpdb->useronline ORDER BY type");
@@ -371,15 +290,15 @@ function useronline_page() {
 
 class UserOnline_Template {
 
-	function compact_list($type, $users, $display) {
+	function compact_list($type, $users) {
+		if ( empty($users) )
+			return '';
+
 		$buckets = array();
 		foreach ( $users as $user )
 			$buckets[$user->type][] = $user->displayname;
 
 		$counts = self::get_counts($buckets);
-
-		if ( !$display )
-			return $counts;
 
 		// Template - Naming Conventions
 		$naming = get_option('useronline_naming');
@@ -425,8 +344,7 @@ class UserOnline_Template {
 			$separator = '';
 		$template = str_ireplace('%USERONLINE_BOTS_SEPERATOR%', $separator, $template);
 
-		// Output The Template
-		echo $template;	
+		echo $template;
 	}
 
 	function detailed_list($counts, $user_buckets, $nicetexts) {
@@ -496,7 +414,7 @@ class UserOnline_Template {
 	}
 	
 	function format_most_users() {
-		return sprintf(__('Most users ever online were <strong>%s</strong>, on <strong>%s</strong>', 'wp-useronline'), number_format_i18n(get_most_useronline()), get_most_useronline_date());
+		return sprintf(__('Most users ever online were <strong>%s</strong>, on <strong>%s</strong>', 'wp-useronline'), number_format_i18n(get_most_users_online()), get_most_users_online_date());
 	}
 
 	function get_counts($buckets) {
@@ -531,6 +449,8 @@ function _useronline_init() {
 	");
 
 	UserOnline_Core::init();
+
+	require_once dirname(__FILE__) . '/template-tags.php';
 
 	require_once dirname(__FILE__) . '/widget.php';
 	scbWidget::init('UserOnline_Widget', __FILE__);
