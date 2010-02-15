@@ -113,10 +113,11 @@ class UserOnline_Core {
 		$url = $_SERVER['REQUEST_URI'];
 
 		$referral = '';
+		if ( !empty($_SERVER['HTTP_REFERER']) )
+			$referral = strip_tags($_SERVER['HTTP_REFERER']);
+
 		$useragent = $_SERVER['HTTP_USER_AGENT'];
 		$current_user = wp_get_current_user();
-		if ( !empty($_SERVER['HTTP_REFERER'] ))
-			$referral = strip_tags($_SERVER['HTTP_REFERER']);
 
 		// Check For Bot
 		$bots = get_option('useronline_bots');
@@ -185,31 +186,27 @@ class UserOnline_Core {
 		// Count Users Online
 		$useronline = intval($wpdb->get_var("SELECT COUNT(*) FROM $wpdb->useronline"));
 
-		// Get Most User Online
+		// Maybe Update Most User Online
 		$most_useronline = intval(get_option('useronline_most_users'));
 
-		// Check Whether Current Users Online Is More Than Most Users Online
 		if ( $useronline > $most_useronline ) {
 			update_option('useronline_most_users', $useronline);
 			update_option('useronline_most_timestamp', current_time('timestamp'));
 		}
 	}
-	
+
 	function ajax() {
 		$mode = trim($_POST['mode']);
-
-		if ( empty($mode) )
-			return;
 
 		switch($mode) {
 			case 'count':
 				users_online();
 				break;
 			case 'browsingsite':
-				get_users_browsing_site();				
+				users_browsing_site();				
 				break;
 			case 'browsingpage':
-				get_users_browsing_page();
+				users_browsing_page();
 				break;
 		}
 
