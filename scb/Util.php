@@ -23,6 +23,14 @@ class scbUtil {
 
 	// Better debug function
 	static function debug() {
+		// integrate with FirePHP
+		if ( function_exists('FB') ) {
+			foreach ( func_get_args() as $arg )
+				FB($arg);
+
+			return;
+		}
+
 		echo "<pre>";
 		foreach ( func_get_args() as $arg )
 			if ( is_array($arg) || is_object($arg) )
