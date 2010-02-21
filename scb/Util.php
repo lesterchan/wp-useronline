@@ -18,7 +18,15 @@ class scbUtil {
 		if ( ! is_a($wp_styles, 'WP_Styles') )
 			$wp_styles = new WP_Styles();
 
+		ob_start();
 		$wp_styles->do_items((array) $handles);
+		$content = str_replace(array('"', "\n"), array("'", ''), ob_get_clean());
+
+		echo "<script type='text/javascript'>\n";
+		echo "jQuery(document).ready(function($) {\n";
+		echo "$('head').append(\"$content\");\n";
+		echo "});\n";
+		echo "</script>";
 	}
 
 	// Better debug function
