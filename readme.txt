@@ -101,10 +101,6 @@ Make sure your host is running PHP 5. Add this line to wp-config.php to check:
 
 `var_dump(PHP_VERSION);`
 
-== Upgrade Notice ==
-
-**Requires PHP5**
-
 == Changelog ==
 
 = 2.70 =

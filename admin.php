@@ -113,7 +113,7 @@ class UserOnline_Options extends scbAdminPage {
 		foreach ( array('browsingsite', 'browsingpage') as $key ) {
 			$template = array();
 			foreach ( array('members', 'guests', 'bots') as $type )
-				$template[] = trim(stripslashes($_POST["useronline_separator_{$key}_{$type}"]));
+				$template[] = stripslashes($_POST["useronline_separator_{$key}_{$type}"]);
 			$template[] = trim(stripslashes($_POST["useronline_template_{$key}"]));
 			update_option("useronline_template_{$key}", $template);
 		}
