@@ -3,15 +3,27 @@
 // Adds compatibility methods between WP_Widget and scbForms
 
 abstract class scbWidget extends WP_Widget {
+	protected $defaults = array();
+
 	private static $widgets = array();
 	private static $migrations = array();
 
+	static function init($class, $file = '', $base = '') {
+		self::$widgets[] = $class;
+		self::$migrations[] = $base;
+
+		add_action('widgets_init', array(__CLASS__, 'scb_register'));
+		register_activation_hook($file, array(__CLASS__, 'scb_migrate'));
+	}
+
 	function widget($args, $instance) {
+		$instance = wp_parse_args($instance, $this->defaults);
+
 		extract($args);
 
 		echo $before_widget;
 
-		$title = apply_filters('widget_title', $instance['title'], $this->name);
+		$title = apply_filters('widget_title', @$instance['title'], $this->name);
 
 		if ( ! empty($title) )
 			echo $before_title . $title . $after_title;
@@ -21,15 +33,8 @@ abstract class scbWidget extends WP_Widget {
 		echo $after_widget;
 	}
 
+	// This is where the widget output goes
 	function content($instance) {}
-
-	static function init($class, $file = '', $base = '') {
-		self::$widgets[] = $class;
-		self::$migrations[] = $base;
-
-		add_action('widgets_init', array(__CLASS__, 'scb_register'));
-		register_activation_hook($file, array(__CLASS__, 'scb_migrate'));
-	}
 
 
 // ____HELPER METHODS____
@@ -54,7 +59,7 @@ abstract class scbWidget extends WP_Widget {
 			else
 				$newname = $this->get_field_name($name);
 
-			$new_formdata[ $newname ] = $formdata[$name];
+			$new_formdata[ $newname ] = @$formdata[$name];
 		}
 		$new_names = array_keys($new_formdata);
 
@@ -65,10 +70,13 @@ abstract class scbWidget extends WP_Widget {
 			$args['name'] = $new_names;
 
 		// Remember $desc and replace with $title
-		if ( $args['desc'] )
-			$desc = "<small>{$args['desc']}</small>";
-		$args['desc'] = $args['title'];
-		unset($args['title']);
+		$desc = '';
+		if ( isset($args['title']) ) {
+			if ( isset($args['desc']) )
+				$desc = "<small>{$args['desc']}</small>";
+			$args['desc'] = $args['title'];
+			unset($args['title']);
+		}
 
 		$input = scbForms::input($args, $new_formdata);
 
