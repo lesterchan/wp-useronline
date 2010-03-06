@@ -40,6 +40,7 @@ class UserOnline_Admin_Page extends scbAdminPage {
 }
 
 class UserOnline_Options extends scbAdminPage {
+
 	function setup() {
 		$this->textdomain = 'wp-useronline';
 
@@ -201,7 +202,7 @@ class UserOnline_Options extends scbAdminPage {
 					- %USERONLINE_MOSTONLINE_DATE%<br /><br />
 					<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_templates('useronline');" class="button" />
 				</td>
-				<td><textarea cols="80" rows="12" id="useronline_template_useronline" name="useronline_template_useronline"><?php echo htmlspecialchars(get_option('useronline_template_useronline')); ?></textarea></td>
+				<td><textarea cols="80" rows="12" id="useronline_template_useronline" name="useronline_template_useronline"><?php echo esc_html(get_option('useronline_template_useronline')); ?></textarea></td>
 			</tr>
 <?php $this->template(__('User(s) Browsing Site:', 'wp-useronline'), 'site'); ?>
 <?php $this->template(__('User(s) Browsing Page:', 'wp-useronline'), 'page'); ?>
@@ -249,7 +250,7 @@ class UserOnline_Options extends scbAdminPage {
 						 </tr>
 					</table>
 					<br />
-					<textarea cols="80" rows="12" id="useronline_template_browsing<?php echo $option; ?>" name="useronline_template_browsing<?php echo $option; ?>"><?php echo htmlspecialchars($template[3]); ?></textarea>
+					<textarea cols="80" rows="12" id="useronline_template_browsing<?php echo $option; ?>" name="useronline_template_browsing<?php echo $option; ?>"><?php echo esc_html($template[3]); ?></textarea>
 				</td>
 			</tr>
 <?php
