@@ -13,6 +13,8 @@ class scbUtil {
 
 	// Force style enqueue
 	static function do_styles($handles) {
+		self::do_scripts('jquery');
+
 		global $wp_styles;
 
 		if ( ! is_a($wp_styles, 'WP_Styles') )
