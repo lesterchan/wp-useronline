@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/wordpress
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
 Requires at least: 2.8
-Tested up to: 2.9.1
-Stable tag: 2.61
+Tested up to: 2.9.2
+Stable tag: 2.62
 
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
 
