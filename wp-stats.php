@@ -30,15 +30,15 @@ class UserOnline_WpStats {
 		$str = _n(
 			'<strong>%s</strong> user online now.',
 			'<strong>%s</strong> users online now.', 
-			get_useronline_count(), 'wp-useronline'
+			get_users_online_count(), 'wp-useronline'
 		);
 
 		if ( $stats_display['useronline'] == 1 )
 			$content .= 
 			html('p', html('strong', __('WP-UserOnline', 'wp-useronline')))
 			.html('ul',
-				html('li', sprintf($str, number_format_i18n(get_useronline_count())))
-				.html('li', _useronline_most_users())
+				html('li', sprintf($str, number_format_i18n(get_users_online_count())))
+				.html('li', UserOnline_Template::format_most_users())
 			);
 
 		return $content;
