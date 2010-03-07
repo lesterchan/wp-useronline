@@ -107,6 +107,9 @@ Make sure your host is running PHP 5. Add this line to wp-config.php to check:
 * revamp template tags
 * allow displaying online users from a different page than the current page
 
+= 2.62 (2010-03-07) =
+* fix integration with WP-Stats
+
 = 2.61 (2010-02-12) =
 * fix fatal error with scbWidget
 
