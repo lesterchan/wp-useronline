@@ -30,6 +30,8 @@ Author URI: http://lesterchan.net
 class UserOnline_Core {
 
 	function init() {
+		add_action('plugins_loaded', array(__CLASS__, 'wp_stats_integration'));
+
 		add_action('template_redirect', array(__CLASS__, 'scripts'));
 
 		add_action('admin_head', array(__CLASS__, 'record'));
@@ -42,6 +44,11 @@ class UserOnline_Core {
 
 		register_activation_hook(__FILE__, array(__CLASS__, 'install'));
 		register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
+	}
+	
+	function wp_stats_integration() {
+		if ( function_exists('stats_page') )
+			require_once dirname(__FILE__) . '/wp-stats.php';
 	}
 
 	function install() {
