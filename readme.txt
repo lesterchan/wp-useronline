@@ -109,6 +109,7 @@ Make sure your host is running PHP 5. Add this line to wp-config.php to check:
 
 = 2.62 (2010-03-07) =
 * fix integration with WP-Stats
+* fix error with get_admin_page_title()
 
 = 2.61 (2010-02-12) =
 * fix fatal error with scbWidget

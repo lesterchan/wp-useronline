@@ -170,7 +170,7 @@ class UserOnline_Core {
 		}
 
 		// Check For Page Title
-		if ( is_admin() ) {
+		if ( is_admin() && function_exists('get_admin_page_title') ) {
 			$location = ' &raquo; '.__('Admin', 'wp-useronline').' &raquo; '.get_admin_page_title();
 		} else {
 			$location = wp_title('&raquo;', false);
