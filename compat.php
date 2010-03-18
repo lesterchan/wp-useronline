@@ -8,14 +8,6 @@ function get_useronline() {
 	users_online();
 }
 
-function get_users_browsing_site() {
-	users_browsing_site();
-}
-
-function get_users_browsing_page() {
-	users_browsing_page();
-}
-
 function get_most_useronline() {
 	return get_most_users_online();
 }

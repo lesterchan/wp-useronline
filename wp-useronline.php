@@ -43,9 +43,9 @@ class UserOnline_Core {
 		add_shortcode('page_useronline', 'users_online_page');
 
 		register_activation_hook(__FILE__, array(__CLASS__, 'install'));
-		register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
+		scbUtil::add_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
 	}
-	
+
 	function wp_stats_integration() {
 		if ( function_exists('stats_page') )
 			require_once dirname(__FILE__) . '/wp-stats.php';
@@ -63,7 +63,7 @@ class UserOnline_Core {
 		add_option('useronline_bots', $bots);
 
 		// Database Upgrade For WP-UserOnline 2.05
-		add_option('useronline_url', site_url('useronline/'));
+		add_option('useronline_url', user_trailingslashit(trailinslashit(get_bloginfo('url')) . 'useronline'));
 
 		// Database Upgrade For WP-UserOnline 2.20
 		add_option('useronline_naming', array(
@@ -83,14 +83,14 @@ class UserOnline_Core {
 			__(',', 'wp-useronline').' ',
 			__(',', 'wp-useronline').' ', 
 			__(',', 'wp-useronline').' ', 
-			_c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
+			_x('Users', 'Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
 		));
 
 		add_option('useronline_template_browsingpage', array(
 			__(',', 'wp-useronline').' ',
 			__(',', 'wp-useronline').' ',
 			__(',', 'wp-useronline').' ', 
-			'<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._c('Users|Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
+			'<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._x('Users', 'Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
 		));
 	}
 
@@ -238,7 +238,7 @@ class UserOnline_Core {
 	}
 }
 
-
+/*
 ### Function: Update Member last Visit
 //add_action('wp_head', 'update_memberlastvisit');
 function update_memberlastvisit() {
@@ -253,6 +253,7 @@ function update_memberlastvisit() {
 function get_memberlastvisit($user_id = 0) {
 	return UserOnline_Template::format_date(get_user_option('member_last_login', $user_id));
 }
+*/
 
 class UserOnline_Template {
 
@@ -417,6 +418,7 @@ function _useronline_init() {
 	UserOnline_Core::init();
 
 	require_once dirname(__FILE__) . '/template-tags.php';
+	require_once dirname(__FILE__) . '/compat.php';
 
 	require_once dirname(__FILE__) . '/widget.php';
 	scbWidget::init('UserOnline_Widget', __FILE__);
