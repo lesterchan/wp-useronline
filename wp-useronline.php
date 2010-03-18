@@ -254,44 +254,6 @@ function get_memberlastvisit($user_id = 0) {
 	return UserOnline_Template::format_date(get_user_option('member_last_login', $user_id));
 }
 
-### Function: UserOnline Page
-function users_online_page() {
-	global $wpdb;
-
-	$usersonline = $wpdb->get_results("SELECT * FROM $wpdb->useronline ORDER BY type");
-
-	$user_buckets = array();
-	foreach ( $usersonline as $useronline )
-		$user_buckets[$useronline->type][] = (array) $useronline;
-
-	$counts = UserOnline_Template::get_counts($user_buckets);
-
-	$texts = array(
-		'user' => array(__('User', 'wp-useronline'), __('Users', 'wp-useronline')),
-		'member' => array(__('Member', 'wp-useronline'), __('Members', 'wp-useronline')),
-		'guest' => array(__('Guest', 'wp-useronline'), __('Guests', 'wp-useronline')),
-		'bot' => array(__('Bot', 'wp-useronline'), __('Bots', 'wp-useronline')),
-	);
-	foreach ( $texts as $type => $strings ) {
-		$i = ($counts[$type] == 1) ? 0 : 1;
-		$nicetexts[$type] = number_format_i18n($counts[$type]).' '.$strings[$i];
-	}
-
-	$text = _n(
-		'There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>.',
-		'There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>.',
-		$counts['user'], 'wp-useronline'
-	);
-
-	$output = 
-	html('p', sprintf($text, $nicetexts['user'], $nicetexts['member'], $nicetexts['guest'], $nicetexts['bot']))
-	.html('p', UserOnline_Template::format_most_users())
-	.UserOnline_Template::detailed_list($counts, $user_buckets, $nicetexts);
-
-	return apply_filters('useronline_page', $output);
-}
-
-
 class UserOnline_Template {
 
 	function compact_list($type, $users) {
