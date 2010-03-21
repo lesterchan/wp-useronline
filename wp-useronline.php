@@ -428,8 +428,8 @@ function _useronline_init() {
 
 	if ( is_admin() ) {
 		require_once dirname(__FILE__) . '/admin.php';
-		new UserOnline_Options(__FILE__);
-		new UserOnline_Admin_Page(__FILE__);
+		scbAdminPage::register('UserOnline_Options', __FILE__);
+		scbAdminPage::register('UserOnline_Admin_Page', __FILE__);
 	}
 }
 _useronline_init();

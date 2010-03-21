@@ -37,6 +37,43 @@ abstract class scbAdminPage {
 	// Formdata used for filling the form elements
 	protected $formdata = array();
 
+	// Registration component
+	private static $registered = array();
+
+	static function register($class, $file, $options = null) {
+		if ( isset(self::$registered[$class]) )
+			return false;
+
+		self::$registered[$class] = array($file, $options);
+
+		add_action('_admin_menu', array(__CLASS__, '_pages_init'));
+
+		return true;
+	}
+
+	static function replace($old_class, $new_class) {
+		if ( ! isset(self::$registered[$old_class]) )
+			return false;
+
+		self::$registered[$new_class] = self::$registered[$old_class];
+		unset(self::$registered[$old_class]);
+
+		return true;
+	}
+
+	static function remove($class) {
+		if ( ! isset(self::$registered[$class]) )
+			return false;
+
+		unset(self::$registered[$class]);
+
+		return true;
+	}
+
+	static function _pages_init() {
+		foreach ( self::$registered as $class => $args )
+			new $class($args[0], $args[1]);
+	}
 
 //  ____________MAIN METHODS____________
 
@@ -107,7 +144,7 @@ abstract class scbAdminPage {
 		if ( isset($this->options) )
 			$this->options->update($this->formdata);
 
-		$this->admin_msg(__('Settings <strong>saved</strong>.', $this->textdomain));
+		$this->admin_msg();
 	}
 
 
@@ -230,7 +267,10 @@ abstract class scbAdminPage {
 	}
 
 	// Generates a standard admin notice
-	function admin_msg($msg, $class = "updated") {
+	function admin_msg($msg = '', $class = "updated") {
+		if ( empty($msg) )
+			$msg = __('Settings <strong>saved</strong>.', $this->textdomain);
+
 		echo "<div class='$class fade'><p>$msg</p></div>\n";
 	}
 
@@ -266,11 +306,12 @@ abstract class scbAdminPage {
 		if ( ! $this->pagehook )
 			return;
 
-		$this->ajax_response();
+		if ( $ajax_submit ) {
+			$this->ajax_response();
+			add_action('admin_footer', array($this, 'ajax_submit'), 20);
+		}
 
 		add_action('admin_print_styles-' . $this->pagehook, array($this, 'page_head'));
-
-		add_action('admin_footer', array($this, 'ajax_submit'), 20);
 	}
 
 	private function check_args() {
@@ -286,6 +327,7 @@ abstract class scbAdminPage {
 			'page_slug' => '',
 			'nonce' => '',
 			'action_link' => __('Settings', $this->textdomain),
+			'ajax_submit' => false,
 		));
 
 		if ( empty($this->args['page_slug']) )
@@ -356,7 +398,6 @@ jQuery(document).ready(function($){
 });
 </script>
 <?php
-		$this->page_head();
 	}
 
 	function _page_content_hook() {
