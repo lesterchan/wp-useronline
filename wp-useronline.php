@@ -63,7 +63,7 @@ class UserOnline_Core {
 		add_option('useronline_bots', $bots);
 
 		// Database Upgrade For WP-UserOnline 2.05
-		add_option('useronline_url', user_trailingslashit(trailinslashit(get_bloginfo('url')) . 'useronline'));
+		add_option('useronline_url', user_trailingslashit(trailingslashit(get_bloginfo('url')) . 'useronline'));
 
 		// Database Upgrade For WP-UserOnline 2.20
 		add_option('useronline_naming', array(
