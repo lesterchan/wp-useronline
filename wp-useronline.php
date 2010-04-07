@@ -311,7 +311,7 @@ class UserOnline_Template {
 			$separator = '';
 		$template = str_ireplace('%USERONLINE_BOTS_SEPERATOR%', $separator, $template);
 
-		echo $template;
+		return $template;
 	}
 
 	function detailed_list($counts, $user_buckets, $nicetexts) {
@@ -399,7 +399,7 @@ class UserOnline_Template {
 function _useronline_init() {
 	require_once dirname(__FILE__) . '/scb/load.php';
 
-	load_plugin_textdomain('wp-useronline', false, basename(dirname(__FILE__)));
+	load_plugin_textdomain('wp-useronline', '', basename(dirname(__FILE__)));
 
 	new scbTable('useronline', __FILE__, "
 		timestamp int(15) NOT NULL default '0',
@@ -418,7 +418,7 @@ function _useronline_init() {
 	UserOnline_Core::init();
 
 	require_once dirname(__FILE__) . '/template-tags.php';
-	require_once dirname(__FILE__) . '/compat.php';
+	require_once dirname(__FILE__) . '/deprecated.php';
 
 	require_once dirname(__FILE__) . '/widget.php';
 	scbWidget::init('UserOnline_Widget', __FILE__);

@@ -7,31 +7,29 @@ class UserOnline_Widget extends scbWidget {
 	}
 
 	function content($instance) {
-		$type = esc_attr($instance['type']);
+		$out = '';
 
-		$out .= '';
-
-		switch($type) {
+		switch( $instance['type'] ) {
 			case 'users_online':
-				$out .= html('li', html('div id="useronline-count"', get_users_online()));
+				$out .= html('div id="useronline-count"', get_users_online());
 				break;
 			case 'users_browsing_page':
-				$out .= html('li', html('div id="useronline-browsing-page"', get_users_browsing_page()));
+				$out .= html('div id="useronline-browsing-page"', get_users_browsing_page());
 				break;
 			case 'users_browsing_site':
-				$out .= html('li', html('div id="useronline-browsing-site"', get_users_browsing_site()));
+				$out .= html('div id="useronline-browsing-site"', get_users_browsing_site());
 				break;
 			case 'users_online_browsing_page':
-				$out .= html('li', html('div id="useronline-count"', get_users_online()));
-				$out .= html('li', html('div id="useronline-browsing-page"', get_users_browsing_page()));
+				$out .= html('div id="useronline-count"', get_users_online());
+				$out .= html('div id="useronline-browsing-page"', get_users_browsing_page());
 				break;
 			case 'users_online_browsing_site':
-				$out .= html('li', html('div id="useronline-count"', get_useronline()));
-				$out .= html('li', html('div id="useronline-browsing-site"', get_users_browsing_site()));
+				$out .= html('div id="useronline-count"', get_users_online());
+				$out .= html('div id="useronline-browsing-site"', get_users_browsing_site());
 				break;
 		}
 
-		echo html('ul', $out);
+		echo $out;
 	}
 
 	function update($new_instance, $old_instance) {

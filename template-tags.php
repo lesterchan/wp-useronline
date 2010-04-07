@@ -7,9 +7,9 @@ function users_online() {
 
 function get_users_online() {
 	$template = get_option('useronline_template_useronline');
-	$template = str_replace('%USERONLINE_PAGE_URL%', get_option('useronline_url'), $template);
-	$template = str_replace('%USERONLINE_MOSTONLINE_COUNT%', get_most_users_online(), $template);
-	$template = str_replace('%USERONLINE_MOSTONLINE_DATE%', get_most_users_online_date(), $template);
+	$template = str_ireplace('%USERONLINE_PAGE_URL%', get_option('useronline_url'), $template);
+	$template = str_ireplace('%USERONLINE_MOSTONLINE_COUNT%', get_most_users_online(), $template);
+	$template = str_ireplace('%USERONLINE_MOSTONLINE_DATE%', get_most_users_online_date(), $template);
 
 	return UserOnline_Template::format_count($template, get_users_online_count());
 }
