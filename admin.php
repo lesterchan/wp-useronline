@@ -146,7 +146,7 @@ class UserOnline_Options extends scbAdminPage {
 			 <tr>
 				<th scope="row" valign="top"><?php _e('UserOnline URL', 'wp-useronline'); ?></th>
 				<td>
-					<input type="text" name="useronline_url" value="<?php echo esc_attr(get_option('useronline_url')); ?>" size="50" dir="ltr" /><br /><?php _e('URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
+					<input type="text" name="useronline_url" value="<?php echo esc_attr(get_option('useronline_url')); ?>" size="50" dir="ltr" /><br /><?php _e('URL To UserOnline Page<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
 				</td>
 			</tr>
 			<tr>
