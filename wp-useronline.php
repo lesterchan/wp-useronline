@@ -423,7 +423,7 @@ function _useronline_init() {
 	require_once dirname(__FILE__) . '/deprecated.php';
 
 	require_once dirname(__FILE__) . '/widget.php';
-	scbWidget::init('UserOnline_Widget', __FILE__);
+	scbWidget::init('UserOnline_Widget', __FILE__, 'useronline');
 
 	if ( function_exists('stats_page') )
 		require_once dirname(__FILE__) . '/wp-stats.php';
