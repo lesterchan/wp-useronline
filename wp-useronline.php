@@ -3,9 +3,8 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://wordpress.org/extend/plugins/wp-useronline/
 Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
-Version: 2.70a
-Author: Lester 'GaMerZ' Chan
-Author URI: http://lesterchan.net
+Version: 2.70a2
+Author: Lester 'GaMerZ' Chan & scribu
 */
 
 
@@ -401,6 +400,9 @@ class UserOnline_Template {
 function _useronline_init() {
 	require_once dirname(__FILE__) . '/scb/load.php';
 
+	require_once dirname(__FILE__) . '/template-tags.php';
+	require_once dirname(__FILE__) . '/deprecated.php';
+
 	load_plugin_textdomain('wp-useronline', '', basename(dirname(__FILE__)));
 
 	new scbTable('useronline', __FILE__, "
@@ -418,9 +420,6 @@ function _useronline_init() {
 	");
 
 	UserOnline_Core::init();
-
-	require_once dirname(__FILE__) . '/template-tags.php';
-	require_once dirname(__FILE__) . '/deprecated.php';
 
 	require_once dirname(__FILE__) . '/widget.php';
 	scbWidget::init('UserOnline_Widget', __FILE__, 'useronline');

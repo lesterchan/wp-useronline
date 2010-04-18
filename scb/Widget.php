@@ -89,13 +89,10 @@ abstract class scbWidget extends WP_Widget {
 
 
 	private function scb_get_field_name($name) {
-		$i = strpos($name, '[');
-
-		if ( false === $i )
+		if ( $split = scbUtil::split_at('[', $name) )
+			list($basename, $extra) = $split;
+		else
 			return $this->get_field_name($name);
-
-		$basename = substr($name, 0, $i);
-		$extra = substr($name, $i);
 
 		return str_replace('[]', '', $this->get_field_name($basename)) . $extra;
 	}

@@ -105,7 +105,7 @@ function users_online_page() {
 	);
 
 	$output = 
-	html('p', sprintf($text, $nicetexts['user'], $nicetexts['member'], $nicetexts['guest'], $nicetexts['bot']))
+	 html('p', sprintf($text, $nicetexts['user'], $nicetexts['member'], $nicetexts['guest'], $nicetexts['bot']))
 	.html('p', UserOnline_Template::format_most_users())
 	.UserOnline_Template::detailed_list($counts, $user_buckets, $nicetexts);
 
