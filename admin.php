@@ -7,6 +7,7 @@ class UserOnline_Admin_Page extends scbAdminPage {
 		$this->args = array(
 			'page_title' => __('Users Online Now', $this->textdomain),
 			'menu_title' => __('WP-UserOnline', $this->textdomain),
+			'page_slug' => 'useronline',
 			'parent' => 'index.php',
 			'capability' => 'read',
 			'action_link' => false,
@@ -47,6 +48,7 @@ class UserOnline_Options extends scbAdminPage {
 		$this->args = array(
 			'page_title' => __('UserOnline Options', $this->textdomain),
 			'menu_title' => __('UserOnline', $this->textdomain),
+			'page_slug' => 'useronline',
 		);
 	}
 
