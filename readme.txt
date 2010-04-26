@@ -89,11 +89,12 @@ To Display *Users Browsing A Page* use:
 
 == Frequently Asked Questions ==
 
-= Error on activation: "Parse error: syntax error, unexpected T_CLASS..." =
+= Error on activation: "Parse error: syntax error, unexpected..." =
 
-Make sure your host is running PHP 5. Add this line to wp-config.php to check:
+Make sure your host is running PHP 5. The only foolproof way to do this is to add this line to wp-config.php:
 
 `var_dump(PHP_VERSION);`
+<br>
 
 == Changelog ==
 
