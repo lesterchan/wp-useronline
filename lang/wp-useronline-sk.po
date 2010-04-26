@@ -1,0 +1,446 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-UserOnline 2.40\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-12-12 01:11+0800\n"
+"PO-Revision-Date: 2008-12-12 01:11+0800\n"
+"Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
+"Language-Team: Peter Leibitzer <speedy55@azet.sk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: Slovak\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Slovak\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: useronline-options.php:63
+msgid "Useronline Timeout"
+msgstr ""
+
+#: useronline-options.php:64
+msgid "Useronline Bots"
+msgstr "Bóti Useronline"
+
+#: useronline-options.php:65
+msgid "Useronline URL"
+msgstr "URL Useronline"
+
+#: useronline-options.php:66
+msgid "Useronline Naming Conventions"
+msgstr "Dohody pomenovania Useronline"
+
+#: useronline-options.php:67
+msgid "User(s) Online Template"
+msgstr "Šablóna Užívateľa(ov) online "
+
+#: useronline-options.php:68
+msgid "User(s) Browsing Site Template"
+msgstr "Šablóna Užívateľa(ov) prehľadavajúcich web"
+
+#: useronline-options.php:69
+msgid "User(s) Browsing Page Template"
+msgstr "Šablóna Užívateľa(ov) prehľadavajúcich stránku"
+
+#: useronline-options.php:74
+msgid "Updated"
+msgstr "Aktualizované"
+
+#: useronline-options.php:79
+msgid "No Useronline Option Updated"
+msgstr "Žiadna možnost neaktualizovaná"
+
+#: useronline-options.php:85
+#: useronline-options.php:380
+msgid "UNINSTALL WP-UserOnline"
+msgstr "ODINŠTALUJ WP-Useronline"
+
+#: useronline-options.php:92
+#, php-format
+msgid "Table '%s' has been deleted."
+msgstr "Tabuľka  '%s' bola zmazaná"
+
+#: useronline-options.php:101
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "Kľúč nastavenia '%s' bol zmazaný"
+
+#: useronline-options.php:105
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "Chyba v mazaní kľuča nastavenia '%s'."
+
+#: useronline-options.php:127
+#: useronline-options.php:338
+msgid "Uninstall WP-UserOnline"
+msgstr "Odinštaluj WP-Useronline"
+
+#: useronline-options.php:128
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
+msgstr "<a href=\"%s\">Kliknu tu</a> pre ukončenie Odinštalácie a WP-Useronline bude deaktivovaný automaticky."
+
+#: useronline-options.php:153
+#: wp-useronline.php:914
+msgid "Online"
+msgstr ""
+
+#: useronline-options.php:160
+#: wp-useronline.php:913
+msgid "1 User"
+msgstr "1 Užívateľ"
+
+#: useronline-options.php:161
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Users"
+msgstr "%USERONLINE_COUNT% Užívateľov"
+
+#: useronline-options.php:162
+#: wp-useronline.php:913
+msgid "1 Member"
+msgstr "1 Zaregistrovaný"
+
+#: useronline-options.php:163
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Members"
+msgstr "%USERONLINE_COUNT% Zaregistrovaných"
+
+#: useronline-options.php:164
+#: wp-useronline.php:913
+msgid "1 Guest"
+msgstr "1 Hosť"
+
+#: useronline-options.php:165
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Guests"
+msgstr "%USERONLINE_COUNT% Hosťov"
+
+#: useronline-options.php:166
+#: wp-useronline.php:913
+msgid "1 Bot"
+msgstr ""
+
+#: useronline-options.php:167
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Bots"
+msgstr "%USERONLINE_COUNT% Botov"
+
+#: useronline-options.php:170
+#: useronline-options.php:171
+#: useronline-options.php:172
+#: useronline-options.php:176
+#: useronline-options.php:177
+#: useronline-options.php:178
+#: wp-useronline.php:915
+#: wp-useronline.php:916
+msgid ","
+msgstr ""
+
+#: useronline-options.php:179
+#: wp-useronline.php:916
+msgid "Browsing This Page."
+msgstr "Prehľadajúci túto stránku."
+
+#: useronline-options.php:186
+#: useronline-options.php:187
+msgid "Useronline Options"
+msgstr "Možnosti Useronline"
+
+#: useronline-options.php:190
+msgid "Time Out"
+msgstr "Časový limit"
+
+#: useronline-options.php:192
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr "Čas, po ktorom bude užívateľ odstránený z databázy (v seKundách )"
+
+#: useronline-options.php:196
+msgid "UserOnline URL"
+msgstr "URL UserOnline "
+
+#: useronline-options.php:198
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr "URL na  stránku UserOnline (nechaj prázdne ak nechceš, aby bol link využitý )<br />Príklad: http://www.tvojweb.com/blogs/useronline/<br />Príklad: http://www.tvojweb.com/blogs/?page_id=2"
+
+#: useronline-options.php:202
+msgid "Bots Name/User Agent"
+msgstr "Názov botov/User agent"
+
+#: useronline-options.php:204
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr "Tu sa nachádza zoznam botov a ich čiastočných prehľadávacích agentov.<br />V ľavom stĺpci bude <strong>Názov bota</strong> a na pravom bude ich <strong>Čiastočný prehľadávací Agent</strong>.<br />Každú položku vpíš do nového riadku."
+
+#: useronline-options.php:212
+msgid "Naming Conventions:"
+msgstr "Pravidlá pomenovania"
+
+#: useronline-options.php:213
+#: useronline-options.php:254
+#: useronline-options.php:266
+#: useronline-options.php:298
+msgid "Allowed Variables:"
+msgstr "Povolené premenné:"
+
+#: useronline-options.php:215
+#: useronline-options.php:259
+#: useronline-options.php:274
+#: useronline-options.php:306
+msgid "Restore Default Template"
+msgstr "Obnov pôvodnú šablónu"
+
+#: useronline-options.php:221
+msgid "Singular Form"
+msgstr "Forma jednotného čísla"
+
+#: useronline-options.php:222
+msgid "Plural Form"
+msgstr "Forma množného čísla"
+
+#: useronline-options.php:249
+msgid "Useronline Templates"
+msgstr "Useronline šablóny"
+
+#: useronline-options.php:253
+msgid "User(s) Online:"
+msgstr "Užívateľ(ia) Online:"
+
+#: useronline-options.php:265
+msgid "User(s) Browsing Site:"
+msgstr "Užívateľ(ia) Prehliadajúci web:"
+
+#: useronline-options.php:280
+#: useronline-options.php:312
+msgid "Member Names Separator"
+msgstr "Separátor názvu registrovaných"
+
+#: useronline-options.php:281
+#: useronline-options.php:313
+msgid "Guests Separator"
+msgstr "Separátor Hostí"
+
+#: useronline-options.php:282
+#: useronline-options.php:314
+msgid "Bots Separator"
+msgstr "Separátor botov"
+
+#: useronline-options.php:297
+msgid "User(s) Browsing Page:"
+msgstr "Užívateľ(ia) Prehľadavajúci stránku:"
+
+#: useronline-options.php:329
+msgid "Save Changes"
+msgstr "Ulož zmeny"
+
+#: useronline-options.php:340
+msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
+msgstr "Deaktiváciou WP-UserOnline pluginu sa neodstránia žiadne dáta, ktoré mohli byť vytvorené, napr. možnosti useronline. Kompletné odstránenie tohto pluginu,  môžeš realizovať tu:"
+
+#: useronline-options.php:343
+msgid "WARNING:"
+msgstr "VAROVANIE:"
+
+#: useronline-options.php:344
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Ak odinštaluješ,už to nevrátiš. Odporúčame použiť modul pre Zálohovanie Databázy Wordpressu aby si si najprv zálohoval dáta."
+
+#: useronline-options.php:347
+msgid "The following WordPress Options/Tables will be DELETED:"
+msgstr "Nasledujúce Wordpress Možnosti/tabuľky budú VYMAZANÉ:"
+
+#: useronline-options.php:352
+msgid "WordPress Options"
+msgstr "WordPress Možnosti"
+
+#: useronline-options.php:353
+msgid "WordPress Tables"
+msgstr "WordPress Tabuľky"
+
+#: useronline-options.php:379
+#: wp-useronline-widget.php:73
+msgid "Yes"
+msgstr "Áno"
+
+#: useronline-options.php:380
+msgid ""
+"You Are About To Uninstall WP-UserOnline From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"Chystáš sa odinštalovať WP-UserOnline z WordPressu.\\n"
+"Táto akcia je nenávratná.\\n"
+"\\n"
+" Vyber [Zruš] pre zastavenie, [OK] pre odinštalovanie."
+
+#: wp-useronline-widget.php:62
+msgid "UserOnline"
+msgstr ""
+
+#: wp-useronline-widget.php:69
+msgid "Widget Title"
+msgstr "Názov Widgetu"
+
+#: wp-useronline-widget.php:70
+msgid "Display Users Browsing Site Under Users Online Count?"
+msgstr "Ukázať užívateľov prehľadávajúcich web v počítadle Užívateľov Online?"
+
+#: wp-useronline-widget.php:75
+msgid "No"
+msgstr "Nie, dík"
+
+#: wp-useronline.php:58
+#: wp-useronline.php:844
+#: wp-useronline.php:846
+#: wp-useronline.php:856
+msgid "WP-UserOnline"
+msgstr "WP-UserOnline"
+
+#: wp-useronline.php:61
+msgid "Useronline"
+msgstr "Useronline"
+
+#: wp-useronline.php:126
+msgid "guest"
+msgstr "hosť"
+
+#: wp-useronline.php:132
+#: wp-useronline.php:707
+msgid "Guest"
+msgstr "Hosť"
+
+#: wp-useronline.php:147
+msgid "Blog Archive"
+msgstr "Archív blogu"
+
+#: wp-useronline.php:228
+#: wp-useronline.php:259
+#: wp-useronline.php:742
+#: wp-useronline.php:744
+#: wp-useronline.php:762
+#: wp-useronline.php:764
+#: wp-useronline.php:777
+#, php-format
+msgid "%s @ %s"
+msgstr "%s @ %s"
+
+#: wp-useronline.php:396
+msgid "No User Is Browsing This Site"
+msgstr "Žiaden užívateľ Web neprehľadáva "
+
+#: wp-useronline.php:538
+msgid "No User Is Browsing This Page"
+msgstr "Žiaden užívateľ Túto Stránku neprehľadáva "
+
+#: wp-useronline.php:609
+msgid "Users Online Now"
+msgstr "Teraz online"
+
+#: wp-useronline.php:621
+#, php-format
+msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
+msgstr "Práve je online <strong><a href=\"%s\">%s užívateľov</a></strong>."
+
+#: wp-useronline.php:623
+#, php-format
+msgid "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
+msgstr "Práve je teraz celkovo online <strong><a href=\"%s\">%s užívateľov</a></strong>."
+
+#: wp-useronline.php:628
+#: wp-useronline.php:729
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "Najviac užívateľov online vôbec bolo <strong>%s</strong>, Dátum: <strong>%s</strong>"
+
+#: wp-useronline.php:692
+msgid "User"
+msgstr "Užívateľ"
+
+#: wp-useronline.php:694
+msgid "Users"
+msgstr "Užívateľia"
+
+#: wp-useronline.php:699
+msgid "Member"
+msgstr "Registrovaný"
+
+#: wp-useronline.php:701
+msgid "Members"
+msgstr "Registrovaní"
+
+#: wp-useronline.php:709
+msgid "Guests"
+msgstr "Hostia"
+
+#: wp-useronline.php:714
+msgid "Bot"
+msgstr "Bot"
+
+#: wp-useronline.php:716
+msgid "Bots"
+msgstr "Boti"
+
+#: wp-useronline.php:725
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Práve teraz je <strong>%s</strong> online: <strong>%s</strong>, <strong>%s</strong> a <strong>%s</strong>."
+
+#: wp-useronline.php:727
+#, php-format
+msgid "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Práve je celkovo <strong>%s</strong> online: <strong>%s</strong>, <strong>%s</strong> a <strong>%s</strong>."
+
+#: wp-useronline.php:732
+#: wp-useronline.php:752
+#: wp-useronline.php:772
+msgid "Online Now"
+msgstr "je teraz online"
+
+#: wp-useronline.php:739
+#: wp-useronline.php:759
+msgid "referral"
+msgstr "žiadosť o súhlas"
+
+#: wp-useronline.php:742
+#: wp-useronline.php:744
+#: wp-useronline.php:762
+#: wp-useronline.php:764
+#: wp-useronline.php:777
+msgid "on"
+msgstr "dňa"
+
+#: wp-useronline.php:742
+#: wp-useronline.php:744
+#: wp-useronline.php:762
+#: wp-useronline.php:764
+#: wp-useronline.php:777
+msgid "url"
+msgstr "url"
+
+#: wp-useronline.php:784
+msgid "No One Is Online Now"
+msgstr "Nikto nie je teraz online"
+
+#: wp-useronline.php:860
+msgid "On"
+msgstr "Dňa"
+
+#~ msgid "user(s) online now."
+#~ msgstr "uživateľ(ov) je teraz online"
+#~ msgid "Most users ever online was"
+#~ msgstr "Najviac užívateľov online bolo"
+#~ msgid "Update Options"
+#~ msgstr "Aktualizuj možnosti"
+#~ msgid "Cancel"
+#~ msgstr "Zruš"
+#~ msgid "There is"
+#~ msgstr "Je"
+#~ msgid "There are a total of"
+#~ msgstr "Celkovo je"
+#~ msgid "online now"
+#~ msgstr "Teraz je online"
+#~ msgid "and"
+#~ msgstr "a"
+#~ msgid "Most users ever online were"
+#~ msgstr "Najviac uživateľov online vôbec"
+

@@ -1,0 +1,514 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-User Online\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-04-02 11:06+0330\n"
+"PO-Revision-Date: \n"
+"Last-Translator: mostafa <mostafa.s1990@gmail.com>\n"
+"Language-Team: Persian Wordpress <Mostafa.s1990@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Persian\n"
+"X-Poedit-Country: IRAN, ISLAMIC REPUBLIC OF\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: F:\\Program Files\\apserv\\AppServ\\www\\wordpress\\wp-content\\plugins\\wp-useronline\n"
+"X-Poedit-SearchPath-0: F:\\Program Files\\apserv\\AppServ\\www\\wordpress\\wp-content\\plugins\\wp-useronline\n"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:63
+msgid "Useronline Timeout"
+msgstr "زمان خروجی"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:64
+msgid "Useronline Bots"
+msgstr "ربات ها"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:65
+msgid "Useronline URL"
+msgstr "آدرس پیوند کاربرحاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:66
+msgid "Useronline Naming Conventions"
+msgstr "نام های کاربران حاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:67
+msgid "User(s) Online Template"
+msgstr "قالب کاربران حاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:68
+msgid "User(s) Browsing Site Template"
+msgstr "قالب های کاربران سایت به روز رسانی شد"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:69
+msgid "User(s) Browsing Page Template"
+msgstr "قالب های برگه ها"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:74
+msgid "Updated"
+msgstr "به روز رسانی شد"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:79
+msgid "No Useronline Option Updated"
+msgstr "تنظیمات کاربرحاضر به روز نشد"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:85
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:379
+msgid "UNINSTALL WP-UserOnline"
+msgstr "حذف افزونه کاربرحاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:92
+#, php-format
+msgid "Table '%s' has been deleted."
+msgstr "جدول '%s' حذف شد."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:101
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "Setting Key '%s' has been deleted."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:105
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "Error deleting Setting Key '%s'."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:127
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:337
+msgid "Uninstall WP-UserOnline"
+msgstr "حذف افزونه کاربرحاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:128
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
+msgstr "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:153
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:917
+msgid "Online"
+msgstr "حاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:160
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:916
+msgid "1 User"
+msgstr "1 کاربر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:161
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:916
+msgid "%USERONLINE_COUNT% Users"
+msgstr "%USERONLINE_COUNT% کاربران"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:162
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:916
+msgid "1 Member"
+msgstr "1 عضو"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:163
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:916
+msgid "%USERONLINE_COUNT% Members"
+msgstr "%USERONLINE_COUNT% کاربران"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:164
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:916
+msgid "1 Guest"
+msgstr "1 مهمان"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:165
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:916
+msgid "%USERONLINE_COUNT% Guests"
+msgstr "%USERONLINE_COUNT% مهمان ها"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:166
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:916
+msgid "1 Bot"
+msgstr "1 ربات"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:167
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:916
+msgid "%USERONLINE_COUNT% Bots"
+msgstr "%USERONLINE_COUNT% ربات ها"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:173
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:179
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:698
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:918
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:919
+msgid "Users"
+msgstr "کاربران"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:179
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:919
+msgid "Browsing This Page."
+msgstr "در حال خواندن این صفحه."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:185
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:186
+msgid "Useronline Options"
+msgstr "تنظیمات کاربرحاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:189
+msgid "Time Out"
+msgstr "زمان خروجی"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:191
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr "چه زمانی با تغییر شما کاربر از پایگاه داده پاک شود (در ثانیه)."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:195
+msgid "UserOnline URL"
+msgstr "پیوند کاربرحاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:197
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr "پیوند کاربرحاضر در برگه (انتقال و نمایش مشخصات کاربران در برگه کاربران حاضر)<br />مثال: http://www.yoursite.com/blogs/useronline/<br />مثال: http://www.yoursite.com/blogs/?page_id=2"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:201
+msgid "Bots Name/User Agent"
+msgstr "نام ربات ها/ کاربر پیشه"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:203
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr "لیست کلی از ربات ها در اینجا قرار دارد.<br />در قسمت چپ ستون <strong>نام های ربات ها</strong> و در قسمت راست ستون <strong>ربات های پیشکار خوانده میشود.</strong>.<br />برای شروع, هریک را در خط جدید وارد کنید.."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:211
+msgid "Naming Conventions:"
+msgstr "نام ها:"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:212
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:253
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:265
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:297
+msgid "Allowed Variables:"
+msgstr "متغیرهای صحیح:"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:214
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:258
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:273
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:305
+msgid "Restore Default Template"
+msgstr "بازگشت به حالت پیشفرض"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:220
+msgid "Singular Form"
+msgstr "فرم فردی"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:221
+msgid "Plural Form"
+msgstr "فرم جمعی"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:248
+msgid "Useronline Templates"
+msgstr "قالب های کاربرحاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:252
+msgid "User(s) Online:"
+msgstr "کاربران حاضر:"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:264
+msgid "User(s) Browsing Site:"
+msgstr "کاربران سایت:"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:279
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:311
+msgid "Member Names Separator"
+msgstr "نام جداکننده عضو"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:280
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:312
+msgid "Guests Separator"
+msgstr "جداکننده مهمان ها"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:281
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:313
+msgid "Bots Separator"
+msgstr "جداکننده ربات ها"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:296
+msgid "User(s) Browsing Page:"
+msgstr "کاربران برگه:"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:328
+msgid "Save Changes"
+msgstr "دخیره تغییرات"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:339
+msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
+msgstr "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:342
+msgid "WARNING:"
+msgstr "اخطار:"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:343
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:346
+msgid "The following WordPress Options/Tables will be DELETED:"
+msgstr "The following WordPress Options/Tables will be DELETED:"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:351
+msgid "WordPress Options"
+msgstr "تنظمیات وردپرس"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:352
+msgid "WordPress Tables"
+msgstr "جداول وردپرس"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:378
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline-widget.php:73
+msgid "Yes"
+msgstr "بله"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/useronline-options.php:379
+msgid ""
+"You Are About To Uninstall WP-UserOnline From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"You Are About To Uninstall WP-UserOnline From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline-widget.php:62
+msgid "UserOnline"
+msgstr "کاربرحاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline-widget.php:69
+msgid "Widget Title"
+msgstr "عنوان ابزارک"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline-widget.php:70
+msgid "Display Users Browsing Site Under Users Online Count?"
+msgstr "نمایش کاربران حاضر در سایت در زیر تعداد افراد حاضر؟"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline-widget.php:75
+msgid "No"
+msgstr "خیر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:77
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:848
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:850
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:860
+msgid "WP-UserOnline"
+msgstr "کاربران حاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:80
+msgid "Useronline"
+msgstr "کاربرحاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:145
+msgid "guest"
+msgstr "مهمان"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:151
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:711
+msgid "Guest"
+msgstr "مهمان"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:166
+msgid "Blog Archive"
+msgstr "بایگانی وبلاگ"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:247
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:278
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:746
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:748
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:766
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:768
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:781
+#, php-format
+msgid "%s @ %s"
+msgstr "%s ساعت %s"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:411
+msgid "No User Is Browsing This Site"
+msgstr "هیچ کاربری در این سایت وجود ندارد"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:549
+msgid "No User Is Browsing This Page"
+msgstr "هیچ کاربری در این برگه وجود ندارد"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:613
+msgid "Users Online Now"
+msgstr "کاربران حاضر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:625
+#, php-format
+msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
+msgstr "هم اکنون <strong><a href=\"%s\">%s کاربر</a></strong>حاضر است."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:627
+#, php-format
+msgid "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
+msgstr "دراینجا کل <strong><a href=\"%s\">%s کاربران</a></strong> هم اکنون حاضر هستند.."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:632
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:733
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "بیشترین افراد حاضر <strong>%s</strong> نفر, در <strong>%s</strong>"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:696
+msgid "User"
+msgstr "کاربر"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:703
+msgid "Member"
+msgstr "عضو"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:705
+msgid "Members"
+msgstr "عضوها"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:713
+msgid "Guests"
+msgstr "مهمان ها"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:718
+msgid "Bot"
+msgstr "ربات"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:720
+msgid "Bots"
+msgstr "ربات ها"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:729
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "در حال حاضر <strong>%s</strong> حاضرین: <strong>%s</strong>, <strong>%s</strong> و <strong>%s</strong>."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:731
+#, php-format
+msgid "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "در اینجا کل <strong>%s</strong> حاضرین: <strong>%s</strong>, <strong>%s</strong> و <strong>%s</strong>."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:736
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:756
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:776
+msgid "Online Now"
+msgstr "هم اکنون حاضر است"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:743
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:763
+msgid "referral"
+msgstr "رجوع به"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:746
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:748
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:766
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:768
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:781
+msgid "on"
+msgstr "در"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:746
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:748
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:766
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:768
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:781
+msgid "url"
+msgstr "پیوند"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:788
+msgid "No One Is Online Now"
+msgstr "نه یک کاربرحاضر وجود ندارد"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:862
+msgid "user(s) online now."
+msgstr "کاربران حاضر هم اکنون."
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:863
+msgid "Most users ever online was"
+msgstr "بیشتر کاربرها هیچ وقت حاضر نبوده"
+
+#: F:\Program
+#: Files\apserv\AppServ\www\wordpress\wp-content\plugins\wp-useronline/wp-useronline.php:864
+msgid "On"
+msgstr "در"
+

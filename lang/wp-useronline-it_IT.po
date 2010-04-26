@@ -1,0 +1,463 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-UserOnline 2.40\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-useronline\n"
+"POT-Creation-Date: 2010-02-15 14:30+0000\n"
+"PO-Revision-Date: 2010-03-02 20:24+0100\n"
+"Last-Translator: Diego Pierotto <ita.translations@tiscali.it>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: ITALY\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin.php:8
+msgid "Users Online Now"
+msgstr "Utente(i) in linea adesso"
+
+#. #-#-#-#-#  plugin.pot (WP-UserOnline 2.61)  #-#-#-#-#
+#. Plugin Name of an extension
+#: admin.php:9
+#: wp-stats.php:21
+#: wp-stats.php:38
+msgid "WP-UserOnline"
+msgstr "WP-UserOnline"
+
+#: admin.php:22
+#, php-format
+msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
+msgid_plural "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
+msgstr[0] "C'è <strong><a href=\"%s\">%s utente</a></strong> in linea adesso."
+msgstr[1] "Ci sono <strong><a href=\"%s\">%s utenti</a></strong> in linea adesso."
+
+#: admin.php:47
+msgid "UserOnline Options"
+msgstr "Opzioni Utenti in linea"
+
+#: admin.php:48
+#: widget.php:6
+#: widget.php:63
+msgid "UserOnline"
+msgstr "Utenti in linea"
+
+#: admin.php:58
+#: wp-useronline.php:73
+msgid "Online"
+msgstr "In linea"
+
+#: admin.php:64
+#: wp-useronline.php:63
+msgid "1 User"
+msgstr "1 Utente"
+
+#: admin.php:65
+#: wp-useronline.php:64
+msgid "%USERONLINE_COUNT% Users"
+msgstr "Utenti %USERONLINE_COUNT%"
+
+#: admin.php:66
+#: wp-useronline.php:65
+msgid "1 Member"
+msgstr "1 Membro"
+
+#: admin.php:67
+#: wp-useronline.php:66
+msgid "%USERONLINE_COUNT% Members"
+msgstr "Membri %USERONLINE_COUNT%"
+
+#: admin.php:68
+#: wp-useronline.php:67
+msgid "1 Guest"
+msgstr "1 ospite"
+
+#: admin.php:69
+#: wp-useronline.php:68
+msgid "%USERONLINE_COUNT% Guests"
+msgstr "Ospiti %USERONLINE_COUNT%"
+
+#: admin.php:70
+#: wp-useronline.php:69
+msgid "1 Bot"
+msgstr "1 Bot"
+
+#: admin.php:71
+#: wp-useronline.php:70
+msgid "%USERONLINE_COUNT% Bots"
+msgstr "Bots %USERONLINE_COUNT%"
+
+#: admin.php:74
+#: admin.php:75
+#: admin.php:76
+#: admin.php:80
+#: admin.php:81
+#: admin.php:82
+#: wp-useronline.php:76
+#: wp-useronline.php:77
+#: wp-useronline.php:78
+#: wp-useronline.php:83
+#: wp-useronline.php:84
+#: wp-useronline.php:85
+msgid ","
+msgstr ","
+
+#: admin.php:77
+#: admin.php:83
+#: wp-useronline.php:79
+#: wp-useronline.php:86
+msgid "Users|Template Element"
+msgstr "Utenti|Elemento del modello"
+
+#: admin.php:83
+#: wp-useronline.php:86
+msgid "Browsing This Page."
+msgstr "Vedendo questa pagina."
+
+#: admin.php:127
+msgid "Settings updated."
+msgstr "Impostazioni aggiornate."
+
+#: admin.php:140
+msgid "Time Out"
+msgstr "Scadenza"
+
+#: admin.php:142
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr "Tempo necessario affinché l'utente venga rimosso dal database (in secondi)."
+
+#: admin.php:146
+msgid "UserOnline URL"
+msgstr "URL Utenti in linea"
+
+#: admin.php:148
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr "URL alla pagina di Utenti in linea (lascia vuoto se non vuoi collegarlo alla pagina di Utenti in linea)<br />Esempio: http://www.iltuosito.com/blogs/useronline/<br />Esempio: http://www.iltuosito.com/blogs/?page_id=2"
+
+#: admin.php:152
+msgid "Bots Name/User Agent"
+msgstr "Nome dei Bots/User agent"
+
+#: admin.php:154
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr "Qui c'è una lista di bots e dei loro browser agent.<br />Nella colonna di sinistra ci sarà il <strong>Nome del Bot</strong> ed nella colonna di destra ci sarà il suo <strong>Agente Browser</strong>.<br />Inizia ogni inserimento con una nuova riga."
+
+#: admin.php:162
+msgid "Naming Conventions:"
+msgstr "Convenzioni nei nomi:"
+
+#: admin.php:163
+#: admin.php:197
+#: admin.php:222
+msgid "Allowed Variables:"
+msgstr "Variabili consentite:"
+
+#: admin.php:165
+#: admin.php:202
+#: admin.php:230
+msgid "Restore Default Template"
+msgstr "Ripristina il modello predefinito"
+
+#: admin.php:171
+msgid "Singular Form"
+msgstr "Forma singolare"
+
+#: admin.php:172
+msgid "Plural Form"
+msgstr "Forma plurale"
+
+#: admin.php:192
+msgid "Useronline Templates"
+msgstr "Modello Utenti in linea"
+
+#: admin.php:196
+msgid "User(s) Online:"
+msgstr "Utente(i) in linea"
+
+#: admin.php:206
+msgid "User(s) Browsing Site:"
+msgstr "Utente(i) che vedono il Sito:"
+
+#: admin.php:207
+msgid "User(s) Browsing Page:"
+msgstr "Utente(i) che vedono la pagina"
+
+#: admin.php:210
+#: scb/AdminPage.php:119
+#: scb/AdminPage.php:130
+msgid "Save Changes"
+msgstr "Salva le modifiche"
+
+#: admin.php:236
+msgid "Member Names Separator"
+msgstr "Separatore nomi dei Membri"
+
+#: admin.php:237
+msgid "Guests Separator"
+msgstr "Separatore degli Ospiti"
+
+#: admin.php:238
+msgid "Bots Separator"
+msgstr "Separatore dei Bots"
+
+#: scb/AdminPage.php:108
+msgid "Settings <strong>saved</strong>."
+msgstr "Impostazioni <strong>salvate</strong>."
+
+#: scb/AdminPage.php:284
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: widget.php:5
+msgid "WP-UserOnline users online statistics"
+msgstr "Statistiche utenti in linea WP-UserOnline"
+
+#: widget.php:70
+msgid "Title:"
+msgstr "Titolo:"
+
+#: widget.php:73
+msgid "Statistics Type:"
+msgstr "Tipo statistiche:"
+
+#: widget.php:75
+msgid "Users Online Count"
+msgstr "Numero utenti in linea"
+
+#: widget.php:76
+msgid "Users Browsing Current Page"
+msgstr "Utenti navigando la pagina attuale"
+
+#: widget.php:77
+msgid "Users Browsing Site"
+msgstr "Utenti visitando il sito"
+
+#: widget.php:79
+msgid "Users Online Count & Users Browsing Current Page"
+msgstr "Numero utenti in linea & Utenti navigando la pagina attuale"
+
+#: widget.php:80
+msgid "Users Online Count & Users Browsing Site"
+msgstr "Numero utenti in linea & Utenti visitando il sito"
+
+#: wp-stats.php:31
+#, php-format
+msgid "<strong>%s</strong> user online now."
+msgid_plural "<strong>%s</strong> users online now."
+msgstr[0] "C'è <strong>%s</strong> utente in linea adesso."
+msgstr[1] "Ci sono <strong>%s</strong> utenti in linea adesso."
+
+#: wp-useronline.php:151
+msgid "guest"
+msgstr "ospite"
+
+#: wp-useronline.php:157
+#: wp-useronline.php:349
+msgid "Guest"
+msgstr "Ospite"
+
+#: wp-useronline.php:166
+msgid "Admin"
+msgstr "Amministratore"
+
+#: wp-useronline.php:172
+msgid "Archive"
+msgstr "Archivio"
+
+#: wp-useronline.php:347
+msgid "User"
+msgstr "Utente"
+
+#: wp-useronline.php:347
+msgid "Users"
+msgstr "Utenti"
+
+#: wp-useronline.php:348
+msgid "Member"
+msgstr "Membro"
+
+#: wp-useronline.php:348
+msgid "Members"
+msgstr "Membri"
+
+#: wp-useronline.php:349
+msgid "Guests"
+msgstr "Ospiti"
+
+#: wp-useronline.php:350
+msgid "Bot"
+msgstr "Bot"
+
+#: wp-useronline.php:350
+msgid "Bots"
+msgstr "Bots"
+
+#: wp-useronline.php:358
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgid_plural "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr[0] "C'è <strong>%s</strong> in linea adesso: <strong>%s</strong>, <strong>%s</strong> e <strong>%s</strong>."
+msgstr[1] "Ci sono <strong>%s</strong> in linea adesso: <strong>%s</strong>, <strong>%s</strong> e <strong>%s</strong>."
+
+#: wp-useronline.php:434
+msgid "No One Is Online Now"
+msgstr "Nessuno è in linea adesso"
+
+#: wp-useronline.php:436
+msgid "on"
+msgstr "il"
+
+#: wp-useronline.php:437
+msgid "url"
+msgstr "url"
+
+#: wp-useronline.php:438
+msgid "referral"
+msgstr "riferimento"
+
+#: wp-useronline.php:449
+msgid "Online Now"
+msgstr "In linea adesso"
+
+#: wp-useronline.php:480
+#, php-format
+msgid "%s @ %s"
+msgstr "%s @ %s"
+
+#: wp-useronline.php:499
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "Il maggior numero di utenti in linea sono <strong>%s</strong>, il <strong>%s</strong>"
+
+#. Plugin URI of an extension
+msgid "http://wordpress.org/extend/plugins/wp-useronline/"
+msgstr "http://wordpress.org/extend/plugins/wp-useronline/"
+
+#. Description of an extension
+msgid "Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots)."
+msgstr "Abilita la visualizzazione del numero di utenti in linea nel blog di Wordpress con statistiche dettagliate di dove si trovano e chi sono (Membri/Ospiti/Bot di ricerca)."
+
+#. Author of an extension
+msgid "Lester 'GaMerZ' Chan"
+msgstr "Lester 'GaMerZ' Chan"
+
+#. Author URI of an extension
+msgid "http://lesterchan.net"
+msgstr "http://lesterchan.net"
+
+#~ msgid "Useronline Timeout"
+#~ msgstr "Scadenza Utenti in linea"
+#~ msgid "Useronline Bots"
+#~ msgstr "Bots di Utenti in linea"
+#~ msgid "Useronline URL"
+#~ msgstr "URL di Utenti in linea"
+#~ msgid "Useronline Naming Conventions"
+#~ msgstr "Convenzioni dei nomi Utenti in linea"
+#~ msgid "User(s) Online Template"
+#~ msgstr "Modello utente(i) in linea"
+#~ msgid "User(s) Browsing Site Template"
+#~ msgstr "Modello utente(i) che vedono il sito"
+#~ msgid "User(s) Browsing Page Template"
+#~ msgstr "Modello utente(i) che vedono la pagina"
+#~ msgid "Updated"
+#~ msgstr "Aggiornato"
+#~ msgid "No Useronline Option Updated"
+#~ msgstr "Nessuna opzione Utenti in linea modificata"
+#~ msgid "UNINSTALL WP-UserOnline"
+#~ msgstr "DISINSTALLA WP-UserOnline"
+#~ msgid "Table '%s' has been deleted."
+#~ msgstr "La tabella '%s' è stata eliminata."
+#~ msgid "Setting Key '%s' has been deleted."
+#~ msgstr "Il tasto di impostazione '%s' è stato eliminato."
+#~ msgid "Error deleting Setting Key '%s'."
+#~ msgstr "Errore eliminazione tasto di impostazione '%s'."
+#~ msgid "Uninstall WP-UserOnline"
+#~ msgstr "Disinstalla WP-UserOnline"
+#~ msgid ""
+#~ "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-"
+#~ "UserOnline Will Be Deactivated Automatically."
+#~ msgstr ""
+#~ "<a href=\"%s\">Fai click qui</a> per completare la disinstallazione e WP-"
+#~ "UserOnline sarà disattivato automaticamente."
+#~ msgid ""
+#~ "Deactivating WP-UserOnline plugin does not remove any data that may have "
+#~ "been created, such as the useronline options. To completely remove this "
+#~ "plugin, you can uninstall it here."
+#~ msgstr ""
+#~ "La disattivazione di WP-UserOnline non rimuove alcun dato creato in "
+#~ "precedenza, come le opzioni degli utenti in linea. Per rimuovere "
+#~ "completamente questo plugin, lo si può disinstallare da qui."
+#~ msgid "WARNING:"
+#~ msgstr "ATTENZIONE:"
+#~ msgid ""
+#~ "Once uninstalled, this cannot be undone. You should use a Database Backup "
+#~ "plugin of WordPress to back up all the data first."
+#~ msgstr ""
+#~ "Una volta disinstallato, questo è irreversibile. Dovresti utilizzare un "
+#~ "plugin di Backup del Database di WordPress per salvare tutti i dati prima "
+#~ "di procedere."
+#~ msgid "The following WordPress Options/Tables will be DELETED:"
+#~ msgstr "Le seguenti Opzioni/Tabelle di WordPress saranno ELIMINATE:"
+#~ msgid "WordPress Options"
+#~ msgstr "Opzioni di WordPress"
+#~ msgid "WordPress Tables"
+#~ msgstr "Tabelle di WordPress"
+#~ msgid "Yes"
+#~ msgstr "Sì"
+#~ msgid ""
+#~ "You Are About To Uninstall WP-UserOnline From WordPress.\\nThis Action Is "
+#~ "Not Reversible.\\n\\n Choose [Cancel] To Stop, [OK] To Uninstall."
+#~ msgstr ""
+#~ "Si sta per disinstallare WP-UserOnline da WordPress.\\nQuesta azione è "
+#~ "IRREVERSIBILE.\\n\\n Scegli [Annulla] per fermare l'operazione, [OK] per "
+#~ "continuare."
+#~ msgid "Widget Title"
+#~ msgstr "Titolo del Widget"
+#~ msgid "Display Users Browsing Site Under Users Online Count?"
+#~ msgstr ""
+#~ "Visualizzare gli utenti che stanno vedendo il sito nel contatore utenti "
+#~ "in linea?"
+#~ msgid "No"
+#~ msgstr "No"
+#~ msgid "Useronline"
+#~ msgstr "Utenti in linea"
+#~ msgid "No User Is Browsing This Site"
+#~ msgstr "Nessun utente sta vedendo questo sito"
+#~ msgid "No User Is Browsing This Page"
+#~ msgstr "Nessun utente sta vedendo questa pagina"
+#~ msgid ""
+#~ "There are a total of <strong><a href=\"%s\">%s users</a></strong> online "
+#~ "now."
+#~ msgstr ""
+#~ "Ci sono un totale di <strong><a href=\"%s\">%s utenti</a></strong> in "
+#~ "linea adesso."
+#~ msgid ""
+#~ "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, "
+#~ "<strong>%s</strong> and <strong>%s</strong>."
+#~ msgstr ""
+#~ "Ci sono un totale di <strong>%s</strong> in linea adesso: <strong>%s</"
+#~ "strong>, <strong>%s</strong> e <strong>%s</strong>."
+#~ msgid "On"
+#~ msgstr "Il"
+#~ msgid "user(s) online now."
+#~ msgstr "utente(i) in linea adesso."
+#~ msgid "Most users ever online was"
+#~ msgstr "Il maggior numero di utenti in linea è stato"
+#~ msgid "Update Options"
+#~ msgstr "Aggiorna opzioni"
+#~ msgid "Cancel"
+#~ msgstr "Cancella"
+#~ msgid "There is"
+#~ msgstr "Ci sono"
+#~ msgid "There are a total of"
+#~ msgstr "Ci sono un totale di"
+#~ msgid "online now"
+#~ msgstr "In linea ora"
+#~ msgid "and"
+#~ msgstr "e"
+#~ msgid "Most users ever online were"
+#~ msgstr "Maggior numero di utenti online erano"
+

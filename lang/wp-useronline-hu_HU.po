@@ -1,0 +1,443 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-UserOnline 2.60 HU\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-useronline\n"
+"POT-Creation-Date: 2010-02-12 01:21+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: FYGureout <webmester@sakraft.hu>\n"
+"Language-Team: FYGureout <webmester@sakraft.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: admin.php:8
+msgid "Users Online Now"
+msgstr "Jelenlegi látogató"
+
+#. #-#-#-#-#  plugin.pot (WP-UserOnline 2.60rc)  #-#-#-#-#
+#. Plugin Name of an extension
+#: admin.php:9
+#: wp-stats.php:21
+#: wp-stats.php:38
+msgid "WP-UserOnline"
+msgstr "WP-UserOnline"
+
+#: admin.php:22
+#, php-format
+msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
+msgid_plural "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
+msgstr[0] "Jelenleg <strong><a href=\"%s\">%s látogató</a></strong> online"
+msgstr[1] "Jelenleg <strong><a href=\"%s\">%s látogató</a></strong> online"
+
+#: admin.php:47
+msgid "UserOnline Options"
+msgstr "UserOnline lehetőségek"
+
+#: admin.php:48
+#: wp-useronline.php:518
+#: wp-useronline.php:575
+msgid "UserOnline"
+msgstr "UserOnline"
+
+#: admin.php:58
+#: wp-useronline.php:73
+msgid "Online"
+msgstr "online"
+
+#: admin.php:64
+#: wp-useronline.php:63
+msgid "1 User"
+msgstr "1 látogató"
+
+#: admin.php:65
+#: wp-useronline.php:64
+msgid "%USERONLINE_COUNT% Users"
+msgstr "%USERONLINE_COUNT% látogató"
+
+#: admin.php:66
+#: wp-useronline.php:65
+msgid "1 Member"
+msgstr "1 tag"
+
+#: admin.php:67
+#: wp-useronline.php:66
+msgid "%USERONLINE_COUNT% Members"
+msgstr "%USERONLINE_COUNT% tag"
+
+#: admin.php:68
+#: wp-useronline.php:67
+msgid "1 Guest"
+msgstr "1 vendég"
+
+#: admin.php:69
+#: wp-useronline.php:68
+msgid "%USERONLINE_COUNT% Guests"
+msgstr "%USERONLINE_COUNT% vendég"
+
+#: admin.php:70
+#: wp-useronline.php:69
+msgid "1 Bot"
+msgstr "1 robot"
+
+#: admin.php:71
+#: wp-useronline.php:70
+msgid "%USERONLINE_COUNT% Bots"
+msgstr "%USERONLINE_COUNT% robot"
+
+#: admin.php:74
+#: admin.php:75
+#: admin.php:76
+#: admin.php:80
+#: admin.php:81
+#: admin.php:82
+#: wp-useronline.php:76
+#: wp-useronline.php:77
+#: wp-useronline.php:78
+#: wp-useronline.php:83
+#: wp-useronline.php:84
+#: wp-useronline.php:85
+msgid ","
+msgstr ", "
+
+#: admin.php:77
+#: admin.php:83
+#: wp-useronline.php:79
+#: wp-useronline.php:86
+msgid "Users|Template Element"
+msgstr "Felhasználó|Sablon elem"
+
+#: admin.php:83
+#: wp-useronline.php:86
+msgid "Browsing This Page."
+msgstr "böngészi ezt az oldalt"
+
+#: admin.php:127
+msgid "Settings updated."
+msgstr "Beállítások frissítve"
+
+#: admin.php:140
+msgid "Time Out"
+msgstr "Időtúllépés"
+
+#: admin.php:142
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr "Mennyi idő múlva távolítja el a felhasználót az adatbázisból (másodpercben)"
+
+#: admin.php:146
+msgid "UserOnline URL"
+msgstr "UserOnline URL"
+
+#: admin.php:148
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr "URL az UserOnline oldalhoz (üresen kell hagyni, ha nem akarjuk linkelni az UserOnline oldalhoz)<br />Például: http://www.teoldalad.hu/blogs/useronline/<br />Például: http://www.yoursite.com/blogs/?page_id=2"
+
+#: admin.php:152
+msgid "Bots Name/User Agent"
+msgstr "Robot neve/Robotként bejelentkező"
+
+#: admin.php:154
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr "Itt egy lista a robotokról, és az ő részleges kereső ügynökeiről.<br />A bal oldali oszlopban a <strong>Robot neve</strong>, és a jobb oldaliban az ő <strong>Részleges kereső ügynöke</strong><br />Mindegyiket új sorban kell kezdeni."
+
+#: admin.php:162
+msgid "Naming Conventions:"
+msgstr "Elnevezési szabályok:"
+
+#: admin.php:163
+#: admin.php:197
+#: admin.php:222
+msgid "Allowed Variables:"
+msgstr "Engedélyezett variációk:"
+
+#: admin.php:165
+#: admin.php:202
+#: admin.php:230
+msgid "Restore Default Template"
+msgstr "Alapsablon visszaállítása"
+
+#: admin.php:171
+msgid "Singular Form"
+msgstr "Egyes számú forma"
+
+#: admin.php:172
+msgid "Plural Form"
+msgstr "Többes számú forma"
+
+#: admin.php:192
+msgid "Useronline Templates"
+msgstr "UserOnline sablon"
+
+#: admin.php:196
+msgid "User(s) Online:"
+msgstr "Látogató(k) online:"
+
+#: admin.php:206
+msgid "User(s) Browsing Site:"
+msgstr "Látogató böngészi a lapot:"
+
+#: admin.php:207
+msgid "User(s) Browsing Page:"
+msgstr "Látogató böngészi az oldalt:"
+
+#: admin.php:210
+#: scb/AdminPage.php:119
+#: scb/AdminPage.php:130
+msgid "Save Changes"
+msgstr "Változások mentése"
+
+#: admin.php:236
+msgid "Member Names Separator"
+msgstr "Tagnév elválasztó"
+
+#: admin.php:237
+msgid "Guests Separator"
+msgstr "Vendég elválasztó"
+
+#: admin.php:238
+msgid "Bots Separator"
+msgstr "Robot elválasztó"
+
+#: scb/AdminPage.php:108
+msgid "Settings <strong>saved</strong>."
+msgstr "A beállítások <strong>elmentve</strong>!"
+
+#: scb/AdminPage.php:284
+msgid "Settings"
+msgstr "Beállítások"
+
+#: wp-stats.php:31
+#, php-format
+msgid "<strong>%s</strong> user online now."
+msgid_plural "<strong>%s</strong> users online now."
+msgstr[0] "Jelenleg <strong>%s</strong> látogató online."
+msgstr[1] "Jelenleg <strong>%s</strong> látogató online."
+
+#: wp-useronline.php:151
+msgid "guest"
+msgstr "vendég"
+
+#: wp-useronline.php:157
+#: wp-useronline.php:349
+msgid "Guest"
+msgstr "Vendég"
+
+#: wp-useronline.php:166
+msgid "Admin"
+msgstr "Admin"
+
+#: wp-useronline.php:172
+msgid "Archive"
+msgstr "Archívum"
+
+#: wp-useronline.php:347
+msgid "User"
+msgstr "látogató"
+
+#: wp-useronline.php:347
+msgid "Users"
+msgstr "látogató"
+
+#: wp-useronline.php:348
+msgid "Member"
+msgstr "tag"
+
+#: wp-useronline.php:348
+msgid "Members"
+msgstr "tag"
+
+#: wp-useronline.php:349
+msgid "Guests"
+msgstr "vendég"
+
+#: wp-useronline.php:350
+msgid "Bot"
+msgstr "robot"
+
+#: wp-useronline.php:350
+msgid "Bots"
+msgstr "robot"
+
+#: wp-useronline.php:358
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgid_plural "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr[0] "Jelenleg <strong>%s</strong> látogató online: <strong>%s</strong>, <strong>%s</strong>, és <strong>%s</strong>."
+msgstr[1] "Jelenleg <strong>%s</strong> látogató online: <strong>%s</strong>, <strong>%s</strong>, és <strong>%s</strong>"
+
+#: wp-useronline.php:434
+msgid "No One Is Online Now"
+msgstr "Senki nincs most online"
+
+#: wp-useronline.php:436
+msgid "on"
+msgstr " - "
+
+#: wp-useronline.php:437
+msgid "url"
+msgstr "url"
+
+#: wp-useronline.php:438
+msgid "referral"
+msgstr "azonosítva"
+
+#: wp-useronline.php:449
+msgid "Online Now"
+msgstr "Jelenleg online"
+
+#: wp-useronline.php:480
+#, php-format
+msgid "%s @ %s"
+msgstr "%s - %s"
+
+#: wp-useronline.php:499
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "A legtöbb látógató egyidőben <strong>%s</strong> volt, <strong>%s</strong>. napján."
+
+#: wp-useronline.php:517
+msgid "WP-UserOnline users online statistics"
+msgstr "WP-UserOnline látogató online statisztika"
+
+#: wp-useronline.php:582
+msgid "Title:"
+msgstr "Cím"
+
+#: wp-useronline.php:585
+msgid "Statistics Type:"
+msgstr "Statisztika típusa:"
+
+#: wp-useronline.php:587
+msgid "Users Online Count"
+msgstr "Látogató online szám"
+
+#: wp-useronline.php:588
+msgid "Users Browsing Current Page"
+msgstr "Látogató böngészi az aktuális oldalt"
+
+#: wp-useronline.php:589
+msgid "Users Browsing Site"
+msgstr "Látogató böngészi a lapot"
+
+#: wp-useronline.php:591
+msgid "Users Online Count & Users Browsing Current Page"
+msgstr "Látogató online & Látogató böngészi az aktuális oldalt"
+
+#: wp-useronline.php:592
+msgid "Users Online Count & Users Browsing Site"
+msgstr "Látogató online szám & Látogató böngészi a lapot"
+
+#. Plugin URI of an extension
+msgid "http://lesterchan.net/portfolio/programming/php/"
+msgstr "http://lesterchan.net/portfolio/programming/php/"
+
+#. Description of an extension
+msgid "Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots)."
+msgstr "Megjeleníti a WordPress-alapú honlapon éppen jelenlévő látogatók számát, részletes statisztikával, hogy honnan érkeztek és kik ők (tagok / vendégek /keresőrobotok)."
+
+#. Author of an extension
+msgid "Lester 'GaMerZ' Chan"
+msgstr "Lester 'GaMerZ' Chan"
+
+#. Author URI of an extension
+msgid "http://lesterchan.net"
+msgstr "http://lesterchan.net"
+
+#~ msgid "Useronline Timeout"
+#~ msgstr "Useronline időtúllépés"
+#~ msgid "Useronline Bots"
+#~ msgstr "Useronline robotok"
+#~ msgid "Useronline URL"
+#~ msgstr "Useronline URL"
+#~ msgid "Useronline Naming Conventions"
+#~ msgstr "Useronline elnevezési szabályok"
+#~ msgid "User(s) Online Template"
+#~ msgstr "Felhasználó(k) online sablon"
+#~ msgid "User(s) Browsing Site Template"
+#~ msgstr "Felhasználó(k) keresőlap sablon"
+#~ msgid "User(s) Browsing Page Template"
+#~ msgstr "Felhasználó(k) keresőoldal sablon"
+#~ msgid "Updated"
+#~ msgstr "Frissítve"
+#~ msgid "No Useronline Option Updated"
+#~ msgstr "Nem történt frissítés"
+#~ msgid "UNINSTALL WP-UserOnline"
+#~ msgstr "WP-UseronLine ELTÁVOLÍTÁS"
+#~ msgid "Table '%s' has been deleted."
+#~ msgstr "A '%s' tábla törölve"
+#~ msgid "Setting Key '%s' has been deleted."
+#~ msgstr "A '%s' beállítási kulcs törölve"
+#~ msgid "Error deleting Setting Key '%s'."
+#~ msgstr "Hiba a '%s' beálítási kulcs törlésekor"
+#~ msgid "Uninstall WP-UserOnline"
+#~ msgstr "WP-UserOnline eltávolítása"
+#~ msgid ""
+#~ "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-"
+#~ "UserOnline Will Be Deactivated Automatically."
+#~ msgstr ""
+#~ "<a href=\"%s\">Kattintás ide</a> az eltávolítás befejezéséhez, és a WP-"
+#~ "UserOnline automatikusan kikapcsolódik."
+#~ msgid ""
+#~ "Deactivating WP-UserOnline plugin does not remove any data that may have "
+#~ "been created, such as the useronline options. To completely remove this "
+#~ "plugin, you can uninstall it here."
+#~ msgstr ""
+#~ "A WP-UserOnline plugin kikapcsolása nem távolítja el az összes "
+#~ "létrehozott adatot, mint az UserOnline beállításokat. A plugin teljes "
+#~ "eltávolítása itt történik."
+#~ msgid "WARNING:"
+#~ msgstr "FIGYELEM:"
+#~ msgid ""
+#~ "Once uninstalled, this cannot be undone. You should use a Database Backup "
+#~ "plugin of WordPress to back up all the data first."
+#~ msgstr ""
+#~ "Az eltávolítás nem visszafordítható folyamat! Elöszőr a WordPress "
+#~ "adatbázis-mentő pluginját kell használni!"
+#~ msgid "The following WordPress Options/Tables will be DELETED:"
+#~ msgstr "A következő WordPress opció/tábla kerül TÖRLÉSre:"
+#~ msgid "WordPress Options"
+#~ msgstr "WordPress opciók"
+#~ msgid "WordPress Tables"
+#~ msgstr "WordPress táblák"
+#~ msgid "Yes"
+#~ msgstr "Igen"
+#~ msgid ""
+#~ "You Are About To Uninstall WP-UserOnline From WordPress.\\nThis Action Is "
+#~ "Not Reversible.\\n\\n Choose [Cancel] To Stop, [OK] To Uninstall."
+#~ msgstr ""
+#~ "Egészen biztos a WP-UserOnline eltávolítása a WordPressből?\\nA "
+#~ "beavatkozás nem fordítható vissza!\\n\\nVálasztás: [Kiépés] a "
+#~ "megálláshoz, [OK] az eltávolításhoz."
+#~ msgid "No User Is Browsing This Site"
+#~ msgstr "Nincs látogató az oldalon"
+#~ msgid "No User Is Browsing This Page"
+#~ msgstr "Nincs látogató az oldalon"
+#~ msgid ""
+#~ "There are a total of <strong><a href=\"%s\">%s users</a></strong> online "
+#~ "now."
+#~ msgstr ""
+#~ "Jelenleg <strong><a href=\"%s\">%s látogató</a></strong> van online."
+#~ msgid ""
+#~ "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, "
+#~ "<strong>%s</strong> and <strong>%s</strong>."
+#~ msgstr ""
+#~ "Jelenleg <strong>%s</strong> látogató online: <strong>%s</strong>, "
+#~ "<strong>%s</strong>, és <strong>%s</strong>."
+#~ msgid "On"
+#~ msgstr " - "
+#~ msgid "Widget Title"
+#~ msgstr "Widget címsora"
+#~ msgid "Display Users Browsing Site Under Users Online Count?"
+#~ msgstr "Az oldalon böngésző felhasználok megjelenítése a számláló alatt?"
+#~ msgid "No"
+#~ msgstr "Nem"
+#~ msgid "Useronline"
+#~ msgstr "Useronline"
+#~ msgid "user(s) online now."
+#~ msgstr "felhasználó van most online"
+#~ msgid "Most users ever online was"
+#~ msgstr "A legtöbb felhasználó online volt"
+

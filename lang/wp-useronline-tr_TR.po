@@ -1,0 +1,462 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-Useronline 2.50 Türkçe\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-06-11 23:49+0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: İzzet Emre Erkan <kara@karalamalar.net>\n"
+"Language-Team: karalamalar.net <kara@karalamalar.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Turkish\n"
+"X-Poedit-Country: TURKEY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: useronline-options.php:63
+msgid "Useronline Timeout"
+msgstr "Useronline zaman aşımı"
+
+#: useronline-options.php:64
+msgid "Useronline Bots"
+msgstr "Useronline Botları"
+
+#: useronline-options.php:65
+msgid "Useronline URL"
+msgstr "Useronline adresi"
+
+#: useronline-options.php:66
+msgid "Useronline Naming Conventions"
+msgstr "Useronline isimlendirme kuralları"
+
+#: useronline-options.php:67
+msgid "User(s) Online Template"
+msgstr "Çevrimiçi kullanıcı(lar) şablonu"
+
+#: useronline-options.php:68
+msgid "User(s) Browsing Site Template"
+msgstr "Siteyi gezen kullanıcı(lar) şablonu"
+
+#: useronline-options.php:69
+msgid "User(s) Browsing Page Template"
+msgstr "Sayfayı gezen kullanıcı(lar) şablonu"
+
+#: useronline-options.php:74
+msgid "Updated"
+msgstr "Güncellendi"
+
+#: useronline-options.php:79
+msgid "No Useronline Option Updated"
+msgstr "Güncellenen Useronline seçeneği yok"
+
+#: useronline-options.php:85
+#: useronline-options.php:380
+msgid "UNINSTALL WP-UserOnline"
+msgstr "WP-UserOnline eklentisini KALDIR"
+
+#: useronline-options.php:92
+#, php-format
+msgid "Table '%s' has been deleted."
+msgstr "'%s' tablosu silindi."
+
+#: useronline-options.php:101
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "'%s' ayar anahtarı silindi."
+
+#: useronline-options.php:105
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "'%s' ayar anahtarını silerken hata oluştu."
+
+#: useronline-options.php:127
+#: useronline-options.php:338
+msgid "Uninstall WP-UserOnline"
+msgstr "WP-UserOnline eklentisini kaldır"
+
+#: useronline-options.php:128
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
+msgstr "Kaldırma işlemini bitirmek için <a href=\"%s\">buraya</a> tıklayın. WP-UserOnline otomatik olarak pasif duruma geçecektir."
+
+#: useronline-options.php:153
+#: wp-useronline.php:1013
+msgid "Online"
+msgstr "Çevrimiçi"
+
+#: useronline-options.php:160
+#: wp-useronline.php:1012
+msgid "1 User"
+msgstr "1 kullanıcı"
+
+#: useronline-options.php:161
+#: wp-useronline.php:1012
+msgid "%USERONLINE_COUNT% Users"
+msgstr "%USERONLINE_COUNT% kullanıcı"
+
+#: useronline-options.php:162
+#: wp-useronline.php:1012
+msgid "1 Member"
+msgstr "1 üye"
+
+#: useronline-options.php:163
+#: wp-useronline.php:1012
+msgid "%USERONLINE_COUNT% Members"
+msgstr "%USERONLINE_COUNT% üye"
+
+#: useronline-options.php:164
+#: wp-useronline.php:1012
+msgid "1 Guest"
+msgstr "1 misafir"
+
+#: useronline-options.php:165
+#: wp-useronline.php:1012
+msgid "%USERONLINE_COUNT% Guests"
+msgstr "%USERONLINE_COUNT% misafir"
+
+#: useronline-options.php:166
+#: wp-useronline.php:1012
+msgid "1 Bot"
+msgstr "1 Bot"
+
+#: useronline-options.php:167
+#: wp-useronline.php:1012
+msgid "%USERONLINE_COUNT% Bots"
+msgstr "%USERONLINE_COUNT% Bot"
+
+#: useronline-options.php:170
+#: useronline-options.php:171
+#: useronline-options.php:172
+#: useronline-options.php:176
+#: useronline-options.php:177
+#: useronline-options.php:178
+#: wp-useronline.php:1014
+#: wp-useronline.php:1015
+msgid ","
+msgstr ","
+
+#: useronline-options.php:173
+#: useronline-options.php:179
+#: wp-useronline.php:1014
+#: wp-useronline.php:1015
+msgid "Users|Template Element"
+msgstr "Kullanıcılar|Şablon elemanı"
+
+#: useronline-options.php:179
+#: wp-useronline.php:1015
+msgid "Browsing This Page."
+msgstr "Bu sayfayı gezenler."
+
+#: useronline-options.php:186
+#: useronline-options.php:187
+msgid "Useronline Options"
+msgstr "Useronline seçenekleri"
+
+#: useronline-options.php:190
+msgid "Time Out"
+msgstr "Zaman aşımı"
+
+#: useronline-options.php:192
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr "Bir kullanıcıyı veritabanından çıkarmak için geçecek süre (saniye olarak)."
+
+#: useronline-options.php:196
+msgid "UserOnline URL"
+msgstr "UserOnline adresi"
+
+#: useronline-options.php:198
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr "UserOnline sayfası için adres (Eğer böyle bir sayfa istemiyorsanız boş bırakabilirsiniz.)<br />Örneğin: http://www.siteniz.com/ziyaretciler/<br />Örneğin: http://www.siteniz.com/?page_id=2"
+
+#: useronline-options.php:202
+msgid "Bots Name/User Agent"
+msgstr "Bos ismi/Tarayıcı tanımı"
+
+#: useronline-options.php:204
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr "Burada bir kısım bot ve onların kısmi tarayıcı tanımları bulunmaktadır.<br />Sol sütunda <strong>bot ismi</strong> ve sağ sütunda ilgili botun <strong>kısmi tarayıcı tanımı</strong> bulunmaktadır.<br />Her bir girdiyi yeni bir satıra yazın."
+
+#: useronline-options.php:212
+msgid "Naming Conventions:"
+msgstr "İsimlendirme kuralları:"
+
+#: useronline-options.php:213
+#: useronline-options.php:254
+#: useronline-options.php:266
+#: useronline-options.php:298
+msgid "Allowed Variables:"
+msgstr "İzin verilen değişkenler:"
+
+#: useronline-options.php:215
+#: useronline-options.php:259
+#: useronline-options.php:274
+#: useronline-options.php:306
+msgid "Restore Default Template"
+msgstr "Varsayılan şablona geri dön"
+
+#: useronline-options.php:221
+msgid "Singular Form"
+msgstr "Tekil form"
+
+#: useronline-options.php:222
+msgid "Plural Form"
+msgstr "Çoğul form"
+
+#: useronline-options.php:249
+msgid "Useronline Templates"
+msgstr "Useronline şablonları"
+
+#: useronline-options.php:253
+msgid "User(s) Online:"
+msgstr "Çevrimiçi ziyaretçiler:"
+
+#: useronline-options.php:265
+msgid "User(s) Browsing Site:"
+msgstr "Siteyi gezen ziyaretçiler"
+
+#: useronline-options.php:280
+#: useronline-options.php:312
+msgid "Member Names Separator"
+msgstr "Üye ismi ayracı"
+
+#: useronline-options.php:281
+#: useronline-options.php:313
+msgid "Guests Separator"
+msgstr "Ziyaretçi ayracı"
+
+#: useronline-options.php:282
+#: useronline-options.php:314
+msgid "Bots Separator"
+msgstr "Bot ayracı"
+
+#: useronline-options.php:297
+msgid "User(s) Browsing Page:"
+msgstr "Sayfayı gezen kullanıcılar:"
+
+#: useronline-options.php:329
+msgid "Save Changes"
+msgstr "Değişiklikleri kaydet"
+
+#: useronline-options.php:340
+msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
+msgstr "WP-UserOnline eklentisini pasifleştirmeniz eklenti tarafından yaratılan, yazdırma ayarları vb verileri kaldırmayacaktır. Eklentiyi tamamen kaldırmak için burayı kullanabilirsiniz."
+
+#: useronline-options.php:343
+msgid "WARNING:"
+msgstr "UYARI:"
+
+#: useronline-options.php:344
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Kaldırma işleminden geri dönülemez. İşleme başlamadan önce veritabanınızın yedeğini almanızı öneririz."
+
+#: useronline-options.php:347
+msgid "The following WordPress Options/Tables will be DELETED:"
+msgstr "Belirtilen WordPress seçenekleri SİLİNECEKTİR:"
+
+#: useronline-options.php:352
+msgid "WordPress Options"
+msgstr "WordPress seçenekleri"
+
+#: useronline-options.php:353
+msgid "WordPress Tables"
+msgstr "WordPress tabloları"
+
+#: useronline-options.php:379
+msgid "Yes"
+msgstr "Evet"
+
+#: useronline-options.php:380
+msgid ""
+"You Are About To Uninstall WP-UserOnline From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"WP-UserOnline eklentisini WordPress üzerinden kaldırmak üzeresiniz.\\n"
+"Bu eylemin geri dönüşü yoktur.\\n"
+"\\n"
+" Durmak için [İptal], kaldırmak için [Tamam] tuşuna basın."
+
+#: wp-useronline.php:58
+#: wp-useronline.php:846
+#: wp-useronline.php:848
+#: wp-useronline.php:858
+msgid "WP-UserOnline"
+msgstr "WP-UserOnline"
+
+#: wp-useronline.php:61
+#: wp-useronline.php:873
+#: wp-useronline.php:934
+msgid "UserOnline"
+msgstr "UserOnline"
+
+#: wp-useronline.php:128
+msgid "guest"
+msgstr "ziyaretçi"
+
+#: wp-useronline.php:134
+#: wp-useronline.php:709
+msgid "Guest"
+msgstr "Ziyaretçi"
+
+#: wp-useronline.php:149
+msgid "Blog Archive"
+msgstr "Blog arşivi"
+
+#: wp-useronline.php:230
+#: wp-useronline.php:261
+#: wp-useronline.php:744
+#: wp-useronline.php:746
+#: wp-useronline.php:764
+#: wp-useronline.php:766
+#: wp-useronline.php:779
+#, php-format
+msgid "%s @ %s"
+msgstr "%s @ %s"
+
+#: wp-useronline.php:398
+msgid "No User Is Browsing This Site"
+msgstr "Siteyi gezen herhangi bir kullanıcı yok"
+
+#: wp-useronline.php:540
+msgid "No User Is Browsing This Page"
+msgstr "Bu sayfayı gezen herhangi bir kullanıcı yok"
+
+#: wp-useronline.php:611
+msgid "Users Online Now"
+msgstr "Şu an çevrimiçi olan kullanıcılar"
+
+#: wp-useronline.php:623
+#, php-format
+msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
+msgstr "Şu an <strong><a href=\"%s\">%s kullanıcı</a></strong> çevrimiçi."
+
+#: wp-useronline.php:625
+#, php-format
+msgid "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
+msgstr "Toplamda <strong><a href=\"%s\">%s kullanıcı</a></strong> çevrimiçi."
+
+#: wp-useronline.php:630
+#: wp-useronline.php:731
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "En çok çevrimiçi ziyaretçi <strong>%s</strong>, <strong>%s</strong>"
+
+#: wp-useronline.php:694
+msgid "User"
+msgstr "Kullanıcı"
+
+#: wp-useronline.php:696
+msgid "Users"
+msgstr "Kullanıcılar"
+
+#: wp-useronline.php:701
+msgid "Member"
+msgstr "Üye"
+
+#: wp-useronline.php:703
+msgid "Members"
+msgstr "Üyeler"
+
+#: wp-useronline.php:711
+msgid "Guests"
+msgstr "Misafirler"
+
+#: wp-useronline.php:716
+msgid "Bot"
+msgstr "Bot"
+
+#: wp-useronline.php:718
+msgid "Bots"
+msgstr "Botlar"
+
+#: wp-useronline.php:727
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Şu an <strong>%s</strong> çevrimiçi: <strong>%s</strong>, <strong>%s</strong> ve <strong>%s</strong>."
+
+#: wp-useronline.php:729
+#, php-format
+msgid "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Toplamda <strong>%s</strong> çevrimiçi: <strong>%s</strong>, <strong>%s</strong> ve <strong>%s</strong>."
+
+#: wp-useronline.php:734
+#: wp-useronline.php:754
+#: wp-useronline.php:774
+msgid "Online Now"
+msgstr "Şu an çevrimiçi"
+
+#: wp-useronline.php:741
+#: wp-useronline.php:761
+msgid "referral"
+msgstr "gönderen"
+
+#: wp-useronline.php:744
+#: wp-useronline.php:746
+#: wp-useronline.php:764
+#: wp-useronline.php:766
+#: wp-useronline.php:779
+msgid "on"
+msgstr "açık"
+
+#: wp-useronline.php:744
+#: wp-useronline.php:746
+#: wp-useronline.php:764
+#: wp-useronline.php:766
+#: wp-useronline.php:779
+msgid "url"
+msgstr "adres"
+
+#: wp-useronline.php:786
+msgid "No One Is Online Now"
+msgstr "Şu an kimse çevrimiçi değil"
+
+#: wp-useronline.php:860
+#, php-format
+msgid "<strong>%s</strong> user online now."
+msgid_plural "<strong>%s</strong> users online now."
+msgstr[0] "<strong>%s</strong> kullanıcı şu an çevrimiçi."
+
+#: wp-useronline.php:861
+#, php-format
+msgid "Most users ever online was <strong>%s</strong>."
+msgid_plural "Most users ever online was <strong>%s</strong>."
+msgstr[0] "En çok kullanıcının çevrimiçi olduğu zaman: <strong>%s</strong>."
+
+#: wp-useronline.php:862
+msgid "On"
+msgstr "Açık"
+
+#: wp-useronline.php:872
+msgid "WP-UserOnline users online statistics"
+msgstr "WP-UserOnline çevrimiçi ziyaretçi istatistikleri"
+
+#: wp-useronline.php:939
+msgid "Title:"
+msgstr "Başlık:"
+
+#: wp-useronline.php:942
+msgid "Statistics Type:"
+msgstr "İstatistik tipi:"
+
+#: wp-useronline.php:944
+msgid "Users Online Count"
+msgstr "Çevrimiçi kullanıcı sayısı"
+
+#: wp-useronline.php:945
+msgid "Users Browsing Current Page"
+msgstr "Şu anki sayfayı gezen kullanıcı sayısı"
+
+#: wp-useronline.php:946
+msgid "Users Browsing Site"
+msgstr "Siteyi gezen kullanıcı sayısı"
+
+#: wp-useronline.php:948
+msgid "Users Online Count & Users Browsing Current Page"
+msgstr "Çevrimiçi kullanıcı sayısı ve şuanki sayfayı gezen kullanıcılar"
+
+#: wp-useronline.php:949
+msgid "Users Online Count & Users Browsing Site"
+msgstr "Çevrimiçi kullanıcı sayısı ve siteyi gezen kullanıcılar"
+

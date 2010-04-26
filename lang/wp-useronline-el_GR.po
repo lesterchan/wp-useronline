@@ -1,0 +1,446 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-UserOnline 2.40\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-12-10 00:29+0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: RioSif <riosif@blog.riosif.gr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+
+#: useronline-options.php:63
+msgid "Useronline Timeout"
+msgstr "Useronline Λήξη Χρόνου"
+
+#: useronline-options.php:64
+msgid "Useronline Bots"
+msgstr "Useronline Bots"
+
+#: useronline-options.php:65
+msgid "Useronline URL"
+msgstr "Useronline URL"
+
+#: useronline-options.php:66
+msgid "Useronline Naming Conventions"
+msgstr "Useronline Ονοματοδοσία Συμβάσεων"
+
+#: useronline-options.php:67
+msgid "User(s) Online Template"
+msgstr "Φόρμα Ενεργού(ών) Χρήστη(ών)"
+
+#: useronline-options.php:68
+msgid "User(s) Browsing Site Template"
+msgstr "Φόρμα Περιηγούμενων Χρηστών στον Ιστότοπο"
+
+#: useronline-options.php:69
+msgid "User(s) Browsing Page Template"
+msgstr "Φόρμα Περιηγούμενων Χρηστών στην Σελίδα"
+
+#: useronline-options.php:74
+msgid "Updated"
+msgstr "Ενημερώθηκε"
+
+#: useronline-options.php:79
+msgid "No Useronline Option Updated"
+msgstr "Καμία Επιλογή Useronline Δεν Ενημερώθηκε"
+
+#: useronline-options.php:85
+#: useronline-options.php:380
+msgid "UNINSTALL WP-UserOnline"
+msgstr "ΑΠΕΓΚΑΤΑΣΤΑΣΗ WP-UserOnline"
+
+#: useronline-options.php:92
+#, php-format
+msgid "Table '%s' has been deleted."
+msgstr "Ο πίνακας '%s' έχει διαγραφή."
+
+#: useronline-options.php:101
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "Το Κλειδί των Ρυθμίσεων '%s' έχει διαγραφή."
+
+#: useronline-options.php:105
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "Σφάλμα κατά την διαγραφή του Κλειδιού Ρυθμίσεων '%s'."
+
+#: useronline-options.php:127
+#: useronline-options.php:338
+msgid "Uninstall WP-UserOnline"
+msgstr "Απεγκατάσταση WP-UserOnline"
+
+#: useronline-options.php:128
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
+msgstr "<a href=\"%s\">Πατήστε Εδώ</a> Για Να Τελειώσετε Την Απεγκατάσταση Και Το WP-UserOnline Θα Απενεργοποιηθεί Αυτόματα."
+
+#: useronline-options.php:153
+#: wp-useronline.php:914
+msgid "Online"
+msgstr "Ενεργός"
+
+#: useronline-options.php:160
+#: wp-useronline.php:913
+msgid "1 User"
+msgstr "1 Χρήστης"
+
+#: useronline-options.php:161
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Users"
+msgstr "%USERONLINE_COUNT% Χρήστες"
+
+#: useronline-options.php:162
+#: wp-useronline.php:913
+msgid "1 Member"
+msgstr "1 Εγγεγραμμένος Χρήστης"
+
+#: useronline-options.php:163
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Members"
+msgstr "%USERONLINE_COUNT% Εγγεγραμμένοι Χρήστες"
+
+#: useronline-options.php:164
+#: wp-useronline.php:913
+msgid "1 Guest"
+msgstr "1 Επισκέπτης"
+
+#: useronline-options.php:165
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Guests"
+msgstr "%USERONLINE_COUNT% Επισκέπτες"
+
+#: useronline-options.php:166
+#: wp-useronline.php:913
+msgid "1 Bot"
+msgstr "1 Bot"
+
+#: useronline-options.php:167
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Bots"
+msgstr "%USERONLINE_COUNT% Bots"
+
+#: useronline-options.php:170
+#: useronline-options.php:171
+#: useronline-options.php:172
+#: useronline-options.php:176
+#: useronline-options.php:177
+#: useronline-options.php:178
+#: wp-useronline.php:915
+#: wp-useronline.php:916
+msgid ","
+msgstr ","
+
+#: useronline-options.php:173
+#: useronline-options.php:179
+#: wp-useronline.php:915
+#: wp-useronline.php:916
+msgid "Users|Template Element"
+msgstr "Χρήστες|Στοιχείο Φόρμας"
+
+#: useronline-options.php:179
+#: wp-useronline.php:916
+msgid "Browsing This Page."
+msgstr "Περιηγήτε Στην Σελίδα."
+
+#: useronline-options.php:186
+#: useronline-options.php:187
+msgid "Useronline Options"
+msgstr "Επιλογές Useronline"
+
+#: useronline-options.php:190
+msgid "Time Out"
+msgstr "Τέλος Χρόνου"
+
+#: useronline-options.php:192
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr "Πόσο χρόνο μέχρι να αφαιρεθεί ο χρήστης από την βάση δεδομένων (Σε δευτερόλεπτα)"
+
+#: useronline-options.php:196
+msgid "UserOnline URL"
+msgstr "URL Ενεργού Χρήστη"
+
+#: useronline-options.php:198
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr "URL Για Την Σελίδα Ενεργού Χρήστη (αφήστε το κενό αν δεν θέλετε να το συνδέσετε με την σελίδα ενεργού χρήστη)<br />Παράδειγμα: http://www.yoursite.com/blogs/useronline/<br />Παράδειγμα: http://www.yoursite.com/blogs/?page_id=2"
+
+#: useronline-options.php:202
+msgid "Bots Name/User Agent"
+msgstr "Όνομα Bots/User Agent"
+
+#: useronline-options.php:204
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr "Εδώ είναι μία λίστα από bots και από τους μονομερής φυλλομετρητές τους. <br />Στην αριστερή στήλη υπάρχει το <strong>Όνομα του Bot</strong> και στην δεξιά αναγράφεται ο <strong>Μονομερής Φυλλομετρητής</strong>.<br />Ξεκινήστε κάθε καταχώρηση σε νέα γραμμή."
+
+#: useronline-options.php:212
+msgid "Naming Conventions:"
+msgstr "Συμφωνίες Ονοματοδοσίας:"
+
+#: useronline-options.php:213
+#: useronline-options.php:254
+#: useronline-options.php:266
+#: useronline-options.php:298
+msgid "Allowed Variables:"
+msgstr "Επιτρεπόμενες Μεταβλητές:"
+
+#: useronline-options.php:215
+#: useronline-options.php:259
+#: useronline-options.php:274
+#: useronline-options.php:306
+msgid "Restore Default Template"
+msgstr "Επαναφορά Προεπιλεγμένης Φόρμας"
+
+#: useronline-options.php:221
+msgid "Singular Form"
+msgstr "Φόρμα Ενικού Αριθμού"
+
+#: useronline-options.php:222
+msgid "Plural Form"
+msgstr "Φόρμα Πληθυντικού Αριθμού"
+
+#: useronline-options.php:249
+msgid "Useronline Templates"
+msgstr "Φόρμες Useronline"
+
+#: useronline-options.php:253
+msgid "User(s) Online:"
+msgstr "Ενεργός(οί) Χρήστης(ες):"
+
+#: useronline-options.php:265
+msgid "User(s) Browsing Site:"
+msgstr "Χρήστης(ες) Που Προηγούνται Στον Ιστότοπο:"
+
+#: useronline-options.php:280
+#: useronline-options.php:312
+msgid "Member Names Separator"
+msgstr "Διαχωριστής Ονομάτων Εγγεγραμμένων Χρηστών"
+
+#: useronline-options.php:281
+#: useronline-options.php:313
+msgid "Guests Separator"
+msgstr "Διαχωριστής Επισκεπτών"
+
+#: useronline-options.php:282
+#: useronline-options.php:314
+msgid "Bots Separator"
+msgstr "Διαχωριστής Bots"
+
+#: useronline-options.php:297
+msgid "User(s) Browsing Page:"
+msgstr "Χρήστης(ες) Περιηγείται(ούνται) Στην Σελίδα:"
+
+#: useronline-options.php:329
+msgid "Save Changes"
+msgstr "Αποθήκευση Αλλαγών"
+
+#: useronline-options.php:340
+msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
+msgstr "Απενεργοποιώντας το πρόσθετο WP-UserOnline δεν καταργούνται όλα τα δεδομένα που μπορεί να έχουν δημιουργηθεί, όπως είναι η επιλογές ενεργού χρήστη. Για να αφαιρέσετε εντελώς αυτό το πρόσθετο, μπορείτε να το καταργήσετε από εδώ."
+
+#: useronline-options.php:343
+msgid "WARNING:"
+msgstr "ΠΡΟΣΟΧΗ:"
+
+#: useronline-options.php:344
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Μετά την απεγκατάσταση, δεν θα είναι δυνατή η επαναφορά. Θα πρέπει να χρησιμοποιήσετε ένα πρόσθετο του WordPress για Δημιουργία Εφεδρικού Αντιγράφου της Βάσης Δεδομένων για να δημιουργήσετε ένα αντίγραφο των δεδομένων σας πρώτα."
+
+#: useronline-options.php:347
+msgid "The following WordPress Options/Tables will be DELETED:"
+msgstr "Οι παρακάτω Επιλογές/Πίνακες του WordPress θα ΔΙΑΓΡΑΦΟΥΝ:"
+
+#: useronline-options.php:352
+msgid "WordPress Options"
+msgstr "Επιλογές WordPress"
+
+#: useronline-options.php:353
+msgid "WordPress Tables"
+msgstr "Πίνακας WordPress"
+
+#: useronline-options.php:379
+#: wp-useronline-widget.php:73
+msgid "Yes"
+msgstr "Ναι"
+
+#: useronline-options.php:380
+msgid ""
+"You Are About To Uninstall WP-UserOnline From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"Πρόκειται να απεγκαταστήσετε το WP-UserOnline από το Wordpress.\\n"
+"Αυτή Η Πράξη Είναι Μη Αναστρέψιμη.\\n"
+"\\n"
+" Διαλέξτε [Ακύρωση] Για Διακοπή, [ΟΚ] για Απεγκατάσταση."
+
+#: wp-useronline-widget.php:62
+msgid "UserOnline"
+msgstr "Ενεργός Χρήστης"
+
+#: wp-useronline-widget.php:69
+msgid "Widget Title"
+msgstr "Τίτλος Widget"
+
+#: wp-useronline-widget.php:70
+msgid "Display Users Browsing Site Under Users Online Count?"
+msgstr "Εμφάνιση Χρηστών Που Περιηγούνται Στον Ιστότοπο Κάτω Από Τον Μετρητή Ενεργών Χρηστών?"
+
+#: wp-useronline-widget.php:75
+msgid "No"
+msgstr "'Οχι"
+
+#: wp-useronline.php:58
+#: wp-useronline.php:844
+#: wp-useronline.php:846
+#: wp-useronline.php:856
+msgid "WP-UserOnline"
+msgstr "WP-UserOnline"
+
+#: wp-useronline.php:61
+msgid "Useronline"
+msgstr "Useronline"
+
+#: wp-useronline.php:126
+msgid "guest"
+msgstr "επισκέπτης"
+
+#: wp-useronline.php:132
+#: wp-useronline.php:707
+msgid "Guest"
+msgstr "Επισκέπτης"
+
+#: wp-useronline.php:147
+msgid "Blog Archive"
+msgstr "Αρχείο Blog"
+
+#: wp-useronline.php:228
+#: wp-useronline.php:259
+#: wp-useronline.php:742
+#: wp-useronline.php:744
+#: wp-useronline.php:762
+#: wp-useronline.php:764
+#: wp-useronline.php:777
+#, php-format
+msgid "%s @ %s"
+msgstr "%s @ %s"
+
+#: wp-useronline.php:396
+msgid "No User Is Browsing This Site"
+msgstr "Κανένας Χρήστης Δεν Είναι Ενεργός Σε Αυτόν Τον Ιστότοπο"
+
+#: wp-useronline.php:538
+msgid "No User Is Browsing This Page"
+msgstr "Κανένας Χρήστης Δεν Είναι Ενεργός Σε Αυτή Τη Σελίδα"
+
+#: wp-useronline.php:609
+msgid "Users Online Now"
+msgstr "Ενεργοί Χρήστες Τώρα"
+
+#: wp-useronline.php:621
+#, php-format
+msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
+msgstr "Υπάρχη <strong><a href=\"%s\">%s χρήστης</a></strong> ενεργός αυτή τη στιγμή."
+
+#: wp-useronline.php:623
+#, php-format
+msgid "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
+msgstr "Υπάρχουν σύνολο <strong><a href=\"%s\">%s χρήστες</a></strong> ενεργοί αυτή τη στιγμή."
+
+#: wp-useronline.php:628
+#: wp-useronline.php:729
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "Οι περισσότεροι ενεργοί χρήστες ήταν <strong>%s</strong>, στις <strong>%s</strong>"
+
+#: wp-useronline.php:692
+msgid "User"
+msgstr "Χρήστης"
+
+#: wp-useronline.php:694
+msgid "Users"
+msgstr "Χρήστες"
+
+#: wp-useronline.php:699
+msgid "Member"
+msgstr "Εγγεγραμμένος Χρήστης"
+
+#: wp-useronline.php:701
+msgid "Members"
+msgstr "Εγγεγραμμένοι Χρήστες"
+
+#: wp-useronline.php:709
+msgid "Guests"
+msgstr "Επισκέπτες"
+
+#: wp-useronline.php:714
+msgid "Bot"
+msgstr ""
+
+#: wp-useronline.php:716
+msgid "Bots"
+msgstr ""
+
+#: wp-useronline.php:725
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "<strong>%s</strong> είναι ενεργός(οί) τώρα: <strong>%s</strong>, <strong>%s</strong> και <strong>%s</strong>."
+
+#: wp-useronline.php:727
+#, php-format
+msgid "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Υπάρχουν συνολικά <strong>%s</strong> ενεργοί τώρα: <strong>%s</strong>, <strong>%s</strong> και <strong>%s</strong>."
+
+#: wp-useronline.php:732
+#: wp-useronline.php:752
+#: wp-useronline.php:772
+msgid "Online Now"
+msgstr "Ενεργός(οί) αυτή τη στιγμή"
+
+#: wp-useronline.php:739
+#: wp-useronline.php:759
+msgid "referral"
+msgstr "παραπομπή από"
+
+#: wp-useronline.php:742
+#: wp-useronline.php:744
+#: wp-useronline.php:762
+#: wp-useronline.php:764
+#: wp-useronline.php:777
+msgid "on"
+msgstr "στις"
+
+#: wp-useronline.php:742
+#: wp-useronline.php:744
+#: wp-useronline.php:762
+#: wp-useronline.php:764
+#: wp-useronline.php:777
+msgid "url"
+msgstr ""
+
+#: wp-useronline.php:784
+msgid "No One Is Online Now"
+msgstr "Κανείς Δεν Είναι Ενεργός Αυτή Τη Στιγμή"
+
+#: wp-useronline.php:858
+#, php-format
+msgid "<strong>%s</strong> user online now."
+msgid_plural "<strong>%s</strong> users online now."
+msgstr[0] "<strong>%s</strong> χρήστης ενεργός αυτή τη στιγμή."
+msgstr[1] "<strong>%s</strong> χρήστες ενεργοί αυτή τη στιγμή."
+
+#: wp-useronline.php:859
+#, php-format
+msgid "Most users ever online was <strong>%s</strong>."
+msgid_plural "Most users ever online was <strong>%s</strong>."
+msgstr[0] "Οι περισσότεροι ενεργοί χρήστες ήταν <strong>%s</strong>."
+msgstr[1] "Οι περισσότεροι ενεργοί χρήστες ήταν <strong>%s</strong>."
+
+#: wp-useronline.php:860
+msgid "On"
+msgstr "Στις"
+

@@ -1,0 +1,468 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-UserOnline 2.50\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-07-07 20:38+0300\n"
+"PO-Revision-Date: 2009-07-07 21:04+0300\n"
+"Last-Translator: Anna Ozeritskaya <anna.ozeritskaya@gmail.com>\n"
+"Language-Team: Anna Ozeritskaya <anna.ozeritskaya@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Russian\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11) ? 0 : ((n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20)) ? 1 : 2);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: useronline-options.php:63
+msgid "Useronline Timeout"
+msgstr "Срок хранения"
+
+#: useronline-options.php:64
+msgid "Useronline Bots"
+msgstr "Список ботов"
+
+#: useronline-options.php:65
+msgid "Useronline URL"
+msgstr "URL списка посетителей"
+
+#: useronline-options.php:66
+msgid "Useronline Naming Conventions"
+msgstr "Шаблон обозначения посетителей"
+
+#: useronline-options.php:67
+msgid "User(s) Online Template"
+msgstr "Шаблон &laquo;Посетители&raquo;"
+
+#: useronline-options.php:68
+msgid "User(s) Browsing Site Template"
+msgstr "Шаблон &laquo;Просматривают сайт&raquo;"
+
+#: useronline-options.php:69
+msgid "User(s) Browsing Page Template"
+msgstr "Шаблон &laquo;Просматривают страницу&raquo;"
+
+#: useronline-options.php:74
+msgid "Updated"
+msgstr "&mdash; обновлено"
+
+#: useronline-options.php:79
+msgid "No Useronline Option Updated"
+msgstr "Настройки не изменились"
+
+#: useronline-options.php:85
+#: useronline-options.php:380
+msgid "UNINSTALL WP-UserOnline"
+msgstr "УДАЛИТЬ WP-UserOnline"
+
+#: useronline-options.php:92
+#, php-format
+msgid "Table '%s' has been deleted."
+msgstr "Таблица &laquo;%s&raquo; удалена."
+
+#: useronline-options.php:101
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "Настройка &laquo;%s&raquo; удалена."
+
+#: useronline-options.php:105
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "Ошибка при удалении настройки &laquo;%s&raquo;."
+
+#: useronline-options.php:127
+#: useronline-options.php:338
+msgid "Uninstall WP-UserOnline"
+msgstr "Удалить WP-UserOnline"
+
+#: useronline-options.php:128
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
+msgstr "<a href=\"%s\">Нажмите здесь</a> чтобы завершить удаление. WP-UserOnline будет отключён автоматически."
+
+#: useronline-options.php:153
+#: wp-useronline.php:1013
+msgid "Online"
+msgstr "на сайте"
+
+#: useronline-options.php:160
+#: wp-useronline.php:1012
+msgid "1 User"
+msgstr "1 посетитель"
+
+#: useronline-options.php:161
+#: wp-useronline.php:1012
+msgid "%USERONLINE_COUNT% Users"
+msgstr "%USERONLINE_COUNT% посетителей"
+
+#: useronline-options.php:162
+#: wp-useronline.php:1012
+msgid "1 Member"
+msgstr "1 зарегистрированный пользователь"
+
+#: useronline-options.php:163
+#: wp-useronline.php:1012
+msgid "%USERONLINE_COUNT% Members"
+msgstr "%USERONLINE_COUNT% зарегистрированных пользователей"
+
+#: useronline-options.php:164
+#: wp-useronline.php:1012
+msgid "1 Guest"
+msgstr "1 гость"
+
+#: useronline-options.php:165
+#: wp-useronline.php:1012
+msgid "%USERONLINE_COUNT% Guests"
+msgstr "%USERONLINE_COUNT% гостей"
+
+#: useronline-options.php:166
+#: wp-useronline.php:1012
+msgid "1 Bot"
+msgstr "1 робот"
+
+#: useronline-options.php:167
+#: wp-useronline.php:1012
+msgid "%USERONLINE_COUNT% Bots"
+msgstr "%USERONLINE_COUNT% роботов"
+
+#: useronline-options.php:170
+#: useronline-options.php:171
+#: useronline-options.php:172
+#: useronline-options.php:176
+#: useronline-options.php:177
+#: useronline-options.php:178
+#: wp-useronline.php:1014
+#: wp-useronline.php:1015
+msgid ","
+msgstr ","
+
+#: useronline-options.php:173
+#: useronline-options.php:179
+#: wp-useronline.php:1014
+#: wp-useronline.php:1015
+msgid "Users|Template Element"
+msgstr "Посетители"
+
+#: useronline-options.php:179
+#: wp-useronline.php:1015
+msgid "Browsing This Page."
+msgstr "просматривают эту страницу."
+
+#: useronline-options.php:186
+#: useronline-options.php:187
+msgid "Useronline Options"
+msgstr "Настройки списка посетителей"
+
+#: useronline-options.php:190
+msgid "Time Out"
+msgstr "Срок хранения:"
+
+#: useronline-options.php:192
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr "Как долго данные о посетителе будут храниться в базе данных (в секундах)."
+
+#: useronline-options.php:196
+msgid "UserOnline URL"
+msgstr "URL списка посетителей:"
+
+#: useronline-options.php:198
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr "URL страницы со списком посетителей сайта (оставьте поле пустым, если вы не хотите создавать ссылок на эту страницу)<br />Пример: http://www.yoursite.com/blogs/useronline/<br />Пример: http://www.yoursite.com/blogs/?page_id=2"
+
+#: useronline-options.php:202
+msgid "Bots Name/User Agent"
+msgstr "Название робота/User-Agent:"
+
+#: useronline-options.php:204
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr "Это список роботов и соответствующих им значений user-agent.<br />Чтобы добавить в список нового робота, укажите в левой колонке его <strong>название</strong>, а в правой&nbsp;&mdash; часть значения <strong>user-agent</strong>.<br />Начинайте каждую запись с новой строки."
+
+#: useronline-options.php:212
+msgid "Naming Conventions:"
+msgstr "Шаблоны обозначения посетителей:"
+
+#: useronline-options.php:213
+#: useronline-options.php:254
+#: useronline-options.php:266
+#: useronline-options.php:298
+msgid "Allowed Variables:"
+msgstr "Допустимые переменные:"
+
+#: useronline-options.php:215
+#: useronline-options.php:259
+#: useronline-options.php:274
+#: useronline-options.php:306
+msgid "Restore Default Template"
+msgstr "Восстановить стандартный шаблон"
+
+#: useronline-options.php:221
+msgid "Singular Form"
+msgstr "Единственное число"
+
+#: useronline-options.php:222
+msgid "Plural Form"
+msgstr "Множественное число"
+
+#: useronline-options.php:249
+msgid "Useronline Templates"
+msgstr "Шаблоны списков посетителей"
+
+#: useronline-options.php:253
+msgid "User(s) Online:"
+msgstr "Шаблон &laquo;Посетители&raquo;:"
+
+#: useronline-options.php:265
+msgid "User(s) Browsing Site:"
+msgstr "Шаблон &laquo;Просматривают сайт&raquo;:"
+
+#: useronline-options.php:280
+#: useronline-options.php:312
+msgid "Member Names Separator"
+msgstr "Разделитель списка зарегистрированных пользователей"
+
+#: useronline-options.php:281
+#: useronline-options.php:313
+msgid "Guests Separator"
+msgstr "Разделитель списка гостей"
+
+#: useronline-options.php:282
+#: useronline-options.php:314
+msgid "Bots Separator"
+msgstr "Разделитель списка роботов"
+
+#: useronline-options.php:297
+msgid "User(s) Browsing Page:"
+msgstr "Шаблон &laquo;Просматривают страницу&raquo;:"
+
+#: useronline-options.php:329
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#: useronline-options.php:340
+msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
+msgstr "При отключении плагина WP-UserOnline его настройки и любые другие сохраненные данные не удаляются. Для того, чтобы полностью удалить плагин, отмените здесь его установку."
+
+#: useronline-options.php:343
+msgid "WARNING:"
+msgstr "ВНИМАНИЕ:"
+
+#: useronline-options.php:344
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Удаление плагина необратимо. Для того, чтобы создать резервную копию БД WordPress и сохранить ваши данные, используйте плагин &laquo;Database Backup&raquo;."
+
+#: useronline-options.php:347
+msgid "The following WordPress Options/Tables will be DELETED:"
+msgstr "Будут УДАЛЕНЫ следующие настройки и таблицы WordPress:"
+
+#: useronline-options.php:352
+msgid "WordPress Options"
+msgstr "Настройки WordPress"
+
+#: useronline-options.php:353
+msgid "WordPress Tables"
+msgstr "Таблицы WordPress"
+
+#: useronline-options.php:379
+msgid "Yes"
+msgstr "Да"
+
+#: useronline-options.php:380
+msgid ""
+"You Are About To Uninstall WP-UserOnline From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"Вы собираетесь удалить плагин WP-UserOnline.\\n"
+"Это действие необратимо.\\n"
+"\\n"
+"Чтобы остановить удаление, выберите [Отмена]. Выберите [OK], если  вы хотите его продолжить."
+
+#: wp-useronline.php:58
+#: wp-useronline.php:846
+#: wp-useronline.php:848
+#: wp-useronline.php:858
+msgid "WP-UserOnline"
+msgstr "Посетители сайта"
+
+#: wp-useronline.php:61
+#: wp-useronline.php:873
+#: wp-useronline.php:934
+msgid "UserOnline"
+msgstr "Посетители сайта"
+
+#: wp-useronline.php:128
+msgid "guest"
+msgstr "гость"
+
+#: wp-useronline.php:134
+#: wp-useronline.php:709
+msgid "Guest"
+msgstr "гость"
+
+#: wp-useronline.php:149
+msgid "Blog Archive"
+msgstr "Архив журнала"
+
+#: wp-useronline.php:230
+#: wp-useronline.php:261
+#: wp-useronline.php:744
+#: wp-useronline.php:746
+#: wp-useronline.php:764
+#: wp-useronline.php:766
+#: wp-useronline.php:779
+#, php-format
+msgid "%s @ %s"
+msgstr "%s в %s"
+
+#: wp-useronline.php:398
+msgid "No User Is Browsing This Site"
+msgstr "Сейчас на сайте никого нет"
+
+#: wp-useronline.php:540
+msgid "No User Is Browsing This Page"
+msgstr "Эту страницу сейчас никто не просматривает"
+
+#: wp-useronline.php:611
+msgid "Users Online Now"
+msgstr "Посетители сайта"
+
+#: wp-useronline.php:623
+#, php-format
+msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
+msgstr "На сайте <strong><a href=\"%s\">%s</a></strong> посетитель."
+
+#: wp-useronline.php:625
+#, php-format
+msgid "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
+msgstr "Посетителей на сайте: <strong><a href=\"%s\">%s</a></strong>."
+
+#: wp-useronline.php:630
+#: wp-useronline.php:731
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "Больше всего посетителей (<strong>%s</strong>) здесь было <strong>%s</strong>"
+
+#: wp-useronline.php:694
+msgid "User"
+msgstr "посетитель"
+
+#: wp-useronline.php:696
+msgid "Users"
+msgstr "посетителей"
+
+#: wp-useronline.php:701
+msgid "Member"
+msgstr "зарегистрированный пользователь"
+
+#: wp-useronline.php:703
+msgid "Members"
+msgstr "зарегистрированных пользователей"
+
+#: wp-useronline.php:711
+msgid "Guests"
+msgstr "гостей"
+
+#: wp-useronline.php:716
+msgid "Bot"
+msgstr "робот"
+
+#: wp-useronline.php:718
+msgid "Bots"
+msgstr "роботов"
+
+#: wp-useronline.php:727
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Сейчас на сайте <strong>%s</strong>: <strong>%s</strong>, <strong>%s</strong> и <strong>%s</strong>."
+
+#: wp-useronline.php:729
+#, php-format
+msgid "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Всего на сайте <strong>%s</strong>: <strong>%s</strong>, <strong>%s</strong> и <strong>%s</strong>."
+
+#: wp-useronline.php:734
+#: wp-useronline.php:754
+#: wp-useronline.php:774
+msgid "Online Now"
+msgstr " "
+
+#: wp-useronline.php:741
+#: wp-useronline.php:761
+msgid "referral"
+msgstr "источник трафика"
+
+#: wp-useronline.php:744
+#: wp-useronline.php:746
+#: wp-useronline.php:764
+#: wp-useronline.php:766
+#: wp-useronline.php:779
+msgid "on"
+msgstr "&nbsp;&mdash; "
+
+#: wp-useronline.php:744
+#: wp-useronline.php:746
+#: wp-useronline.php:764
+#: wp-useronline.php:766
+#: wp-useronline.php:779
+msgid "url"
+msgstr "ссылка"
+
+#: wp-useronline.php:786
+msgid "No One Is Online Now"
+msgstr "Сейчас на сайте никого нет"
+
+#: wp-useronline.php:860
+#, php-format
+msgid "<strong>%s</strong> user online now."
+msgid_plural "<strong>%s</strong> users online now."
+msgstr[0] "Сейчас на сайте <strong>%s</strong> посетитель."
+msgstr[1] "Сейчас на сайте <strong>%s</strong> посетителя."
+msgstr[2] "Сейчас на сайте <strong>%s</strong> посетителей."
+
+#: wp-useronline.php:861
+#, php-format
+msgid "Most users ever online was <strong>%s</strong>."
+msgid_plural "Most users ever online was <strong>%s</strong>."
+msgstr[0] "Максимум посещаемости&nbsp;&mdash; <strong>%s</strong> визит одновременно."
+msgstr[1] "Максимум посещаемости&nbsp;&mdash; <strong>%s</strong> визита одновременно."
+msgstr[2] "Максимум посещаемости&nbsp;&mdash; <strong>%s</strong> визитов одновременно."
+
+#: wp-useronline.php:862
+msgid "On"
+msgstr "Это произошло"
+
+#: wp-useronline.php:872
+msgid "WP-UserOnline users online statistics"
+msgstr "Сведения о количестве посетителей на сайте"
+
+#: wp-useronline.php:939
+msgid "Title:"
+msgstr "Заголовок:"
+
+#: wp-useronline.php:942
+msgid "Statistics Type:"
+msgstr "Тип статистики:"
+
+#: wp-useronline.php:944
+msgid "Users Online Count"
+msgstr "Кол-во посетителей на сайте"
+
+#: wp-useronline.php:945
+msgid "Users Browsing Current Page"
+msgstr "Сведения о посетителях текущей страницы"
+
+#: wp-useronline.php:946
+msgid "Users Browsing Site"
+msgstr "Имена посетителей сайта"
+
+#: wp-useronline.php:948
+msgid "Users Online Count & Users Browsing Current Page"
+msgstr "Кол-во посетителей на сайте и имена посетителей текущей страницы"
+
+#: wp-useronline.php:949
+msgid "Users Online Count & Users Browsing Site"
+msgstr "Кол-во и имена посетителей сайта"
+

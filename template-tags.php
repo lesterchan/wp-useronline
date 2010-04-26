@@ -106,10 +106,10 @@ function users_online_page() {
 }
 
 ### Function Check If User Is Online
-function is_online($user_login) {
+function is_user_online($user_id) {
 	global $wpdb;
 
-	return (bool) $wpdb->get_var($wpdb-prepare("SELECT COUNT(*) FROM $wpdb->useronline WHERE username = %s LIMIT 1", $user_login));
+	return (bool) $wpdb->get_var($wpdb-prepare("SELECT COUNT(*) FROM $wpdb->useronline WHERE userid = %d LIMIT 1", $user_id));
 }
 
 
@@ -174,7 +174,7 @@ class UserOnline_Template {
 
 	function detailed_list($counts, $user_buckets, $nicetexts) {
 		if ( $counts['user'] == 0 )
-			return html('h2', __('No One Is Online Now', 'wp-useronline'));
+			return html('h2', __('No one is online now.', 'wp-useronline'));
 
 		$on = __('on', 'wp-useronline');
 		$url = __('url', 'wp-useronline');

@@ -1,0 +1,433 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-UserOnline 2.40\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-12-12 01:10+0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
+"Language-Team: BlogTuga <geral@blogtuga.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: PORTUGAL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: useronline-options.php:63
+msgid "Useronline Timeout"
+msgstr "Timeout usuário online"
+
+#: useronline-options.php:64
+msgid "Useronline Bots"
+msgstr "Bost online"
+
+#: useronline-options.php:65
+msgid "Useronline URL"
+msgstr "URL usuário online"
+
+#: useronline-options.php:66
+msgid "Useronline Naming Conventions"
+msgstr "Nome das convenções do usuário online"
+
+#: useronline-options.php:67
+msgid "User(s) Online Template"
+msgstr "Template Usuário(s) online"
+
+#: useronline-options.php:68
+msgid "User(s) Browsing Site Template"
+msgstr "Template dos usuários(s) a navegar no website "
+
+#: useronline-options.php:69
+msgid "User(s) Browsing Page Template"
+msgstr "Template dos usuários(s) a navegar na página "
+
+#: useronline-options.php:74
+msgid "Updated"
+msgstr "Actualizado"
+
+#: useronline-options.php:79
+msgid "No Useronline Option Updated"
+msgstr "Sem opções para actualizar"
+
+#: useronline-options.php:85
+#: useronline-options.php:380
+msgid "UNINSTALL WP-UserOnline"
+msgstr "Desinstalar o plugin WP-UserOnline"
+
+#: useronline-options.php:92
+#, php-format
+msgid "Table '%s' has been deleted."
+msgstr "Tabela '%s' foi apagado."
+
+#: useronline-options.php:101
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "Chave das definições '%s' foi apagada."
+
+#: useronline-options.php:105
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "Erro a apagar chave de definições '%s'."
+
+#: useronline-options.php:127
+#: useronline-options.php:338
+msgid "Uninstall WP-UserOnline"
+msgstr "Desinstalar o plugin WP-UserOnline"
+
+#: useronline-options.php:128
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
+msgstr "<a href=\"%s\">Clique aqui</a> para finalizar a desinstalação e o plugin ser desactivado."
+
+#: useronline-options.php:153
+#: wp-useronline.php:914
+msgid "Online"
+msgstr "Online"
+
+#: useronline-options.php:160
+#: wp-useronline.php:913
+msgid "1 User"
+msgstr "1 Usuário"
+
+#: useronline-options.php:161
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Users"
+msgstr "%USERONLINE_COUNT% Usuários"
+
+#: useronline-options.php:162
+#: wp-useronline.php:913
+msgid "1 Member"
+msgstr "1 Membro"
+
+#: useronline-options.php:163
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Members"
+msgstr "%USERONLINE_COUNT% Membros"
+
+#: useronline-options.php:164
+#: wp-useronline.php:913
+msgid "1 Guest"
+msgstr "1 Visitante"
+
+#: useronline-options.php:165
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Guests"
+msgstr "%USERONLINE_COUNT% Visitantes"
+
+#: useronline-options.php:166
+#: wp-useronline.php:913
+msgid "1 Bot"
+msgstr "1 Bot"
+
+#: useronline-options.php:167
+#: wp-useronline.php:913
+msgid "%USERONLINE_COUNT% Bots"
+msgstr "%USERONLINE_COUNT% Bots"
+
+#: useronline-options.php:170
+#: useronline-options.php:171
+#: useronline-options.php:172
+#: useronline-options.php:176
+#: useronline-options.php:177
+#: useronline-options.php:178
+#: wp-useronline.php:915
+#: wp-useronline.php:916
+msgid ","
+msgstr ""
+
+#: useronline-options.php:179
+#: wp-useronline.php:916
+msgid "Browsing This Page."
+msgstr "A navegar nesta página."
+
+#: useronline-options.php:186
+#: useronline-options.php:187
+msgid "Useronline Options"
+msgstr "Opções do Plugin "
+
+#: useronline-options.php:190
+msgid "Time Out"
+msgstr "Time Out"
+
+#: useronline-options.php:192
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr "Quanto tempo até se retirar o utilizador da base de dados (segundos)."
+
+#: useronline-options.php:196
+msgid "UserOnline URL"
+msgstr "URL dos Usuários Online"
+
+#: useronline-options.php:198
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr "URL da página dos usuários online (deixe em branco se não quiser ter esta página)<br />Exemplo: http://www.oseusite.com/blogs/useronline/<br />Exemplo: http://www.oseusite.com/blogs/?page_id=2"
+
+#: useronline-options.php:202
+msgid "Bots Name/User Agent"
+msgstr "Nome dos bots/Agente do usuário"
+
+#: useronline-options.php:204
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr "Aqui tem uma lista dos bots e dos agentes parciais do browser.<br />Na coluna da esquerda estão os <strong>Nome dos bots</strong> e na coluna da direita estão os seus<strong>Agentes parciais do drowser</strong>.<br />Inicie cada entrada num novo ficheiro."
+
+#: useronline-options.php:212
+msgid "Naming Conventions:"
+msgstr "Nome da convenção:"
+
+#: useronline-options.php:213
+#: useronline-options.php:254
+#: useronline-options.php:266
+#: useronline-options.php:298
+msgid "Allowed Variables:"
+msgstr "Variáveis permitidas:"
+
+#: useronline-options.php:215
+#: useronline-options.php:259
+#: useronline-options.php:274
+#: useronline-options.php:306
+msgid "Restore Default Template"
+msgstr "Restaurar Template por defeito"
+
+#: useronline-options.php:221
+msgid "Singular Form"
+msgstr "Formulário singular"
+
+#: useronline-options.php:222
+msgid "Plural Form"
+msgstr "Formulário plural"
+
+#: useronline-options.php:249
+msgid "Useronline Templates"
+msgstr "Templates dos usuários online"
+
+#: useronline-options.php:253
+msgid "User(s) Online:"
+msgstr "Usuário(s) Online:"
+
+#: useronline-options.php:265
+msgid "User(s) Browsing Site:"
+msgstr "Usuário(s) a navegar o website:"
+
+#: useronline-options.php:280
+#: useronline-options.php:312
+msgid "Member Names Separator"
+msgstr "Separador do nome dos membros"
+
+#: useronline-options.php:281
+#: useronline-options.php:313
+msgid "Guests Separator"
+msgstr "Separador dos visitantes"
+
+#: useronline-options.php:282
+#: useronline-options.php:314
+msgid "Bots Separator"
+msgstr "Separador dos bots"
+
+#: useronline-options.php:297
+msgid "User(s) Browsing Page:"
+msgstr "Usuário(s) a navegar está página:"
+
+#: useronline-options.php:329
+msgid "Save Changes"
+msgstr "Guardar alterações"
+
+#: useronline-options.php:340
+msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
+msgstr "Ao desactivar o plugin WP-UserOnline, não serão removidas quaisquer base de dados, assim como as opções dos usuários online. Para completar a remoção deste plugin, pode desinstala-lo aqui."
+
+#: useronline-options.php:343
+msgid "WARNING:"
+msgstr "AVISO:"
+
+#: useronline-options.php:344
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Uma  vez desinstalado, isto não pode ser refeito. Pode usar um Backup da Base de Dados do seu Wordpress."
+
+#: useronline-options.php:347
+msgid "The following WordPress Options/Tables will be DELETED:"
+msgstr "As seguintes Opções/Tabelas Wordpress serão APAGADAS:"
+
+#: useronline-options.php:352
+msgid "WordPress Options"
+msgstr "Opções Wordpress"
+
+#: useronline-options.php:353
+msgid "WordPress Tables"
+msgstr "Tabelas Wordpress"
+
+#: useronline-options.php:379
+#: wp-useronline-widget.php:73
+msgid "Yes"
+msgstr "Sim"
+
+#: useronline-options.php:380
+msgid ""
+"You Are About To Uninstall WP-UserOnline From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"Está prestes a desinstalar o plugin WP-UserOnline do seu Wordpress.\\n"
+"Está acção não é reversível.\\n"
+"\\n"
+"Escolha [Cancelar] para Parar, [Ok] para continuar."
+
+#: wp-useronline-widget.php:62
+msgid "UserOnline"
+msgstr "Usuários Online"
+
+#: wp-useronline-widget.php:69
+msgid "Widget Title"
+msgstr "Título do Widget"
+
+#: wp-useronline-widget.php:70
+msgid "Display Users Browsing Site Under Users Online Count?"
+msgstr "Mostrar usuários a navegar no website por debaixo da contagem dos usuários online?"
+
+#: wp-useronline-widget.php:75
+msgid "No"
+msgstr "Não"
+
+#: wp-useronline.php:58
+#: wp-useronline.php:844
+#: wp-useronline.php:846
+#: wp-useronline.php:856
+msgid "WP-UserOnline"
+msgstr "WP-UserOnline"
+
+#: wp-useronline.php:61
+msgid "Useronline"
+msgstr "Usuários Online"
+
+#: wp-useronline.php:126
+msgid "guest"
+msgstr "visitante"
+
+#: wp-useronline.php:132
+#: wp-useronline.php:707
+msgid "Guest"
+msgstr "Visitante"
+
+#: wp-useronline.php:147
+msgid "Blog Archive"
+msgstr "Arquivo do blog"
+
+#: wp-useronline.php:228
+#: wp-useronline.php:259
+#: wp-useronline.php:742
+#: wp-useronline.php:744
+#: wp-useronline.php:762
+#: wp-useronline.php:764
+#: wp-useronline.php:777
+#, php-format
+msgid "%s @ %s"
+msgstr "%s @ %s"
+
+#: wp-useronline.php:396
+msgid "No User Is Browsing This Site"
+msgstr "Sem usuários a navegar neste website"
+
+#: wp-useronline.php:538
+msgid "No User Is Browsing This Page"
+msgstr "Sem usuários a navegar nesta página"
+
+#: wp-useronline.php:609
+msgid "Users Online Now"
+msgstr "Usuários online agora"
+
+#: wp-useronline.php:621
+#, php-format
+msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
+msgstr "Estes são os <strong><a href=\"%s\">%s usuários</a></strong> online agora."
+
+#: wp-useronline.php:623
+#, php-format
+msgid "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
+msgstr "Estes são o total de <strong><a href=\"%s\">%s usuários</a></strong> online agora."
+
+#: wp-useronline.php:628
+#: wp-useronline.php:729
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "Maior número de usuários online de sempre <strong>%s</strong>, em <strong>%s</strong>"
+
+#: wp-useronline.php:692
+msgid "User"
+msgstr "Usuário"
+
+#: wp-useronline.php:694
+msgid "Users"
+msgstr "Usuários"
+
+#: wp-useronline.php:699
+msgid "Member"
+msgstr "Membro"
+
+#: wp-useronline.php:701
+msgid "Members"
+msgstr "Membros"
+
+#: wp-useronline.php:709
+msgid "Guests"
+msgstr "Visitantes"
+
+#: wp-useronline.php:714
+msgid "Bot"
+msgstr "Bot"
+
+#: wp-useronline.php:716
+msgid "Bots"
+msgstr "Bost"
+
+#: wp-useronline.php:725
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Estão <strong>%s</strong> online agora: <strong>%s</strong>, <strong>%s</strong> e <strong>%s</strong>."
+
+#: wp-useronline.php:727
+#, php-format
+msgid "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Estão num total de <strong>%s</strong> online agora: <strong>%s</strong>, <strong>%s</strong> e <strong>%s</strong>."
+
+#: wp-useronline.php:732
+#: wp-useronline.php:752
+#: wp-useronline.php:772
+msgid "Online Now"
+msgstr "Online agora"
+
+#: wp-useronline.php:739
+#: wp-useronline.php:759
+msgid "referral"
+msgstr "referência"
+
+#: wp-useronline.php:742
+#: wp-useronline.php:744
+#: wp-useronline.php:762
+#: wp-useronline.php:764
+#: wp-useronline.php:777
+msgid "on"
+msgstr "Ligado"
+
+#: wp-useronline.php:742
+#: wp-useronline.php:744
+#: wp-useronline.php:762
+#: wp-useronline.php:764
+#: wp-useronline.php:777
+msgid "url"
+msgstr "url"
+
+#: wp-useronline.php:784
+msgid "No One Is Online Now"
+msgstr "Ninguém online"
+
+#: wp-useronline.php:860
+msgid "On"
+msgstr "Ligado"
+
+#~ msgid "user(s) online now."
+#~ msgstr "usuário(s) online agora"
+#~ msgid "Most users ever online was"
+#~ msgstr "Maior número de usuários online de sempre foi de"
+

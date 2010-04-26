@@ -142,24 +142,21 @@ class UserOnline_Core {
 		// If No Bot Is Found, Then We Check Members And Guests
 		if ( !$bot_found ) {
 			// Check For Member
-			if ( $current_user->ID > 0 ) {
+			if ( $current_user->ID ) {
 				$userid = $current_user->ID;
 				$displayname = $current_user->display_name;
-				$username = $current_user->user_login;
 				$type = 'member';
 				$where = "WHERE userid = '$userid'";
 			// Check For Comment Author (Guest)
-			} elseif ( !empty($_COOKIE['comment_author_'.COOKIEHASH] )) {
+			} elseif ( !empty($_COOKIE['comment_author_'.COOKIEHASH]) ) {
 				$userid = 0;
 				$displayname = trim($_COOKIE['comment_author_'.COOKIEHASH]);
-				$username = __('guest', 'wp-useronline').'_'.$displayname;	
 				$type = 'guest';
 				$where = "WHERE ip = '$ip'";
 			// Check For Guest
 			} else {
 				$userid = 0;
 				$displayname = __('Guest', 'wp-useronline');
-				$username = "guest";
 				$type = 'guest';
 				$where = "WHERE ip = '$ip'";
 			}
@@ -261,7 +258,6 @@ function _useronline_init() {
 	new scbTable('useronline', __FILE__, "
 		timestamp int(15) NOT NULL default '0',
 		userid int(10) NOT NULL default '0',
-		username varchar(20) NOT NULL default '',
 		displayname varchar(255) NOT NULL default '',
 		useragent varchar(255) NOT NULL default '',
 		ip varchar(40) NOT NULL default '',				 
@@ -269,7 +265,7 @@ function _useronline_init() {
 		url varchar(255) NOT NULL default '',
 		type enum('member','guest','bot') NOT NULL default 'guest',
 		referral varchar(255) NOT NULL default '',
-		UNIQUE KEY useronline_id (timestamp,username,ip,useragent)
+		UNIQUE KEY useronline_id (timestamp, ip, useragent)
 	");
 
 	UserOnline_Core::init();

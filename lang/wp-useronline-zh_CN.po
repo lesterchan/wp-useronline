@@ -1,0 +1,565 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-UserOnline v2.50\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2009-08-02 19:24-0700\n"
+"Last-Translator: sparanoid <info@sparanoid.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: PEOPLE'S REPUBLIC OF CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: useronline-options.php:63
+#@ wp-useronline
+msgid "Useronline Timeout"
+msgstr "在线用户超时"
+
+#: useronline-options.php:64
+#@ wp-useronline
+msgid "Useronline Bots"
+msgstr "在线用户机器人"
+
+#: useronline-options.php:65
+#@ wp-useronline
+msgid "Useronline URL"
+msgstr "在线用户页面地址"
+
+#: useronline-options.php:66
+#@ wp-useronline
+msgid "Useronline Naming Conventions"
+msgstr "在线用户名称转换"
+
+#: useronline-options.php:67
+#@ wp-useronline
+msgid "User(s) Online Template"
+msgstr "“在线人数”模板"
+
+#: useronline-options.php:68
+#@ wp-useronline
+msgid "User(s) Browsing Site Template"
+msgstr "“访问本站的用户”模板"
+
+#: useronline-options.php:69
+#@ wp-useronline
+msgid "User(s) Browsing Page Template"
+msgstr "“用户正在浏览的页面”模板"
+
+#: useronline-options.php:74
+#@ wp-useronline
+msgid "Updated"
+msgstr "已更新"
+
+#: useronline-options.php:79
+#@ wp-useronline
+msgid "No Useronline Option Updated"
+msgstr "没有需要更新的设置"
+
+#: useronline-options.php:85
+#: useronline-options.php:380
+#@ wp-useronline
+msgid "UNINSTALL WP-UserOnline"
+msgstr "删除 WP-UserOnline"
+
+#: useronline-options.php:92
+#, php-format
+#@ wp-useronline
+msgid "Table '%s' has been deleted."
+msgstr "数据表“%s”已被删除。"
+
+#: useronline-options.php:101
+#, php-format
+#@ wp-useronline
+msgid "Setting Key '%s' has been deleted."
+msgstr "设置值“%s”已被删除。"
+
+#: useronline-options.php:105
+#, php-format
+#@ wp-useronline
+msgid "Error deleting Setting Key '%s'."
+msgstr "无法删除设置值“%s”。"
+
+#: useronline-options.php:127
+#: useronline-options.php:338
+#@ wp-useronline
+msgid "Uninstall WP-UserOnline"
+msgstr "删除 WP-UserOnline"
+
+#: useronline-options.php:128
+#, php-format
+#@ wp-useronline
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
+msgstr "<a href=\"%s\">点击此处</a> 完成卸载，稍后 WP-UserOnline 会被自动禁用。"
+
+#: useronline-options.php:153
+#: wp-useronline.php:1013
+#@ wp-useronline
+msgid "Online"
+msgstr "在线"
+
+#: useronline-options.php:160
+#: wp-useronline.php:1012
+#@ wp-useronline
+msgid "1 User"
+msgstr "1 人"
+
+#: useronline-options.php:161
+#: wp-useronline.php:1012
+#, php-format
+#@ wp-useronline
+msgid "%USERONLINE_COUNT% Users"
+msgstr "%USERONLINE_COUNT% 人"
+
+#: useronline-options.php:162
+#: wp-useronline.php:1012
+#@ wp-useronline
+msgid "1 Member"
+msgstr "1 位会员"
+
+#: useronline-options.php:163
+#: wp-useronline.php:1012
+#, php-format
+#@ wp-useronline
+msgid "%USERONLINE_COUNT% Members"
+msgstr "%USERONLINE_COUNT% 位会员"
+
+#: useronline-options.php:164
+#: wp-useronline.php:1012
+#@ wp-useronline
+msgid "1 Guest"
+msgstr "1 位访客"
+
+#: useronline-options.php:165
+#: wp-useronline.php:1012
+#, php-format
+#@ wp-useronline
+msgid "%USERONLINE_COUNT% Guests"
+msgstr "%USERONLINE_COUNT% 位访客"
+
+#: useronline-options.php:166
+#: wp-useronline.php:1012
+#@ wp-useronline
+msgid "1 Bot"
+msgstr "1 位机器人"
+
+#: useronline-options.php:167
+#: wp-useronline.php:1012
+#, php-format
+#@ wp-useronline
+msgid "%USERONLINE_COUNT% Bots"
+msgstr "%USERONLINE_COUNT% 位机器人"
+
+#: useronline-options.php:170
+#: useronline-options.php:171
+#: useronline-options.php:172
+#: useronline-options.php:176
+#: useronline-options.php:177
+#: useronline-options.php:178
+#: wp-useronline.php:1014
+#: wp-useronline.php:1015
+#@ wp-useronline
+msgid ","
+msgstr ","
+
+#: useronline-options.php:173
+#: useronline-options.php:179
+#: wp-useronline.php:1014
+#: wp-useronline.php:1015
+#@ wp-useronline
+msgid "Users|Template Element"
+msgstr "用户|Template Element"
+
+#: useronline-options.php:179
+#: wp-useronline.php:1015
+#@ wp-useronline
+msgid "Browsing This Page."
+msgstr "正在浏览本页"
+
+#: useronline-options.php:186
+#: useronline-options.php:187
+#@ wp-useronline
+msgid "Useronline Options"
+msgstr "在线人数选项"
+
+#: useronline-options.php:190
+#@ wp-useronline
+msgid "Time Out"
+msgstr "超时设置"
+
+#: useronline-options.php:192
+#@ wp-useronline
+msgid "How long till it will remove the user from the database (In seconds)."
+msgstr "多长时间后用户记录从数据库中删除 (单位：秒)"
+
+#: useronline-options.php:196
+#@ wp-useronline
+msgid "UserOnline URL"
+msgstr "用户在线页面"
+
+#: useronline-options.php:198
+#@ wp-useronline
+msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+msgstr "显示用户在线的页面 (如果您不想显示此页面请留空)<br />例子：http://www.yoursite.com/blogs/useronline/<br />例子：http://www.yoursite.com/blogs/?page_id=2"
+
+#: useronline-options.php:202
+#@ wp-useronline
+msgid "Bots Name/User Agent"
+msgstr "机器人/用户代理"
+
+#: useronline-options.php:204
+#@ wp-useronline
+msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
+msgstr "这里列出了一些搜索机器人和相应的浏览器代理。<br />左侧为 <strong>机器人</strong> 右侧为 <strong>浏览器代理</strong>。<br />每行代表一个结果"
+
+#: useronline-options.php:212
+#@ wp-useronline
+msgid "Naming Conventions:"
+msgstr "名称转换："
+
+#: useronline-options.php:213
+#: useronline-options.php:254
+#: useronline-options.php:266
+#: useronline-options.php:298
+#@ wp-useronline
+msgid "Allowed Variables:"
+msgstr "可用变量："
+
+#: useronline-options.php:215
+#: useronline-options.php:259
+#: useronline-options.php:274
+#: useronline-options.php:306
+#@ wp-useronline
+msgid "Restore Default Template"
+msgstr "还原默认模板"
+
+#: useronline-options.php:221
+#@ wp-useronline
+msgid "Singular Form"
+msgstr "单数形式"
+
+#: useronline-options.php:222
+#@ wp-useronline
+msgid "Plural Form"
+msgstr "复数形式"
+
+#: useronline-options.php:249
+#@ wp-useronline
+msgid "Useronline Templates"
+msgstr "在线人数模板"
+
+#: useronline-options.php:253
+#@ wp-useronline
+msgid "User(s) Online:"
+msgstr "在线人数："
+
+#: useronline-options.php:265
+#@ wp-useronline
+msgid "User(s) Browsing Site:"
+msgstr "正在访问的用户："
+
+#: useronline-options.php:280
+#: useronline-options.php:312
+#@ wp-useronline
+msgid "Member Names Separator"
+msgstr "会员姓名分隔符"
+
+#: useronline-options.php:281
+#: useronline-options.php:313
+#@ wp-useronline
+msgid "Guests Separator"
+msgstr "访客分隔符"
+
+#: useronline-options.php:282
+#: useronline-options.php:314
+#@ wp-useronline
+msgid "Bots Separator"
+msgstr "机器人分隔符"
+
+#: useronline-options.php:297
+#@ wp-useronline
+msgid "User(s) Browsing Page:"
+msgstr "用户正在浏览的页面："
+
+#: useronline-options.php:329
+#@ wp-useronline
+msgid "Save Changes"
+msgstr "保存更改"
+
+#: useronline-options.php:340
+#@ wp-useronline
+msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
+msgstr "禁用 WP-UserOnline 插件并不能完整的删除此插件创建的相关数据，例如插件的选项。您需要卸载它才能完全删除本插件。"
+
+#: useronline-options.php:343
+#@ wp-useronline
+msgid "WARNING:"
+msgstr "警告："
+
+#: useronline-options.php:344
+#@ wp-useronline
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "一旦执行卸载，此操作不可撤销，建议您在卸载前先使用备份插件备份好相应数据。"
+
+#: useronline-options.php:347
+#@ wp-useronline
+msgid "The following WordPress Options/Tables will be DELETED:"
+msgstr "下列 WordPress 选项/数据表将被删除："
+
+#: useronline-options.php:352
+#@ wp-useronline
+msgid "WordPress Options"
+msgstr "WordPress 选项"
+
+#: useronline-options.php:353
+#@ wp-useronline
+msgid "WordPress Tables"
+msgstr "WordPress 数据表"
+
+#: useronline-options.php:379
+#@ wp-useronline
+msgid "Yes"
+msgstr "确认删除"
+
+#: useronline-options.php:380
+#@ wp-useronline
+msgid ""
+"You Are About To Uninstall WP-UserOnline From WordPress.\n"
+"This Action Is Not Reversible.\n"
+"\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"您将要从 WordPress 中卸载 WP-UserOnline。\n"
+"此操作不可撤销。\n"
+"\n"
+" 选择 [取消] 停止卸载，[确定] 则继续卸载。"
+
+#: wp-useronline.php:58
+#: wp-useronline.php:846
+#: wp-useronline.php:848
+#: wp-useronline.php:858
+#@ wp-useronline
+msgid "WP-UserOnline"
+msgstr "在线人数"
+
+#: wp-useronline.php:61
+#: wp-useronline.php:873
+#: wp-useronline.php:934
+#@ wp-useronline
+msgid "UserOnline"
+msgstr "在线人数"
+
+#: wp-useronline.php:128
+#@ wp-useronline
+msgid "guest"
+msgstr "位访客"
+
+#: wp-useronline.php:134
+#: wp-useronline.php:709
+#@ wp-useronline
+msgid "Guest"
+msgstr "位访客"
+
+#: wp-useronline.php:149
+#@ wp-useronline
+msgid "Blog Archive"
+msgstr "Blog 存档"
+
+#: wp-useronline.php:230
+#: wp-useronline.php:261
+#: wp-useronline.php:744
+#: wp-useronline.php:746
+#: wp-useronline.php:764
+#: wp-useronline.php:766
+#: wp-useronline.php:779
+#, php-format
+#@ wp-useronline
+msgid "%s @ %s"
+msgstr "%s，时间：%s"
+
+#: wp-useronline.php:398
+#@ wp-useronline
+msgid "No User Is Browsing This Site"
+msgstr "没人访问本站"
+
+#: wp-useronline.php:540
+#@ wp-useronline
+msgid "No User Is Browsing This Page"
+msgstr "没人访问本页"
+
+#: wp-useronline.php:611
+#@ wp-useronline
+msgid "Users Online Now"
+msgstr "用户在线"
+
+#: wp-useronline.php:623
+#, php-format
+#@ wp-useronline
+msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
+msgstr "当前共有 <strong><a href=\"%s\">%s 人</a></strong> 在线"
+
+#: wp-useronline.php:625
+#, php-format
+#@ wp-useronline
+msgid "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
+msgstr "当前共有 <strong><a href=\"%s\">%s 人</a></strong> 在线"
+
+#: wp-useronline.php:630
+#: wp-useronline.php:731
+#, php-format
+#@ wp-useronline
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "历史最高在线人数 <strong>%s</strong> 人，发生于 <strong>%s</strong>"
+
+#: wp-useronline.php:694
+#@ wp-useronline
+msgid "User"
+msgstr "人"
+
+#: wp-useronline.php:696
+#@ wp-useronline
+msgid "Users"
+msgstr "人"
+
+#: wp-useronline.php:701
+#@ wp-useronline
+msgid "Member"
+msgstr "位会员"
+
+#: wp-useronline.php:703
+#@ wp-useronline
+msgid "Members"
+msgstr "位会员"
+
+#: wp-useronline.php:711
+#@ wp-useronline
+msgid "Guests"
+msgstr "位访客"
+
+#: wp-useronline.php:716
+#@ wp-useronline
+msgid "Bot"
+msgstr "位机器人"
+
+#: wp-useronline.php:718
+#@ wp-useronline
+msgid "Bots"
+msgstr "位机器人"
+
+#: wp-useronline.php:727
+#, php-format
+#@ wp-useronline
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "当前共有 <strong>%s</strong> 在线：<strong>%s</strong>、<strong>%s</strong>以及 <strong>%s</strong>。"
+
+#: wp-useronline.php:729
+#, php-format
+#@ wp-useronline
+msgid "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "当前共有 <strong>%s</strong> 在线：<strong>%s</strong>、<strong>%s</strong>以及 <strong>%s</strong>。"
+
+#: wp-useronline.php:734
+#: wp-useronline.php:754
+#: wp-useronline.php:774
+#@ wp-useronline
+msgid "Online Now"
+msgstr "在线"
+
+#: wp-useronline.php:741
+#: wp-useronline.php:761
+#@ wp-useronline
+msgid "referral"
+msgstr "来源"
+
+#: wp-useronline.php:744
+#: wp-useronline.php:746
+#: wp-useronline.php:764
+#: wp-useronline.php:766
+#: wp-useronline.php:779
+#@ wp-useronline
+msgid "on"
+msgstr "访问于："
+
+#: wp-useronline.php:744
+#: wp-useronline.php:746
+#: wp-useronline.php:764
+#: wp-useronline.php:766
+#: wp-useronline.php:779
+#@ wp-useronline
+msgid "url"
+msgstr "当前位置"
+
+#: wp-useronline.php:786
+#@ wp-useronline
+msgid "No One Is Online Now"
+msgstr "没有人在线"
+
+#: wp-useronline.php:860
+#, php-format
+#@ wp-useronline
+msgid "<strong>%s</strong> user online now."
+msgid_plural "<strong>%s</strong> users online now."
+msgstr[0] "<strong>%s</strong> 人在线。"
+msgstr[1] "<strong>%s</strong> 人在线。"
+
+#: wp-useronline.php:861
+#, php-format
+#@ wp-useronline
+msgid "Most users ever online was <strong>%s</strong>."
+msgid_plural "Most users ever online was <strong>%s</strong>."
+msgstr[0] "历史最高在线人数 <strong>%s</strong> 人。"
+msgstr[1] "历史最高在线人数 <strong>%s</strong> 人。"
+
+#: wp-useronline.php:862
+#@ wp-useronline
+msgid "On"
+msgstr "发生于"
+
+#: wp-useronline.php:872
+#@ wp-useronline
+msgid "WP-UserOnline users online statistics"
+msgstr "WP-UserOnline 在线人数统计"
+
+#: wp-useronline.php:939
+#@ wp-useronline
+msgid "Title:"
+msgstr "标题："
+
+#: wp-useronline.php:942
+#@ wp-useronline
+msgid "Statistics Type:"
+msgstr "统计类型："
+
+#: wp-useronline.php:944
+#@ wp-useronline
+msgid "Users Online Count"
+msgstr "用户在线数"
+
+#: wp-useronline.php:945
+#@ wp-useronline
+msgid "Users Browsing Current Page"
+msgstr "用户正在浏览的页面"
+
+#: wp-useronline.php:946
+#@ wp-useronline
+msgid "Users Browsing Site"
+msgstr "访问本站的用户"
+
+#: wp-useronline.php:948
+#@ wp-useronline
+msgid "Users Online Count & Users Browsing Current Page"
+msgstr "用户在线数以及当前浏览页面"
+
+#: wp-useronline.php:949
+#@ wp-useronline
+msgid "Users Online Count & Users Browsing Site"
+msgstr "用户在线数以及访问本站的用户"
+
