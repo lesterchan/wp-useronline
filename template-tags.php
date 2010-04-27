@@ -47,11 +47,7 @@ function users_browsing_site() {
 }
 
 function get_users_browsing_site() {
-	global $wpdb;
-
-	$users_online = $wpdb->get_results("SELECT * FROM $wpdb->useronline");
-
-	return UserOnline_Template::compact_list('site', $users_online);
+	return UserOnline_Template::compact_list('site');
 }
 
 ### Function: Display Users Browsing The (Current) Page
@@ -60,14 +56,7 @@ function users_browsing_page($page_url = '') {
 }
 
 function get_users_browsing_page($page_url = '') {
-	global $wpdb;
-
-	if ( empty($page_url) )
-		$page_url = $_SERVER['REQUEST_URI'];
-
-	$users_online = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->useronline WHERE page_url = %s", $page_url));
-
-	return UserOnline_Template::compact_list('page', $users_online);
+	return UserOnline_Template::compact_list('page');
 }
 
 ### Function: UserOnline Page
@@ -107,24 +96,50 @@ function is_user_online($user_id) {
 	return (bool) $wpdb->get_var($wpdb-prepare("SELECT COUNT(*) FROM $wpdb->useronline WHERE user_id = %d LIMIT 1", $user_id));
 }
 
+function get_useronline_list($type = 'site', $output) {
+	return UserOnline_Template::compact_list($type, $output);
+}
 
 class UserOnline_Template {
 
-	function compact_list($user_type, $users) {
-		if ( empty($users) )
-			return '';
+	private static $cache = array();
+
+	function compact_list($type, $output = 'html') {
+
+		if ( !isset(self::$cache[$type]) ) {
+			global $wpdb;
+
+			if ( 'site' == $type )
+				$where = '';
+			elseif ( 'page' == $type )
+				$where = $wpdb->prepare('WHERE page_url = %s', $_SERVER['REQUEST_URI']);
+			else
+				$where = $wpdb->prepare('WHERE page_url = %s', $type);
+
+			self::$cache[$type] = $wpdb->get_results("SELECT * FROM $wpdb->useronline $where");
+		}
+		$users = self::$cache[$type];
+
+		if ( 'list' == $output )
+			return $users;
 
 		$buckets = array();
 		foreach ( $users as $user )
 			$buckets[$user->user_type][] = $user;
 
+		if ( 'buckets' == $output )
+			return $buckets;
+
 		$counts = self::get_counts($buckets);
+
+		if ( 'count' == $output )
+			return $counts;
 
 		// Template - Naming Conventions
 		$naming = UserOnline_Core::$naming->get();
 
 		// Template - User(s) Browsing Site
-		list($separator_members, $separator_guests, $separator_bots, $template) = UserOnline_Core::$templates->get("browsing$user_type");
+		list($sep_members, $sep_guests, $sep_bots, $template) = UserOnline_Core::$templates->get("browsing$type");
 
 		// Nice Text For Users
 		$template = self::format_count($counts['user'], 'user', $template);
@@ -136,7 +151,7 @@ class UserOnline_Template {
 			$temp_member = array();
 			foreach ( $members as $member )
 				$temp_member[] = self::format_name($member);
-			$temp_member = implode($separator_members, $temp_member);
+			$temp_member = implode($sep_members, $temp_member);
 		}
 		$template = str_ireplace('%MEMBER_NAMES%', $temp_member, $template);
 
@@ -152,16 +167,10 @@ class UserOnline_Template {
 		}
 
 		// Seperators
-		if ( $counts['member'] + $counts['guest'] )
-			$separator = $separator_guests;
-		else
-			$separator = '';
+		$separator = ( $counts['member'] && $counts['guest'] ) ? $sep_guests : '';
 		$template = str_ireplace('%GUESTS_SEPERATOR%', $separator, $template);
 
-		if ( ($counts['guest'] + $counts['member']) && $counts['bot'] )
-			$separator = $separator_bots;
-		else
-			$separator = '';
+		$separator = ( ( $counts['guest'] || $counts['member'] ) && $counts['bot'] ) ? $sep_bots : '';
 		$template = str_ireplace('%BOTS_SEPERATOR%', $separator, $template);
 
 		return $template;
