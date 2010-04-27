@@ -96,7 +96,7 @@ function is_user_online($user_id) {
 	return (bool) $wpdb->get_var($wpdb-prepare("SELECT COUNT(*) FROM $wpdb->useronline WHERE user_id = %d LIMIT 1", $user_id));
 }
 
-function get_useronline_list($type = 'site', $output) {
+function get_useronline_($output, $type = 'site') {
 	return UserOnline_Template::compact_list($type, $output);
 }
 
@@ -132,7 +132,7 @@ class UserOnline_Template {
 
 		$counts = self::get_counts($buckets);
 
-		if ( 'count' == $output )
+		if ( 'counts' == $output )
 			return $counts;
 
 		// Template - Naming Conventions
@@ -228,7 +228,7 @@ class UserOnline_Template {
 	}
 
 	function format_name($user) {
-		return apply_filters('useronline_display_name', $user->user_name, $user);
+		return apply_filters('useronline_display_user', $user->user_name, $user);
 	}
 
 	function format_count($count, $user_type, $template = '') {
