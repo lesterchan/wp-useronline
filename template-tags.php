@@ -6,10 +6,10 @@ function users_online() {
 }
 
 function get_users_online() {
-	$template = UserOnline_Core::$templates['useronline'];
-	$template = str_ireplace('%USERONLINE_PAGE_URL%', UserOnline_Core::$options->page_url, $template);
-	$template = str_ireplace('%USERONLINE_MOSTONLINE_COUNT%', get_most_users_online(), $template);
-	$template = str_ireplace('%USERONLINE_MOSTONLINE_DATE%', get_most_users_online_date(), $template);
+	$template = UserOnline_Core::$templates->useronline;
+	$template = str_ireplace('%PAGE_URL%', UserOnline_Core::$options->page_url, $template);
+	$template = str_ireplace('%MOSTONLINE_COUNT%', get_most_users_online(), $template);
+	$template = str_ireplace('%MOSTONLINE_DATE%', get_most_users_online_date(), $template);
 
 	return UserOnline_Template::format_count(get_users_online_count(), 'user', $template);
 }
@@ -121,7 +121,7 @@ class UserOnline_Template {
 		$counts = self::get_counts($buckets);
 
 		// Template - Naming Conventions
-		$naming = UserOnline_Core::$$naming->get();
+		$naming = UserOnline_Core::$naming->get();
 
 		// Template - User(s) Browsing Site
 		list($separator_members, $separator_guests, $separator_bots, $template) = UserOnline_Core::$templates->get("browsing$user_type");
@@ -138,31 +138,31 @@ class UserOnline_Template {
 				$temp_member[] = self::format_name($member);
 			$temp_member = implode($separator_members, $temp_member);
 		}
-		$template = str_ireplace('%USERONLINE_MEMBER_NAMES%', $temp_member, $template);
+		$template = str_ireplace('%MEMBER_NAMES%', $temp_member, $template);
 
 		// Counts
 		foreach ( array('member', 'guest', 'bot') as $user_type ) {
 			if ( $counts[$user_type] > 1 )
-				$number = str_ireplace('%USERONLINE_COUNT%', number_format_i18n($counts[$user_type]), $naming[$user_type . 's']);
+				$number = str_ireplace('%COUNT%', number_format_i18n($counts[$user_type]), $naming[$user_type . 's']);
 			elseif ( $counts[$user_type] == 1 )
 				$number = $naming[$user_type];
 			else
 				$number = '';
-			$template = str_ireplace("%USERONLINE_{$user_type}S%", $number, $template);
+			$template = str_ireplace("%{$user_type}S%", $number, $template);
 		}
 
 		// Seperators
-		if ( $counts['member'] > 0 && $counts['guest'] > 0 )
+		if ( $counts['member'] + $counts['guest'] )
 			$separator = $separator_guests;
 		else
 			$separator = '';
-		$template = str_ireplace('%USERONLINE_GUESTS_SEPERATOR%', $separator, $template);
+		$template = str_ireplace('%GUESTS_SEPERATOR%', $separator, $template);
 
-		if ( ($counts['guest'] > 0 || $counts['member'] > 0 ) && $counts['bot'] > 0)
+		if ( ($counts['guest'] + $counts['member']) && $counts['bot'] )
 			$separator = $separator_bots;
 		else
 			$separator = '';
-		$template = str_ireplace('%USERONLINE_BOTS_SEPERATOR%', $separator, $template);
+		$template = str_ireplace('%BOTS_SEPERATOR%', $separator, $template);
 
 		return $template;
 	}
@@ -226,12 +226,12 @@ class UserOnline_Template {
 		$i = ($count == 1) ? '' : 's';
 		$string = UserOnline_Core::$naming->get($user_type . $i);
 
-		$output = str_ireplace('%USERONLINE_COUNT%', number_format_i18n($count), $string);
+		$output = str_ireplace('%COUNT%', number_format_i18n($count), $string);
 
 		if ( empty($template) )
 			return $output;
 
-		return str_ireplace('%USERONLINE_USERS%', $output, $template);
+		return str_ireplace('%USERS%', $output, $template);
 	}
 
 	function format_most_users() {

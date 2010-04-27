@@ -82,28 +82,28 @@ class UserOnline_Core {
 
 		self::$naming = new scbOptions('useronline_naming', __FILE__, array(
 			'user'		=> __('1 User', 'wp-useronline'), 
-			'users'		=> __('%USERONLINE_COUNT% Users', 'wp-useronline'), 
+			'users'		=> __('%COUNT% Users', 'wp-useronline'), 
 			'member'	=> __('1 Member', 'wp-useronline'), 
-			'members'	=> __('%USERONLINE_COUNT% Members', 'wp-useronline'), 
+			'members'	=> __('%COUNT% Members', 'wp-useronline'), 
 			'guest' 	=> __('1 Guest', 'wp-useronline'),
-			'guests'	=> __('%USERONLINE_COUNT% Guests', 'wp-useronline'),
+			'guests'	=> __('%COUNT% Guests', 'wp-useronline'),
 			'bot'		=> __('1 Bot', 'wp-useronline'),
-			'bots'		=> __('%USERONLINE_COUNT% Bots', 'wp-useronline')
+			'bots'		=> __('%COUNT% Bots', 'wp-useronline')
 		));
 
 		self::$templates = new scbOptions('useronline_templates', __FILE__, array(
-			'useronline' => '<a href="%USERONLINE_PAGE_URL%"><strong>%USERONLINE_USERS%</strong> '.__('Online', 'wp-useronline').'</a>',
+			'useronline' => '<a href="%PAGE_URL%"><strong>%USERS%</strong> '.__('Online', 'wp-useronline').'</a>',
 			'browsingsite' => array(
 				__(',', 'wp-useronline').' ',
 				__(',', 'wp-useronline').' ', 
 				__(',', 'wp-useronline').' ', 
-				_x('Users', 'Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
+				_x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
 			),
 			'browsingpage' => array(
 				__(',', 'wp-useronline').' ',
 				__(',', 'wp-useronline').' ',
 				__(',', 'wp-useronline').' ', 
-				'<strong>%USERONLINE_USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._x('Users', 'Template Element', 'wp-useronline').': <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>'
+				'<strong>%USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
 			)
 		));
 	}
