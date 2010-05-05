@@ -198,7 +198,7 @@ class UserOnline_Template {
 			$i=1;
 			foreach ( $users as $user ) {
 				$nr = number_format_i18n($i++);
-				$name = self::format_name(esc_html($user));
+				$name = self::format_name($user));
 				$user_ip = self::format_ip($user->user_ip);
 				$date = self::format_date($user->timestamp);
 				$page_title = esc_html($user->page_title);
@@ -206,7 +206,7 @@ class UserOnline_Template {
 
 				$referral_link = '';
 				if ( !empty($user->referral) )
-					$referral_link = '[' . html_link(esc_url($user->referral), $_referral) . ']';
+					$referral_link = '[' . html_link(esc_attr(esc_url($user->referral)), $_referral) . ']';
 
 				$output .= "<p><strong>#$nr - $name</strong> $user_ip $_on $date<br/>$page_title $current_link $referral_link</p>\n";
 			}
@@ -228,7 +228,7 @@ class UserOnline_Template {
 	}
 
 	function format_name($user) {
-		return apply_filters('useronline_display_user', $user->user_name, $user);
+		return apply_filters('useronline_display_user', esc_html($user->user_name), $user);
 	}
 
 	function format_count($count, $user_type, $template = '') {
