@@ -156,19 +156,19 @@ class UserOnline_Core {
 
 		// If No Bot Is Found, Then We Check Members And Guests
 		if ( !$bot_found ) {
-			// Check For Member
 			if ( $current_user->ID ) {
+				// Check For Member
 				$user_id = $current_user->ID;
 				$user_name = $current_user->display_name;
 				$user_type = 'member';
 				$where = $wpdb->prepare("WHERE user_id = %d", $user_id);
-			// Check For Comment Author (Guest)
 			} elseif ( !empty($_COOKIE['comment_author_'.COOKIEHASH]) ) {
+				// Check For Comment Author (Guest)
 				$user_id = 0;
-				$user_name = trim($_COOKIE['comment_author_'.COOKIEHASH]);
+				$user_name = trim(strip_tags($_COOKIE['comment_author_'.COOKIEHASH]));
 				$user_type = 'guest';
-			// Check For Guest
 			} else {
+				// Check For Guest
 				$user_id = 0;
 				$user_name = __('Guest', 'wp-useronline');
 				$user_type = 'guest';
@@ -181,7 +181,7 @@ class UserOnline_Core {
 		} else {
 			$page_title = wp_title('&raquo;', false);
 			if ( empty($page_title) )
-				$page_title = ' &raquo; ' . $_SERVER['REQUEST_URI'];
+				$page_title = ' &raquo; ' . strip_tags($_SERVER['REQUEST_URI']);
 			elseif ( is_singular() )
 				$page_title = ' &raquo; ' . __('Archive', 'wp-useronline') . ' ' . $page_title;
 		}

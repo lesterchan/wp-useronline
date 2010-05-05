@@ -180,9 +180,9 @@ class UserOnline_Template {
 		if ( $counts['user'] == 0 )
 			return html('h2', __('No one is online now.', 'wp-useronline'));
 
-		$on = __('on', 'wp-useronline');
-		$url = __('url', 'wp-useronline');
-		$referral = __('referral', 'wp-useronline');
+		$_on = __('on', 'wp-useronline');
+		$_url = __('url', 'wp-useronline');
+		$_referral = __('referral', 'wp-useronline');
 
 		$output = '';
 		foreach ( array('member', 'guest', 'bot') as $user_type ) {
@@ -198,17 +198,17 @@ class UserOnline_Template {
 			$i=1;
 			foreach ( $users as $user ) {
 				$nr = number_format_i18n($i++);
-				$name = self::format_name($user);
+				$name = self::format_name(esc_html($user));
 				$user_ip = self::format_ip($user->user_ip);
 				$date = self::format_date($user->timestamp);
-				$page_title = $user->page_title;
-				$current_link = '[' . html_link(esc_url($user->page_url), $url) . ']';
+				$page_title = esc_html($user->page_title);
+				$current_link = '[' . html_link(esc_url($user->page_url), $_url) . ']';
 
 				$referral_link = '';
 				if ( !empty($user->referral) )
-					$referral_link = '[' . html_link(esc_url($user->referral), $referral) . ']';
+					$referral_link = '[' . html_link(esc_url($user->referral), $_referral) . ']';
 
-				$output .= "<p><strong>#$nr - $name</strong> $user_ip $on $date<br/>$page_title $current_link $referral_link</p>\n";
+				$output .= "<p><strong>#$nr - $name</strong> $user_ip $_on $date<br/>$page_title $current_link $referral_link</p>\n";
 			}
 		}
 
