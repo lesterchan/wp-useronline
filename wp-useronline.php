@@ -78,7 +78,8 @@ class UserOnline_Core {
 
 		self::$options = new scbOptions('useronline', __FILE__, array(
 			'timeout' => 300,
-			'url' => trailingslashit(get_bloginfo('url')) . 'useronline'
+			'url' => trailingslashit(get_bloginfo('url')) . 'useronline',
+			'names' => false
 		));
 
 		self::$naming = new scbOptions('useronline_naming', __FILE__, array(

@@ -130,8 +130,6 @@ class UserOnline_Options extends scbAdminPage {
 			),
 		);
 
-debug(UserOnline_Core::$options->get());
-
 		foreach ( $rows as $row )
 			echo $this->table_row($row, UserOnline_Core::$options->get());
 ?>
