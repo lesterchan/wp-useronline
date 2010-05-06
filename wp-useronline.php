@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 class UserOnline_Core {
 	static $options;
-	static $naming;
-	static $templates;
 
 	static $most;
 
@@ -55,7 +53,7 @@ class UserOnline_Core {
 
 		add_shortcode('page_useronline', 'users_online_page');
 
-#		register_activation_hook(__FILE__, array(__CLASS__, 'upgrade'));
+		register_activation_hook(__FILE__, array(__CLASS__, 'upgrade'));
 
 		// Table
 		new scbTable('useronline', __FILE__, "
@@ -79,37 +77,39 @@ class UserOnline_Core {
 		self::$options = new scbOptions('useronline', __FILE__, array(
 			'timeout' => 300,
 			'url' => trailingslashit(get_bloginfo('url')) . 'useronline',
-			'names' => false
-		));
+			'names' => false,
 
-		self::$naming = new scbOptions('useronline_naming', __FILE__, array(
-			'user'		=> __('1 User', 'wp-useronline'), 
-			'users'		=> __('%COUNT% Users', 'wp-useronline'), 
-			'member'	=> __('1 Member', 'wp-useronline'), 
-			'members'	=> __('%COUNT% Members', 'wp-useronline'), 
-			'guest' 	=> __('1 Guest', 'wp-useronline'),
-			'guests'	=> __('%COUNT% Guests', 'wp-useronline'),
-			'bot'		=> __('1 Bot', 'wp-useronline'),
-			'bots'		=> __('%COUNT% Bots', 'wp-useronline')
-		));
-
-		self::$templates = new scbOptions('useronline_templates', __FILE__, array(
-			'useronline' => '<a href="%PAGE_URL%"><strong>%USERS%</strong> '.__('Online', 'wp-useronline').'</a>',
-			'browsingsite' => array(
-				'separators' => array(
-					'members' => __(',', 'wp-useronline').' ',
-					'guests' => __(',', 'wp-useronline').' ', 
-					'bots' => __(',', 'wp-useronline').' ', 
-				),
-				'text' => _x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
+			'naming' => array(
+				'user'		=> __('1 User', 'wp-useronline'), 
+				'users'		=> __('%COUNT% Users', 'wp-useronline'), 
+				'member'	=> __('1 Member', 'wp-useronline'), 
+				'members'	=> __('%COUNT% Members', 'wp-useronline'), 
+				'guest' 	=> __('1 Guest', 'wp-useronline'),
+				'guests'	=> __('%COUNT% Guests', 'wp-useronline'),
+				'bot'		=> __('1 Bot', 'wp-useronline'),
+				'bots'		=> __('%COUNT% Bots', 'wp-useronline')
 			),
-			'browsingpage' => array(
-				'separators' => array(
-					'members' => __(',', 'wp-useronline').' ',
-					'guests' => __(',', 'wp-useronline').' ', 
-					'bots' => __(',', 'wp-useronline').' ', 
+
+			'templates' => array(
+				'useronline' => '<a href="%PAGE_URL%"><strong>%USERS%</strong> '.__('Online', 'wp-useronline').'</a>',
+
+				'browsingsite' => array(
+					'separators' => array(
+						'members' => __(',', 'wp-useronline').' ',
+						'guests' => __(',', 'wp-useronline').' ', 
+						'bots' => __(',', 'wp-useronline').' ', 
+					),
+					'text' => _x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
 				),
-				'text' => '<strong>%USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
+
+				'browsingpage' => array(
+					'separators' => array(
+						'members' => __(',', 'wp-useronline').' ',
+						'guests' => __(',', 'wp-useronline').' ', 
+						'bots' => __(',', 'wp-useronline').' ', 
+					),
+					'text' => '<strong>%USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
+				)
 			)
 		));
 	}
@@ -117,20 +117,40 @@ class UserOnline_Core {
 	function upgrade() {
 		global $wpdb;
 
-		// most
-		if ( !$count = get_option('useronline_most_users') )
+		$count = self::get_and_delete_option('useronline_most_users');
+		$date = self::get_and_delete_option('useronline_most_timestamp');
+
+		if ( !$count )
 			return;
-		$date = get_option('useronline_most_timestamp');
 		add_option('useronline_most', compact('count', 'date'));
 
-		// options
-		$options = array();
+		$naming = self::get_and_delete_option('useronline_naming');
+
+		$templates['useronline'] = self::get_and_delete_option('useronline_template_useronline');
+
+		foreach ( array('browsingsite', 'browsingpage') as $template ) {
+			list($members, $guests, $bots, $text) = self::get_and_delete_option("useronline_template_$template");
+			$templates[$template] = array(
+				'text' => $text,
+				'separators' => compact('members', 'guests', 'bots'),
+			);
+		}
+
+		$options = compact('naming', 'templates');
 		foreach ( array('timeout', 'url') as $option )
-			$options[$option] = get_option("useronline_$option");
+			$options[$option] = self::get_and_delete_option("useronline_$option");
+
 		add_option('useronline', $options);
 
-		$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}useronline");
+		delete_option('useronline_bots');
 
+		$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}useronline");
+	}
+
+	private function get_and_delete_option($key) {
+		$val = get_option($key);
+		delete_option($key);
+		return $val;
 	}
 
 	function scripts() {
@@ -302,8 +322,8 @@ function _useronline_init() {
 
 	if ( is_admin() ) {
 		require_once dirname(__FILE__) . '/admin.php';
-		scbAdminPage::register('UserOnline_Options', __FILE__);
 		scbAdminPage::register('UserOnline_Admin_Page', __FILE__);
+		scbAdminPage::register('UserOnline_Options', __FILE__, UserOnline_Core::$options);
 	}
 }
 _useronline_init();

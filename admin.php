@@ -1,6 +1,7 @@
 <?php
 
 class UserOnline_Admin_Page extends scbAdminPage {
+
 	function setup() {
 		$this->textdomain = 'wp-useronline';
 
@@ -53,6 +54,14 @@ class UserOnline_Options extends scbAdminPage {
 		);
 	}
 
+	function validate($options) {
+		$options['timeout'] = absint($options['timeout']);
+		$options['url'] = trim($options['url']);
+		$options['names'] = (bool) $options['names'];
+
+		return $options;
+	}
+
 	function page_head() {
 ?>
 <style type="text/css">
@@ -78,39 +87,22 @@ class UserOnline_Options extends scbAdminPage {
 <?php
 	}
 
-	function form_handler() {
-		if ( empty($_POST['Submit'] ))
-			return;
-
-		$options = array(
-			'timeout' => absint($_POST['timeout']),
-			'url' => trim($_POST['url']),
-			'names' => (bool) $_POST['names']
-		);
-		UserOnline_Core::$options->update(stripslashes_deep($options));
-
-		$naming = array_map('trim', stripslashes_deep($_POST['useronline_naming']));
-		UserOnline_Core::$naming->update($naming);
-
-		$templates = $_POST['useronline_templates'];
-		foreach ( $templates as $name => &$template )
-			$template['text'] = trim($template['text']);
-		UserOnline_Core::$templates->update(stripslashes_deep($templates));
-
-		$this->admin_msg(__('Settings updated.', 'wp-useronline'));
-	}
-
 	function page_content() {
-		$naming = get_option('useronline_naming');
+		$options = $this->options->get();
+		$defaults = $this->options->get_defaults();
+#debug($options);
+#debug($defaults);
 ?>
-	<form method="post" action="">
+	<form method="post" action="options.php">
+		<?php settings_fields($this->option_name); ?>
+
 		<table class="form-table">
 <?php
 		$rows = array(
 			array(
 				'title' => __('Time Out', 'wp-useronline'),
 				'type' => 'text',
-				'name' => 'timeout',
+				'name_tree' => 'timeout',
 				'desc' => '<br />' . __('How long until it will remove the user from the database (In seconds).', 'wp-useronline'),
 				'extra' => 'size="4"'
 			),
@@ -118,27 +110,27 @@ class UserOnline_Options extends scbAdminPage {
 			array(
 				'title' => __('UserOnline URL', 'wp-useronline'),
 				'type' => 'text',
-				'name' => 'url',
+				'name_tree' => 'url',
 				'desc' => '<br />' . __('URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2', 'wp-useronline'),
 			),
 
 			array(
 				'title' => __('User Names', 'wp-useronline'),
 				'type' => 'checkbox',
-				'name' => 'names',
+				'name_tree' => 'names',
 				'desc' => __('Link user names to their author page', 'wp-useronline'),
 			),
 		);
 
 		foreach ( $rows as $row )
-			echo $this->table_row($row, UserOnline_Core::$options->get());
+			echo $this->table_row($row);
 ?>
 		<tbody id="default_naming" style="display:none">
-			<?php $this->naming_table(UserOnline_Core::$naming->get_defaults()); ?>
+			<?php $this->formdata = $defaults; $this->naming_table(); ?>
 		</tbody>
 
 		<tbody id="current_naming">
-			<?php $this->naming_table(UserOnline_Core::$naming->get()); ?>
+			<?php $this->formdata = $options; $this->naming_table(); ?>
 		</tbody>
 
 		</table>
@@ -146,11 +138,11 @@ class UserOnline_Options extends scbAdminPage {
 		<h3><?php _e('Useronline Templates', 'wp-useronline'); ?></h3>
 		<table class="form-table">
 			<tbody id="default_template_useronline" style="display:none">
-				<?php $this->useronline_template_table(UserOnline_Core::$templates->get_defaults('useronline')); ?>
+				<?php $this->formdata = $defaults; $this->useronline_template_table(); ?>
 			</tbody>
 
 			<tbody id="current_template_useronline">
-				<?php $this->useronline_template_table(UserOnline_Core::$templates->get('useronline')); ?>
+				<?php $this->formdata = $options; $this->useronline_template_table(); ?>
 			</tbody>
 
 			<?php
@@ -160,11 +152,11 @@ class UserOnline_Options extends scbAdminPage {
 			);
 			foreach ( $templates as $name => $title ) { ?>
 				<tbody id="default_template_<?php echo $name; ?>" style="display:none">
-					<?php $this->template_table($title, $name, UserOnline_Core::$templates->get_defaults($name)); ?>
+					<?php $this->formdata = $defaults; $this->template_table($title, $name); ?>
 				</tbody>
 
 				<tbody id="current_template_<?php echo $name; ?>">
-					<?php $this->template_table($title, $name, UserOnline_Core::$templates->get($name)); ?>
+					<?php $this->formdata = $options; $this->template_table($title, $name); ?>
 				</tbody>
 			<?php } ?>
 		</table>
@@ -175,7 +167,7 @@ class UserOnline_Options extends scbAdminPage {
 <?php
 	}
 
-	private function naming_table($naming) {
+	private function naming_table() {
 ?>
 			<tr>
 				<td width="30%">
@@ -193,17 +185,20 @@ class UserOnline_Options extends scbAdminPage {
 							</tr>
 						</thead>
 						<tbody>
-						<?php foreach ( array('user', 'member', 'guest', 'bot') as $type ) { ?>
-							<tr>
-							<?php echo $this->input(array(
-								'type' => 'text',
-								'names' => array("useronline_naming[$type]", "useronline_naming[{$type}s]"),
-								'values' => array($naming[$type], $naming[$type . 's']),
-								'extra' => 'size="30"',
-								'desc' => html('td', '%input%')
-							));	?>
-							</tr>
-						<?php } ?>
+						<?php 
+							foreach ( array('user', 'member', 'guest', 'bot') as $tmp ) {
+								echo "\n<tr>\n";
+								foreach ( array($tmp, $tmp . 's') as $type ) {
+									echo $this->input(array(
+										'type' => 'text',
+										'name_tree' => array('naming', $type),
+										'extra' => 'size="30"',
+										'desc' => html('td', '%input%')
+									));
+								}
+								echo "\n</tr>\n";
+							}
+						?>
 						</tbody>
 					</table>
 					<br />
@@ -212,7 +207,7 @@ class UserOnline_Options extends scbAdminPage {
 <?php
 	}
 
-	private function useronline_template_table($template) {
+	private function useronline_template_table() {
 ?>
 			<tr>
 				<td width="30%">
@@ -227,15 +222,14 @@ class UserOnline_Options extends scbAdminPage {
 				<td>
 					<?php echo $this->input(array(
 						'type' => 'textarea',
-						'name' => 'useronline_templates[useronline]',
-						'value' => $template,
+						'name_tree' => array('templates', 'useronline'),
 					)); ?>
 				</td>
 			</tr>
 <?php
 	}
 
-	private function template_table($title, $option, $template) {
+	private function template_table($title, $option) {
 ?>
 			<tr>
 				<td width="30%">
@@ -260,22 +254,19 @@ class UserOnline_Options extends scbAdminPage {
 							</tr>
 						</thead>
 						<tr>
-							<?php foreach ( $template['separators'] as $type => $sep ) {
-								echo $this->input(array(
+							<?php foreach ( array_keys($this->options->templates[$option]['separators']) as $type ) {
+								echo html('td', $this->input(array(
 									'type' => 'text',
-									'name' => "useronline_templates[$option][separators][$type]",
-									'value' => $sep,
-									'desc' => html('td', '%input%'),
+									'name_tree' => array('templates', $option, 'separators', $type),
 									'extra' => "size='15'",
-								));
+								)));
 							} ?>
 						</tr>
 					</table>
 					<br />
 					<?php echo $this->input(array(
 						'type' => 'textarea',
-						'name' => "useronline_templates[$option][text]",
-						'value' => $template['text']
+						'name_tree' => array('templates', $option, 'text')
 					)); ?>
 				</td>
 			</tr>

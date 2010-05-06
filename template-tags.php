@@ -6,7 +6,7 @@ function users_online() {
 }
 
 function get_users_online() {
-	$template = UserOnline_Core::$templates->useronline;
+	$template = UserOnline_Core::$options->templates['useronline'];
 	$template = str_ireplace('%PAGE_URL%', UserOnline_Core::$options->page_url, $template);
 	$template = str_ireplace('%MOSTONLINE_COUNT%', get_most_users_online(), $template);
 	$template = str_ireplace('%MOSTONLINE_DATE%', get_most_users_online_date(), $template);
@@ -136,10 +136,10 @@ class UserOnline_Template {
 			return $counts;
 
 		// Template - Naming Conventions
-		$naming = UserOnline_Core::$naming->get();
+		$naming = UserOnline_Core::$options->naming;
 
 		// Template - User(s) Browsing Site
-		list($sep_members, $sep_guests, $sep_bots, $template) = UserOnline_Core::$templates->get("browsing$type");
+		list($sep_members, $sep_guests, $sep_bots, $template) = UserOnline_Core::$options->templates["browsing$type"];
 
 		// Nice Text For Users
 		$template = self::format_count($counts['user'], 'user', $template);
@@ -233,7 +233,7 @@ class UserOnline_Template {
 
 	function format_count($count, $user_type, $template = '') {
 		$i = ($count == 1) ? '' : 's';
-		$string = UserOnline_Core::$naming->get($user_type . $i);
+		$string = UserOnline_Core::$options->naming[$user_type . $i];
 
 		$output = str_ireplace('%COUNT%', number_format_i18n($count), $string);
 

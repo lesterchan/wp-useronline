@@ -32,6 +32,13 @@ class scbOptions {
 	}
 
 	/**
+	 * Get option name
+	 */
+	public function get_key() {
+		return $this->key;
+	}
+
+	/**
 	 * Get option values for one, many or all fields
 	 *
 	 * @param string|array $field The field(s) to get
