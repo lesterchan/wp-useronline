@@ -82,29 +82,34 @@ class scbOptions {
 	 * @return bool
 	 */
 	public function cleanup() {
-		$r = array();
-
-		if ( ! is_array($this->defaults) )
-			return false;
-
-		foreach ( array_keys($this->defaults) as $key )
-			$r[$key] = $this->data[$key];
-
-		$this->update($r);
-
-		return true;
+		$this->update($this->clean($this->data));
 	}
 
 	/**
 	 * Update raw data
 	 *
 	 * @param mixed $newdata
+	 * @param bool $clean wether to remove unrecognized keys or not
 	 * @return null
 	 */
-	public function update($newdata) {
+	public function update($newdata, $clean = true) {
+		if ( $clean )
+			$newdata = $this->clean($newdata);
+
 		$this->data = $newdata;
 
 		update_option($this->key, $this->data);
+	}
+
+	private function clean($data) {
+		if ( !is_array($data) || !is_array($this->defaults) )
+			return $data;
+
+		$r = array();
+		foreach ( array_keys($this->defaults) as $key )
+			$r[$key] = @$data[$key];
+
+		return $r;
 	}
 
 	/**

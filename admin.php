@@ -12,7 +12,7 @@ class UserOnline_Admin_Page extends scbAdminPage {
 			'capability' => 'read',
 			'action_link' => false,
 		);
-		
+
 		add_action('rightnow_end', array($this, 'rightnow'));
 	}
 
@@ -63,35 +63,16 @@ class UserOnline_Options extends scbAdminPage {
 </style>
 
 <script type="text/javascript">
-	function useronline_default_templates(template) {
-		var default_template;
-		if ( "useronline" == template )
-			default_template = "<a href=\"%USERONLINE_PAGE_URL%\" title=\"%USERONLINE_USERS%\"><strong>%USERONLINE_USERS%</strong> <?php _e('Online', 'wp-useronline'); ?></a>";
-
-		jQuery("#useronline_template_" + template).val(default_template);
-	}
-
 	function useronline_default_naming() {
-		jQuery("#useronline_naming_user").val("<?php _e('1 User', 'wp-useronline'); ?>");
-		jQuery("#useronline_naming_users").val("<?php _e('%USERONLINE_COUNT% Users', 'wp-useronline'); ?>");
-		jQuery("#useronline_naming_member").val("<?php _e('1 Member', 'wp-useronline'); ?>");
-		jQuery("#useronline_naming_members").val("<?php _e('%USERONLINE_COUNT% Members', 'wp-useronline'); ?>");
-		jQuery("#useronline_naming_guest").val("<?php _e('1 Guest', 'wp-useronline'); ?>");
-		jQuery("#useronline_naming_guests").val("<?php _e('%USERONLINE_COUNT% Guests', 'wp-useronline'); ?>");
-		jQuery("#useronline_naming_bot").val("<?php _e('1 Bot', 'wp-useronline'); ?>");
-		jQuery("#useronline_naming_bots").val("<?php _e('%USERONLINE_COUNT% Bots', 'wp-useronline'); ?>");
+		jQuery("#current_naming").html(jQuery("#default_naming").html());
+
+		return false;
 	}
-	function useronline_default_browsing_site() {
-		jQuery("#useronline_separator_browsingsite_members").val("<?php _e(',', 'wp-useronline') ?> ");
-		jQuery("#useronline_separator_browsingsite_guests").val("<?php _e(',', 'wp-useronline') ?> ");
-		jQuery("#useronline_separator_browsingsite_bots").val("<?php _e(',', 'wp-useronline') ?> ");
-		jQuery("#useronline_template_browsingsite").val("<?php echo _x('Users', 'Template Element', 'wp-useronline'); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>");
-	}
-	function useronline_default_browsing_page() {
-		jQuery("#useronline_separator_browsingpage_members").val("<?php _e(',', 'wp-useronline') ?> ");
-		jQuery("#useronline_separator_browsingpage_guests").val("<?php _e(',', 'wp-useronline') ?> ");
-		jQuery("#useronline_separator_browsingpage_bots").val("<?php _e(',', 'wp-useronline') ?> ");
-		jQuery("#useronline_template_browsingpage").val("<strong>%USERONLINE_USERS%</strong> <?php _e('Browsing This Page.', 'wp-useronline'); ?><br /><?php echo(_x('Users', 'Template Element', 'wp-useronline')); ?>: <strong>%USERONLINE_MEMBER_NAMES%%USERONLINE_GUESTS_SEPERATOR%%USERONLINE_GUESTS%%USERONLINE_BOTS_SEPERATOR%%USERONLINE_BOTS%</strong>");
+
+	function useronline_default_template(template) {
+		jQuery('#current_template_' + template).html(jQuery('#default_template_' + template).html());
+
+		return false;
 	}
 </script>
 <?php
@@ -101,27 +82,19 @@ class UserOnline_Options extends scbAdminPage {
 		if ( empty($_POST['Submit'] ))
 			return;
 
-		$timeout = intval($_POST['useronline_timeout']);
-		$url = trim(stripslashes($_POST['useronline_url']));
+		$options = array(
+			'timeout' => absint($_POST['useronline']['timeout']),
+			'url' => trim($_POST['useronline']['url'])
+		);
+		UserOnline_Core::$options->update(stripslashes_deep($options));
 
-		$naming = array();
-		foreach ( array('user', 'users', 'member', 'members', 'guest', 'guests', 'bot', 'bots') as $key )
-			$naming[$key] = trim(stripslashes($_POST["useronline_naming_$key"]));
+		$naming = array_map('trim', stripslashes_deep($_POST['useronline_naming']));
+		UserOnline_Core::$naming->update($naming);
 
-		$template_useronline = trim(stripslashes($_POST['useronline_template_useronline']));
-
-		foreach ( array('browsingsite', 'browsingpage') as $key ) {
-			$template = array();
-			foreach ( array('members', 'guests', 'bots') as $type )
-				$template[] = stripslashes($_POST["useronline_separator_{$key}_{$type}"]);
-			$template[] = trim(stripslashes($_POST["useronline_template_{$key}"]));
-			update_option("useronline_template_{$key}", $template);
-		}
-
-		update_option('useronline_timeout', $timeout);
-		update_option('useronline_url', $url);
-		update_option('useronline_naming', $naming);
-		update_option('useronline_template_useronline', $template_useronline);
+		$templates = $_POST['useronline_templates'];
+		foreach ( $templates as $name => &$template )
+			$template['text'] = trim($template['text']);
+		UserOnline_Core::$templates->update(stripslashes_deep($templates));
 
 		$this->admin_msg(__('Settings updated.', 'wp-useronline'));
 	}
@@ -131,66 +104,62 @@ class UserOnline_Options extends scbAdminPage {
 ?>
 	<form method="post" action="">
 		<table class="form-table">
-			 <tr>
-				<th scope="row" valign="top"><?php _e('Time Out', 'wp-useronline'); ?></th>
-				<td>
-					<input type="text" name="useronline_timeout" value="<?php echo esc_attr(get_option('useronline_timeout')); ?>" size="4" /><br /><?php _e('How long until it will remove the user from the database (In seconds).', 'wp-useronline'); ?>
-				</td>
-			</tr>
-			 <tr>
-				<th scope="row" valign="top"><?php _e('UserOnline URL', 'wp-useronline'); ?></th>
-				<td>
-					<input type="text" name="useronline_url" value="<?php echo esc_attr(get_option('useronline_url')); ?>" size="50" dir="ltr" /><br /><?php _e('URL To UserOnline Page<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2', 'wp-useronline'); ?>
-				</td>
-			</tr>
-			<tr>
-				<td width="30%">
-					<strong><?php _e('Naming Conventions:', 'wp-useronline'); ?></strong><br /><br /><br />
-					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />
-					- %USERONLINE_COUNT%<br /><br />
-					<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_naming();" class="button" />
-				</td>
-				<td>
-					<table class="form-table">
-						<thead>
-							 <tr>
-								<th><?php _e('Singular Form', 'wp-useronline'); ?></th>
-								<th><?php _e('Plural Form', 'wp-useronline'); ?></th>
-							 </tr>
-						 </thead>
-						 <tbody>
-							<?php foreach ( array('user', 'member', 'guest', 'bot') as $type ) {
-								echo
-								html('tr',
-									 html('td', "<input id='useronline_naming_$type' name='useronline_naming_$type' value='"
-										.esc_attr($naming[$type]) . "' type='text' size='20' />")
-									.html('td', "<input id='useronline_naming_{$type}s' name='useronline_naming_{$type}s' value='"
-										.esc_attr($naming[$type . 's']) . "' type='text' size='40' />")
-								);
-							} ?>
-						 </tbody>
-					</table>
-					<br />
-				</td>
-			</tr>
+<?php
+		$rows = array(
+			array(
+				'title' => __('Time Out', 'wp-useronline'),
+				'type' => 'text',
+				'name' => 'useronline[timeout]',
+				'value' => UserOnline_Core::$options->timeout,
+				'desc' => '<br />' . __('How long until it will remove the user from the database (In seconds).', 'wp-useronline'),
+				'extra' => 'size="4"'
+			),
+			array(
+				'title' => __('UserOnline URL', 'wp-useronline'),
+				'type' => 'text',
+				'name' => 'useronline[url]',
+				'value' => UserOnline_Core::$options->url,
+				'desc' => '<br />' . __('URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2', 'wp-useronline'),
+			),
+		);
+
+		foreach ( $rows as $row )
+			echo $this->table_row($row);
+?>
+		<tbody id="default_naming" style="display:none">
+			<?php $this->naming_table(UserOnline_Core::$naming->get_defaults()); ?>
+		</tbody>
+
+		<tbody id="current_naming">
+			<?php $this->naming_table(UserOnline_Core::$naming->get()); ?>
+		</tbody>
+
 		</table>
 
 		<h3><?php _e('Useronline Templates', 'wp-useronline'); ?></h3>
 		<table class="form-table">
-			 <tr>
-				<td width="30%">
-					<strong><?php _e('User(s) Online:', 'wp-useronline'); ?></strong><br /><br /><br />
-					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
-					- %USERONLINE_USERS%<br />
-					- %USERONLINE_PAGE_URL%<br />
-					- %USERONLINE_MOSTONLINE_COUNT%<br />
-					- %USERONLINE_MOSTONLINE_DATE%<br /><br />
-					<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_templates('useronline');" class="button" />
-				</td>
-				<td><textarea id="useronline_template_useronline" name="useronline_template_useronline"><?php echo esc_html(get_option('useronline_template_useronline')); ?></textarea></td>
-			</tr>
-<?php $this->template(__('User(s) Browsing Site:', 'wp-useronline'), 'site'); ?>
-<?php $this->template(__('User(s) Browsing Page:', 'wp-useronline'), 'page'); ?>
+			<tbody id="default_template_useronline" style="display:none">
+				<?php $this->useronline_template_table(UserOnline_Core::$templates->get_defaults('useronline')); ?>
+			</tbody>
+
+			<tbody id="current_template_useronline">
+				<?php $this->useronline_template_table(UserOnline_Core::$templates->get('useronline')); ?>
+			</tbody>
+
+			<?php
+			$templates = array(
+				'browsingsite' => __('User(s) Browsing Site:', 'wp-useronline'),
+				'browsingpage' => __('User(s) Browsing Page:', 'wp-useronline'),
+			);
+			foreach ( $templates as $name => $title ) { ?>
+				<tbody id="default_template_<?php echo $name; ?>" style="display:none">
+					<?php $this->template_table($title, $name, UserOnline_Core::$templates->get_defaults($name)); ?>
+				</tbody>
+
+				<tbody id="current_template_<?php echo $name; ?>">
+					<?php $this->template_table($title, $name, UserOnline_Core::$templates->get($name)); ?>
+				</tbody>
+			<?php } ?>
 		</table>
 		<p class="submit">
 			<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'wp-useronline'); ?>" />
@@ -198,44 +167,109 @@ class UserOnline_Options extends scbAdminPage {
 	</form>
 <?php
 	}
-	
-	private function template($title, $option) {
-		$template = get_option("useronline_template_browsing$option");
+
+	private function naming_table($naming) {
+?>
+			<tr>
+				<td width="30%">
+					<strong><?php _e('Naming Conventions:', 'wp-useronline'); ?></strong><br /><br /><br />
+					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />
+					- %COUNT%<br /><br />
+					<input type="button" value="<?php _e('Restore Defaults', 'wp-useronline'); ?>" onclick="useronline_default_naming();" class="button" />
+				</td>
+				<td>
+					<table class="form-table">
+						<thead>
+							<tr>
+								<th><?php _e('Singular Form', 'wp-useronline'); ?></th>
+								<th><?php _e('Plural Form', 'wp-useronline'); ?></th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach ( array('user', 'member', 'guest', 'bot') as $type ) { ?>
+							<tr>
+							<?php echo $this->input(array(
+								'type' => 'text',
+								'names' => array("useronline_naming[$type]", "useronline_naming[{$type}s]"),
+								'values' => array($naming[$type], $naming[$type . 's']),
+								'extra' => 'size="30"',
+								'desc' => html('td', '%input%')
+							));	?>
+							</tr>
+						<?php } ?>
+						</tbody>
+					</table>
+					<br />
+				</td>
+			</tr>
+<?php
+	}
+
+	private function useronline_template_table($template) {
+?>
+			<tr>
+				<td width="30%">
+					<strong><?php _e('User(s) Online:', 'wp-useronline'); ?></strong><br /><br />
+					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
+					- %USERS%<br />
+					- %PAGE_URL%<br />
+					- %MOSTONLINE_COUNT%<br />
+					- %MOSTONLINE_DATE%<br /><br />
+					<input type="button" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_template('useronline');" class="button" />
+				</td>
+				<td>
+					<?php echo $this->input(array(
+						'type' => 'textarea',
+						'name' => 'useronline_templates[useronline]',
+						'value' => $template,
+					)); ?>
+				</td>
+			</tr>
+<?php
+	}
+
+	private function template_table($title, $option, $template) {
 ?>
 			<tr>
 				<td width="30%">
 					<strong><?php echo $title; ?></strong><br /><br />
 					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />	
-					- %USERONLINE_USERS%<br />					
-					- %USERONLINE_MEMBERS%<br />
-					- %USERONLINE_MEMBER_NAMES%<br />
-					- %USERONLINE_GUESTS_SEPERATOR%<br />	
-					- %USERONLINE_GUESTS%<br />
-					- %USERONLINE_BOTS_SEPERATOR%<br />
-					- %USERONLINE_BOTS%<br /><br />
-					<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_browsing_<?php echo $option; ?>();" class="button" />
+					- %USERS%<br />
+					- %MEMBERS%<br />
+					- %MEMBER_NAMES%<br />
+					- %GUESTS_SEPERATOR%<br />
+					- %GUESTS%<br />
+					- %BOTS_SEPERATOR%<br />
+					- %BOTS%<br /><br />
+					<input type="button" value="<?php _e('Restore Default Template', 'wp-useronline'); ?>" onclick="useronline_default_template('<?php echo $option; ?>');" class="button" />
 				</td>
 				<td>
 					<table class="form-table">
 						<thead>
-							 <tr>
+							<tr>
 								<th><?php _e('Member Names Separator', 'wp-useronline'); ?></th>
 								<th><?php _e('Guests Separator', 'wp-useronline'); ?></th>
 								<th><?php _e('Bots Separator', 'wp-useronline'); ?></th>
-							 </tr>
-						 </thead>
-						 <tr>
-						 	<?php foreach ( array('members', 'guests', 'bots') as $i => $type ) {
-						 		$name = "useronline_separator_browsing{$option}_{$type}";
-						 		echo
-						 		html('td',
-						 			"<input type='text' id='$name' name='$name' value='" . esc_attr($template[$i]) . "' size='15' />"
-						 		);
+							</tr>
+						</thead>
+						<tr>
+							<?php foreach ( $template['separators'] as $type => $sep ) {
+								echo $this->input(array(
+									'type' => 'text',
+									'name' => "useronline_templates[$option][separators][$type]",
+									'value' => $sep,
+									'desc' => html('td', '%input%'),
+									'extra' => "size='15'",
+								));
 							} ?>
-						 </tr>
+						</tr>
 					</table>
 					<br />
-					<textarea id="useronline_template_browsing<?php echo $option; ?>" name="useronline_template_browsing<?php echo $option; ?>"><?php echo esc_html($template[3]); ?></textarea>
+					<?php echo $this->input(array(
+						'type' => 'textarea',
+						'name' => "useronline_templates[$option][text]",
+						'value' => $template['text']
+					)); ?>
 				</td>
 			</tr>
 <?php

@@ -26,9 +26,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 class UserOnline_Core {
 	static $options;
-	static $most;
 	static $naming;
 	static $templates;
+
+	static $most;
 
 	private static $useronline;
 
@@ -54,7 +55,7 @@ class UserOnline_Core {
 
 		add_shortcode('page_useronline', 'users_online_page');
 
-		register_activation_hook(__FILE__, array(__CLASS__, 'upgrade'));
+#		register_activation_hook(__FILE__, array(__CLASS__, 'upgrade'));
 
 		// Table
 		new scbTable('useronline', __FILE__, "
@@ -94,16 +95,20 @@ class UserOnline_Core {
 		self::$templates = new scbOptions('useronline_templates', __FILE__, array(
 			'useronline' => '<a href="%PAGE_URL%"><strong>%USERS%</strong> '.__('Online', 'wp-useronline').'</a>',
 			'browsingsite' => array(
-				__(',', 'wp-useronline').' ',
-				__(',', 'wp-useronline').' ', 
-				__(',', 'wp-useronline').' ', 
-				_x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
+				'separators' => array(
+					'members' => __(',', 'wp-useronline').' ',
+					'guests' => __(',', 'wp-useronline').' ', 
+					'bots' => __(',', 'wp-useronline').' ', 
+				),
+				'text' => _x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
 			),
 			'browsingpage' => array(
-				__(',', 'wp-useronline').' ',
-				__(',', 'wp-useronline').' ',
-				__(',', 'wp-useronline').' ', 
-				'<strong>%USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
+				'separators' => array(
+					'members' => __(',', 'wp-useronline').' ',
+					'guests' => __(',', 'wp-useronline').' ', 
+					'bots' => __(',', 'wp-useronline').' ', 
+				),
+				'text' => '<strong>%USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
 			)
 		));
 	}
@@ -111,9 +116,20 @@ class UserOnline_Core {
 	function upgrade() {
 		global $wpdb;
 
-		$r = $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}useronline");
+		// most
+		if ( !$count = get_option('useronline_most_users') )
+			return;
+		$date = get_option('useronline_most_timestamp');
+		add_option('useronline_most', compact('count', 'date'));
 
-		// todo
+		// options
+		$options = array();
+		foreach ( array('timeout', 'url') as $option )
+			$options[$option] = get_option("useronline_$option");
+		add_option('useronline', $options);
+
+		$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}useronline");
+
 	}
 
 	function scripts() {

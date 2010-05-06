@@ -198,7 +198,7 @@ class UserOnline_Template {
 			$i=1;
 			foreach ( $users as $user ) {
 				$nr = number_format_i18n($i++);
-				$name = self::format_name($user));
+				$name = self::format_name($user);
 				$user_ip = self::format_ip($user->user_ip);
 				$date = self::format_date($user->timestamp);
 				$page_title = esc_html($user->page_title);
