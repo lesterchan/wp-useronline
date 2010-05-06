@@ -83,8 +83,9 @@ class UserOnline_Options extends scbAdminPage {
 			return;
 
 		$options = array(
-			'timeout' => absint($_POST['useronline']['timeout']),
-			'url' => trim($_POST['useronline']['url'])
+			'timeout' => absint($_POST['timeout']),
+			'url' => trim($_POST['url']),
+			'names' => (bool) $_POST['names']
 		);
 		UserOnline_Core::$options->update(stripslashes_deep($options));
 
@@ -109,22 +110,30 @@ class UserOnline_Options extends scbAdminPage {
 			array(
 				'title' => __('Time Out', 'wp-useronline'),
 				'type' => 'text',
-				'name' => 'useronline[timeout]',
-				'value' => UserOnline_Core::$options->timeout,
+				'name' => 'timeout',
 				'desc' => '<br />' . __('How long until it will remove the user from the database (In seconds).', 'wp-useronline'),
 				'extra' => 'size="4"'
 			),
+
 			array(
 				'title' => __('UserOnline URL', 'wp-useronline'),
 				'type' => 'text',
-				'name' => 'useronline[url]',
-				'value' => UserOnline_Core::$options->url,
+				'name' => 'url',
 				'desc' => '<br />' . __('URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2', 'wp-useronline'),
+			),
+
+			array(
+				'title' => __('User Names', 'wp-useronline'),
+				'type' => 'checkbox',
+				'name' => 'names',
+				'desc' => __('Link user names to their author page', 'wp-useronline'),
 			),
 		);
 
+debug(UserOnline_Core::$options->get());
+
 		foreach ( $rows as $row )
-			echo $this->table_row($row);
+			echo $this->table_row($row, UserOnline_Core::$options->get());
 ?>
 		<tbody id="default_naming" style="display:none">
 			<?php $this->naming_table(UserOnline_Core::$naming->get_defaults()); ?>

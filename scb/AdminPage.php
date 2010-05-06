@@ -201,8 +201,8 @@ abstract class scbAdminPage {
 
 	// the second argument is sent to submit_button()
 	$this->form_wrap($content, array(
-		'text' => 'Save changes', 
-		'name' => 'action', 
+		'text' => 'Save changes',
+		'name' => 'action',
 		'ajax' => true,
 	));
 	*/
@@ -222,15 +222,21 @@ abstract class scbAdminPage {
 	}
 
 	// See scbForms::form()
-	function form($rows) {
-		return scbForms::form($rows, $this->formdata, $this->nonce);
+	function form($rows, $formdata = array()) {
+		if ( empty($formdata) )
+			$formdata = $this->formdata;
+
+		return scbForms::form($rows, $formdata, $this->nonce);
 	}
 
 	// Generates a table wrapped in a form
-	function form_table($rows) {
+	function form_table($rows, $formdata = array()) {
+		if ( empty($formdata) )
+			$formdata = $this->formdata;
+
 		$output = '';
 		foreach ( $rows as $row )
-			$output .= $this->table_row($row, $this->formdata);
+			$output .= $this->table_row($row, $formdata);
 
 		$output = $this->form_table_wrap($output);
 
@@ -246,10 +252,13 @@ abstract class scbAdminPage {
 	}
 
 	// Generates a form table
-	function table($rows) {
+	function table($rows, $formdata = array()) {
+		if ( empty($formdata) )
+			$formdata = $this->formdata;
+
 		$output = '';
 		foreach ( $rows as $row )
-			$output .= $this->table_row($row, $this->formdata);
+			$output .= $this->table_row($row, $formdata);
 
 		$output = $this->table_wrap($output);
 
@@ -257,8 +266,11 @@ abstract class scbAdminPage {
 	}
 
 	// Generates a table row
-	function table_row($args) {
-		return $this->row_wrap($args['title'], $this->input($args, $this->formdata));
+	function table_row($args, $formdata = array()) {
+		if ( empty($formdata) )
+			$formdata = $this->formdata;
+
+		return $this->row_wrap($args['title'], $this->input($args, $formdata));
 	}
 
 	// Wraps the given content in a <table>
