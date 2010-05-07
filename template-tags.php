@@ -142,7 +142,7 @@ class UserOnline_Template {
 		$template = UserOnline_Core::$options->templates["browsing$type"];
 
 		// Nice Text For Users
-		$template_text = self::format_count($counts['user'], 'user', $template['text']);
+		$output = self::format_count($counts['user'], 'user', $template['text']);
 
 		// Print Member Name
 		$temp_member = '';
@@ -153,7 +153,7 @@ class UserOnline_Template {
 				$temp_member[] = self::format_name($member);
 			$temp_member = implode($template['separators']['members'], $temp_member);
 		}
-		$template = str_ireplace('%MEMBER_NAMES%', $temp_member, $template_text);
+		$output = str_ireplace('%MEMBER_NAMES%', $temp_member, $output);
 
 		// Counts
 		foreach ( array('member', 'guest', 'bot') as $user_type ) {
@@ -163,17 +163,17 @@ class UserOnline_Template {
 				$number = $naming[$user_type];
 			else
 				$number = '';
-			$template = str_ireplace("%{$user_type}S%", $number, $template);
+			$output = str_ireplace("%{$user_type}S%", $number, $output);
 		}
 
 		// Seperators
 		$separator = ( $counts['member'] && $counts['guest'] ) ? $template['separators']['guests'] : '';
-		$template = str_ireplace('%GUESTS_SEPERATOR%', $separator, $template);
+		$output = str_ireplace('%GUESTS_SEPERATOR%', $separator, $output);
 
 		$separator = ( ( $counts['guest'] || $counts['member'] ) && $counts['bot'] ) ? $template['separators']['bots'] : '';
-		$template = str_ireplace('%BOTS_SEPERATOR%', $separator, $template);
+		$output = str_ireplace('%BOTS_SEPERATOR%', $separator, $output);
 
-		return $template;
+		return $output;
 	}
 
 	function detailed_list($counts, $user_buckets, $nicetexts) {
