@@ -314,6 +314,9 @@ function _useronline_init() {
 
 	UserOnline_Core::init();
 
+	if ( UserOnline_Core::$options->names )
+		add_filter('useronline_display_user', 'wpu_linked_names', 10, 2);
+
 	require_once dirname(__FILE__) . '/widget.php';
 	scbWidget::init('UserOnline_Widget', __FILE__, 'useronline');
 
@@ -328,12 +331,11 @@ function _useronline_init() {
 }
 _useronline_init();
 
+
 function wpu_linked_names($name, $user) {
-#debug_print_backtrace();
 	if ( !$user->user_id )
 		return $name;
 
 	return html_link(get_author_posts_url($user->user_id), $name);
 }
-add_filter('useronline_display_user', 'wpu_linked_names', 10, 2);
 
