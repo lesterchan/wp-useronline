@@ -139,10 +139,10 @@ class UserOnline_Template {
 		$naming = UserOnline_Core::$options->naming;
 
 		// Template - User(s) Browsing Site
-		list($sep_members, $sep_guests, $sep_bots, $template) = UserOnline_Core::$options->templates["browsing$type"];
+		$template = UserOnline_Core::$options->templates["browsing$type"];
 
 		// Nice Text For Users
-		$template = self::format_count($counts['user'], 'user', $template);
+		$template_text = self::format_count($counts['user'], 'user', $template['text']);
 
 		// Print Member Name
 		$temp_member = '';
@@ -151,9 +151,9 @@ class UserOnline_Template {
 			$temp_member = array();
 			foreach ( $members as $member )
 				$temp_member[] = self::format_name($member);
-			$temp_member = implode($sep_members, $temp_member);
+			$temp_member = implode($template['separators']['members'], $temp_member);
 		}
-		$template = str_ireplace('%MEMBER_NAMES%', $temp_member, $template);
+		$template = str_ireplace('%MEMBER_NAMES%', $temp_member, $template_text);
 
 		// Counts
 		foreach ( array('member', 'guest', 'bot') as $user_type ) {
@@ -167,10 +167,10 @@ class UserOnline_Template {
 		}
 
 		// Seperators
-		$separator = ( $counts['member'] && $counts['guest'] ) ? $sep_guests : '';
+		$separator = ( $counts['member'] && $counts['guest'] ) ? $template['separators']['guests'] : '';
 		$template = str_ireplace('%GUESTS_SEPERATOR%', $separator, $template);
 
-		$separator = ( ( $counts['guest'] || $counts['member'] ) && $counts['bot'] ) ? $sep_bots : '';
+		$separator = ( ( $counts['guest'] || $counts['member'] ) && $counts['bot'] ) ? $template['separators']['bots'] : '';
 		$template = str_ireplace('%BOTS_SEPERATOR%', $separator, $template);
 
 		return $template;
@@ -220,7 +220,7 @@ class UserOnline_Template {
 		if ( ! current_user_can('administrator') || empty($ip) || $ip == 'unknown' )
 			return;
 
-		return '<span dir="ltr">(<a href="http://whois.domaintools.com/' . $ip . '" title="'.gethostbyaddr($ip).'">' . $ip . '</a>)</span>';
+		return '<span dir="ltr">(<a href="http://whois.domaintools.com/' . $ip . '" title="' . gethostbyaddr($ip) . '">' . $ip . '</a>)</span>';
 	}
 
 	function format_date($date) {

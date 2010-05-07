@@ -59,6 +59,12 @@ class UserOnline_Options extends scbAdminPage {
 		$options['url'] = trim($options['url']);
 		$options['names'] = (bool) $options['names'];
 
+		foreach ( $options['templates'] as $key => $template )
+			if ( is_array($template) )
+				$options['templates'][$key]['text'] = trim($template['text']);
+			else
+				$options['templates'][$key] = trim($template);
+
 		return $options;
 	}
 
