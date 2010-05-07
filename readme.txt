@@ -4,7 +4,7 @@ Donate link: http://lesterchan.net/wordpress
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
 Requires at least: 2.8
 Tested up to: 3.0
-Stable tag: 2.62
+Stable tag: 2.70
 
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
 
@@ -12,9 +12,9 @@ Enable you to display how many users are online on your Wordpress blog with deta
 
 **PHP 5 is required since version 2.60.**
 
-This plugin enables you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who they are (Members/Guests/Search Bots).
+This plugin enables you to display how many users are online on your Wordpress site, with detailed statistics of where they are and who they are (Members/Guests/Search Bots).
 
-[Demo](http://lesterchan.net/wordpress/useronline/) | [Translations](http://dev.wp-plugins.org/browser/wp-useronline/i18n/)
+[Translations](http://scribu.net/wordpress/translating-plugins.html)
 
 == Installation ==
 
@@ -38,7 +38,7 @@ Open `wp-content/themes/<YOUR THEME NAME>/sidebar.php` and add Anywhere:
 
 `
 <?php if (function_exists('users_online')): ?>
-	<p>Users online: <?php users_online(); ?></p>
+	<p>Users online: <div id="useronline-count"><?php users_online(); ?></div></p>
 <?php endif; ?>
 `
 
@@ -100,6 +100,7 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 * added option to link user names to their author page
 * allow displaying online users from a different page than the current page
 * bundle language files
+* [more info](http://scribu.net/wordpress/wp-useronline/wu-2-70.html)
 
 = 2.62 (2010-03-07) =
 * fix integration with WP-Stats

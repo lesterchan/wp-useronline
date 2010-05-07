@@ -1,6 +1,6 @@
 <?php
 
-class UserOnline_Admin_Page extends scbAdminPage {
+class UserOnline_Admin_Integration extends scbAdminPage {
 
 	function setup() {
 		$this->textdomain = 'wp-useronline';
@@ -177,7 +177,7 @@ class UserOnline_Options extends scbAdminPage {
 ?>
 			<tr>
 				<td width="30%">
-					<strong><?php _e('Naming Conventions:', 'wp-useronline'); ?></strong><br /><br /><br />
+					<strong><?php _e('Naming Conventions:', 'wp-useronline'); ?></strong><br /><br />
 					<?php _e('Allowed Variables:', 'wp-useronline'); ?><br />
 					- %COUNT%<br /><br />
 					<input type="button" value="<?php _e('Restore Defaults', 'wp-useronline'); ?>" onclick="useronline_default_naming();" class="button" />

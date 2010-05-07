@@ -2,8 +2,8 @@
 /*
 Plugin Name: WP-UserOnline
 Plugin URI: http://wordpress.org/extend/plugins/wp-useronline/
-Description: Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots).
-Version: 2.70-beta
+Description: Enable you to display how many users are online on your Wordpress site
+Version: 2.70
 Author: Lester 'GaMerZ' Chan & scribu
 
 
@@ -159,7 +159,7 @@ class UserOnline_Core {
 		wp_enqueue_script('wp-useronline', plugins_url("useronline$js_dev.js", __FILE__), array('jquery'), '2.70', true);
 		wp_localize_script('wp-useronline', 'useronlineL10n', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
-			'timeout' => get_option('useronline_timeout')*1000
+			'timeout' => self::$options->timeout * 1000
 		));
 	}
 
@@ -254,14 +254,14 @@ class UserOnline_Core {
 				users_online();
 				break;
 			case 'browsingsite':
-				users_browsing_site();				
+				users_browsing_site();
 				break;
 			case 'browsingpage':
 				users_browsing_page();
 				break;
 		}
 
-		die();
+		die;
 	}
 
 	function wp_stats_integration() {
@@ -287,23 +287,6 @@ class UserOnline_Core {
 	}
 }
 
-/*
-### Function: Update Member last Visit
-//add_action('wp_head', 'update_memberlastvisit');
-function update_memberlastvisit() {
-	global $current_user, $user_ID;
-	if ( !empty($current_user ) && is_user_logged_in()) {
-		update_user_option($user_ID, 'member_last_login', current_time('timestamp'));   
-	}
-}
-
-
-### Function: Get Member last Visit
-function get_memberlastvisit($user_id = 0) {
-	return UserOnline_Template::format_date(get_user_option('member_last_login', $user_id));
-}
-*/
-
 function _useronline_init() {
 	require_once dirname(__FILE__) . '/scb/load.php';
 
@@ -325,7 +308,7 @@ function _useronline_init() {
 
 	if ( is_admin() ) {
 		require_once dirname(__FILE__) . '/admin.php';
-		scbAdminPage::register('UserOnline_Admin_Page', __FILE__);
+		scbAdminPage::register('UserOnline_Admin_Integration', __FILE__);
 		scbAdminPage::register('UserOnline_Options', __FILE__, UserOnline_Core::$options);
 	}
 }
