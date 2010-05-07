@@ -126,7 +126,7 @@ function html_link($url, $title = '') {
 	if ( empty($title) )
 		$title = $url;
 
-	return sprintf("<a href='%s'>%s</a>", $url, $title);
+	return sprintf("<a href='%s'>%s</a>", esc_url($url), $title);
 }
 endif;
 
