@@ -126,12 +126,12 @@ class UserOnline_Core {
 
 		$naming = self::get_and_delete_option('useronline_naming');
 
-		$templates['useronline'] = self::get_and_delete_option('useronline_template_useronline');
+		$templates['useronline'] = str_replace('%USERONLINE_', '%', self::get_and_delete_option('useronline_template_useronline'));
 
 		foreach ( array('browsingsite', 'browsingpage') as $template ) {
 			list($members, $guests, $bots, $text) = self::get_and_delete_option("useronline_template_$template");
 			$templates[$template] = array(
-				'text' => $text,
+				'text' => str_replace('%USERONLINE_', '%', $text),
 				'separators' => compact('members', 'guests', 'bots'),
 			);
 		}
