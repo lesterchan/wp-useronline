@@ -50,7 +50,7 @@ class UserOnline_Options extends scbAdminPage {
 		$this->args = array(
 			'page_title' => __('UserOnline Options', $this->textdomain),
 			'menu_title' => __('UserOnline', $this->textdomain),
-			'page_slug' => 'useronline',
+			'page_slug' => 'useronline-settings',
 		);
 	}
 
@@ -96,8 +96,6 @@ class UserOnline_Options extends scbAdminPage {
 	function page_content() {
 		$options = $this->options->get();
 		$defaults = $this->options->get_defaults();
-#debug($options);
-#debug($defaults);
 ?>
 	<form method="post" action="options.php">
 		<?php settings_fields($this->option_name); ?>

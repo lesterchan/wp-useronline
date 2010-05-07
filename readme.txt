@@ -3,7 +3,7 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/wordpress
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
 Requires at least: 2.8
-Tested up to: 2.9.2
+Tested up to: 3.0
 Stable tag: 2.62
 
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
@@ -25,26 +25,22 @@ You can either install it automatically from the WordPress admin, or do it manua
 
 = Usage =
 
-**General Usage (Without Widget)**
-
-Open `wp-content/themes/<YOUR THEME NAME>/sidebar.php` and add Anywhere:
-
-`
-<?php if (function_exists('get_useronline')): ?>
-   <li>
-      <h2>UserOnline</h2>
-      <ul>
-         <li><div id="useronline-count"><?php get_useronline(); ?></div></li>
-      </ul>
-   </li>
-<?php endif; ?>
-`
-
 **General Usage (With Widget)**
 
 1. Go to `WP-Admin -> Appearance -> Widgets`
 1. The widget name is <strong>UserOnline</strong>.
 1. Scroll down for instructions on how to create a *UserOnline Page*.
+
+
+**General Usage (Without Widget)**
+
+Open `wp-content/themes/<YOUR THEME NAME>/sidebar.php` and add Anywhere:
+
+`
+<?php if (function_exists('users_online')): ?>
+	<p>Users online: <?php users_online(); ?></p>
+<?php endif; ?>
+`
 
 **UserOnline Page**
 
@@ -62,8 +58,8 @@ If you **ARE NOT** using nice permalinks, you need to go to `WP-Admin -> Setting
 To Display *Most Number Of Users Online* use:
 
 `
-<?php if (function_exists('get_most_useronline')): ?>
-   <p>Most Users Ever Online Is <?php echo get_most_useronline(); ?> On <?php echo get_most_useronline_date(); ?></p>
+<?php if (function_exists('get_most_users_online')): ?>
+   <p>Most Users Ever Online Is <?php echo get_most_users_online(); ?> On <?php echo get_most_users_online_date(); ?></p>
 <?php endif; ?>
 `
 
@@ -85,7 +81,9 @@ To Display *Users Browsing A Page* use:
 
 == Screenshots ==
 
-[WP-UserOnline Screenshots](http://lesterchan.net/wordpress/screenshots/browse/wp-useronline/ "WP-UserOnline Screenshots")
+1. Right Now text
+2. Admin page
+3. Settings page
 
 == Frequently Asked Questions ==
 
