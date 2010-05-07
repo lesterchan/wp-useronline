@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin WP-UserOnline 2.70-alpha3 (very buggy) by Lester 'GaMerZ' Chan & scribu.
+# Translation of the WordPress plugin WP-UserOnline 2.70-beta by Lester 'GaMerZ' Chan & scribu.
 # Copyright (C) 2010 Lester 'GaMerZ' Chan & scribu
 # This file is distributed under the same license as the WP-UserOnline package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-UserOnline 2.70-alpha3 (very buggy)\n"
+"Project-Id-Version: WP-UserOnline 2.70-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-useronline\n"
-"POT-Creation-Date: 2010-04-26 17:26+0300\n"
+"POT-Creation-Date: 2010-05-07 16:14+0300\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: admin.php:8
+#: admin.php:9
 msgid "Users Online Now"
 msgstr ""
 
-#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.70-alpha3 (very buggy))  #-#-#-#-#
+#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.70-beta)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: admin.php:9 wp-stats.php:22 wp-stats.php:39
+#: admin.php:10 wp-stats.php:14 wp-stats.php:31
 msgid "WP-UserOnline"
 msgstr ""
 
-#: admin.php:23
+#: admin.php:24
 #, php-format
 msgid "There is <strong><a href='%s'>%s user</a></strong> online now."
 msgid_plural ""
@@ -35,148 +35,105 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin.php:50
+#: admin.php:51
 msgid "UserOnline Options"
 msgstr ""
 
-#: admin.php:51 widget.php:6 widget.php:49
+#: admin.php:52 widget.php:6 widget.php:49
 msgid "UserOnline"
 msgstr ""
 
-#: admin.php:69 wp-useronline.php:71
-msgid "Online"
-msgstr ""
-
-#: admin.php:75 wp-useronline.php:60
-msgid "1 User"
-msgstr ""
-
-#: admin.php:76 wp-useronline.php:61
-msgid "%USERONLINE_COUNT% Users"
-msgstr ""
-
-#: admin.php:77 wp-useronline.php:62
-msgid "1 Member"
-msgstr ""
-
-#: admin.php:78 wp-useronline.php:63
-msgid "%USERONLINE_COUNT% Members"
-msgstr ""
-
-#: admin.php:79 wp-useronline.php:64
-msgid "1 Guest"
-msgstr ""
-
-#: admin.php:80 wp-useronline.php:65
-msgid "%USERONLINE_COUNT% Guests"
-msgstr ""
-
-#: admin.php:81 wp-useronline.php:66
-msgid "1 Bot"
-msgstr ""
-
-#: admin.php:82 wp-useronline.php:67
-msgid "%USERONLINE_COUNT% Bots"
-msgstr ""
-
-#: admin.php:85 admin.php:86 admin.php:87 admin.php:91 admin.php:92
-#: admin.php:93 wp-useronline.php:73 wp-useronline.php:74 wp-useronline.php:75
-#: wp-useronline.php:79 wp-useronline.php:80 wp-useronline.php:81
-msgid ","
-msgstr ""
-
-#: admin.php:88 admin.php:94 wp-useronline.php:76 wp-useronline.php:82
-msgctxt "Template Element"
-msgid "Users"
-msgstr ""
-
-#: admin.php:94 wp-useronline.php:82
-msgid "Browsing This Page."
-msgstr ""
-
-#: admin.php:126
-msgid "Settings updated."
-msgstr ""
-
-#: admin.php:135
+#: admin.php:107
 msgid "Time Out"
 msgstr ""
 
-#: admin.php:137
+#: admin.php:110
 msgid "How long until it will remove the user from the database (In seconds)."
 msgstr ""
 
-#: admin.php:141
+#: admin.php:115
 msgid "UserOnline URL"
 msgstr ""
 
-#: admin.php:143
+#: admin.php:118
 msgid ""
-"URL To UserOnline Page<br />Example: http://www.yoursite.com/blogs/"
-"useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
+"URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br /"
+">Example: http://www.yoursite.com/?page_id=2"
 msgstr ""
 
-#: admin.php:148
-msgid "Naming Conventions:"
+#: admin.php:122
+msgid "User Names"
 msgstr ""
 
-#: admin.php:149 admin.php:183 admin.php:208
-msgid "Allowed Variables:"
+#: admin.php:125
+msgid "Link user names to their author page"
 msgstr ""
 
-#: admin.php:151 admin.php:188 admin.php:216
-msgid "Restore Default Template"
-msgstr ""
-
-#: admin.php:157
-msgid "Singular Form"
-msgstr ""
-
-#: admin.php:158
-msgid "Plural Form"
-msgstr ""
-
-#: admin.php:178
+#: admin.php:142
 msgid "Useronline Templates"
 msgstr ""
 
-#: admin.php:182
-msgid "User(s) Online:"
-msgstr ""
-
-#: admin.php:192
+#: admin.php:154
 msgid "User(s) Browsing Site:"
 msgstr ""
 
-#: admin.php:193
+#: admin.php:155
 msgid "User(s) Browsing Page:"
 msgstr ""
 
-#: admin.php:196 scb/AdminPage.php:165 scb/AdminPage.php:176
+#: admin.php:168 scb/AdminPage.php:179 scb/AdminPage.php:190
 msgid "Save Changes"
 msgstr ""
 
-#: admin.php:222
+#: admin.php:178
+msgid "Naming Conventions:"
+msgstr ""
+
+#: admin.php:179 admin.php:219 admin.php:241
+msgid "Allowed Variables:"
+msgstr ""
+
+#: admin.php:181
+msgid "Restore Defaults"
+msgstr ""
+
+#: admin.php:187
+msgid "Singular Form"
+msgstr ""
+
+#: admin.php:188
+msgid "Plural Form"
+msgstr ""
+
+#: admin.php:218
+msgid "User(s) Online:"
+msgstr ""
+
+#: admin.php:224 admin.php:249
+msgid "Restore Default Template"
+msgstr ""
+
+#: admin.php:255
 msgid "Member Names Separator"
 msgstr ""
 
-#: admin.php:223
+#: admin.php:256
 msgid "Guests Separator"
 msgstr ""
 
-#: admin.php:224
+#: admin.php:257
 msgid "Bots Separator"
 msgstr ""
 
-#: scb/AdminPage.php:279
+#: scb/AdminPage.php:166
 msgid "Settings <strong>saved</strong>."
 msgstr ""
 
-#: scb/AdminPage.php:337
+#: scb/AdminPage.php:376
 msgid "Settings"
 msgstr ""
 
-#: template-tags.php:95
+#: template-tags.php:79
 #, php-format
 msgid ""
 "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</"
@@ -187,32 +144,32 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: template-tags.php:177
+#: template-tags.php:181
 msgid "No one is online now."
 msgstr ""
 
-#: template-tags.php:179
+#: template-tags.php:183
 msgid "on"
 msgstr ""
 
-#: template-tags.php:180
+#: template-tags.php:184
 msgid "url"
 msgstr ""
 
-#: template-tags.php:181
+#: template-tags.php:185
 msgid "referral"
 msgstr ""
 
-#: template-tags.php:192
+#: template-tags.php:196
 msgid "Online Now"
 msgstr ""
 
-#: template-tags.php:223
+#: template-tags.php:227
 #, php-format
 msgid "%s @ %s"
 msgstr ""
 
-#: template-tags.php:243
+#: template-tags.php:247
 #, php-format
 msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
 msgstr ""
@@ -249,26 +206,72 @@ msgstr ""
 msgid "Users Online Count & Users Browsing Site"
 msgstr ""
 
-#: wp-stats.php:32
+#: wp-stats.php:24
 #, php-format
 msgid "<strong>%s</strong> user online now."
 msgid_plural "<strong>%s</strong> users online now."
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-useronline.php:155
-msgid "guest"
+#: wp-useronline.php:83
+msgid "1 User"
 msgstr ""
 
-#: wp-useronline.php:161
+#: wp-useronline.php:84
+msgid "%COUNT% Users"
+msgstr ""
+
+#: wp-useronline.php:85
+msgid "1 Member"
+msgstr ""
+
+#: wp-useronline.php:86
+msgid "%COUNT% Members"
+msgstr ""
+
+#: wp-useronline.php:87
+msgid "1 Guest"
+msgstr ""
+
+#: wp-useronline.php:88
+msgid "%COUNT% Guests"
+msgstr ""
+
+#: wp-useronline.php:89
+msgid "1 Bot"
+msgstr ""
+
+#: wp-useronline.php:90
+msgid "%COUNT% Bots"
+msgstr ""
+
+#: wp-useronline.php:94
+msgid "Online"
+msgstr ""
+
+#: wp-useronline.php:98 wp-useronline.php:99 wp-useronline.php:100
+#: wp-useronline.php:107 wp-useronline.php:108 wp-useronline.php:109
+msgid ","
+msgstr ""
+
+#: wp-useronline.php:102 wp-useronline.php:111
+msgctxt "Template Element"
+msgid "Users"
+msgstr ""
+
+#: wp-useronline.php:111
+msgid "Browsing This Page."
+msgstr ""
+
+#: wp-useronline.php:210
 msgid "Guest"
 msgstr ""
 
-#: wp-useronline.php:170
+#: wp-useronline.php:217
 msgid "Admin"
 msgstr ""
 
-#: wp-useronline.php:176
+#: wp-useronline.php:223
 msgid "Archive"
 msgstr ""
 
