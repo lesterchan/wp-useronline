@@ -30,6 +30,7 @@ abstract class scbAdminPage {
 	// scbOptions object holder
 	// Normally, it's used for storing formdata
 	protected $options;
+	protected $option_name;
 
 	// l10n
 	protected $textdomain;
@@ -87,7 +88,6 @@ abstract class scbAdminPage {
 		if ( NULL !== $options ) {
 			$this->options = $options;
 			$this->formdata = $this->options->get();
-			$this->option_name = $this->options->get_key();
 		}
 
 		$this->file = $file;

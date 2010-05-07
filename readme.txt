@@ -97,8 +97,9 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 == Changelog ==
 
 = 2.70 =
-* revamp template tags
+* added option to link user names to their author page
 * allow displaying online users from a different page than the current page
+* bundle language files
 
 = 2.62 (2010-03-07) =
 * fix integration with WP-Stats
