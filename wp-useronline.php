@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://wordpress.org/extend/plugins/wp-useronline/
 Description: Enable you to display how many users are online on your Wordpress site
-Version: 2.70
+Version: 2.71
 Author: Lester 'GaMerZ' Chan & scribu
 
 
@@ -112,19 +112,33 @@ class UserOnline_Core {
 				)
 			)
 		));
+		
+		self::upgrade();
 	}
 
 	function upgrade() {
 		global $wpdb;
 
+		// WP >= 2.70
+		if ( $options = get_option('useronline') ) {
+			$options['naming'] = scbUtil::array_map_recursive(array(__CLASS__, '_update_template'), $options['naming']);
+
+			update_option('useronline', $options);
+
+			return;
+		}
+
+		// WP < 2.70
 		$count = self::get_and_delete_option('useronline_most_users');
 		$date = self::get_and_delete_option('useronline_most_timestamp');
 
 		if ( !$count )
 			return;
+
 		add_option('useronline_most', compact('count', 'date'));
 
 		$naming = self::get_and_delete_option('useronline_naming');
+		$naming = scbUtil::array_map_recursive(array(__CLASS__, '_update_template'), $naming);
 
 		$templates['useronline'] = str_replace('%USERONLINE_', '%', self::get_and_delete_option('useronline_template_useronline'));
 
@@ -145,6 +159,10 @@ class UserOnline_Core {
 		delete_option('useronline_bots');
 
 		$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}useronline");
+	}
+
+	function _update_template($text) {
+		return str_replace('%USERONLINE_', '%', $text);
 	}
 
 	private function get_and_delete_option($key) {

@@ -48,7 +48,7 @@ class scbUtil {
 	}
 
 	static function array_map_recursive_helper(&$val, $key, $callback) {
-		$val = $callback($val);
+		$val = call_user_func($callback, $val);
 	}
 
 	// Extract certain $keys from $array
