@@ -7,7 +7,7 @@ function users_online() {
 
 function get_users_online() {
 	$template = UserOnline_Core::$options->templates['useronline'];
-	$template = str_ireplace('%PAGE_URL%', UserOnline_Core::$options->page_url, $template);
+	$template = str_ireplace('%PAGE_URL%', UserOnline_Core::$options->url, $template);
 	$template = str_ireplace('%MOSTONLINE_COUNT%', get_most_users_online(), $template);
 	$template = str_ireplace('%MOSTONLINE_DATE%', get_most_users_online_date(), $template);
 
