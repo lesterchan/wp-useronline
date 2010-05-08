@@ -112,8 +112,6 @@ class UserOnline_Core {
 				)
 			)
 		));
-		
-		self::upgrade();
 	}
 
 	function upgrade() {
