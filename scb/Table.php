@@ -11,7 +11,7 @@ class scbTable {
 		$this->name = $wpdb->$name = $wpdb->prefix . $name;
 		$this->columns = $columns;
 
-		register_activation_hook($file, array($this, 'install'));
+		scbUtil::add_activation_hook($file, array($this, 'install'));
 		scbUtil::add_uninstall_hook($file, array($this, 'uninstall'));
 	}
 
