@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://wordpress.org/extend/plugins/wp-useronline/
 Description: Enable you to display how many users are online on your Wordpress site
-Version: 2.72
+Version: 2.73-alpha
 Author: Lester 'GaMerZ' Chan & scribu
 
 
@@ -52,8 +52,6 @@ class UserOnline_Core {
 		add_action('wp_ajax_nopriv_useronline', array(__CLASS__, 'ajax'));
 
 		add_shortcode('page_useronline', 'users_online_page');
-
-		register_activation_hook(__FILE__, array(__CLASS__, 'upgrade'));
 
 		// Table
 		new scbTable('useronline', __FILE__, "
@@ -112,61 +110,6 @@ class UserOnline_Core {
 				)
 			)
 		));
-	}
-
-	function upgrade() {
-		global $wpdb;
-
-		// WP >= 2.70
-		if ( $options = get_option('useronline') ) {
-			$options['naming'] = scbUtil::array_map_recursive(array(__CLASS__, '_update_template'), $options['naming']);
-
-			update_option('useronline', $options);
-
-			return;
-		}
-
-		// WP < 2.70
-		$count = self::get_and_delete_option('useronline_most_users');
-		$date = self::get_and_delete_option('useronline_most_timestamp');
-
-		if ( !$count )
-			return;
-
-		add_option('useronline_most', compact('count', 'date'));
-
-		$naming = self::get_and_delete_option('useronline_naming');
-		$naming = scbUtil::array_map_recursive(array(__CLASS__, '_update_template'), $naming);
-
-		$templates['useronline'] = str_replace('%USERONLINE_', '%', self::get_and_delete_option('useronline_template_useronline'));
-
-		foreach ( array('browsingsite', 'browsingpage') as $template ) {
-			list($members, $guests, $bots, $text) = self::get_and_delete_option("useronline_template_$template");
-			$templates[$template] = array(
-				'text' => str_replace('%USERONLINE_', '%', $text),
-				'separators' => compact('members', 'guests', 'bots'),
-			);
-		}
-
-		$options = compact('naming', 'templates');
-		foreach ( array('timeout', 'url') as $option )
-			$options[$option] = self::get_and_delete_option("useronline_$option");
-
-		add_option('useronline', $options);
-
-		delete_option('useronline_bots');
-
-		$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}useronline");
-	}
-
-	function _update_template($text) {
-		return str_replace('%USERONLINE_', '%', $text);
-	}
-
-	private function get_and_delete_option($key) {
-		$val = get_option($key);
-		delete_option($key);
-		return $val;
 	}
 
 	function scripts() {
