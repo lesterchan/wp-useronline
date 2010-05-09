@@ -1,6 +1,4 @@
 <?php
-#debug_print_backtrace();
-
 if ( !class_exists('scbLoad3') ) :
 class scbLoad3 {
 

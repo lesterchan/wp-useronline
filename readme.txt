@@ -96,6 +96,9 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 
 == Changelog ==
 
+= 2.72 =
+* fix fatal error on upgrade
+
 = 2.71 =
 * fix %USERONLINE_COUNT% problem
 
