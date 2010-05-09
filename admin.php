@@ -53,7 +53,7 @@ class UserOnline_Options extends scbAdminPage {
 			'page_slug' => 'useronline-settings',
 		);
 		
-		$this->option_name = $this->options->get_key();
+		$this->option_name = 'useronline';
 	}
 
 	function validate($options) {

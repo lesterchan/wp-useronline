@@ -12,18 +12,16 @@ class scbLoad3 {
 
 		self::load($dir . '/', $classes);
 
-		add_action('activated_plugin', array(__CLASS__, 'reorder'));
+		add_filter('pre_update_option_active_plugins', array(__CLASS__, 'reorder'));
 	}
 
-	static function reorder() {
+	static function reorder($active_plugins) {
 		krsort(self::$candidates);
 
 		$dir = dirname(plugin_basename(reset(self::$candidates)));
 
-		$current = get_option('active_plugins', array());
-
 		$found = false;
-		foreach ( $current as $i => $plugin ) {
+		foreach ( $active_plugins as $i => $plugin ) {
 			$plugin_dir = dirname($plugin);
 
 			if ( $plugin_dir == $dir ) {
@@ -33,12 +31,12 @@ class scbLoad3 {
 		}
 
 		if ( !$found || 0 == $i )
-			return;
+			return $active_plugins;
 
-		unset($current[$i]);
-		array_unshift($current, $plugin);
+		unset($active_plugins[$i]);
+		array_unshift($active_plugins, $plugin);
 
-		update_option('active_plugins', $current);
+		return $active_plugins;
 	}
 
 	private static function load($path, $classes) {
