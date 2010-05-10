@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS['_scb_data'] = array(16, __FILE__, array(
+$GLOBALS['_scb_data'] = array(17, __FILE__, array(
 	'scbUtil', 'scbOptions', 'scbForms', 'scbTable', 'scbDebug',
 	'scbWidget', 'scbAdminPage', 'scbBoxesPage',
 	'scbQuery', 'scbRewrite', 'scbCron',

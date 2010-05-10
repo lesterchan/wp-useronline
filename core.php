@@ -39,8 +39,8 @@ class UserOnline_Core {
 			page_title text NOT NULL default '',
 			page_url varchar(255) NOT NULL default '',
 			referral varchar(255) NOT NULL default '',
-			UNIQUE KEY useronline_id (timestamp, user_ip, user_agent)
-		");
+			UNIQUE KEY useronline_id (timestamp, user_type, user_ip)
+		", 'delete_first');
 
 		self::$most = new scbOptions('useronline_most', __FILE__, array(
 			'count' => 1,
