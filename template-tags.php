@@ -231,13 +231,13 @@ class UserOnline_Template {
 		return apply_filters('useronline_display_user', esc_html($user->user_name), $user);
 	}
 
-	function format_count($count, $user_type, $template = '') {
+	function format_count($count, $user_type, $template = false) {
 		$i = ($count == 1) ? '' : 's';
 		$string = UserOnline_Core::$options->naming[$user_type . $i];
 
 		$output = str_ireplace('%COUNT%', number_format_i18n($count), $string);
 
-		if ( empty($template) )
+		if ( false === $template )
 			return $output;
 
 		return str_ireplace('%USERS%', $output, $template);

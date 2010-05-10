@@ -26,14 +26,11 @@ class UserOnline_Admin_Integration extends scbAdminPage {
 			$total_users, 'wp-useronline'
 		);
 
-		echo '<p>';
-		printf($str, add_query_arg('page', $this->args['page_slug'], admin_url('index.php')), number_format_i18n($total_users));
+		echo html('p', sprintf($str, add_query_arg('page', $this->args['page_slug'], admin_url('index.php')), number_format_i18n($total_users)));
 
-		echo '<br />';
-		users_browsing_site();
-		echo '.<br />';
-		echo UserOnline_Template::format_most_users();
-		echo '</p>'."\n";
+		echo html('p', get_users_browsing_site());
+
+		echo html('p', UserOnline_Template::format_most_users());
 	}
 
 	function page_content() {
