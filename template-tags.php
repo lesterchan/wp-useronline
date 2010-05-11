@@ -200,7 +200,7 @@ class UserOnline_Template {
 				$nr = number_format_i18n($i++);
 				$name = self::format_name($user);
 				$user_ip = self::format_ip($user->user_ip);
-				$date = self::format_date($user->timestamp);
+				$date = self::format_date($user->timestamp, true);
 				$page_title = esc_html($user->page_title);
 				$current_link = '[' . html_link(esc_url($user->page_url), $_url) . ']';
 
@@ -223,8 +223,11 @@ class UserOnline_Template {
 		return '<span dir="ltr">(<a href="http://whois.domaintools.com/' . $ip . '" title="' . gethostbyaddr($ip) . '">' . $ip . '</a>)</span>';
 	}
 
-	function format_date($date) {
-		return mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), $date, true);
+	function format_date($date, $mysql = false) {
+		if ( $mysql )
+			return mysql2date(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), $date, true);
+
+		return date_i18n(sprintf(__('%s @ %s', 'wp-useronline'), get_option('date_format'), get_option('time_format')), $date);
 	}
 
 	function format_name($user) {

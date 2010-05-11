@@ -44,7 +44,7 @@ class UserOnline_Core {
 
 		self::$most = new scbOptions('useronline_most', __FILE__, array(
 			'count' => 1,
-			'date' => current_time('mysql')
+			'date' => current_time('timestamp')
 		));
 
 		self::$options = new scbOptions('useronline', __FILE__, array(
@@ -186,7 +186,7 @@ class UserOnline_Core {
 		if ( self::$useronline > self::$most->count )
 			self::$most->update(array(
 				'count' => self::$useronline,
-				'date' => current_time('mysql')
+				'date' => current_time('timestamp')
 			));
 	}
 
