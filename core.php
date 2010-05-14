@@ -15,7 +15,10 @@ class UserOnline_Core {
 		return self::$useronline;
 	}
 
-	function init() {
+	function init($options, $most) {
+		self::$options = $options;
+		self::$most = $most;
+
 		add_action('plugins_loaded', array(__CLASS__, 'wp_stats_integration'));
 
 		add_action('template_redirect', array(__CLASS__, 'scripts'));
@@ -27,64 +30,6 @@ class UserOnline_Core {
 		add_action('wp_ajax_nopriv_useronline', array(__CLASS__, 'ajax'));
 
 		add_shortcode('page_useronline', 'users_online_page');
-
-		// Table
-		new scbTable('useronline', __FILE__, "
-			timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			user_type varchar(20) NOT NULL default 'guest',
-			user_id bigint(20) NOT NULL default 0,
-			user_name varchar(250) NOT NULL default '',
-			user_ip varchar(20) NOT NULL default '',
-			user_agent text NOT NULL default '',
-			page_title text NOT NULL default '',
-			page_url varchar(255) NOT NULL default '',
-			referral varchar(255) NOT NULL default '',
-			UNIQUE KEY useronline_id (timestamp, user_type, user_ip)
-		", 'delete_first');
-		
-		self::$most = new scbOptions('useronline_most', __FILE__, array(
-			'count' => 1,
-			'date' => current_time('timestamp')
-		));
-
-		self::$options = new scbOptions('useronline', __FILE__, array(
-			'timeout' => 300,
-			'url' => trailingslashit(get_bloginfo('url')) . 'useronline',
-			'names' => false,
-
-			'naming' => array(
-				'user'		=> __('1 User', 'wp-useronline'), 
-				'users'		=> __('%COUNT% Users', 'wp-useronline'), 
-				'member'	=> __('1 Member', 'wp-useronline'), 
-				'members'	=> __('%COUNT% Members', 'wp-useronline'), 
-				'guest' 	=> __('1 Guest', 'wp-useronline'),
-				'guests'	=> __('%COUNT% Guests', 'wp-useronline'),
-				'bot'		=> __('1 Bot', 'wp-useronline'),
-				'bots'		=> __('%COUNT% Bots', 'wp-useronline')
-			),
-
-			'templates' => array(
-				'useronline' => '<a href="%PAGE_URL%"><strong>%USERS%</strong> '.__('Online', 'wp-useronline').'</a>',
-
-				'browsingsite' => array(
-					'separators' => array(
-						'members' => __(',', 'wp-useronline').' ',
-						'guests' => __(',', 'wp-useronline').' ', 
-						'bots' => __(',', 'wp-useronline').' ', 
-					),
-					'text' => _x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
-				),
-
-				'browsingpage' => array(
-					'separators' => array(
-						'members' => __(',', 'wp-useronline').' ',
-						'guests' => __(',', 'wp-useronline').' ', 
-						'bots' => __(',', 'wp-useronline').' ', 
-					),
-					'text' => '<strong>%USERS%</strong> '.__('Browsing This Page.', 'wp-useronline').'<br />'._x('Users', 'Template Element', 'wp-useronline').': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
-				)
-			)
-		));
 
 		if ( self::$options->names )
 			add_filter('useronline_display_user', array(__CLASS__, 'linked_names'), 10, 2);
