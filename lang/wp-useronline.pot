@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin WP-UserOnline 2.70-beta by Lester 'GaMerZ' Chan & scribu.
+# Translation of the WordPress plugin WP-UserOnline 2.80-alpha by Lester 'GaMerZ' Chan & scribu.
 # Copyright (C) 2010 Lester 'GaMerZ' Chan & scribu
 # This file is distributed under the same license as the WP-UserOnline package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-UserOnline 2.70-beta\n"
+"Project-Id-Version: WP-UserOnline 2.80-alpha\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-useronline\n"
-"POT-Creation-Date: 2010-05-07 16:14+0300\n"
+"POT-Creation-Date: 2010-05-13 19:13+0300\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Users Online Now"
 msgstr ""
 
-#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.70-beta)  #-#-#-#-#
+#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.80-alpha)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: admin.php:10 wp-stats.php:14 wp-stats.php:31
 msgid "WP-UserOnline"
@@ -35,101 +35,162 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin.php:51
+#: admin.php:52
 msgid "UserOnline Options"
 msgstr ""
 
-#: admin.php:52 widget.php:6 widget.php:49
+#: admin.php:53 widget.php:6 widget.php:49
 msgid "UserOnline"
 msgstr ""
 
-#: admin.php:107
+#: admin.php:110
 msgid "Time Out"
 msgstr ""
 
-#: admin.php:110
+#: admin.php:113
 msgid "How long until it will remove the user from the database (In seconds)."
 msgstr ""
 
-#: admin.php:115
+#: admin.php:118
 msgid "UserOnline URL"
 msgstr ""
 
-#: admin.php:118
+#: admin.php:121
 msgid ""
 "URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br /"
 ">Example: http://www.yoursite.com/?page_id=2"
 msgstr ""
 
-#: admin.php:122
+#: admin.php:125
 msgid "User Names"
 msgstr ""
 
-#: admin.php:125
+#: admin.php:128
 msgid "Link user names to their author page"
 msgstr ""
 
-#: admin.php:142
+#: admin.php:145
 msgid "Useronline Templates"
 msgstr ""
 
-#: admin.php:154
+#: admin.php:157
 msgid "User(s) Browsing Site:"
 msgstr ""
 
-#: admin.php:155
+#: admin.php:158
 msgid "User(s) Browsing Page:"
 msgstr ""
 
-#: admin.php:168 scb/AdminPage.php:179 scb/AdminPage.php:190
+#: admin.php:171 scb/AdminPage.php:180 scb/AdminPage.php:191
 msgid "Save Changes"
 msgstr ""
 
-#: admin.php:178
+#: admin.php:181
 msgid "Naming Conventions:"
 msgstr ""
 
-#: admin.php:179 admin.php:219 admin.php:241
+#: admin.php:182 admin.php:222 admin.php:244
 msgid "Allowed Variables:"
 msgstr ""
 
-#: admin.php:181
+#: admin.php:184
 msgid "Restore Defaults"
 msgstr ""
 
-#: admin.php:187
+#: admin.php:190
 msgid "Singular Form"
 msgstr ""
 
-#: admin.php:188
+#: admin.php:191
 msgid "Plural Form"
 msgstr ""
 
-#: admin.php:218
+#: admin.php:221
 msgid "User(s) Online:"
 msgstr ""
 
-#: admin.php:224 admin.php:249
+#: admin.php:227 admin.php:252
 msgid "Restore Default Template"
 msgstr ""
 
-#: admin.php:255
+#: admin.php:258
 msgid "Member Names Separator"
 msgstr ""
 
-#: admin.php:256
+#: admin.php:259
 msgid "Guests Separator"
 msgstr ""
 
-#: admin.php:257
+#: admin.php:260
 msgid "Bots Separator"
 msgstr ""
 
-#: scb/AdminPage.php:166
+#: core.php:56
+msgid "1 User"
+msgstr ""
+
+#: core.php:57
+msgid "%COUNT% Users"
+msgstr ""
+
+#: core.php:58
+msgid "1 Member"
+msgstr ""
+
+#: core.php:59
+msgid "%COUNT% Members"
+msgstr ""
+
+#: core.php:60
+msgid "1 Guest"
+msgstr ""
+
+#: core.php:61
+msgid "%COUNT% Guests"
+msgstr ""
+
+#: core.php:62
+msgid "1 Bot"
+msgstr ""
+
+#: core.php:63
+msgid "%COUNT% Bots"
+msgstr ""
+
+#: core.php:67
+msgid "Online"
+msgstr ""
+
+#: core.php:71 core.php:72 core.php:73 core.php:80 core.php:81 core.php:82
+msgid ","
+msgstr ""
+
+#: core.php:75 core.php:84
+msgctxt "Template Element"
+msgid "Users"
+msgstr ""
+
+#: core.php:84
+msgid "Browsing This Page."
+msgstr ""
+
+#: core.php:154
+msgid "Guest"
+msgstr ""
+
+#: core.php:161
+msgid "Admin"
+msgstr ""
+
+#: core.php:167
+msgid "Archive"
+msgstr ""
+
+#: scb/AdminPage.php:167
 msgid "Settings <strong>saved</strong>."
 msgstr ""
 
-#: scb/AdminPage.php:376
+#: scb/AdminPage.php:377
 msgid "Settings"
 msgstr ""
 
@@ -164,12 +225,12 @@ msgstr ""
 msgid "Online Now"
 msgstr ""
 
-#: template-tags.php:227
+#: template-tags.php:228 template-tags.php:230
 #, php-format
 msgid "%s @ %s"
 msgstr ""
 
-#: template-tags.php:247
+#: template-tags.php:250
 #, php-format
 msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
 msgstr ""
@@ -213,77 +274,12 @@ msgid_plural "<strong>%s</strong> users online now."
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-useronline.php:83
-msgid "1 User"
-msgstr ""
-
-#: wp-useronline.php:84
-msgid "%COUNT% Users"
-msgstr ""
-
-#: wp-useronline.php:85
-msgid "1 Member"
-msgstr ""
-
-#: wp-useronline.php:86
-msgid "%COUNT% Members"
-msgstr ""
-
-#: wp-useronline.php:87
-msgid "1 Guest"
-msgstr ""
-
-#: wp-useronline.php:88
-msgid "%COUNT% Guests"
-msgstr ""
-
-#: wp-useronline.php:89
-msgid "1 Bot"
-msgstr ""
-
-#: wp-useronline.php:90
-msgid "%COUNT% Bots"
-msgstr ""
-
-#: wp-useronline.php:94
-msgid "Online"
-msgstr ""
-
-#: wp-useronline.php:98 wp-useronline.php:99 wp-useronline.php:100
-#: wp-useronline.php:107 wp-useronline.php:108 wp-useronline.php:109
-msgid ","
-msgstr ""
-
-#: wp-useronline.php:102 wp-useronline.php:111
-msgctxt "Template Element"
-msgid "Users"
-msgstr ""
-
-#: wp-useronline.php:111
-msgid "Browsing This Page."
-msgstr ""
-
-#: wp-useronline.php:210
-msgid "Guest"
-msgstr ""
-
-#: wp-useronline.php:217
-msgid "Admin"
-msgstr ""
-
-#: wp-useronline.php:223
-msgid "Archive"
-msgstr ""
-
 #. Plugin URI of the plugin/theme
 msgid "http://wordpress.org/extend/plugins/wp-useronline/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid ""
-"Enable you to display how many users are online on your Wordpress blog with "
-"detailed statistics of where they are and who there are(Members/Guests/"
-"Search Bots)."
+msgid "Enable you to display how many users are online on your Wordpress site"
 msgstr ""
 
 #. Author of the plugin/theme
