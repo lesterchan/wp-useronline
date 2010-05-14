@@ -29,7 +29,7 @@ class scbDebug {
 	}
 
 	static function info() {
-		self::raw(scbLoad3::get_info());
+		self::raw(scbLoad4::get_info());
 	}
 }
 

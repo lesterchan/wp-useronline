@@ -41,7 +41,7 @@ class UserOnline_Core {
 			referral varchar(255) NOT NULL default '',
 			UNIQUE KEY useronline_id (timestamp, user_type, user_ip)
 		", 'delete_first');
-
+		
 		self::$most = new scbOptions('useronline_most', __FILE__, array(
 			'count' => 1,
 			'date' => current_time('timestamp')
