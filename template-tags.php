@@ -69,6 +69,8 @@ function users_online_page() {
 	foreach ( $usersonline as $useronline )
 		$user_buckets[$useronline->user_type][] = $useronline;
 
+	$user_buckets = apply_filters('useronline_buckets', $user_buckets);
+
 	$counts = UserOnline_Template::get_counts($user_buckets);
 
 	$nicetexts = array();
