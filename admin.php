@@ -154,8 +154,8 @@ class UserOnline_Options extends scbAdminPage {
 
 			<?php
 			$templates = array(
-				'browsingsite' => __( 'User( s ) Browsing Site:', 'wp-useronline' ),
-				'browsingpage' => __( 'User( s ) Browsing Page:', 'wp-useronline' ),
+				'browsingsite' => __( 'User(s) Browsing Site:', 'wp-useronline' ),
+				'browsingpage' => __( 'User(s) Browsing Page:', 'wp-useronline' ),
 			);
 			foreach ( $templates as $name => $title ) { ?>
 				<tbody id="default_template_<?php echo $name; ?>" style="display:none">
@@ -218,7 +218,7 @@ class UserOnline_Options extends scbAdminPage {
 ?>
 			<tr>
 				<td width="30%">
-					<strong><?php _e( 'User( s ) Online:', 'wp-useronline' ); ?></strong><br /><br />
+					<strong><?php _e( 'User(s) Online:', 'wp-useronline' ); ?></strong><br /><br />
 					<?php _e( 'Allowed Variables:', 'wp-useronline' ); ?><br />
 					- %USERS%<br />
 					- %PAGE_URL%<br />

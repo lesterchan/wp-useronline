@@ -142,7 +142,7 @@ class UserOnline_Template {
 		// Template - Naming Conventions
 		$naming = UserOnline_Core::$options->naming;
 
-		// Template - User( s ) Browsing Site
+		// Template - User(s) Browsing Site
 		$template = UserOnline_Core::$options->templates["browsing$type"];
 
 		// Nice Text For Users
