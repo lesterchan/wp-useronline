@@ -136,6 +136,8 @@ class UserOnline_Core {
 	}
 
 	function ajax() {
+		self::record();
+
 		$mode = trim($_POST['mode']);
 
 		switch($mode) {
