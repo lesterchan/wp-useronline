@@ -52,15 +52,19 @@ class UserOnline_Core {
 		));
 	}
 
-	function record() {
+	function record($page_url = '', $page_title = '') {
 		global $wpdb;
 
-		$user_ip = self::get_ip();
-		$user_agent = $_SERVER['HTTP_USER_AGENT'];
-		$page_url = $_SERVER['REQUEST_URI'];
+		if ( empty($page_url) )
+			$page_url = $_SERVER['REQUEST_URI'];
+
+		if ( empty($page_title) )
+			$page_title = self::get_title();
 
 		$referral = strip_tags(@$_SERVER['HTTP_REFERER']);
 
+		$user_ip = self::get_ip();
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
 		$current_user = wp_get_current_user();
 
 		// Check For Bot
@@ -77,8 +81,6 @@ class UserOnline_Core {
 
 				break;
 			}
-
-		$where = $wpdb->prepare("WHERE user_ip = %s", $user_ip);
 
 		// If No Bot Is Found, Then We Check Members And Guests
 		if ( !$bot_found ) {
@@ -101,23 +103,12 @@ class UserOnline_Core {
 			}
 		}
 
-		// Check For Page Title
-		if ( is_admin() && function_exists('get_admin_page_title') ) {
-			$page_title = ' &raquo; ' . __('Admin', 'wp-useronline') . ' &raquo; ' . get_admin_page_title();
-		} else {
-			$page_title = wp_title('&raquo;', false);
-			if ( empty($page_title) )
-				$page_title = ' &raquo; ' . strip_tags($_SERVER['REQUEST_URI']);
-			elseif ( is_singular() )
-				$page_title = ' &raquo; ' . __('Archive', 'wp-useronline') . ' ' . $page_title;
-		}
-		$page_title = get_bloginfo('name') . $page_title;
-
-		// Delete Users
-		$delete_users = $wpdb->query($wpdb->prepare("
+		// Purge table
+		$wpdb->query($wpdb->prepare("
 			DELETE FROM $wpdb->useronline 
-			$where OR timestamp < CURRENT_TIMESTAMP - %d
-		", self::$options->timeout));
+			WHERE user_ip = %s 
+			OR timestamp < CURRENT_TIMESTAMP - %d
+		", $user_ip, self::$options->timeout));
 
 		// Insert Users
 		$data = compact('user_type', 'user_id', 'user_name', 'user_ip', 'user_agent', 'page_title', 'page_url', 'referral');
@@ -135,20 +126,36 @@ class UserOnline_Core {
 			));
 	}
 
+	private function clear_table() {
+		global $wpdb;
+
+		$wpdb->query("DELETE FROM $wpdb->useronline");
+	}
+
 	function ajax() {
-		self::record();
+		global $wpdb;
 
 		$mode = trim($_POST['mode']);
+
+		$page_title = strip_tags($_POST['page_title']);
+
+		$page_url = str_replace(get_bloginfo('url'), '', $_POST['page_url']);
+
+		if ( $page_url != $_POST['page_url'] )
+			self::record($page_url, $page_title);
 
 		switch($mode) {
 			case 'count':
 				users_online();
 				break;
-			case 'browsingsite':
+			case 'browsing-site':
 				users_browsing_site();
 				break;
-			case 'browsingpage':
+			case 'browsing-page':
 				users_browsing_page();
+				break;
+			case 'details':
+				echo users_online_page();
 				break;
 		}
 
@@ -160,6 +167,21 @@ class UserOnline_Core {
 			require_once dirname(__FILE__) . '/wp-stats.php';
 	}
 
+	private function get_title() {
+		if ( is_admin() && function_exists('get_admin_page_title') ) {
+			$page_title = ' &raquo; ' . __('Admin', 'wp-useronline') . ' &raquo; ' . get_admin_page_title();
+		} else {
+			$page_title = wp_title('&raquo;', false);
+			if ( empty($page_title) )
+				$page_title = ' &raquo; ' . strip_tags($_SERVER['REQUEST_URI']);
+			elseif ( is_singular() )
+				$page_title = ' &raquo; ' . __('Archive', 'wp-useronline') . ' ' . $page_title;
+		}
+		$page_title = get_bloginfo('name') . $page_title;
+
+		return $page_title;
+	}
+
 	private function get_ip() {
 		if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) )
 			$ip_address = $_SERVER["HTTP_X_FORWARDED_FOR"];
@@ -169,12 +191,6 @@ class UserOnline_Core {
 		list($ip_address) = explode(',', $ip_address);
 
 		return $ip_address;
-	}
-
-	private function clear_table() {
-		global $wpdb;
-
-		$wpdb->query("DELETE FROM $wpdb->useronline");
 	}
 }
 

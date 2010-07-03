@@ -4,20 +4,18 @@ jQuery(document).ready(function($){
 	var get_data = function(mode) {
 		var data = {
 			'action': 'useronline',
-			'mode': mode
+			'mode': mode,
+			'page_url': location.protocol + '//' + location.host + location.pathname + location.search,
+			'page_title': $('title').text()
 		};
 
-		$.post(useronlineL10n.ajax_url, data, function(response){
+		$.post(useronlineL10n.ajax_url, data, function(response) {
 			$('#useronline-' + mode).html(response);
 		});
 	}
 
-	if ( $('#useronline-count').length )
-		setInterval("get_data('count')", timeout);
-
-	if ( $('#useronline-browsing-site').length )
-		setInterval("get_data('browsing-site')", timeout);
-
-	if ( $('#useronline-browsing-page').length )
-		setInterval("get_data('browsing-page')", timeout);
+	$.each(['count', 'browsing-site', 'browsing-page', 'details'], function(i, mode) {
+		if ( $('#useronline-' + mode).length )
+			setInterval(function() { get_data(mode); }, timeout);
+	});
 });

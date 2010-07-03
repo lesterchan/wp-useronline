@@ -84,9 +84,11 @@ function users_online_page() {
 	);
 
 	$output = 
-	 html('p', vsprintf($text, $nicetexts))
-	.html('p', UserOnline_Template::format_most_users())
-	.UserOnline_Template::detailed_list($counts, $user_buckets, $nicetexts);
+	html('div id="useronline-details"',
+		 html('p', vsprintf($text, $nicetexts))
+		.html('p', UserOnline_Template::format_most_users())
+		.UserOnline_Template::detailed_list($counts, $user_buckets, $nicetexts)
+	);
 
 	return apply_filters('useronline_page', $output);
 }
