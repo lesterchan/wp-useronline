@@ -1,4 +1,4 @@
-jQuery(document).ready(function($){
+jQuery(document).ready(function($) {
 	var timeout = parseInt(useronlineL10n.timeout);
 
 	var get_data = function(mode) {
