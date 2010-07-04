@@ -56,7 +56,7 @@ function users_browsing_page( $page_url = '' ) {
 }
 
 function get_users_browsing_page( $page_url = '' ) {
-	return UserOnline_Template::compact_list( 'page' );
+	return UserOnline_Template::compact_list( 'page', 'html', $page_url );
 }
 
 ### Function: UserOnline Page
@@ -108,21 +108,22 @@ class UserOnline_Template {
 
 	private static $cache = array();
 
-	function compact_list( $type, $output = 'html' ) {
-
+	function compact_list( $type, $output = 'html', $page_url = '') {
 		if ( !isset( self::$cache[$type] ) ) {
 			global $wpdb;
 
-			if ( 'site' == $type )
+			if ( 'site' == $type ) {
 				$where = '';
-			elseif ( 'page' == $type )
-				$where = $wpdb->prepare( 'WHERE page_url = %s', $_SERVER['REQUEST_URI'] );
-			else
-				$where = $wpdb->prepare( 'WHERE page_url = %s', $type );
+			} elseif ( 'page' == $type ) {
+				if ( empty($page_url) )
+					$page_url = $_SERVER['REQUEST_URI'];
+				$where = $wpdb->prepare( 'WHERE page_url = %s', $page_url );
+			}
 
-			self::$cache[$type] = $wpdb->get_results( "SELECT * FROM $wpdb->useronline $where" );
+			self::$cache[$type . $page_url] = $wpdb->get_results( "SELECT * FROM $wpdb->useronline $where" );
 		}
-		$users = self::$cache[$type];
+
+		$users = self::$cache[$type . $page_url];
 
 		if ( 'list' == $output )
 			return $users;
@@ -150,7 +151,7 @@ class UserOnline_Template {
 
 		// Print Member Name
 		$temp_member = '';
-		$members = $buckets['member'];
+		$members = @$buckets['member'];
 		if ( $members ) {
 			$temp_member = array();
 			foreach ( $members as $member )

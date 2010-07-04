@@ -152,7 +152,7 @@ class UserOnline_Core {
 				users_browsing_site();
 				break;
 			case 'browsing-page':
-				users_browsing_page();
+				users_browsing_page($page_url);
 				break;
 			case 'details':
 				echo users_online_page();
