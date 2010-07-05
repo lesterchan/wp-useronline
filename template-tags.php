@@ -109,6 +109,8 @@ class UserOnline_Template {
 	private static $cache = array();
 
 	function compact_list( $type, $output = 'html', $page_url = '') {
+		UserOnline_Core::$add_script = true;
+
 		if ( !isset( self::$cache[$type] ) ) {
 			global $wpdb;
 
@@ -182,6 +184,8 @@ class UserOnline_Template {
 	}
 
 	function detailed_list( $counts, $user_buckets, $nicetexts ) {
+		UserOnline_Core::$add_script = true;	
+
 		if ( $counts['user'] == 0 )
 			return html( 'h2', __( 'No one is online now.', 'wp-useronline' ) );
 

@@ -1,6 +1,9 @@
 <?php
 
 class UserOnline_Core {
+
+	static $add_script = false;
+
 	static $options;
 	static $most;
 
@@ -21,10 +24,10 @@ class UserOnline_Core {
 
 		add_action( 'plugins_loaded', array( __CLASS__, 'wp_stats_integration' ) );
 
-		add_action( 'template_redirect', array( __CLASS__, 'scripts' ) );
-
 		add_action( 'admin_head', array( __CLASS__, 'record' ) );
 		add_action( 'wp_head', array( __CLASS__, 'record' ) );
+
+		add_action( 'wp_footer', array( __CLASS__, 'scripts' ) );
 
 		add_action( 'wp_ajax_useronline', array( __CLASS__, 'ajax' ) );
 		add_action( 'wp_ajax_nopriv_useronline', array( __CLASS__, 'ajax' ) );
@@ -43,6 +46,9 @@ class UserOnline_Core {
 	}
 
 	function scripts() {
+		if ( !self::$add_script )
+			return;
+
 		$js_dev = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
 
 		wp_enqueue_script( 'wp-useronline', plugins_url( "useronline$js_dev.js", __FILE__ ), array( 'jquery' ), '2.70', true );
@@ -50,6 +56,8 @@ class UserOnline_Core {
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'timeout' => self::$options->timeout * 1000
 		) );
+
+		scbUtil::do_scripts('wp-useronline');
 	}
 
 	function record( $page_url = '', $page_title = '' ) {
