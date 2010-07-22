@@ -1,0 +1,385 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-UserOnline 2.73\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-05-08 15:28+0200\n"
+"PO-Revision-Date: 2010-07-22 12:24+0200\n"
+"Last-Translator: scribu <scribu@gmail.com>\n"
+"Language-Team: anas ismail <anas1982@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: PALESTINIAN TERRITORY, OCCUPIED\n"
+"X-Poedit-KeywordsList: __;_e;_c;_n:1,2;__ngettext_noop:1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Arabic\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin.php:9
+msgid "Users Online Now"
+msgstr "المتواجدين الان"
+
+#: admin.php:10
+#: wp-stats.php:14
+#: wp-stats.php:31
+msgid "WP-UserOnline"
+msgstr "WP-UserOnline"
+
+#: admin.php:24
+#, php-format
+msgid "There is <strong><a href='%s'>%s user</a></strong> online now."
+msgid_plural "There are a total of <strong><a href='%s'>%s users</a></strong> online now."
+msgstr[0] "يوجد الان ما مجموعه <strong><a href=\"%s\">%s زائر</a></strong> يتصفح الموقع."
+msgstr[1] "يوجد الان  <strong><a href=\"%s\">%s زائر</a></strong> يتصفح الموقع."
+
+#: admin.php:51
+msgid "UserOnline Options"
+msgstr "UserOnline Options"
+
+#: admin.php:52
+#: widget.php:6
+#: widget.php:49
+msgid "UserOnline"
+msgstr "UserOnline"
+
+#: admin.php:109
+msgid "Time Out"
+msgstr "انتهت المهلة"
+
+#: admin.php:112
+msgid "How long until it will remove the user from the database (In seconds)."
+msgstr "كم من الوقت تحتاج لازالة الزوار من قاعدة البيانات ( بالثواني)"
+
+#: admin.php:117
+msgid "UserOnline URL"
+msgstr "رابط المتواجدين الان"
+
+#: admin.php:120
+msgid "URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2"
+msgstr "رابط صفحة المتواجدين الان( اتركه فارغا في حال لم ترغب بعرض رابط)<br />مثال: http://www.yoursite.com/blogs/useronline/<br /> مثال : http://www.yoursite.com/blogs/?page_id=2"
+
+#: admin.php:124
+msgid "User Names"
+msgstr "اسماء الزوار"
+
+#: admin.php:127
+msgid "Link user names to their author page"
+msgstr "اربط اسم المستخدم بصفحته الشخصية"
+
+#: admin.php:144
+msgid "Useronline Templates"
+msgstr "قوالب المتواجدين الان"
+
+#: admin.php:156
+msgid "User(s) Browsing Site:"
+msgstr "زائر يتصفح الموقع :"
+
+#: admin.php:157
+msgid "User(s) Browsing Page:"
+msgstr "زائر يتصفح هه الصفحة :"
+
+#: admin.php:170
+#: scb/AdminPage.php:180
+#: scb/AdminPage.php:191
+msgid "Save Changes"
+msgstr "احفظ التغييرات"
+
+#: admin.php:180
+msgid "Naming Conventions:"
+msgstr "المصطلحات والتسميات :"
+
+#: admin.php:181
+#: admin.php:221
+#: admin.php:243
+msgid "Allowed Variables:"
+msgstr "المتغيرات المسموحة :"
+
+#: admin.php:183
+msgid "Restore Defaults"
+msgstr "استعد القوالب للافتراضيات"
+
+#: admin.php:189
+msgid "Singular Form"
+msgstr "بصيغة المفرد"
+
+#: admin.php:190
+msgid "Plural Form"
+msgstr "بصيغة الجمع"
+
+#: admin.php:220
+msgid "User(s) Online:"
+msgstr "المتواجدون الان"
+
+#: admin.php:226
+#: admin.php:251
+msgid "Restore Default Template"
+msgstr "استعد القوالب الافتراضية"
+
+#: admin.php:257
+msgid "Member Names Separator"
+msgstr "فواصل اسماء الاعضاء"
+
+#: admin.php:258
+msgid "Guests Separator"
+msgstr "فواصل الضيف"
+
+#: admin.php:259
+msgid "Bots Separator"
+msgstr "فاصل العنكب"
+
+#: template-tags.php:79
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgid_plural "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr[0] "يوجد <strong>%s</strong> يتصفح الموقع الان: <strong>%s</strong>, <strong>%s</strong>  و <strong>%s</strong>."
+msgstr[1] "يوجد <strong>%s</strong> يتصفح الموقع الان : <strong>%s</strong>, <strong>%s</strong>  و <strong>%s</strong>."
+
+#: template-tags.php:181
+msgid "No one is online now."
+msgstr "لا  يوجد متواجدين الان"
+
+#: template-tags.php:183
+msgid "on"
+msgstr "على"
+
+#: template-tags.php:184
+msgid "url"
+msgstr "العنوان"
+
+#: template-tags.php:185
+msgid "referral"
+msgstr "المحيل"
+
+#: template-tags.php:196
+msgid "Online Now"
+msgstr "متواجد الان"
+
+#: template-tags.php:227
+#, php-format
+msgid "%s @ %s"
+msgstr "%s @ %s"
+
+#: template-tags.php:247
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "اكبر تواجد للزوار في وقت واحد كان  <strong>%s</strong>,  في <strong>%s</strong>"
+
+#: widget.php:5
+msgid "WP-UserOnline users online statistics"
+msgstr "WP-UserOnline احصائيات الحالة"
+
+#: widget.php:56
+msgid "Title:"
+msgstr "العنوان"
+
+#: widget.php:59
+msgid "Statistics Type:"
+msgstr "نوع الاحصائيات"
+
+#: widget.php:61
+msgid "Users Online Count"
+msgstr "عدد المتواجدين الان"
+
+#: widget.php:62
+msgid "Users Browsing Current Page"
+msgstr "زائر يتصفح هذه الصفحة"
+
+#: widget.php:63
+msgid "Users Browsing Site"
+msgstr "زائر يتصفح الموقع"
+
+#: widget.php:65
+msgid "Users Online Count & Users Browsing Current Page"
+msgstr "عدد المتواجدين الان & عدد المتصفحين لهذه الصفحة"
+
+#: widget.php:66
+msgid "Users Online Count & Users Browsing Site"
+msgstr "عدد المتواجدين الان & عدد المتصفحين للموقع"
+
+#: wp-stats.php:24
+#, php-format
+msgid "<strong>%s</strong> user online now."
+msgid_plural "<strong>%s</strong> users online now."
+msgstr[0] "<strong>%s</strong> زائر يتواجد الأن."
+msgstr[1] "<strong>%s</strong> زائر يتواجد الأن."
+
+#: wp-useronline.php:83
+msgid "1 User"
+msgstr "مستخدم 1"
+
+#: wp-useronline.php:84
+msgid "%COUNT% Users"
+msgstr "%USERONLINE_COUNT%  زوار "
+
+#: wp-useronline.php:85
+msgid "1 Member"
+msgstr "عضو 1"
+
+#: wp-useronline.php:86
+msgid "%COUNT% Members"
+msgstr "%USERONLINE_COUNT%  اعضاء "
+
+#: wp-useronline.php:87
+msgid "1 Guest"
+msgstr "ضيف 1"
+
+#: wp-useronline.php:88
+msgid "%COUNT% Guests"
+msgstr "%USERONLINE_COUNT%  ضيوف "
+
+#: wp-useronline.php:89
+msgid "1 Bot"
+msgstr "عنكب 1"
+
+#: wp-useronline.php:90
+msgid "%COUNT% Bots"
+msgstr "%USERONLINE_COUNT%  عنكب"
+
+#: wp-useronline.php:94
+msgid "Online"
+msgstr "متواجد الان"
+
+#: wp-useronline.php:98
+#: wp-useronline.php:99
+#: wp-useronline.php:100
+#: wp-useronline.php:107
+#: wp-useronline.php:108
+#: wp-useronline.php:109
+msgid ","
+msgstr ","
+
+#: wp-useronline.php:111
+msgid "Browsing This Page."
+msgstr "يتصفح هذه الصفحة"
+
+#: wp-useronline.php:210
+msgid "Guest"
+msgstr "ضيف"
+
+#: wp-useronline.php:217
+msgid "Admin"
+msgstr "المدير"
+
+#: wp-useronline.php:223
+msgid "Archive"
+msgstr "الارشيف"
+
+#: scb/AdminPage.php:167
+msgid "Settings <strong>saved</strong>."
+msgstr "<strong>تم الحفظ </strong>."
+
+#: scb/AdminPage.php:377
+msgid "Settings"
+msgstr "الاعدادات"
+
+#~ msgid "Users|Template Element"
+#~ msgstr "الزوار| عناصر القالب"
+#~ msgid "Settings updated."
+#~ msgstr "تم حفظ الاعدادات"
+#~ msgid "Bots Name/User Agent"
+#~ msgstr "اسماء العناكب والمسميات العامة"
+#~ msgid ""
+#~ "Here are a list of bots and their partial browser agents.<br />On the "
+#~ "left column will be the <strong>Bot's Name</strong> and on the right "
+#~ "column will be their <strong>Partial Browser Agent</strong>.<br />Start "
+#~ "each entry on a new line."
+#~ msgstr ""
+#~ "هنا قائمة باسماء العناكب واشهر العملاء المتصفحة للموقع.<br />على العمود "
+#~ "اليسار  تجد <strong>اسماء العناكب</strong> وعلى العمود اليمين تجد "
+#~ "<strong>عملاء المواقع الشهيرة</strong>.<br />كل ادخال في سطر جديد في حال "
+#~ "رغبت بالاضافة."
+#~ msgid "guest"
+#~ msgstr "ضيف"
+#~ msgid "User"
+#~ msgstr "زائر"
+#~ msgid "Member"
+#~ msgstr "عضو"
+#~ msgid "Members"
+#~ msgstr "اعضاء"
+#~ msgid "Guests"
+#~ msgstr "ضيوف"
+#~ msgid "Bot"
+#~ msgstr "عنكب"
+#~ msgid "Bots"
+#~ msgstr "عناكب"
+#~ msgid "Useronline Timeout"
+#~ msgstr "مهلة الحساب"
+#~ msgid "Useronline Bots"
+#~ msgstr "العناكب المتواجدة"
+#~ msgid "Useronline URL"
+#~ msgstr "روابط المتواجدين الان"
+#~ msgid "Useronline Naming Conventions"
+#~ msgstr "مصطلحات التسمية للمتواجدين الان"
+#~ msgid "User(s) Online Template"
+#~ msgstr "قوالب المتواجدين الان"
+#~ msgid "User(s) Browsing Site Template"
+#~ msgstr "قالب الزوار الذين يتصفحون الموقع"
+#~ msgid "User(s) Browsing Page Template"
+#~ msgstr "قالب الزوار الذين يتصفحون هذه الصفحة"
+#~ msgid "Updated"
+#~ msgstr "تحديث"
+#~ msgid "No Useronline Option Updated"
+#~ msgstr "لا يوجد اعدادات لاضافة المتواجدين الان للتحديث"
+#~ msgid "UNINSTALL WP-UserOnline"
+#~ msgstr "ازالة WP-UserOnline"
+#~ msgid "Table '%s' has been deleted."
+#~ msgstr " جدول  '%s' تم حذفه ."
+#~ msgid "Setting Key '%s' has been deleted."
+#~ msgstr "مفتاح الاعداد  '%s'  تم حذفه ."
+#~ msgid "Uninstall WP-UserOnline"
+#~ msgstr "ازالة WP-UserOnline"
+#~ msgid ""
+#~ "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-"
+#~ "UserOnline Will Be Deactivated Automatically."
+#~ msgstr ""
+#~ "<a href=\"%s\">اضغط هنا</a> لاكمال ازالة اضافة  WP-UserOnline والغاء "
+#~ "تفعيلها تلقائيا."
+#~ msgid ""
+#~ "Deactivating WP-UserOnline plugin does not remove any data that may have "
+#~ "been created, such as the useronline options. To completely remove this "
+#~ "plugin, you can uninstall it here."
+#~ msgstr ""
+#~ "تعطيل الاضافة يوقف الاضافة عن العمل ولا تظهر خياراتها ولا استعلاماتها في "
+#~ "الصفحات ولا يتم ايضا حذف جداولها من قاعدة البيانات , ولازالتها نهائيا "
+#~ "يلزم ان تقوم بازالتها من الخيار في الاسفل"
+#~ msgid "WARNING:"
+#~ msgstr "تحذير : "
+#~ msgid ""
+#~ "Once uninstalled, this cannot be undone. You should use a Database Backup "
+#~ "plugin of WordPress to back up all the data first."
+#~ msgstr ""
+#~ "بمجرد البدء بعملية الازالة فان اي تغير ناتج لا يمكن عكسه لذلك ننصح باخذ "
+#~ "نسخة احتياطية من قاعدة البيانات قبل القيام بلك"
+#~ msgid "The following WordPress Options/Tables will be DELETED:"
+#~ msgstr "الخيارات والجداول التالية سيتم حذفها من القاعدة :"
+#~ msgid "WordPress Options"
+#~ msgstr "خيارات الووردبريس"
+#~ msgid "WordPress Tables"
+#~ msgstr "جداول الووردبريس"
+#~ msgid "Yes"
+#~ msgstr "نعم"
+#~ msgid ""
+#~ "You Are About To Uninstall WP-UserOnline From WordPress.\\nThis Action Is "
+#~ "Not Reversible.\\n\\n Choose [Cancel] To Stop, [OK] To Uninstall."
+#~ msgstr ""
+#~ "انت الان بصدد ازالة WP-UserOnline من موقعك.\\nهذا التصرف غير قابل للعكس."
+#~ "\\n\\n اختر (الغاء) للتوقف أو , [موافق] للازالة."
+#~ msgid "No User Is Browsing This Site"
+#~ msgstr "لا يوجد متصفحين للموقع الان"
+#~ msgid "No User Is Browsing This Page"
+#~ msgstr "لا يوجد متصفحين لهذه الصفحة"
+#~ msgid ""
+#~ "There are a total of <strong><a href=\"%s\">%s users</a></strong> online "
+#~ "now."
+#~ msgstr ""
+#~ "هناك ما مجموعه <strong><a href=\"%s\">%s زائر</a></strong> يتواجد الان."
+#~ msgid ""
+#~ "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, "
+#~ "<strong>%s</strong> and <strong>%s</strong>."
+#~ msgstr ""
+#~ "هناك ما مجموعه <strong>%s</strong> متواجدين الان: <strong>%s</strong>, "
+#~ "<strong>%s</strong>&nbsp; و <strong>%s</strong>."
+#~ msgid "On"
+#~ msgstr "في"
+
