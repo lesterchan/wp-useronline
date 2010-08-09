@@ -40,8 +40,8 @@ function _useronline_init() {
 		user_id bigint( 20 ) NOT NULL default 0,
 		user_name varchar( 250 ) NOT NULL default '',
 		user_ip varchar( 20 ) NOT NULL default '',
-		user_agent text NOT NULL default '',
-		page_title text NOT NULL default '',
+		user_agent text NOT NULL,
+		page_title text NOT NULL,
 		page_url varchar( 255 ) NOT NULL default '',
 		referral varchar( 255 ) NOT NULL default '',
 		UNIQUE KEY useronline_id ( timestamp, user_type, user_ip )
