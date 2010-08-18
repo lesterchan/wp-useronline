@@ -210,12 +210,12 @@ class UserOnline_Template {
 				$name = self::format_name( $user );
 				$user_ip = self::format_ip( $user->user_ip );
 				$date = self::format_date( $user->timestamp, true );
-				$page_title = esc_html( $user->page_title );
-				$current_link = '[' . html_link( esc_url( $user->page_url ), $_url ) . ']';
 
-				$referral_link = '';
-				if ( !empty( $user->referral ) )
-					$referral_link = '[' . html_link( esc_attr( esc_url( $user->referral ) ), $_referral ) . ']';
+				if ( current_user_can( 'edit_users' ) || false === strpos( $user->page_url, 'wp-admin' ) ) {
+					$page_title = esc_html( $user->page_title );
+					$current_link = self::format_link( $user->page_url, $_url );
+					$referral_link = self::format_link( $user->referral, $_referral );
+				}
 
 				$output .= "<p><strong>#$nr - $name</strong> $user_ip $_on $date<br/>$page_title $current_link $referral_link</p>\n";
 			}
@@ -224,12 +224,22 @@ class UserOnline_Template {
 		return $output;
 	}
 
+	private function format_link($url, $title) {
+		if ( !empty($url) )
+			return '[' . html_link( esc_url($url), $title ) . ']';
+
+		return '';
+	}
 
 	function format_ip( $ip ) {
-		if ( ! current_user_can( 'administrator' ) || empty( $ip ) || $ip == 'unknown' )
-			return;
-
-		return '<span dir="ltr">( <a href="http://whois.domaintools.com/' . $ip . '" title="' . gethostbyaddr( $ip ) . '">' . $ip . '</a> )</span>';
+		if ( current_user_can( 'edit_users' ) && !empty( $ip ) && $ip != 'unknown' )
+			return 
+			html( 'span', array('dir' => 'ltr'), 
+				html( 'a', array(
+					'href' => 'http://whois.domaintools.com/' . $ip,
+					'title' => gethostbyaddr( $ip ),
+				), $ip )
+			);
 	}
 
 	function format_date( $date, $mysql = false ) {
