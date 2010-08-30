@@ -14,7 +14,7 @@ Enable you to display how many users are online on your Wordpress blog with deta
 
 This plugin enables you to display how many users are online on your Wordpress site, with detailed statistics of where they are and who they are (Members/Guests/Search Bots).
 
-[Translations](http://scribu.net/wordpress/translating-plugins.html)
+Links: [Plugin News](http://scribu.net/wordpress/wp-useronline) | [Translating](http://scribu.net/wordpress/translating-plugins.html)
 
 == Installation ==
 
