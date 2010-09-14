@@ -24,15 +24,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-require dirname( __FILE__ ) . '/scb/load.php';
+require_once dirname( __FILE__ ) . '/scb/load.php';
 
 function _useronline_init() {
 	load_plugin_textdomain( 'wp-useronline', '', dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 
-	require dirname( __FILE__ ) . '/core.php';
-	require dirname( __FILE__ ) . '/template-tags.php';
-	require dirname( __FILE__ ) . '/deprecated.php';
-	require dirname( __FILE__ ) . '/widget.php';
+	require_once dirname( __FILE__ ) . '/core.php';
+	require_once dirname( __FILE__ ) . '/template-tags.php';
+	require_once dirname( __FILE__ ) . '/deprecated.php';
+	require_once dirname( __FILE__ ) . '/widget.php';
 
 	new scbTable( 'useronline', __FILE__, "
 		timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -96,12 +96,12 @@ function _useronline_init() {
 	scbWidget::init( 'UserOnline_Widget', __FILE__, 'useronline' );
 
 	if ( is_admin() ) {
-		require dirname( __FILE__ ) . '/admin.php';
+		require_once dirname( __FILE__ ) . '/admin.php';
 		scbAdminPage::register( 'UserOnline_Admin_Integration', __FILE__ );
 		scbAdminPage::register( 'UserOnline_Options', __FILE__, UserOnline_Core::$options );
 
 		if ( function_exists( 'stats_page' ) )
-			require dirname( __FILE__ ) . '/wp-stats.php';
+			require_once dirname( __FILE__ ) . '/wp-stats.php';
 	}
 }
 scb_init( '_useronline_init' );
