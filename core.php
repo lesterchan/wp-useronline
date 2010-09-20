@@ -51,7 +51,7 @@ class UserOnline_Core {
 
 		$js_dev = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
 
-		wp_enqueue_script( 'wp-useronline', plugins_url( "useronline$js_dev.js", __FILE__ ), array( 'jquery' ), '2.70', true );
+		wp_enqueue_script( 'wp-useronline', plugins_url( "useronline$js_dev.js", __FILE__ ), array( 'jquery' ), '2.80', true );
 		wp_localize_script( 'wp-useronline', 'useronlineL10n', array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'timeout' => self::$options->timeout * 1000
