@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.70\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-useronline\n"
-"POT-Creation-Date: 2010-05-07 16:14+0300\n"
+"POT-Creation-Date: 2010-09-20 15:01+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: scribu <scribu@gmail.com>\n"
 "Language-Team: scribu <scribu@gmail.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 msgid "Users Online Now"
 msgstr ""
 
-#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.70-beta)  #-#-#-#-#
+#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.80)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: admin.php:10
 #: wp-stats.php:14
@@ -32,142 +32,155 @@ msgid_plural "There are a total of <strong><a href='%s'>%s users</a></strong> on
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin.php:51
+#: admin.php:52
 msgid "UserOnline Options"
 msgstr ""
 
-#: admin.php:52
+#: admin.php:53
 #: widget.php:6
 #: widget.php:49
 msgid "UserOnline"
 msgstr ""
 
-#: admin.php:107
+#: admin.php:110
 msgid "Time Out"
 msgstr ""
 
-#: admin.php:110
-msgid "How long until it will remove the user from the database (In seconds)."
-msgstr ""
-
-#: admin.php:115
-msgid "UserOnline URL"
+#: admin.php:113
+msgid "How long until it will remove the user from the database ( In seconds )."
 msgstr ""
 
 #: admin.php:118
+msgid "UserOnline URL"
+msgstr ""
+
+#: admin.php:121
 msgid "URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2"
 msgstr ""
 
-#: admin.php:122
+#: admin.php:125
 msgid "User Names"
 msgstr ""
 
-#: admin.php:125
+#: admin.php:128
 msgid "Link user names to their author page"
 msgstr ""
 
-#: admin.php:142
+#: admin.php:145
 msgid "Useronline Templates"
 msgstr ""
 
-#: admin.php:154
+#: admin.php:157
 msgid "User(s) Browsing Site:"
 msgstr ""
 
-#: admin.php:155
+#: admin.php:158
 msgid "User(s) Browsing Page:"
 msgstr ""
 
-#: admin.php:168
+#: admin.php:171
 #: scb/AdminPage.php:179
-#: scb/AdminPage.php:190
+#: scb/AdminPage.php:189
 msgid "Save Changes"
 msgstr ""
 
-#: admin.php:178
+#: admin.php:181
 msgid "Naming Conventions:"
 msgstr ""
 
-#: admin.php:179
-#: admin.php:219
-#: admin.php:241
+#: admin.php:182
+#: admin.php:222
+#: admin.php:244
 msgid "Allowed Variables:"
 msgstr ""
 
-#: admin.php:181
+#: admin.php:184
 msgid "Restore Defaults"
 msgstr ""
 
-#: admin.php:187
+#: admin.php:190
 msgid "Singular Form"
 msgstr ""
 
-#: admin.php:188
+#: admin.php:191
 msgid "Plural Form"
 msgstr ""
 
-#: admin.php:218
+#: admin.php:221
 msgid "User(s) Online:"
 msgstr ""
 
-#: admin.php:224
-#: admin.php:249
+#: admin.php:227
+#: admin.php:252
 msgid "Restore Default Template"
 msgstr ""
 
-#: admin.php:255
+#: admin.php:258
 msgid "Member Names Separator"
 msgstr ""
 
-#: admin.php:256
+#: admin.php:259
 msgid "Guests Separator"
 msgstr ""
 
-#: admin.php:257
+#: admin.php:260
 msgid "Bots Separator"
 msgstr ""
 
-#: scb/AdminPage.php:166
+#: core.php:109
+msgid "Guest"
+msgstr ""
+
+#: core.php:180
+msgid "Admin"
+msgstr ""
+
+#: core.php:186
+msgid "Archive"
+msgstr "Arhivă"
+
+#: scb/AdminPage.php:167
 msgid "Settings <strong>saved</strong>."
 msgstr ""
 
-#: scb/AdminPage.php:376
+#: scb/AdminPage.php:371
 msgid "Settings"
 msgstr ""
 
-#: template-tags.php:79
+#: template-tags.php:81
 #, php-format
 msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
 msgid_plural "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
 msgstr[0] ""
 msgstr[1] ""
 
-#: template-tags.php:181
+#: template-tags.php:190
 msgid "No one is online now."
 msgstr "Nimeni nu este online acum."
 
-#: template-tags.php:183
+#: template-tags.php:192
 msgid "on"
 msgstr ""
 
-#: template-tags.php:184
+#: template-tags.php:193
 msgid "url"
 msgstr ""
 
-#: template-tags.php:185
+#: template-tags.php:194
 msgid "referral"
 msgstr ""
 
-#: template-tags.php:196
+#: template-tags.php:205
 msgid "Online Now"
 msgstr ""
 
-#: template-tags.php:227
+#: template-tags.php:247
+#: template-tags.php:249
 #, php-format
 msgid "%s @ %s"
 msgstr ""
 
-#: template-tags.php:247
+#: template-tags.php:269
 #, php-format
 msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
 msgstr ""
@@ -211,79 +224,67 @@ msgid_plural "<strong>%s</strong> users online now."
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-useronline.php:83
+#: wp-useronline.php:61
 msgid "1 User"
 msgstr "1 utilizator"
 
-#: wp-useronline.php:84
+#: wp-useronline.php:62
 msgid "%COUNT% Users"
 msgstr "%COUNT% utilizatori"
 
-#: wp-useronline.php:85
+#: wp-useronline.php:63
 msgid "1 Member"
 msgstr "1 membru"
 
-#: wp-useronline.php:86
+#: wp-useronline.php:64
 msgid "%COUNT% Members"
 msgstr "%COUNT% membri"
 
-#: wp-useronline.php:87
+#: wp-useronline.php:65
 msgid "1 Guest"
 msgstr "1 musafir"
 
-#: wp-useronline.php:88
+#: wp-useronline.php:66
 msgid "%COUNT% Guests"
 msgstr "%COUNT% musafiri"
 
-#: wp-useronline.php:89
+#: wp-useronline.php:67
 msgid "1 Bot"
 msgstr "1 bot"
 
-#: wp-useronline.php:90
+#: wp-useronline.php:68
 msgid "%COUNT% Bots"
 msgstr "%COUNT% boți"
 
-#: wp-useronline.php:94
+#: wp-useronline.php:72
 msgid "Online"
 msgstr "Online"
 
-#: wp-useronline.php:98
-#: wp-useronline.php:99
-#: wp-useronline.php:100
-#: wp-useronline.php:107
-#: wp-useronline.php:108
-#: wp-useronline.php:109
+#: wp-useronline.php:76
+#: wp-useronline.php:77
+#: wp-useronline.php:78
+#: wp-useronline.php:85
+#: wp-useronline.php:86
+#: wp-useronline.php:87
 msgid ","
 msgstr ","
 
-#: wp-useronline.php:102
-#: wp-useronline.php:111
+#: wp-useronline.php:80
+#: wp-useronline.php:89
 msgctxt "Template Element"
 msgid "Users"
 msgstr "utilizatori"
 
-#: wp-useronline.php:111
+#: wp-useronline.php:89
 msgid "Browsing This Page."
 msgstr ""
-
-#: wp-useronline.php:210
-msgid "Guest"
-msgstr ""
-
-#: wp-useronline.php:217
-msgid "Admin"
-msgstr ""
-
-#: wp-useronline.php:223
-msgid "Archive"
-msgstr "Arhivă"
 
 #. Plugin URI of the plugin/theme
 msgid "http://wordpress.org/extend/plugins/wp-useronline/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Enable you to display how many users are online on your Wordpress blog with detailed statistics of where they are and who there are(Members/Guests/Search Bots)."
+msgid "Enable you to display how many users are online on your Wordpress site"
 msgstr ""
 
 #. Author of the plugin/theme
