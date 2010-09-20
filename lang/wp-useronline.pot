@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin WP-UserOnline 2.80-alpha by Lester 'GaMerZ' Chan & scribu.
+# Translation of the WordPress plugin WP-UserOnline 2.80 by Lester 'GaMerZ' Chan & scribu.
 # Copyright (C) 2010 Lester 'GaMerZ' Chan & scribu
 # This file is distributed under the same license as the WP-UserOnline package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-UserOnline 2.80-alpha\n"
+"Project-Id-Version: WP-UserOnline 2.80\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-useronline\n"
-"POT-Creation-Date: 2010-05-13 19:13+0300\n"
+"POT-Creation-Date: 2010-09-20 15:01+0300\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Users Online Now"
 msgstr ""
 
-#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.80-alpha)  #-#-#-#-#
+#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.80)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: admin.php:10 wp-stats.php:14 wp-stats.php:31
 msgid "WP-UserOnline"
@@ -48,7 +48,8 @@ msgid "Time Out"
 msgstr ""
 
 #: admin.php:113
-msgid "How long until it will remove the user from the database (In seconds)."
+msgid ""
+"How long until it will remove the user from the database ( In seconds )."
 msgstr ""
 
 #: admin.php:118
@@ -81,7 +82,7 @@ msgstr ""
 msgid "User(s) Browsing Page:"
 msgstr ""
 
-#: admin.php:171 scb/AdminPage.php:180 scb/AdminPage.php:191
+#: admin.php:171 scb/AdminPage.php:179 scb/AdminPage.php:189
 msgid "Save Changes"
 msgstr ""
 
@@ -125,64 +126,15 @@ msgstr ""
 msgid "Bots Separator"
 msgstr ""
 
-#: core.php:56
-msgid "1 User"
-msgstr ""
-
-#: core.php:57
-msgid "%COUNT% Users"
-msgstr ""
-
-#: core.php:58
-msgid "1 Member"
-msgstr ""
-
-#: core.php:59
-msgid "%COUNT% Members"
-msgstr ""
-
-#: core.php:60
-msgid "1 Guest"
-msgstr ""
-
-#: core.php:61
-msgid "%COUNT% Guests"
-msgstr ""
-
-#: core.php:62
-msgid "1 Bot"
-msgstr ""
-
-#: core.php:63
-msgid "%COUNT% Bots"
-msgstr ""
-
-#: core.php:67
-msgid "Online"
-msgstr ""
-
-#: core.php:71 core.php:72 core.php:73 core.php:80 core.php:81 core.php:82
-msgid ","
-msgstr ""
-
-#: core.php:75 core.php:84
-msgctxt "Template Element"
-msgid "Users"
-msgstr ""
-
-#: core.php:84
-msgid "Browsing This Page."
-msgstr ""
-
-#: core.php:154
+#: core.php:109
 msgid "Guest"
 msgstr ""
 
-#: core.php:161
+#: core.php:180
 msgid "Admin"
 msgstr ""
 
-#: core.php:167
+#: core.php:186
 msgid "Archive"
 msgstr ""
 
@@ -190,11 +142,11 @@ msgstr ""
 msgid "Settings <strong>saved</strong>."
 msgstr ""
 
-#: scb/AdminPage.php:377
+#: scb/AdminPage.php:371
 msgid "Settings"
 msgstr ""
 
-#: template-tags.php:79
+#: template-tags.php:81
 #, php-format
 msgid ""
 "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</"
@@ -205,32 +157,32 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: template-tags.php:181
+#: template-tags.php:190
 msgid "No one is online now."
 msgstr ""
 
-#: template-tags.php:183
+#: template-tags.php:192
 msgid "on"
 msgstr ""
 
-#: template-tags.php:184
+#: template-tags.php:193
 msgid "url"
 msgstr ""
 
-#: template-tags.php:185
+#: template-tags.php:194
 msgid "referral"
 msgstr ""
 
-#: template-tags.php:196
+#: template-tags.php:205
 msgid "Online Now"
 msgstr ""
 
-#: template-tags.php:228 template-tags.php:230
+#: template-tags.php:247 template-tags.php:249
 #, php-format
 msgid "%s @ %s"
 msgstr ""
 
-#: template-tags.php:250
+#: template-tags.php:269
 #, php-format
 msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
 msgstr ""
@@ -273,6 +225,56 @@ msgid "<strong>%s</strong> user online now."
 msgid_plural "<strong>%s</strong> users online now."
 msgstr[0] ""
 msgstr[1] ""
+
+#: wp-useronline.php:61
+msgid "1 User"
+msgstr ""
+
+#: wp-useronline.php:62
+msgid "%COUNT% Users"
+msgstr ""
+
+#: wp-useronline.php:63
+msgid "1 Member"
+msgstr ""
+
+#: wp-useronline.php:64
+msgid "%COUNT% Members"
+msgstr ""
+
+#: wp-useronline.php:65
+msgid "1 Guest"
+msgstr ""
+
+#: wp-useronline.php:66
+msgid "%COUNT% Guests"
+msgstr ""
+
+#: wp-useronline.php:67
+msgid "1 Bot"
+msgstr ""
+
+#: wp-useronline.php:68
+msgid "%COUNT% Bots"
+msgstr ""
+
+#: wp-useronline.php:72
+msgid "Online"
+msgstr ""
+
+#: wp-useronline.php:76 wp-useronline.php:77 wp-useronline.php:78
+#: wp-useronline.php:85 wp-useronline.php:86 wp-useronline.php:87
+msgid ","
+msgstr ""
+
+#: wp-useronline.php:80 wp-useronline.php:89
+msgctxt "Template Element"
+msgid "Users"
+msgstr ""
+
+#: wp-useronline.php:89
+msgid "Browsing This Page."
+msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "http://wordpress.org/extend/plugins/wp-useronline/"

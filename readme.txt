@@ -99,6 +99,7 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 = 2.80 =
 * don't show url and referral links for users in the admin area
 * smarter detection via ajax requests
+* fix SQL errors
 
 = 2.72 =
 * fix fatal error on upgrade
