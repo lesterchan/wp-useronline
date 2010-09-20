@@ -173,12 +173,12 @@ class UserOnline_Template {
 			$output = str_ireplace( "%{$user_type}S%", $number, $output );
 		}
 
-		// Seperators
+		// SEPARATORs
 		$separator = ( $counts['member'] && $counts['guest'] ) ? $template['separators']['guests'] : '';
-		$output = str_ireplace( '%GUESTS_SEPERATOR%', $separator, $output );
+		$output = str_ireplace( '%GUESTS_SEPARATOR%', $separator, $output );
 
 		$separator = ( ( $counts['guest'] || $counts['member'] ) && $counts['bot'] ) ? $template['separators']['bots'] : '';
-		$output = str_ireplace( '%BOTS_SEPERATOR%', $separator, $output );
+		$output = str_ireplace( '%BOTS_SEPARATOR%', $separator, $output );
 
 		return $output;
 	}

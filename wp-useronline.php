@@ -77,7 +77,7 @@ function _useronline_init() {
 					'guests' => __( ',', 'wp-useronline' ).' ',
 					'bots' => __( ',', 'wp-useronline' ).' ',
 				),
-				'text' => _x( 'Users', 'Template Element', 'wp-useronline' ).': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
+				'text' => _x( 'Users', 'Template Element', 'wp-useronline' ).': <strong>%MEMBER_NAMES%%GUESTS_SEPARATOR%%GUESTS%%BOTS_SEPARATOR%%BOTS%</strong>'
 			),
 
 			'browsingpage' => array(
@@ -86,7 +86,7 @@ function _useronline_init() {
 					'guests' => __( ',', 'wp-useronline' ).' ',
 					'bots' => __( ',', 'wp-useronline' ).' ',
 				),
-				'text' => '<strong>%USERS%</strong> '.__( 'Browsing This Page.', 'wp-useronline' ).'<br />'._x( 'Users', 'Template Element', 'wp-useronline' ).': <strong>%MEMBER_NAMES%%GUESTS_SEPERATOR%%GUESTS%%BOTS_SEPERATOR%%BOTS%</strong>'
+				'text' => '<strong>%USERS%</strong> '.__( 'Browsing This Page.', 'wp-useronline' ).'<br />'._x( 'Users', 'Template Element', 'wp-useronline' ).': <strong>%MEMBER_NAMES%%GUESTS_SEPARATOR%%GUESTS%%BOTS_SEPARATOR%%BOTS%</strong>'
 			)
 		)
 	) );

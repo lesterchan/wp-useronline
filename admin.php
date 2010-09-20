@@ -245,9 +245,9 @@ class UserOnline_Options extends scbAdminPage {
 					- %USERS%<br />
 					- %MEMBERS%<br />
 					- %MEMBER_NAMES%<br />
-					- %GUESTS_SEPERATOR%<br />
+					- %GUESTS_SEPARATOR%<br />
 					- %GUESTS%<br />
-					- %BOTS_SEPERATOR%<br />
+					- %BOTS_SEPARATOR%<br />
 					- %BOTS%<br /><br />
 					<input type="button" value="<?php _e( 'Restore Default Template', 'wp-useronline' ); ?>" onclick="useronline_default_template( '<?php echo $option; ?>' );" class="button" />
 				</td>
