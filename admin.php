@@ -99,6 +99,7 @@ class UserOnline_Options extends scbAdminPage {
 	function page_content() {
 		$options = $this->options->get();
 		$defaults = $this->options->get_defaults();
+
 ?>
 	<form method="post" action="options.php">
 		<?php settings_fields( $this->option_name ); ?>
@@ -129,15 +130,17 @@ class UserOnline_Options extends scbAdminPage {
 			),
 		);
 
-		foreach ( $rows as $row )
+		foreach ( $rows as $row ) {
 			echo $this->table_row( $row );
+		}
+
 ?>
 		<tbody id="default_naming" style="display:none">
-			<?php $this->formdata = $defaults; $this->naming_table(); ?>
+			<?php $this->naming_table( $defaults ); ?>
 		</tbody>
 
 		<tbody id="current_naming">
-			<?php $this->formdata = $options; $this->naming_table(); ?>
+			<?php $this->naming_table( $options ); ?>
 		</tbody>
 
 		</table>
@@ -145,11 +148,11 @@ class UserOnline_Options extends scbAdminPage {
 		<h3><?php _e( 'Useronline Templates', 'wp-useronline' ); ?></h3>
 		<table class="form-table">
 			<tbody id="default_template_useronline" style="display:none">
-				<?php $this->formdata = $defaults; $this->useronline_template_table(); ?>
+				<?php $this->useronline_template_table( $defaults ); ?>
 			</tbody>
 
 			<tbody id="current_template_useronline">
-				<?php $this->formdata = $options; $this->useronline_template_table(); ?>
+				<?php $this->useronline_template_table( $options ); ?>
 			</tbody>
 
 			<?php
@@ -159,11 +162,11 @@ class UserOnline_Options extends scbAdminPage {
 			);
 			foreach ( $templates as $name => $title ) { ?>
 				<tbody id="default_template_<?php echo $name; ?>" style="display:none">
-					<?php $this->formdata = $defaults; $this->template_table( $title, $name ); ?>
+					<?php $this->template_table( $title, $name, $defaults ); ?>
 				</tbody>
 
 				<tbody id="current_template_<?php echo $name; ?>">
-					<?php $this->formdata = $options; $this->template_table( $title, $name ); ?>
+					<?php $this->template_table( $title, $name, $options ); ?>
 				</tbody>
 			<?php } ?>
 		</table>
@@ -174,7 +177,7 @@ class UserOnline_Options extends scbAdminPage {
 <?php
 	}
 
-	private function naming_table() {
+	private function naming_table( $data ) {
 ?>
 			<tr>
 				<td width="30%">
@@ -201,7 +204,7 @@ class UserOnline_Options extends scbAdminPage {
 										'name_tree' => array( 'naming', $type ),
 										'extra' => 'size="30"',
 										'desc' => html( 'td', '%input%' )
-									) );
+									), $data );
 								}
 								echo "\n</tr>\n";
 							}
@@ -214,7 +217,7 @@ class UserOnline_Options extends scbAdminPage {
 <?php
 	}
 
-	private function useronline_template_table() {
+	private function useronline_template_table( $data ) {
 ?>
 			<tr>
 				<td width="30%">
@@ -230,13 +233,13 @@ class UserOnline_Options extends scbAdminPage {
 					<?php echo $this->input( array(
 						'type' => 'textarea',
 						'name_tree' => array( 'templates', 'useronline' ),
-					) ); ?>
+					), $data ); ?>
 				</td>
 			</tr>
 <?php
 	}
 
-	private function template_table( $title, $option ) {
+	private function template_table( $title, $option, $data ) {
 ?>
 			<tr>
 				<td width="30%">
@@ -266,7 +269,7 @@ class UserOnline_Options extends scbAdminPage {
 									'type' => 'text',
 									'name_tree' => array( 'templates', $option, 'separators', $type ),
 									'extra' => "size='15'",
-								) ) );
+								), $data ) );
 							} ?>
 						</tr>
 					</table>
@@ -274,7 +277,7 @@ class UserOnline_Options extends scbAdminPage {
 					<?php echo $this->input( array(
 						'type' => 'textarea',
 						'name_tree' => array( 'templates', $option, 'text' )
-					) ); ?>
+					), $data ); ?>
 				</td>
 			</tr>
 <?php

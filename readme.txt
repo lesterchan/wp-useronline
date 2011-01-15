@@ -96,6 +96,9 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 
 == Changelog ==
 
+= 2.81 =
+* fix "Return to default" buttons
+
 = 2.80 =
 * don't show url and referral links for users in the admin area
 * smarter detection via ajax requests

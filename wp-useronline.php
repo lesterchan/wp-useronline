@@ -3,7 +3,7 @@
 Plugin Name: WP-UserOnline
 Plugin URI: http://wordpress.org/extend/plugins/wp-useronline/
 Description: Enable you to display how many users are online on your Wordpress site
-Version: 2.80
+Version: 2.81-alpha
 Author: Lester 'GaMerZ' Chan & scribu
 
 
