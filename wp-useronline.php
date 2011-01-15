@@ -99,10 +99,10 @@ function _useronline_init() {
 		require_once dirname( __FILE__ ) . '/admin.php';
 		scbAdminPage::register( 'UserOnline_Admin_Integration', __FILE__ );
 		scbAdminPage::register( 'UserOnline_Options', __FILE__, UserOnline_Core::$options );
-
-		if ( function_exists( 'stats_page' ) )
-			require_once dirname( __FILE__ ) . '/wp-stats.php';
 	}
+
+	if ( function_exists( 'stats_page' ) )
+		require_once dirname( __FILE__ ) . '/wp-stats.php';
 }
 scb_init( '_useronline_init' );
 
