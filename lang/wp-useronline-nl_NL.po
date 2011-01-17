@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-12 01:10+0800\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
+"Last-Translator: EW <test@gmail.com>\n"
 "Language-Team: Frans Davina <reg@frandre.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +49,7 @@ msgstr "Bijgewerkt"
 
 #: useronline-options.php:79
 msgid "No Useronline Option Updated"
-msgstr "Geen Useronline Optie Bijgewerkt"
+msgstr "Geen Useronline optie bijgewerkt"
 
 #: useronline-options.php:85
 #: useronline-options.php:380
@@ -140,12 +140,12 @@ msgstr ""
 #: useronline-options.php:179
 #: wp-useronline.php:916
 msgid "Browsing This Page."
-msgstr "Bezoeken Deze Pagina."
+msgstr "Bezoeken deze pagina."
 
 #: useronline-options.php:186
 #: useronline-options.php:187
 msgid "Useronline Options"
-msgstr "Useronline Opties"
+msgstr "Useronline opties"
 
 #: useronline-options.php:190
 msgid "Time Out"
@@ -153,7 +153,7 @@ msgstr "Time Out"
 
 #: useronline-options.php:192
 msgid "How long till it will remove the user from the database (In seconds)."
-msgstr "Hoe lang voordat de gebruiker uit de database wordt verwijderd (In Seconden)"
+msgstr "Hoelang voordat de gebruiker uit de database wordt verwijderd (In Seconden)"
 
 #: useronline-options.php:196
 msgid "UserOnline URL"
@@ -161,7 +161,7 @@ msgstr "UserOnline URL"
 
 #: useronline-options.php:198
 msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
-msgstr "URL Naar UserOnline Pagina (laat leeg als u niet naar de UserOnline Pagina wilt linken)<br />Voorbeeld: http://www.jouwsite.nl/blogs/useronline/<br />Voorbeeld: http://www.jouwsite.nl/blogs/?page_id=2"
+msgstr "URL naar UserOnline Pagina (laat leeg als u niet naar de UserOnline Pagina wilt linken)<br />Voorbeeld: http://www.jouwsite.nl/blogs/useronline/<br />Voorbeeld: http://www.jouwsite.nl/blogs/?page_id=2"
 
 #: useronline-options.php:202
 msgid "Bots Name/User Agent"
@@ -169,33 +169,33 @@ msgstr "Bots Naam/User Agent"
 
 #: useronline-options.php:204
 msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
-msgstr "Hier is een lijst met bots en hun gedeeltelijke browser agents.<br />In de linker kolom staat de <strong>Bots naam</strong> en in de rechter kolom de bijbehorende <strong> Gedeeltelijke Browser Agent</strong>.<br />Start iedere invoer op een nieuwe regel."
+msgstr "Hier is een lijst met zoekmachines en hun gedeeltelijke browser agents.<br />In de linkerkolom staat de <strong>Naam van de zoekmachine</strong> en in de rechter kolom de bijbehorende <strong> Gedeeltelijke Browser Agent</strong>.<br />Start iedere invoer op een nieuwe regel."
 
 #: useronline-options.php:212
 msgid "Naming Conventions:"
-msgstr "Naamgeving Regels:"
+msgstr "Naamgeving regels:"
 
 #: useronline-options.php:213
 #: useronline-options.php:254
 #: useronline-options.php:266
 #: useronline-options.php:298
 msgid "Allowed Variables:"
-msgstr "Toegestand Variabelen:"
+msgstr "Toegestane variabelen:"
 
 #: useronline-options.php:215
 #: useronline-options.php:259
 #: useronline-options.php:274
 #: useronline-options.php:306
 msgid "Restore Default Template"
-msgstr "Herstel Standaard Template"
+msgstr "Herstel standaardinstellingen"
 
 #: useronline-options.php:221
 msgid "Singular Form"
-msgstr "Enkelvoudige vorm"
+msgstr "Enkelvoud"
 
 #: useronline-options.php:222
 msgid "Plural Form"
-msgstr "Meervoudige vorm"
+msgstr "Meervoud"
 
 #: useronline-options.php:249
 msgid "Useronline Templates"
@@ -203,38 +203,38 @@ msgstr "Useronline Templates"
 
 #: useronline-options.php:253
 msgid "User(s) Online:"
-msgstr "Bezoeker(s) Online:"
+msgstr "Bezoeker(s) online:"
 
 #: useronline-options.php:265
 msgid "User(s) Browsing Site:"
-msgstr "Bezoeker(s) Op De Site:"
+msgstr "Bezoeker(s) op de site:"
 
 #: useronline-options.php:280
 #: useronline-options.php:312
 msgid "Member Names Separator"
-msgstr "Ledennaam Scheiden Met"
+msgstr "Naam van de leden scheiden met"
 
 #: useronline-options.php:281
 #: useronline-options.php:313
 msgid "Guests Separator"
-msgstr "Gasten Scheiden Met"
+msgstr "Gasten scheiden met"
 
 #: useronline-options.php:282
 #: useronline-options.php:314
 msgid "Bots Separator"
-msgstr "Bots Scheiden Met"
+msgstr "Zoekmachines scheiden met"
 
 #: useronline-options.php:297
 msgid "User(s) Browsing Page:"
-msgstr "Bezoeker(s) Op Deze Pagina:"
+msgstr "Bezoeker(s) op deze pagina:"
 
 #: useronline-options.php:329
 msgid "Save Changes"
-msgstr "Wijzigingen Opslaan"
+msgstr "Wijzigingen opslaan"
 
 #: useronline-options.php:340
 msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
-msgstr "Deactiveren van WP-UserONline verwijdert niet de gegevens die zijn gecreeert, zoals de UserOnline opties. Het compleet verwijderen van de plugin, doe je door hier te de\"installeren."
+msgstr "Deactiveren van WP-UserONline verwijdert niet de gegevens die zijn gecreëerd, zoals de UserOnline opties. Het compleet verwijderen van de plugin, doe je door hier te de\"installeren."
 
 #: useronline-options.php:343
 msgid "WARNING:"
@@ -250,11 +250,11 @@ msgstr "De volgende WordPress Opties/Tabellen zullen worden VERWIJDERD:"
 
 #: useronline-options.php:352
 msgid "WordPress Options"
-msgstr "WordPress Opties:"
+msgstr "WordPress opties:"
 
 #: useronline-options.php:353
 msgid "WordPress Tables"
-msgstr "WordPress Tabellen"
+msgstr "WordPress oabellen"
 
 #: useronline-options.php:379
 #: wp-useronline-widget.php:73
@@ -279,11 +279,11 @@ msgstr "UserOnline"
 
 #: wp-useronline-widget.php:69
 msgid "Widget Title"
-msgstr "Widget Titel"
+msgstr "Widget titel"
 
 #: wp-useronline-widget.php:70
 msgid "Display Users Browsing Site Under Users Online Count?"
-msgstr "Weergeven Bezoekers Onder Bezoekers Online Aantal?"
+msgstr "Weergeven bezoekers van de site onder Bezoekers online aantal?"
 
 #: wp-useronline-widget.php:75
 msgid "No"
@@ -326,15 +326,15 @@ msgstr "%s @ %s"
 
 #: wp-useronline.php:396
 msgid "No User Is Browsing This Site"
-msgstr "Geen bezoeker is op de Site"
+msgstr "Er is geen bezoeker op de site"
 
 #: wp-useronline.php:538
 msgid "No User Is Browsing This Page"
-msgstr "Geen bezoeker is op deze Pagina"
+msgstr "Er is geen bezoeker op deze pagina"
 
 #: wp-useronline.php:609
 msgid "Users Online Now"
-msgstr "Bezoekers Nu Online"
+msgstr "Bezoekers nu Online"
 
 #: wp-useronline.php:621
 #, php-format
@@ -350,11 +350,11 @@ msgstr "Er zijn nu totaal <strong><a href=\"%s\">%s bezoekers</a></strong> onlin
 #: wp-useronline.php:729
 #, php-format
 msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
-msgstr "De meeste bezoekers waren <strong>%s</strong>, op <strong>%s</strong>"
+msgstr "De meeste bezoekers tegelijk online: <strong>%s</strong>, op <strong>%s</strong>"
 
 #: wp-useronline.php:692
 msgid "User"
-msgstr "BEzoeker"
+msgstr "Gebruiker"
 
 #: wp-useronline.php:694
 msgid "Users"
@@ -374,11 +374,11 @@ msgstr "Gasten"
 
 #: wp-useronline.php:714
 msgid "Bot"
-msgstr "Bot"
+msgstr "Zoekmachine"
 
 #: wp-useronline.php:716
 msgid "Bots"
-msgstr "Bots"
+msgstr "Zoekmachine"
 
 #: wp-useronline.php:725
 #, php-format
@@ -394,7 +394,7 @@ msgstr "Er zijn nu <strong>%s</strong> online: <strong>%s</strong>, <strong>%s</
 #: wp-useronline.php:752
 #: wp-useronline.php:772
 msgid "Online Now"
-msgstr "Nu Online"
+msgstr "nu online"
 
 #: wp-useronline.php:739
 #: wp-useronline.php:759
@@ -419,7 +419,7 @@ msgstr "url"
 
 #: wp-useronline.php:784
 msgid "No One Is Online Now"
-msgstr "Er is nu Niemand online"
+msgstr "Er is nu niemand online"
 
 #: wp-useronline.php:860
 msgid "On"
@@ -427,6 +427,6 @@ msgstr "Op"
 
 #~ msgid "user(s) online now."
 #~ msgstr "gebruiker(s) nu online."
+
 #~ msgid "Most users ever online was"
 #~ msgstr "Meeste gebruikers ooit online was"
-
