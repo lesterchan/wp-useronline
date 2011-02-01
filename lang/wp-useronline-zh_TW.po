@@ -1,0 +1,292 @@
+# Translation of the WordPress plugin WP-UserOnline 2.80 by Lester 'GaMerZ' Chan & scribu.
+# Copyright (C) 2010 Lester 'GaMerZ' Chan & scribu
+# This file is distributed under the same license as the WP-UserOnline package.
+# FIRST AUTHOR <joy.ueng@gmail.com>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-UserOnline 2.80\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-useronline\n"
+"POT-Creation-Date: 2010-09-20 15:01+0300\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Joey Weng <joy.ueng@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: admin.php:9
+msgid "Users Online Now"
+msgstr "目前線上使用者"
+
+#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.80)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: admin.php:10 wp-stats.php:14 wp-stats.php:31
+msgid "WP-UserOnline"
+msgstr "線上使用者"
+
+#: admin.php:24
+#, php-format
+msgid "There is <strong><a href='%s'>%s user</a></strong> online now."
+msgid_plural ""
+"There are a total of <strong><a href='%s'>%s users</a></strong> online now."
+msgstr[0] "目前共有 <strong><a href='%s'>%s 位使用者</a></strong>在線上。"
+msgstr[1] "目前共有 <strong><a href='%s'>%s 位使用者</a></strong>在線上。"
+
+#: admin.php:52
+msgid "UserOnline Options"
+msgstr "線上使用者設定選項"
+
+#: admin.php:53 widget.php:6 widget.php:49
+msgid "UserOnline"
+msgstr "線上使用者"
+
+#: admin.php:110
+msgid "Time Out"
+msgstr "逾時時間"
+
+#: admin.php:113
+msgid ""
+"How long until it will remove the user from the database ( In seconds )."
+msgstr "決定多久之後將使用者從資料庫中移除（以秒為單位）。"
+
+#: admin.php:118
+msgid "UserOnline URL"
+msgstr "線上使用者網址"
+
+#: admin.php:121
+msgid ""
+"URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br /"
+">Example: http://www.yoursite.com/?page_id=2"
+msgstr "線上使用者網頁的位址<br />範例一：http://www.yoursite.com/useronline/<br /"
+">範例二：http://www.yoursite.com/?page_id=2"
+
+#: admin.php:125
+msgid "User Names"
+msgstr "使用者名稱"
+
+#: admin.php:128
+msgid "Link user names to their author page"
+msgstr "連結使用者名稱與其作者資訊網頁"
+
+#: admin.php:145
+msgid "Useronline Templates"
+msgstr "線上使用者樣版"
+
+#: admin.php:157
+msgid "User(s) Browsing Site:"
+msgstr "站台瀏覽"
+
+#: admin.php:158
+msgid "User(s) Browsing Page:"
+msgstr "頁面瀏覽"
+
+#: admin.php:171 scb/AdminPage.php:179 scb/AdminPage.php:189
+msgid "Save Changes"
+msgstr "儲存更新"
+
+#: admin.php:181
+msgid "Naming Conventions:"
+msgstr "命名方式"
+
+#: admin.php:182 admin.php:222 admin.php:244
+msgid "Allowed Variables:"
+msgstr "可使用變數"
+
+#: admin.php:184
+msgid "Restore Defaults"
+msgstr "恢復預設值"
+
+#: admin.php:190
+msgid "Singular Form"
+msgstr "單數格式"
+
+#: admin.php:191
+msgid "Plural Form"
+msgstr "複數格式"
+
+#: admin.php:221
+msgid "User(s) Online:"
+msgstr "線上使用者"
+
+#: admin.php:227 admin.php:252
+msgid "Restore Default Template"
+msgstr "恢復預設樣版"
+
+#: admin.php:258
+msgid "Member Names Separator"
+msgstr "會員名稱區隔字元"
+
+#: admin.php:259
+msgid "Guests Separator"
+msgstr "訪客區隔字元"
+
+#: admin.php:260
+msgid "Bots Separator"
+msgstr "機器人區隔字元"
+
+#: core.php:109
+msgid "Guest"
+msgstr "訪客"
+
+#: core.php:180
+msgid "Admin"
+msgstr "管理員"
+
+#: core.php:186
+msgid "Archive"
+msgstr "彙整"
+
+#: scb/AdminPage.php:167
+msgid "Settings <strong>saved</strong>."
+msgstr "設定<strong>已儲存</strong>。"
+
+#: scb/AdminPage.php:371
+msgid "Settings"
+msgstr "設定"
+
+#: template-tags.php:81
+#, php-format
+msgid ""
+"There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</"
+"strong> and <strong>%s</strong>."
+msgid_plural ""
+"There are a total of <strong>%s</strong> online now: <strong>%s</strong>, "
+"<strong>%s</strong> and <strong>%s</strong>."
+msgstr[0] "目前共有 <strong>%s</strong> 正在線上：<strong>%s</strong>，<strong>%s</"
+"strong>與 <strong>%s</strong>。"
+msgstr[1] "目前共有 <strong>%s</strong> 正在線上：<strong>%s</strong>，<strong>%s</"
+"strong>與 <strong>%s</strong>。"
+
+#: template-tags.php:190
+msgid "No one is online now."
+msgstr "目前沒有任何使用者在線上。"
+
+#: template-tags.php:192
+msgid "on"
+msgstr "在"
+
+#: template-tags.php:193
+msgid "url"
+msgstr "網址"
+
+#: template-tags.php:194
+msgid "referral"
+msgstr "參照網址"
+
+#: template-tags.php:205
+msgid "Online Now"
+msgstr "正在線上"
+
+#: template-tags.php:247 template-tags.php:249
+#, php-format
+msgid "%s @ %s"
+msgstr ""
+
+#: template-tags.php:269
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "線上同時最多使用者數量：<strong>%s</strong>，在 <strong>%s</strong>"
+
+#: widget.php:5
+msgid "WP-UserOnline users online statistics"
+msgstr "WP-UserOnline 線上使用者統計"
+
+#: widget.php:56
+msgid "Title:"
+msgstr "標題"
+
+#: widget.php:59
+msgid "Statistics Type:"
+msgstr "統計種類："
+
+#: widget.php:61
+msgid "Users Online Count"
+msgstr "線上使用者人數"
+
+#: widget.php:62
+msgid "Users Browsing Current Page"
+msgstr "使用者正在瀏覽目前頁面"
+
+#: widget.php:63
+msgid "Users Browsing Site"
+msgstr "使用者正在瀏覽網站"
+
+#: widget.php:65
+msgid "Users Online Count & Users Browsing Current Page"
+msgstr "線上使用者人數與正在瀏覽目前頁面"
+
+#: widget.php:66
+msgid "Users Online Count & Users Browsing Site"
+msgstr "線上使用者人數與正在瀏覽網站"
+
+#: wp-stats.php:24
+#, php-format
+msgid "<strong>%s</strong> user online now."
+msgid_plural "<strong>%s</strong> users online now."
+msgstr[0] "<strong>%s</strong> 名使用者正在線上。"
+msgstr[1] "<strong>%s</strong> 名使用者正在線上。"
+
+#: wp-useronline.php:61
+msgid "1 User"
+msgstr "1 位使用者"
+
+#: wp-useronline.php:62
+msgid "%COUNT% Users"
+msgstr "%COUNT% 位使用者"
+
+#: wp-useronline.php:63
+msgid "1 Member"
+msgstr "1 位會員"
+
+#: wp-useronline.php:64
+msgid "%COUNT% Members"
+msgstr "%COUNT% 位會員"
+
+#: wp-useronline.php:65
+msgid "1 Guest"
+msgstr "1 位訪客"
+
+#: wp-useronline.php:66
+msgid "%COUNT% Guests"
+msgstr "%COUNT% 位訪客"
+
+#: wp-useronline.php:67
+msgid "1 Bot"
+msgstr "1 個機器人"
+
+#: wp-useronline.php:68
+msgid "%COUNT% Bots"
+msgstr "%COUNT% 個機器人"
+
+#: wp-useronline.php:72
+msgid "Online"
+msgstr "正在線上"
+
+#: wp-useronline.php:76 wp-useronline.php:77 wp-useronline.php:78
+#: wp-useronline.php:85 wp-useronline.php:86 wp-useronline.php:87
+msgid ","
+msgstr ""
+
+#: wp-useronline.php:80 wp-useronline.php:89
+msgctxt "Template Element"
+msgid "Users"
+msgstr "使用者"
+
+#: wp-useronline.php:89
+msgid "Browsing This Page."
+msgstr "正在瀏覽此頁。"
+
+#. Plugin URI of the plugin/theme
+msgid "http://wordpress.org/extend/plugins/wp-useronline/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Enable you to display how many users are online on your Wordpress site"
+msgstr "顯示目前網站中有多少使用者正在線上"
+
+#. Author of the plugin/theme
+msgid "Lester 'GaMerZ' Chan & scribu"
+msgstr ""
