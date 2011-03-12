@@ -1,0 +1,361 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-useronline\n"
+"POT-Creation-Date: 2010-09-20 15:01+0300\n"
+"PO-Revision-Date: 2011-03-12 13:40+0200\n"
+"Last-Translator: illimar <illimartambek@gmail.com>\n"
+"Language-Team: Illimar Tambek <illimartambek@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: Estonia\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Estonian\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin.php:9
+msgid "Users Online Now"
+msgstr "Kasutajate arv lehel"
+
+#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.80)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: admin.php:10
+#: wp-stats.php:14
+#: wp-stats.php:31
+msgid "WP-UserOnline"
+msgstr "WP-UserOnline"
+
+#: admin.php:24
+#, php-format
+msgid "There is <strong><a href='%s'>%s user</a></strong> online now."
+msgstr "Hetkel on lehel <strong><a href='%s'>%s kasutaja</a></strong>."
+
+#: admin.php:52
+msgid "UserOnline Options"
+msgstr "UserOnline valikud"
+
+#: admin.php:53
+#: widget.php:6
+#: widget.php:49
+msgid "UserOnline"
+msgstr "UserOnline"
+
+#: admin.php:110
+msgid "Time Out"
+msgstr "Timeout"
+
+#: admin.php:113
+msgid "How long until it will remove the user from the database ( In seconds )."
+msgstr "Kui kaua oodata, enne kui kasutaja eemaldatakse andmebaasist (sekundites)."
+
+#: admin.php:118
+msgid "UserOnline URL"
+msgstr "UserOnline aadress"
+
+#: admin.php:121
+msgid "URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2"
+msgstr "UserOnline lehe aadress<br />Näiteks: http://www.sinuleht.ee/useronline/<br />Näiteks: http://www.sinuleht.ee/?page_id=2"
+
+#: admin.php:125
+msgid "User Names"
+msgstr "Kasutajate nimed"
+
+#: admin.php:128
+msgid "Link user names to their author page"
+msgstr "Kasutajanimed lingivad autori arhiivile"
+
+#: admin.php:145
+msgid "Useronline Templates"
+msgstr "Useronline mallid"
+
+#: admin.php:157
+msgid "User(s) Browsing Site:"
+msgstr "Kasutaja(d), kes on saidil:"
+
+#: admin.php:158
+msgid "User(s) Browsing Page:"
+msgstr "Kasutaja(d), kes vaatavad seda lehte"
+
+#: admin.php:171
+#: scb/AdminPage.php:179
+#: scb/AdminPage.php:189
+msgid "Save Changes"
+msgstr "Salvesta muutused"
+
+#: admin.php:181
+msgid "Naming Conventions:"
+msgstr "Nimetamine:"
+
+#: admin.php:182
+#: admin.php:222
+#: admin.php:244
+msgid "Allowed Variables:"
+msgstr "Lubatud muutujad:"
+
+#: admin.php:184
+msgid "Restore Defaults"
+msgstr "Taasta algseaded"
+
+#: admin.php:190
+msgid "Singular Form"
+msgstr "Ainsuse vorm"
+
+#: admin.php:191
+msgid "Plural Form"
+msgstr "Mitmuse vorm"
+
+#: admin.php:221
+msgid "User(s) Online:"
+msgstr "Kasutaja(id) lehel:"
+
+#: admin.php:227
+#: admin.php:252
+msgid "Restore Default Template"
+msgstr "Taasta algne mall"
+
+#: admin.php:258
+msgid "Member Names Separator"
+msgstr "Liikmete nimede eraldaja"
+
+#: admin.php:259
+msgid "Guests Separator"
+msgstr "Külaliste eraldaja"
+
+#: admin.php:260
+msgid "Bots Separator"
+msgstr "Bottide eraldaja"
+
+#: core.php:109
+msgid "Guest"
+msgstr "külaline"
+
+#: core.php:180
+msgid "Admin"
+msgstr "Haldur"
+
+#: core.php:186
+msgid "Archive"
+msgstr "Arhiiv"
+
+#: scb/AdminPage.php:167
+msgid "Settings <strong>saved</strong>."
+msgstr "Seaded <strong>salvestati</strong>."
+
+#: scb/AdminPage.php:371
+msgid "Settings"
+msgstr "Seaded"
+
+#: template-tags.php:81
+#, php-format
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr "Hetkel on lehel <strong>%s</strong>: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+
+#: template-tags.php:190
+msgid "No one is online now."
+msgstr "Hetkel ei ole lehel kedagi."
+
+#: template-tags.php:192
+msgid "on"
+msgstr " "
+
+#: template-tags.php:193
+msgid "url"
+msgstr "link"
+
+#: template-tags.php:194
+msgid "referral"
+msgstr "viitaja"
+
+#: template-tags.php:205
+msgid "Online Now"
+msgstr "hetkel lehel"
+
+#: template-tags.php:247
+#: template-tags.php:249
+#, php-format
+msgid "%s @ %s"
+msgstr "%s kell %s"
+
+#: template-tags.php:269
+#, php-format
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "Kõige rohkem kasutajaid (<strong>%s</strong>) oli lehel <strong>%s</strong>"
+
+#: widget.php:5
+msgid "WP-UserOnline users online statistics"
+msgstr "WP-USerOnline kasutajate lehel viibimise statistika"
+
+#: widget.php:56
+msgid "Title:"
+msgstr "Pealkiri:"
+
+#: widget.php:59
+msgid "Statistics Type:"
+msgstr "Statistika:"
+
+#: widget.php:61
+msgid "Users Online Count"
+msgstr "Kasutajate arv lehel"
+
+#: widget.php:62
+msgid "Users Browsing Current Page"
+msgstr "Kasutajad, kes vaatavad seda lehte"
+
+#: widget.php:63
+msgid "Users Browsing Site"
+msgstr "Kasutajaid lehel"
+
+#: widget.php:65
+msgid "Users Online Count & Users Browsing Current Page"
+msgstr "Kasutajaid lehel & Kasutajad sellel lehel"
+
+#: widget.php:66
+msgid "Users Online Count & Users Browsing Site"
+msgstr "Kasutajate arv lehel & Kasutajad, kes vaatavad saiti"
+
+#: wp-stats.php:24
+#, php-format
+msgid "<strong>%s</strong> user online now."
+msgstr "<strong>%s</strong> kasutaja lehel."
+
+#: wp-useronline.php:61
+msgid "1 User"
+msgstr "1 kasutaja"
+
+#: wp-useronline.php:62
+msgid "%COUNT% Users"
+msgstr "%COUNT% kasutajat"
+
+#: wp-useronline.php:63
+msgid "1 Member"
+msgstr "1 liige"
+
+#: wp-useronline.php:64
+msgid "%COUNT% Members"
+msgstr "%COUNT% liiget"
+
+#: wp-useronline.php:65
+msgid "1 Guest"
+msgstr "1 külastaja"
+
+#: wp-useronline.php:66
+msgid "%COUNT% Guests"
+msgstr "%COUNT% külalist"
+
+#: wp-useronline.php:67
+msgid "1 Bot"
+msgstr "1 bot"
+
+#: wp-useronline.php:68
+msgid "%COUNT% Bots"
+msgstr "%COUNT% botti"
+
+#: wp-useronline.php:72
+msgid "Online"
+msgstr "lehel"
+
+#: wp-useronline.php:76
+#: wp-useronline.php:77
+#: wp-useronline.php:78
+#: wp-useronline.php:85
+#: wp-useronline.php:86
+#: wp-useronline.php:87
+msgid ","
+msgstr ","
+
+#: wp-useronline.php:80
+#: wp-useronline.php:89
+msgctxt "Template Element"
+msgid "Users"
+msgstr "kasutajat"
+
+#: wp-useronline.php:89
+msgid "Browsing This Page."
+msgstr "vaatavad seda lehte."
+
+#. Plugin URI of the plugin/theme
+msgid "http://wordpress.org/extend/plugins/wp-useronline/"
+msgstr "http://wordpress.org/extend/plugins/wp-useronline/"
+
+#. Description of the plugin/theme
+msgid "Enable you to display how many users are online on your Wordpress site"
+msgstr "Võimaldab näidata, kui palju kasutajaid hetkel sinu Wordpressi lehel viibib"
+
+#. Author of the plugin/theme
+msgid "Lester 'GaMerZ' Chan & scribu"
+msgstr "Lester 'GaMerZ' Chan & scribu"
+
+#~ msgid "WordPress Options"
+#~ msgstr "WordPressi seaded"
+
+#~ msgid "WordPress Tables"
+#~ msgstr "WordPressi tabelid"
+
+#~ msgid "Yes"
+#~ msgstr "Jah"
+
+#~ msgid "Useronline"
+#~ msgstr "Useronline"
+
+#~ msgid "guest"
+#~ msgstr "külastaja"
+
+#~ msgid ""
+#~ "There are a total of <strong><a href=\"%s\">%s users</a></strong> online "
+#~ "now."
+#~ msgstr ""
+#~ "Hetklel on lehel kokku <strong><a href=\"%s\">%s kasutajat</a></strong>."
+
+#~ msgid "User"
+#~ msgstr "kasutaja"
+
+#~ msgid "Member"
+#~ msgstr "liige"
+
+#~ msgid "Members"
+#~ msgstr "liiget"
+
+#~ msgid "Guests"
+#~ msgstr "külastajat"
+
+#~ msgid "Bot"
+#~ msgstr "bot"
+
+#~ msgid "Bots"
+#~ msgstr "botti"
+
+#~ msgid ""
+#~ "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, "
+#~ "<strong>%s</strong> and <strong>%s</strong>."
+#~ msgstr ""
+#~ "Hetkel on lehel kokku <strong>%s</strong>: <strong>%s</strong>, <strong>%"
+#~ "s</strong> ja <strong>%s</strong>."
+
+#~ msgid "user(s) online now."
+#~ msgstr "kasutaja(t) lehel"
+
+#~ msgid "Most users ever online was"
+#~ msgstr "Kõige rohkem kasutajaid oli lehel korraga"
+
+#~ msgid "Update Options"
+#~ msgstr "Uuenda seadeid"
+
+#~ msgid "Cancel"
+#~ msgstr "Tühista"
+
+#~ msgid "There is"
+#~ msgstr "Hetkel on"
+
+#~ msgid "There are a total of"
+#~ msgstr "Lehel on"
+
+#~ msgid "online now"
+#~ msgstr " "
+
+#~ msgid "and"
+#~ msgstr "ja"
+
+#~ msgid "Most users ever online were"
+#~ msgstr "Kõige rohkem kasutajaid oli lehel"
