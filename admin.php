@@ -10,7 +10,6 @@ class UserOnline_Admin_Integration extends scbAdminPage {
 			'menu_title' => __( 'WP-UserOnline', $this->textdomain ),
 			'page_slug' => 'useronline',
 			'parent' => 'index.php',
-			'capability' => 'read',
 			'action_link' => false,
 		);
 
@@ -18,6 +17,9 @@ class UserOnline_Admin_Integration extends scbAdminPage {
 	}
 
 	function rightnow() {
+		if ( !current_user_can( 'manage_options' ) )
+			return;
+
 		$total_users = get_users_online_count();
 
 		$str = _n(

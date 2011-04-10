@@ -98,6 +98,7 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 
 = 2.81 =
 * fix "Return to default" buttons
+* show user list in admin only to users with 'manage_options' capability
 
 = 2.80 =
 * don't show url and referral links for users in the admin area
