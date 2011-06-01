@@ -11,6 +11,7 @@ class UserOnline_Admin_Integration extends scbAdminPage {
 			'page_slug' => 'useronline',
 			'parent' => 'index.php',
 			'action_link' => false,
+			'capability' => 'list_users',
 		);
 
 		add_action( 'rightnow_end', array( $this, 'rightnow' ) );
