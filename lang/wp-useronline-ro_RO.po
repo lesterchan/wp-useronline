@@ -1,11 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP-UserOnline 2.70\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-useronline\n"
-"POT-Creation-Date: 2010-09-20 15:01+0300\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wpu\n"
+"POT-Creation-Date: 2011-06-02 20:04:14+00:00\n"
 "PO-Revision-Date: \n"
 "Last-Translator: scribu <mail@scribu.net>\n"
 "Language-Team: scribu <scribu@gmail.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,181 +14,15 @@ msgstr ""
 "X-Poedit-Language: Romanian\n"
 "X-Poedit-Country: ROMANIA\n"
 
-#: admin.php:9
-msgid "Users Online Now"
-msgstr "Utilizatori conectați acum"
-
-#. #-#-#-#-#  wp-useronline.pot (WP-UserOnline 2.80)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
-#: admin.php:10
-#: wp-stats.php:14
-#: wp-stats.php:31
-msgid "WP-UserOnline"
-msgstr "WP-UserOnline"
-
-#: admin.php:24
-#, php-format
-msgid "There is <strong><a href='%s'>%s user</a></strong> online now."
-msgid_plural "There are a total of <strong><a href='%s'>%s users</a></strong> online now."
-msgstr[0] "Există conectat <strong><a href='%s'>%s utilizator</a></strong> acum."
-msgstr[1] "Există conectați <strong><a href='%s'>%s utilizatori</a></strong> acum."
-
-#: admin.php:52
-msgid "UserOnline Options"
-msgstr "Opțiuni modul"
-
-#: admin.php:53
-#: widget.php:6
-#: widget.php:49
-msgid "UserOnline"
-msgstr "UtilizatoriOnline"
-
-#: admin.php:110
-msgid "Time Out"
-msgstr "Timp expirare"
-
-#: admin.php:113
-msgid "How long until it will remove the user from the database ( In seconds )."
-msgstr "Timpul până când un utilizator va fi scos din baza de date (în secunde)"
-
-#: admin.php:118
-msgid "UserOnline URL"
-msgstr "URL Modul"
-
-#: admin.php:121
-msgid "URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2"
-msgstr "URL-ul la această pagină<br />Exemplu: http://www.siteultau.ro/useronline/<br />Exemplu: http://www.siteultau.ro/?page_id=2"
-
-#: admin.php:125
-msgid "User Names"
-msgstr "Utilizatori"
-
-#: admin.php:128
-msgid "Link user names to their author page"
-msgstr "Creează legătură între utilizatori și paginile lor"
-
-#: admin.php:145
-msgid "Useronline Templates"
-msgstr "Șabloane modul"
-
-#: admin.php:157
-msgid "User(s) Browsing Site:"
-msgstr "Utilizator(i) navigând site-ul:"
-
-#: admin.php:158
-msgid "User(s) Browsing Page:"
-msgstr "Utilizator(i) navigând pagina:"
-
-#: admin.php:171
-#: scb/AdminPage.php:179
-#: scb/AdminPage.php:189
-msgid "Save Changes"
-msgstr "Salvați modificările"
-
-#: admin.php:181
-msgid "Naming Conventions:"
-msgstr "Convenție denumiri:"
-
-#: admin.php:182
-#: admin.php:222
-#: admin.php:244
-msgid "Allowed Variables:"
-msgstr "Variabile Acceptate"
-
-#: admin.php:184
-msgid "Restore Defaults"
-msgstr "Revenire la configurarea inițială"
-
-#: admin.php:190
-msgid "Singular Form"
-msgstr "Forma singulară"
-
-#: admin.php:191
-msgid "Plural Form"
-msgstr "Forma plurală"
-
-#: admin.php:221
-msgid "User(s) Online:"
-msgstr "Utilizator(i) conectați:"
-
-#: admin.php:227
-#: admin.php:252
-msgid "Restore Default Template"
-msgstr "Restabilește șablon inițial"
-
-#: admin.php:258
-msgid "Member Names Separator"
-msgstr "Separator Utilizatori"
-
-#: admin.php:259
-msgid "Guests Separator"
-msgstr "Separator Vizitator"
-
-#: admin.php:260
-msgid "Bots Separator"
-msgstr "Separator Boți"
-
-#: core.php:109
-msgid "Guest"
-msgstr "Vizitator"
-
-#: core.php:180
-msgid "Admin"
-msgstr "Admin"
-
-#: core.php:186
-msgid "Archive"
-msgstr "Arhivă"
-
-#: scb/AdminPage.php:167
-msgid "Settings <strong>saved</strong>."
-msgstr "Configurări <strong>salvate</strong>."
-
-#: scb/AdminPage.php:371
-msgid "Settings"
-msgstr "Setări"
-
-#: template-tags.php:81
-#, php-format
-msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
-msgid_plural "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
-msgstr[0] "Există <strong>%s</strong> conectat acum: <strong>%s</strong>, <strong>%s</strong> și <strong>%s</strong>."
-msgstr[1] "Există acum un total de <strong>%s</strong> conectați acum: <strong>%s</strong>, <strong>%s</strong> și <strong>%s</strong>."
-
-#: template-tags.php:190
-msgid "No one is online now."
-msgstr "Momentan nu există utilizatori conectați."
-
-#: template-tags.php:192
-msgid "on"
-msgstr "pe"
-
-#: template-tags.php:193
-msgid "url"
-msgstr "vezi pagina"
-
-#: template-tags.php:194
-msgid "referral"
-msgstr "referință"
-
-#: template-tags.php:205
-msgid "Online Now"
-msgstr "conectat acum"
-
-#: template-tags.php:247
-#: template-tags.php:249
-#, php-format
-msgid "%s @ %s"
-msgstr "%s @ %s"
-
-#: template-tags.php:269
-#, php-format
-msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
-msgstr "Numărul maxim de utilizatori conectați în aceelași timp este de <strong>%s</strong>, pe <strong>%s</strong>"
-
 #: widget.php:5
 msgid "WP-UserOnline users online statistics"
 msgstr "WP-UserOnline statistica utilizatorilor conectați"
+
+#: widget.php:6
+#: widget.php:49
+#: admin.php:56
+msgid "UserOnline"
+msgstr "UtilizatoriOnline"
 
 #: widget.php:56
 msgid "Title:"
@@ -217,12 +52,163 @@ msgstr "Utilizatori conectați & Utilizatori navigând pagina curentă"
 msgid "Users Online Count & Users Browsing Site"
 msgstr "Utilizatori conectați & Utilizatori navigând site-ul"
 
-#: wp-stats.php:24
-#, php-format
+#: admin.php:9
+msgid "Users Online Now"
+msgstr "Utilizatori conectați acum"
+
+#: admin.php:10
+#: wp-stats.php:14
+#: wp-stats.php:31
+msgid "WP-UserOnline"
+msgstr "WP-UserOnline"
+
+#: admin.php:26
+msgid "There is <strong><a href='%s'>%s user</a></strong> online now."
+msgid_plural "There are a total of <strong><a href='%s'>%s users</a></strong> online now."
+msgstr[0] "Există conectat <strong><a href='%s'>%s utilizator</a></strong> acum."
+msgstr[1] "Există conectați <strong><a href='%s'>%s utilizatori</a></strong> acum."
+
+#: admin.php:55
+msgid "UserOnline Options"
+msgstr "Opțiuni modul"
+
+#: admin.php:114
+msgid "Time Out"
+msgstr "Timp expirare"
+
+#: admin.php:117
+msgid "How long until it will remove the user from the database (in seconds)."
+msgstr "Timpul până când un utilizator va fi scos din baza de date (în secunde)."
+
+#: admin.php:122
+msgid "UserOnline URL"
+msgstr "URL Modul"
+
+#: admin.php:125
+msgid "URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2"
+msgstr "URL-ul la această pagină<br />Exemplu: http://www.siteultau.ro/useronline/<br />Exemplu: http://www.siteultau.ro/?page_id=2"
+
+#: admin.php:129
+msgid "User Names"
+msgstr "Utilizatori"
+
+#: admin.php:132
+msgid "Link user names to their author page"
+msgstr "Creează legătură între utilizatori și paginile lor"
+
+#: admin.php:151
+msgid "Useronline Templates"
+msgstr "Șabloane modul"
+
+#: admin.php:163
+msgid "User(s) Browsing Site:"
+msgstr "Utilizator(i) navigând site-ul:"
+
+#: admin.php:164
+msgid "User(s) Browsing Page:"
+msgstr "Utilizator(i) navigând pagina:"
+
+#: admin.php:177
+#: scb/AdminPage.php:177
+#: scb/AdminPage.php:187
+msgid "Save Changes"
+msgstr "Salvați modificările"
+
+#: admin.php:187
+msgid "Naming Conventions:"
+msgstr "Convenție denumiri:"
+
+#: admin.php:188
+#: admin.php:228
+#: admin.php:250
+msgid "Allowed Variables:"
+msgstr "Variabile Acceptate"
+
+#: admin.php:190
+msgid "Restore Defaults"
+msgstr "Revenire la configurarea inițială"
+
+#: admin.php:196
+msgid "Singular Form"
+msgstr "Forma singulară"
+
+#: admin.php:197
+msgid "Plural Form"
+msgstr "Forma plurală"
+
+#: admin.php:227
+msgid "User(s) Online:"
+msgstr "Utilizator(i) conectați:"
+
+#: admin.php:233
+#: admin.php:258
+msgid "Restore Default Template"
+msgstr "Restabilește șablon inițial"
+
+#: admin.php:264
+msgid "Member Names Separator"
+msgstr "Separator Utilizatori"
+
+#: admin.php:265
+msgid "Guests Separator"
+msgstr "Separator Vizitator"
+
+#: admin.php:266
+msgid "Bots Separator"
+msgstr "Separator Boți"
+
+#: wp-stats.php:23
 msgid "<strong>%s</strong> user online now."
 msgid_plural "<strong>%s</strong> users online now."
 msgstr[0] "<strong>%s</strong> utilizator conectat acum."
 msgstr[1] "<strong>%s</strong> utilizatori conectati acum."
+
+#: template-tags.php:80
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgid_plural "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr[0] "Există <strong>%s</strong> conectat acum: <strong>%s</strong>, <strong>%s</strong> și <strong>%s</strong>."
+msgstr[1] "Există acum un total de <strong>%s</strong> conectați acum: <strong>%s</strong>, <strong>%s</strong> și <strong>%s</strong>."
+
+#: template-tags.php:190
+msgid "No one is online now."
+msgstr "Momentan nu există utilizatori conectați."
+
+#: template-tags.php:192
+msgid "on"
+msgstr "pe"
+
+#: template-tags.php:193
+msgid "url"
+msgstr "vezi pagina"
+
+#: template-tags.php:194
+msgid "referral"
+msgstr "referință"
+
+#: template-tags.php:205
+msgid "Online Now"
+msgstr "conectat acum"
+
+#: template-tags.php:247
+#: template-tags.php:249
+msgid "%s @ %s"
+msgstr "%s @ %s"
+
+#: template-tags.php:269
+msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
+msgstr "Numărul maxim de utilizatori conectați în aceelași timp este de <strong>%s</strong>, pe <strong>%s</strong>"
+
+#: core.php:137
+msgid "Guest"
+msgstr "Vizitator"
+
+#: core.php:208
+msgid "Admin"
+msgstr "Admin"
+
+#: core.php:214
+msgid "Archive"
+msgstr "Arhivă"
 
 #: wp-useronline.php:61
 msgid "1 User"
@@ -279,15 +265,20 @@ msgstr "Utilizatori"
 msgid "Browsing This Page."
 msgstr "Navigând pagina curentă"
 
-#. Plugin URI of the plugin/theme
-msgid "http://wordpress.org/extend/plugins/wp-useronline/"
-msgstr "http://wordpress.org/extend/plugins/wp-useronline/"
+#: scb/AdminPage.php:165
+msgid "Settings <strong>saved</strong>."
+msgstr "Configurări <strong>salvate</strong>."
 
-#. Description of the plugin/theme
-msgid "Enable you to display how many users are online on your Wordpress site"
-msgstr "Permite afişarea utilizatorilor conecați pe site-ul dvs."
+#: scb/AdminPage.php:369
+msgid "Settings"
+msgstr "Setări"
 
-#. Author of the plugin/theme
-msgid "Lester 'GaMerZ' Chan & scribu"
-msgstr "Lester 'GaMerZ' Chan & scribu"
+#~ msgid "http://wordpress.org/extend/plugins/wp-useronline/"
+#~ msgstr "http://wordpress.org/extend/plugins/wp-useronline/"
 
+#~ msgid ""
+#~ "Enable you to display how many users are online on your Wordpress site"
+#~ msgstr "Permite afişarea utilizatorilor conecați pe site-ul dvs."
+
+#~ msgid "Lester 'GaMerZ' Chan & scribu"
+#~ msgstr "Lester 'GaMerZ' Chan & scribu"
