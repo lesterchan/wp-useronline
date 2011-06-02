@@ -30,7 +30,7 @@ msgstr "WP-UserOnline"
 msgid "There is <strong><a href='%s'>%s user</a></strong> online now."
 msgid_plural "There are a total of <strong><a href='%s'>%s users</a></strong> online now."
 msgstr[0] "Există conectat <strong><a href='%s'>%s utilizator</a></strong> acum."
-msgstr[1] "Există conectați <strong><a href='%s'>%s utilizatori</a></strong>acum."
+msgstr[1] "Există conectați <strong><a href='%s'>%s utilizatori</a></strong> acum."
 
 #: admin.php:52
 msgid "UserOnline Options"

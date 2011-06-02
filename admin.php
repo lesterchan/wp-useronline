@@ -114,7 +114,7 @@ class UserOnline_Options extends scbAdminPage {
 				'title' => __( 'Time Out', 'wp-useronline' ),
 				'type' => 'text',
 				'name_tree' => 'timeout',
-				'desc' => '<br />' . __( 'How long until it will remove the user from the database ( In seconds ).', 'wp-useronline' ),
+				'desc' => '<br />' . __( 'How long until it will remove the user from the database (in seconds).', 'wp-useronline' ),
 				'extra' => 'size="4"'
 			),
 
