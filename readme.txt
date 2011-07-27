@@ -3,7 +3,7 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/site/donation/
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
 Requires at least: 3.0
-Tested up to: 3.0
+Tested up to: 3.2
 Stable tag: 2.80
 
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
@@ -97,8 +97,9 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 == Changelog ==
 
 = 2.81 =
-* fix "Return to default" buttons
+* fixed "Return to default" buttons
 * show user list in admin only to users with 'manage_options' capability
+* added 'useronline_bots' filter
 
 = 2.80 =
 * don't show url and referral links for users in the admin area

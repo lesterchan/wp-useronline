@@ -106,8 +106,10 @@ class UserOnline_Core {
 			'Amazon' => 'amazonaws.com'
 		);
 
+		$bots = apply_filters( 'useronline_bots', $bots );
+
 		$bot_found = false;
-		foreach ( $bots as $name => $lookfor )
+		foreach ( $bots as $name => $lookfor ) {
 			if ( stristr( $user_agent, $lookfor ) !== false ) {
 				$user_id = 0;
 				$user_name = $name;
@@ -117,6 +119,7 @@ class UserOnline_Core {
 
 				break;
 			}
+		}
 
 		// If No Bot Is Found, Then We Check Members And Guests
 		if ( !$bot_found ) {
