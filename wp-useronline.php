@@ -103,6 +103,9 @@ function _useronline_init() {
 
 	if ( function_exists( 'stats_page' ) )
 		require_once dirname( __FILE__ ) . '/wp-stats.php';
+
+#	scbUtil::do_activation( __FILE__ );
+#	scbUtil::do_uninstall( __FILE__ );
 }
 scb_init( '_useronline_init' );
 
