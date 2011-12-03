@@ -104,16 +104,15 @@ class UserOnline_Options extends scbAdminPage {
 		$defaults = $this->options->get_defaults();
 
 ?>
-	<form method="post" action="options.php">
-		<?php settings_fields( $this->option_name ); ?>
-
+	<form method="post" action="">
+		<?php wp_nonce_field( $this->nonce ); ?>
 		<table class="form-table">
 <?php
 		$rows = array(
 			array(
 				'title' => __( 'Time Out', 'wp-useronline' ),
 				'type' => 'text',
-				'name_tree' => 'timeout',
+				'name' => 'timeout',
 				'desc' => '<br />' . __( 'How long until it will remove the user from the database (in seconds).', 'wp-useronline' ),
 				'extra' => 'size="4"'
 			),
@@ -121,14 +120,14 @@ class UserOnline_Options extends scbAdminPage {
 			array(
 				'title' => __( 'UserOnline URL', 'wp-useronline' ),
 				'type' => 'text',
-				'name_tree' => 'url',
+				'name' => 'url',
 				'desc' => '<br />' . __( 'URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2', 'wp-useronline' ),
 			),
 
 			array(
 				'title' => __( 'User Names', 'wp-useronline' ),
 				'type' => 'checkbox',
-				'name_tree' => 'names',
+				'name' => 'names',
 				'desc' => __( 'Link user names to their author page', 'wp-useronline' ),
 			),
 		);
@@ -174,7 +173,7 @@ class UserOnline_Options extends scbAdminPage {
 			<?php } ?>
 		</table>
 		<p class="submit">
-			<input type="submit" name="Submit" class="button" value="<?php _e( 'Save Changes', 'wp-useronline' ); ?>" />
+			<input type="submit" name="action" class="button" value="<?php _e( 'Save Changes', 'wp-useronline' ); ?>" />
 		</p>
 	</form>
 <?php
@@ -204,7 +203,7 @@ class UserOnline_Options extends scbAdminPage {
 								foreach ( array( $tmp, $tmp . 's' ) as $type ) {
 									echo $this->input( array(
 										'type' => 'text',
-										'name_tree' => array( 'naming', $type ),
+										'name' => array( 'naming', $type ),
 										'extra' => 'size="30"',
 										'desc' => html( 'td', '%input%' )
 									), $data );
@@ -235,7 +234,7 @@ class UserOnline_Options extends scbAdminPage {
 				<td>
 					<?php echo $this->input( array(
 						'type' => 'textarea',
-						'name_tree' => array( 'templates', 'useronline' ),
+						'name' => array( 'templates', 'useronline' ),
 					), $data ); ?>
 				</td>
 			</tr>
@@ -270,7 +269,7 @@ class UserOnline_Options extends scbAdminPage {
 							<?php foreach ( array_keys( $this->options->templates[$option]['separators'] ) as $type ) {
 								echo html( 'td', $this->input( array(
 									'type' => 'text',
-									'name_tree' => array( 'templates', $option, 'separators', $type ),
+									'name' => array( 'templates', $option, 'separators', $type ),
 									'extra' => "size='15'",
 								), $data ) );
 							} ?>
@@ -279,7 +278,7 @@ class UserOnline_Options extends scbAdminPage {
 					<br />
 					<?php echo $this->input( array(
 						'type' => 'textarea',
-						'name_tree' => array( 'templates', $option, 'text' )
+						'name' => array( 'templates', $option, 'text' )
 					), $data ); ?>
 				</td>
 			</tr>
