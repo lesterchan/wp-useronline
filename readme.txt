@@ -1,9 +1,9 @@
 === WP-UserOnline ===
 Contributors: GamerZ, scribu
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
-Requires at least: 3.0
-Tested up to: 3.2
-Stable tag: 2.80
+Requires at least: 3.1
+Tested up to: 3.3
+Stable tag: 2.81
 
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
 
