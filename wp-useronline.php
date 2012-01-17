@@ -39,7 +39,7 @@ function _useronline_init() {
 		user_type varchar( 20 ) NOT NULL default 'guest',
 		user_id bigint( 20 ) NOT NULL default 0,
 		user_name varchar( 250 ) NOT NULL default '',
-		user_ip varchar( 20 ) NOT NULL default '',
+		user_ip varchar( 39 ) NOT NULL default '',
 		user_agent text NOT NULL,
 		page_title text NOT NULL,
 		page_url varchar( 255 ) NOT NULL default '',
