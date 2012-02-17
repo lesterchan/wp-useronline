@@ -97,7 +97,7 @@ function users_online_page() {
 function is_user_online( $user_id ) {
 	global $wpdb;
 
-	return (bool) $wpdb->get_var( $wpdb-prepare( "SELECT COUNT( * ) FROM $wpdb->useronline WHERE user_id = %d LIMIT 1", $user_id ) );
+	return (bool) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( * ) FROM $wpdb->useronline WHERE user_id = %d LIMIT 1", $user_id ) );
 }
 
 function get_useronline_( $output, $type = 'site' ) {
@@ -184,7 +184,7 @@ class UserOnline_Template {
 	}
 
 	function detailed_list( $counts, $user_buckets, $nicetexts ) {
-		UserOnline_Core::$add_script = true;	
+		UserOnline_Core::$add_script = true;
 
 		if ( $counts['user'] == 0 )
 			return html( 'h2', __( 'No one is online now.', 'wp-useronline' ) );
@@ -233,8 +233,8 @@ class UserOnline_Template {
 
 	function format_ip( $ip ) {
 		if ( current_user_can( 'edit_users' ) && !empty( $ip ) && $ip != 'unknown' )
-			return 
-			html( 'span', array('dir' => 'ltr'), 
+			return
+			html( 'span', array('dir' => 'ltr'),
 				html( 'a', array(
 					'href' => 'http://whois.domaintools.com/' . $ip,
 					'title' => gethostbyaddr( $ip ),
