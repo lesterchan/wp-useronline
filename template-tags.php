@@ -63,7 +63,7 @@ function get_users_browsing_page( $page_url = '' ) {
 function users_online_page() {
 	global $wpdb;
 
-	$usersonline = $wpdb->get_results( "SELECT * FROM $wpdb->useronline" );
+	$usersonline = $wpdb->get_results( "SELECT * FROM $wpdb->useronline ORDER BY timestamp DESC" );
 
 	$user_buckets = array();
 	foreach ( $usersonline as $useronline )
@@ -97,7 +97,7 @@ function users_online_page() {
 function is_user_online( $user_id ) {
 	global $wpdb;
 
-	return (bool) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( * ) FROM $wpdb->useronline WHERE user_id = %d LIMIT 1", $user_id ) );
+	return (bool) $wpdb->get_var( $wpdb-prepare( "SELECT COUNT( * ) FROM $wpdb->useronline WHERE user_id = %d LIMIT 1", $user_id ) );
 }
 
 function get_useronline_( $output, $type = 'site' ) {
@@ -122,7 +122,7 @@ class UserOnline_Template {
 				$where = $wpdb->prepare( 'WHERE page_url = %s', $page_url );
 			}
 
-			self::$cache[$type . $page_url] = $wpdb->get_results( "SELECT * FROM $wpdb->useronline $where" );
+			self::$cache[$type . $page_url] = $wpdb->get_results( "SELECT * FROM $wpdb->useronline $where ORDER BY timestamp DESC" );
 		}
 
 		$users = self::$cache[$type . $page_url];
