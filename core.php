@@ -145,8 +145,7 @@ class UserOnline_Core {
 		// Purge table
 		$wpdb->query( $wpdb->prepare( "
 			DELETE FROM $wpdb->useronline
-			WHERE user_ip = %s
-			OR timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL %d SECOND)
+			WHERE timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL %d SECOND)
 		", $user_ip, self::$options->timeout ) );
 
 		// Insert Users
