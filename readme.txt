@@ -97,6 +97,7 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 
 = 2.82 =
 * show most recent visitors first
+* fix duplicate entry errors
 
 = 2.81 =
 * fixed settings page
