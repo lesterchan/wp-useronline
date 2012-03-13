@@ -152,37 +152,18 @@ class UserOnline_Core {
 		// Insert Users
 		$data = compact( 'user_type', 'user_id', 'user_name', 'user_ip', 'user_agent', 'page_title', 'page_url', 'referral' );
 		$data = stripslashes_deep( $data );
-		self::_insert_ignore( $wpdb->useronline, $data );
+		$wpdb->replace( $wpdb->useronline, $data );
 
 		// Count Users Online
 		self::$useronline = intval( $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->useronline" ) );
 
 		// Maybe Update Most User Online
-		if ( self::$useronline > self::$most->count )
+		if ( self::$useronline > self::$most->count ) {
 			self::$most->update( array(
 				'count' => self::$useronline,
 				'date' => current_time( 'timestamp' )
 			) );
-	}
-
-	// adapted from WPDB::_insert_replace_helper()
-	private function _insert_ignore( $table, $data, $format = null ) {
-		global $wpdb;
-
-		$formats = $format = (array) $format;
-		$fields = array_keys( $data );
-		$formatted_fields = array();
-		foreach ( $fields as $field ) {
-			if ( !empty( $format ) )
-				$form = ( $form = array_shift( $formats ) ) ? $form : $format[0];
-			elseif ( isset( $wpdb->field_types[$field] ) )
-				$form = $wpdb->field_types[$field];
-			else
-				$form = '%s';
-			$formatted_fields[] = $form;
 		}
-		$sql = "INSERT IGNORE INTO `$table` (`" . implode( '`,`', $fields ) . "`) VALUES (" . implode( ",", $formatted_fields ) . ")";
-		return $wpdb->query( $wpdb->prepare( $sql, $data ) );
 	}
 
 	private function clear_table() {
