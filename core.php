@@ -69,7 +69,10 @@ class UserOnline_Core {
 		if ( empty( $page_title ) )
 			$page_title = self::get_title();
 
-		$referral = strip_tags( @$_SERVER['HTTP_REFERER'] );
+		if ( isset( $_SERVER['HTTP_REFERER'] ) )
+			$referral = strip_tags( $_SERVER['HTTP_REFERER'] );
+		else
+			$referral = '';
 
 		$user_ip = self::get_ip();
 		$user_agent = $_SERVER['HTTP_USER_AGENT'];
