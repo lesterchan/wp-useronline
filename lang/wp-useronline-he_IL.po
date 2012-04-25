@@ -9,420 +9,341 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Country: SINGAPORE\n"
-"X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-Language: English\n"
+"X-Poedit-Country: SINGAPORE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Bookmarks: \n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
 
-#: useronline-options.php:63
-msgid "Useronline Timeout"
-msgstr "פסק זמן גולשים און ליין"
-
-#: useronline-options.php:64
-msgid "Useronline Bots"
-msgstr "בוטים און ליין"
-
-#: useronline-options.php:65
-msgid "Useronline URL"
-msgstr "קישור לגולשים און ליין"
-
-#: useronline-options.php:66
-msgid "Useronline Naming Conventions"
-msgstr "ועידת שמות גולשים און ליין"
-
-#: useronline-options.php:67
-msgid "User(s) Online Template"
-msgstr "תבנית גולשים און ליין"
-
-#: useronline-options.php:68
-msgid "User(s) Browsing Site Template"
-msgstr "תבנית של אתר  לגולשים צופים"
-
-#: useronline-options.php:69
-msgid "User(s) Browsing Page Template"
-msgstr "תבנית של עמוד לגולשים צופים"
-
-#: useronline-options.php:74
-msgid "Updated"
-msgstr "עדכונים"
-
-#: useronline-options.php:79
-msgid "No Useronline Option Updated"
-msgstr "לא עודכנו אפשרויות גולשים און ליין"
-
-#: useronline-options.php:85
-#: useronline-options.php:379
-msgid "UNINSTALL WP-UserOnline"
-msgstr "תבנית של עמוד לגולשים צופים"
-
-#: useronline-options.php:92
-#, php-format
-msgid "Table '%s' has been deleted."
-msgstr "הטבלה '%s' נמחקה."
-
-#: useronline-options.php:101
-#, php-format
-msgid "Setting Key '%s' has been deleted."
-msgstr "מפתח האפשרויות '%s' נמחק."
-
-#: useronline-options.php:105
-#, php-format
-msgid "Error deleting Setting Key '%s'."
-msgstr "טעות במחיקת מפתח האפשרויות '%s'."
-
-#: useronline-options.php:127
-#: useronline-options.php:337
-msgid "Uninstall WP-UserOnline"
-msgstr "הסר התקנה של וורדספרס גולשים און ליין"
-
-#: useronline-options.php:128
-#, php-format
-msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-UserOnline Will Be Deactivated Automatically."
-msgstr "<a href=\"%s\">לחץ כאן</a> לסיום ההסרה והפסקה אוטומטית של וורדפרס גולשים און ליין."
-
-#: useronline-options.php:153
-#: wp-useronline.php:917
+#: wp-useronline.php:72
+#@ wp-useronline
 msgid "Online"
-msgstr "און ליין"
+msgstr "מקוון"
 
-#: useronline-options.php:160
-#: wp-useronline.php:916
+#: wp-useronline.php:61
+#@ wp-useronline
 msgid "1 User"
-msgstr "1 גולש"
+msgstr "גולש אחד"
 
-#: useronline-options.php:161
-#: wp-useronline.php:916
-msgid "%USERONLINE_COUNT% Users"
-msgstr "%USERONLINE_COUNT% גולשים"
-
-#: useronline-options.php:162
-#: wp-useronline.php:916
+#: wp-useronline.php:63
+#@ wp-useronline
 msgid "1 Member"
-msgstr "1 חבר"
+msgstr "חבר אחד"
 
-#: useronline-options.php:163
-#: wp-useronline.php:916
-msgid "%USERONLINE_COUNT% Members"
-msgstr "%USERONLINE_COUNT% חברים"
-
-#: useronline-options.php:164
-#: wp-useronline.php:916
+#: wp-useronline.php:65
+#@ wp-useronline
 msgid "1 Guest"
-msgstr "1 אורח"
+msgstr "אורח אחד"
 
-#: useronline-options.php:165
-#: wp-useronline.php:916
-msgid "%USERONLINE_COUNT% Guests"
-msgstr "%USERONLINE_COUNT% אורחים"
-
-#: useronline-options.php:166
-#: wp-useronline.php:916
+#: wp-useronline.php:67
+#@ wp-useronline
 msgid "1 Bot"
-msgstr "1 בוט"
+msgstr "בוט אחד"
 
-#: useronline-options.php:167
-#: wp-useronline.php:916
-msgid "%USERONLINE_COUNT% Bots"
-msgstr "%USERONLINE_COUNT% בוטים"
-
-#: useronline-options.php:173
-#: useronline-options.php:179
-#: wp-useronline.php:698
-#: wp-useronline.php:918
-#: wp-useronline.php:919
-msgid "Users"
-msgstr "גולשים"
-
-#: useronline-options.php:179
-#: wp-useronline.php:919
+#: wp-useronline.php:89
+#@ wp-useronline
 msgid "Browsing This Page."
 msgstr "צופים בדף זה."
 
-#: useronline-options.php:185
-#: useronline-options.php:186
-msgid "Useronline Options"
-msgstr "אפשרויות גולשים און ליין"
-
-#: useronline-options.php:189
+#: admin.php:113
+#@ wp-useronline
 msgid "Time Out"
 msgstr "פסק זמן"
 
-#: useronline-options.php:191
-msgid "How long till it will remove the user from the database (In seconds)."
-msgstr "כמה זמן עד שיוסר משתמש ממסד הנתונים (בשניות)"
-
-#: useronline-options.php:195
+#: admin.php:121
+#@ wp-useronline
 msgid "UserOnline URL"
-msgstr "קישור לגולשים און ליין"
+msgstr "כתובת URL לגולשים מקוונים"
 
-#: useronline-options.php:197
-msgid "URL To UserOnline Page (leave blank if you do not want to link it to the UserOnline Page)<br />Example: http://www.yoursite.com/blogs/useronline/<br />Example: http://www.yoursite.com/blogs/?page_id=2"
-msgstr "כתובת של העמוד גולשים און ליין באתר שלך (תשאיר ריק על מנת לקשר לעמוד וורדפרס גולשים און ליין)<br />דוגמא: http://www.yoursite.com/blogs/useronline/<br />דוגמא: http://www.yoursite.com/blogs/?page_id=2"
-
-#: useronline-options.php:201
-msgid "Bots Name/User Agent"
-msgstr "שמות של סוכני בוטים"
-
-#: useronline-options.php:203
-msgid "Here are a list of bots and their partial browser agents.<br />On the left column will be the <strong>Bot's Name</strong> and on the right column will be their <strong>Partial Browser Agent</strong>.<br />Start each entry on a new line."
-msgstr "הנה רשימה של בוטים וסוכן דפדפן חלקי <br /> ובטור השמאלי יופיע <strong>שם הבוט</strong> ובטור הימני יופיע<strong> סוכן דפדפן חלקי </strong>.<br />הכנס כל ערך בשורה נפרדת."
-
-#: useronline-options.php:211
+#: admin.php:186
+#@ wp-useronline
 msgid "Naming Conventions:"
-msgstr "ועידת שמות:"
+msgstr "מוסכמות שמות:"
 
-#: useronline-options.php:212
-#: useronline-options.php:253
-#: useronline-options.php:265
-#: useronline-options.php:297
+#: admin.php:187
+#: admin.php:227
+#: admin.php:249
+#@ wp-useronline
 msgid "Allowed Variables:"
 msgstr "משתנים מותרים:"
 
-#: useronline-options.php:214
-#: useronline-options.php:258
-#: useronline-options.php:273
-#: useronline-options.php:305
+#: admin.php:232
+#: admin.php:257
+#@ wp-useronline
 msgid "Restore Default Template"
-msgstr "שחזר תבנית ברירת מחדל"
+msgstr "שחזר את תבנית ברירת המחדל"
 
-#: useronline-options.php:220
+#: admin.php:195
+#@ wp-useronline
 msgid "Singular Form"
 msgstr "טופס יחיד"
 
-#: useronline-options.php:221
+#: admin.php:196
+#@ wp-useronline
 msgid "Plural Form"
 msgstr "טופס רבים"
 
-#: useronline-options.php:248
+#: admin.php:150
+#@ wp-useronline
 msgid "Useronline Templates"
-msgstr "תבנית גולשים און ליין"
+msgstr "תבניות גולשים מקוונים"
 
-#: useronline-options.php:252
+#: admin.php:226
+#@ wp-useronline
 msgid "User(s) Online:"
-msgstr "גולש(ים) און ליין:"
+msgstr "גולשים מקוונים:"
 
-#: useronline-options.php:264
+#: admin.php:162
+#@ wp-useronline
 msgid "User(s) Browsing Site:"
-msgstr "גולש(ים) צופים באתר און ליין:"
+msgstr "גולשים צופים באתר:"
 
-#: useronline-options.php:279
-#: useronline-options.php:311
+#: admin.php:263
+#@ wp-useronline
 msgid "Member Names Separator"
 msgstr "מפריד שמות חברים"
 
-#: useronline-options.php:280
-#: useronline-options.php:312
+#: admin.php:264
+#@ wp-useronline
 msgid "Guests Separator"
 msgstr "מפריד אורחים"
 
-#: useronline-options.php:281
-#: useronline-options.php:313
+#: admin.php:265
+#@ wp-useronline
 msgid "Bots Separator"
 msgstr "מפריד בוטים"
 
-#: useronline-options.php:296
+#: admin.php:163
+#@ wp-useronline
 msgid "User(s) Browsing Page:"
-msgstr "גולש(ים) צופים בעמוד זה:"
+msgstr "גולשים צופים בעמוד זה:"
 
-#: useronline-options.php:328
+#: admin.php:176
+#: scb/AdminPage.php:178
+#: scb/AdminPage.php:189
+#@ wp-useronline
 msgid "Save Changes"
 msgstr "שמור שינויים"
 
-#: useronline-options.php:339
-msgid "Deactivating WP-UserOnline plugin does not remove any data that may have been created, such as the useronline options. To completely remove this plugin, you can uninstall it here."
-msgstr "הפסקת הפלאג אין גולשים און ליין אינה מסירה את המידע שיצרת, לדוגמא אפשרויות גולשים און ליין. על מנת להסיר לחלוטין את הפלאג אין, אתה יכול להסיר אותו כאן."
-
-#: useronline-options.php:342
-msgid "WARNING:"
-msgstr "אזהרה:"
-
-#: useronline-options.php:343
-msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
-msgstr "ברגע שהסרת את ההתקנה, לא ניתן לחזור לאחור. עליך להשתמש בפלאג אין גיבוי של וורדפרס על מנת לגבות את המידע לפני"
-
-#: useronline-options.php:346
-msgid "The following WordPress Options/Tables will be DELETED:"
-msgstr "האפשרויות והטבלאות הבאות של וורדפרס ימחקו:"
-
-#: useronline-options.php:351
-msgid "WordPress Options"
-msgstr "אפשריות וורדפרס"
-
-#: useronline-options.php:352
-msgid "WordPress Tables"
-msgstr "טבלאות וורדפרס"
-
-#: useronline-options.php:378
-#: wp-useronline-widget.php:73
-msgid "Yes"
-msgstr "כן"
-
-#: useronline-options.php:379
-msgid ""
-"You Are About To Uninstall WP-UserOnline From WordPress.\\n"
-"This Action Is Not Reversible.\\n"
-"\\n"
-" Choose [Cancel] To Stop, [OK] To Uninstall."
-msgstr ""
-"אתה עומד להסיר את וורדפרס גולשים און ליין מוורדפרס. \\n"
-"פעולה זו בלתי הפיכה.\\n"
-"\\n"
-" בחר [Cancel] להפסיק, [OK] להסיר."
-
-#: wp-useronline-widget.php:62
+#: admin.php:56
+#: widget.php:6
+#: widget.php:49
+#@ wp-useronline
 msgid "UserOnline"
-msgstr "UserOnline"
+msgstr "משתמש מקוון"
 
-#: wp-useronline-widget.php:69
-msgid "Widget Title"
-msgstr "כותרת ה Widget "
-
-#: wp-useronline-widget.php:70
-msgid "Display Users Browsing Site Under Users Online Count?"
-msgstr "להציג גולשים שצופים באתר תחת מונה גולשים און ליין?"
-
-#: wp-useronline-widget.php:75
-msgid "No"
-msgstr "לא"
-
-#: wp-useronline.php:77
-#: wp-useronline.php:848
-#: wp-useronline.php:850
-#: wp-useronline.php:860
+#: admin.php:10
+#: wp-stats.php:14
+#: wp-stats.php:31
+#@ wp-useronline
 msgid "WP-UserOnline"
-msgstr "WP-UserOnline"
+msgstr "תוסף WP-UserOnline"
 
-#: wp-useronline.php:80
-msgid "Useronline"
-msgstr "WP-UserOnline"
-
-#: wp-useronline.php:145
-msgid "guest"
-msgstr "אורח"
-
-#: wp-useronline.php:151
-#: wp-useronline.php:711
+#: core.php:140
+#@ wp-useronline
 msgid "Guest"
 msgstr "אורח"
 
-#: wp-useronline.php:166
-msgid "Blog Archive"
-msgstr "ארכיון הבלוג"
-
-#: wp-useronline.php:247
-#: wp-useronline.php:278
-#: wp-useronline.php:746
-#: wp-useronline.php:748
-#: wp-useronline.php:766
-#: wp-useronline.php:768
-#: wp-useronline.php:781
+#: template-tags.php:247
+#: template-tags.php:249
 #, php-format
+#@ wp-useronline
 msgid "%s @ %s"
 msgstr "%s @ %s"
 
-#: wp-useronline.php:411
-msgid "No User Is Browsing This Site"
-msgstr "אין גולשים שצופים באתר הזה"
-
-#: wp-useronline.php:549
-msgid "No User Is Browsing This Page"
-msgstr "אין גולשים שצופים בדף זה"
-
-#: wp-useronline.php:613
+#: admin.php:9
+#@ wp-useronline
 msgid "Users Online Now"
-msgstr "גולשים און ליין"
+msgstr "גולשים מקוונים כעת"
 
-#: wp-useronline.php:625
+#: template-tags.php:269
 #, php-format
-msgid "There is <strong><a href=\"%s\">%s user</a></strong> online now."
-msgstr "ישנם <strong><a href=\"%s\">%s גולשים</a></strong> און ליין."
-
-#: wp-useronline.php:627
-#, php-format
-msgid "There are a total of <strong><a href=\"%s\">%s users</a></strong> online now."
-msgstr "סה\"כ <strong><a href=\"%s\">%s גולשים</a></strong> און ליין."
-
-#: wp-useronline.php:632
-#: wp-useronline.php:733
-#, php-format
+#@ wp-useronline
 msgid "Most users ever online were <strong>%s</strong>, on <strong>%s</strong>"
-msgstr "הכי הרבה גולשים און ליין <strong>%s</strong>, ב <strong>%s</strong>"
+msgstr "הכי הרבה גולשים מקוונים היו <strong>%s</strong>, ב <strong>%s</strong>"
 
-#: wp-useronline.php:696
-msgid "User"
-msgstr "גולש"
-
-#: wp-useronline.php:703
-msgid "Member"
-msgstr "חבר"
-
-#: wp-useronline.php:705
-msgid "Members"
-msgstr "חברים"
-
-#: wp-useronline.php:713
-msgid "Guests"
-msgstr "אורחים"
-
-#: wp-useronline.php:718
-msgid "Bot"
-msgstr "בוט"
-
-#: wp-useronline.php:720
-msgid "Bots"
-msgstr "בוטים"
-
-#: wp-useronline.php:729
-#, php-format
-msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
-msgstr "כרגע באתר <strong>%s</strong> און ליין: <strong>%s</strong>, <strong>%s</strong> ו <strong>%s</strong>."
-
-#: wp-useronline.php:731
-#, php-format
-msgid "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
-msgstr "כרגע באתר יש סה''כ <strong>%s</strong> און ליין: <strong>%s</strong>, <strong>%s</strong> ו <strong>%s</strong>."
-
-#: wp-useronline.php:736
-#: wp-useronline.php:756
-#: wp-useronline.php:776
+#: template-tags.php:205
+#@ wp-useronline
 msgid "Online Now"
-msgstr "און ליין"
+msgstr "מקוונים כעת"
 
-#: wp-useronline.php:743
-#: wp-useronline.php:763
+#: template-tags.php:194
+#@ wp-useronline
 msgid "referral"
-msgstr "מפנה"
+msgstr "הפניה"
 
-#: wp-useronline.php:746
-#: wp-useronline.php:748
-#: wp-useronline.php:766
-#: wp-useronline.php:768
-#: wp-useronline.php:781
+#: template-tags.php:192
+#@ wp-useronline
 msgid "on"
 msgstr "ב"
 
-#: wp-useronline.php:746
-#: wp-useronline.php:748
-#: wp-useronline.php:766
-#: wp-useronline.php:768
-#: wp-useronline.php:781
+#: template-tags.php:193
+#@ wp-useronline
 msgid "url"
-msgstr "כתובת"
+msgstr "כתובת URL"
 
-#: wp-useronline.php:788
-msgid "No One Is Online Now"
-msgstr "אין גולשים באתר"
+#: admin.php:27
+#, php-format
+#@ wp-useronline
+msgid "There is <strong><a href='%s'>%s user</a></strong> online now."
+msgid_plural "There are a total of <strong><a href='%s'>%s users</a></strong> online now."
+msgstr[0] "יש <strong><a href='%s'>%s user</a></strong> מקוונים כעת."
+msgstr[1] "יש בסך הכל <strong><a href='%s'>%s users</a></strong> מקוונים כעת."
 
-#: wp-useronline.php:862
-msgid "user(s) online now."
-msgstr "גולש(ים) און ליין"
+#: admin.php:55
+#@ wp-useronline
+msgid "UserOnline Options"
+msgstr "אפשרויות גולשש מקוון"
 
-#: wp-useronline.php:863
-msgid "Most users ever online was"
-msgstr "הכי הרבה גולשים און ליין"
+#: admin.php:116
+#@ wp-useronline
+msgid "How long until it will remove the user from the database (in seconds)."
+msgstr "כמה זמן עד שהגולש יוסר ממסד הנתונים (בשניות)."
 
-#: wp-useronline.php:864
-msgid "On"
-msgstr "ב"
+#: admin.php:124
+#@ wp-useronline
+msgid "URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2"
+msgstr "כתובת URL לדף UserOnline <br />דוגמה: http://www.yoursite.com/useronline/<br />דוגמה: http://www.yoursite.com/?page_id=2"
+
+#: admin.php:128
+#@ wp-useronline
+msgid "User Names"
+msgstr "שמות משתמש"
+
+#: admin.php:131
+#@ wp-useronline
+msgid "Link user names to their author page"
+msgstr "קשר שמות משתמשים לדף שמות המחבר שלהם"
+
+#: admin.php:189
+#@ wp-useronline
+msgid "Restore Defaults"
+msgstr "שחזר לברירות המחדל"
+
+#: core.php:211
+#@ wp-useronline
+msgid "Admin"
+msgstr "ניהול"
+
+#: core.php:217
+#@ wp-useronline
+msgid "Archive"
+msgstr "ארכיון"
+
+#: scb/AdminPage.php:165
+#@ wp-useronline
+msgid "Settings <strong>saved</strong>."
+msgstr "ההגדרות <strong>נשמרו</strong>."
+
+#: scb/AdminPage.php:350
+#@ wp-useronline
+msgid "Settings"
+msgstr "הגדרות"
+
+#. gettext fix: identical singular and plural forms found, that may be ambiguous! Please check the code!
+#: template-tags.php:81
+#, php-format
+#@ wp-useronline
+msgid "There is <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgid_plural "There are a total of <strong>%s</strong> online now: <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong>."
+msgstr[0] "יש <strong>%s</strong> מקוונים כעת: <strong>%s</strong>, <strong>%s</strong> ו <strong>%s</strong>."
+msgstr[1] "יש בסך הכל <strong>%s</strong> מקוונים כעת: <strong>%s</strong>, <strong>%s</strong> ו <strong>%s</strong>."
+
+#: template-tags.php:190
+#@ wp-useronline
+msgid "No one is online now."
+msgstr "אין אף אחד מקוון כעת."
+
+#: widget.php:5
+#@ wp-useronline
+msgid "WP-UserOnline users online statistics"
+msgstr "סטטיסטיקת גולשים מקוונים של תוסף WP-UserOnline"
+
+#: widget.php:56
+#@ wp-useronline
+msgid "Title:"
+msgstr "כותרת:"
+
+#: widget.php:59
+#@ wp-useronline
+msgid "Statistics Type:"
+msgstr "סוג סטטיסטיקה:"
+
+#: widget.php:61
+#@ wp-useronline
+msgid "Users Online Count"
+msgstr "מונה גולשים מקוונים"
+
+#: widget.php:62
+#@ wp-useronline
+msgid "Users Browsing Current Page"
+msgstr "גולשים הנמצאים בדף זה"
+
+#: widget.php:63
+#@ wp-useronline
+msgid "Users Browsing Site"
+msgstr "גולשים הנמצאים באתר"
+
+#: widget.php:65
+#@ wp-useronline
+msgid "Users Online Count & Users Browsing Current Page"
+msgstr "מונה גולשים מקוונים וגם גולשים הנמצאים בדף זה"
+
+#: widget.php:66
+#@ wp-useronline
+msgid "Users Online Count & Users Browsing Site"
+msgstr "מונה גולשים מקוונים וגם גולשים באתר"
+
+#: wp-stats.php:24
+#, php-format
+#@ wp-useronline
+msgid "<strong>%s</strong> user online now."
+msgid_plural "<strong>%s</strong> users online now."
+msgstr[0] "<strong>%s</strong> גולש מקוון כעת."
+msgstr[1] "<strong>%s</strong> גולשים מקוונים כעת."
+
+#: wp-useronline.php:62
+#, php-format
+#@ wp-useronline
+msgid "%COUNT% Users"
+msgstr "%COUNT% משתמשים"
+
+#: wp-useronline.php:64
+#, php-format
+#@ wp-useronline
+msgid "%COUNT% Members"
+msgstr "%COUNT% חברים"
+
+#: wp-useronline.php:66
+#, php-format
+#@ wp-useronline
+msgid "%COUNT% Guests"
+msgstr "%COUNT% אורחים"
+
+#: wp-useronline.php:68
+#, php-format
+#@ wp-useronline
+msgid "%COUNT% Bots"
+msgstr "%COUNT% בוטים"
+
+#: wp-useronline.php:76
+#: wp-useronline.php:77
+#: wp-useronline.php:78
+#: wp-useronline.php:85
+#: wp-useronline.php:86
+#: wp-useronline.php:87
+#@ wp-useronline
+msgid ","
+msgstr ","
+
+#: wp-useronline.php:80
+#: wp-useronline.php:89
+#@ wp-useronline
+msgctxt "Template Element"
+msgid "Users"
+msgstr "גולשים"
 
