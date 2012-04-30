@@ -5,8 +5,6 @@ Plugin URI: http://wordpress.org/extend/plugins/wp-useronline/
 Description: Enable you to display how many users are online on your Wordpress site
 Version: 2.82-beta2
 Author: Lester 'GaMerZ' Chan & scribu
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 @include dirname( __FILE__ ) . '/scb/load.php';

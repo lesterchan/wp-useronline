@@ -4,6 +4,8 @@ Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
 Requires at least: 3.1
 Tested up to: 3.3
 Stable tag: 2.81
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
 
