@@ -2,8 +2,8 @@
 Contributors: GamerZ, scribu
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
 Requires at least: 3.1
-Tested up to: 3.3
-Stable tag: 2.81
+Tested up to: 3.5
+Stable tag: 2.82
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,7 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 = 2.82 =
 * show most recent visitors first
 * fix duplicate entry errors
+* fix ajax requests for SSL
 
 = 2.81 =
 * fixed settings page
