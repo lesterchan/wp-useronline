@@ -226,7 +226,7 @@ class UserOnline_Template {
 
 	private function format_link($url, $title) {
 		if ( !empty($url) )
-			return '[' . html_link( esc_url($url), $title ) . ']';
+			return '[' . html_link( $url, $title ) . ']';
 
 		return '';
 	}
