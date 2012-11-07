@@ -208,7 +208,7 @@ class UserOnline_Template {
 			foreach ( $users as $user ) {
 				$nr = number_format_i18n( $i++ );
 				$name = self::format_name( $user );
-				$user_ip = self::format_ip( $user->user_ip );
+				$user_ip = self::format_ip( $user );
 				$date = self::format_date( $user->timestamp, true );
 
 				if ( current_user_can( 'edit_users' ) || false === strpos( $user->page_url, 'wp-admin' ) ) {
@@ -231,15 +231,18 @@ class UserOnline_Template {
 		return '';
 	}
 
-	function format_ip( $ip ) {
-		if ( current_user_can( 'edit_users' ) && !empty( $ip ) && $ip != 'unknown' )
+	function format_ip( $user ) {
+		$ip = $user->user_ip;
+
+		if ( current_user_can( 'edit_users' ) && !empty( $ip ) && $ip != 'unknown' ) {
 			return
 			html( 'span', array('dir' => 'ltr'),
 				html( 'a', array(
 					'href' => 'http://whois.domaintools.com/' . $ip,
-					'title' => gethostbyaddr( $ip ),
+					'title' => $user->user_agent
 				), $ip )
 			);
+		}
 	}
 
 	function format_date( $date, $mysql = false ) {
