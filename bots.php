@@ -28,7 +28,8 @@ function useronline_get_bots() {
 		'Become.com' => 'become.com',
 		'Baidu' => 'baidu',
 		'Yandex' => 'yandex',
-		'Amazon' => 'amazonaws.com'
+		'Amazon' => 'amazonaws.com',
+		'Ahrefs' => 'AhrefsBot'
 	);
 
 	return apply_filters( 'useronline_bots', $bots );
