@@ -97,6 +97,9 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 
 == Changelog ==
 
+= 2.83 =
+* show user agent when hovering over IP, instead of address lookup
+
 = 2.82 =
 * show most recent visitors first
 * fix duplicate entry errors
