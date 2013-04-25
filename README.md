@@ -1,11 +1,11 @@
 # WP-UserOnline
-Contributors: GamerZ, scribu
-Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget
-Requires at least: 3.1
-Tested up to: 3.5
-Stable tag: 2.82
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Contributors: GamerZ, scribu  
+Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
+Requires at least: 3.1  
+Tested up to: 3.5  
+Stable tag: 2.82  
+License: GPLv2 or later  
+License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
 
