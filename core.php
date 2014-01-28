@@ -117,15 +117,14 @@ class UserOnline_Core {
 			}
 		}
 
+		// Current GMT Timestamp
+		$timestamp = current_time( 'mysql' );
+
 		// Purge table
-		$wpdb->query( $wpdb->prepare( "
-			DELETE FROM $wpdb->useronline
-			WHERE user_ip = %s
-			OR timestamp < DATE_SUB(CURRENT_TIMESTAMP, INTERVAL %d SECOND)
-		", $user_ip, self::$options->timeout ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->useronline WHERE user_ip = %s OR timestamp < DATE_SUB(%s, INTERVAL %d SECOND)", $user_ip, $timestamp, self::$options->timeout ) );
 
 		// Insert Users
-		$data = compact( 'user_type', 'user_id', 'user_name', 'user_ip', 'user_agent', 'page_title', 'page_url', 'referral' );
+		$data = compact( 'timestamp', 'user_type', 'user_id', 'user_name', 'user_ip', 'user_agent', 'page_title', 'page_url', 'referral' );
 		$data = stripslashes_deep( $data );
 		$wpdb->replace( $wpdb->useronline, $data );
 

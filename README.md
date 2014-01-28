@@ -3,7 +3,7 @@ Contributors: GamerZ, scribu
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
 Requires at least: 3.1  
 Tested up to: 3.5  
-Stable tag: 2.82  
+Stable tag: trunk  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -86,6 +86,7 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 
 ### 2.83
 * show user agent when hovering over IP, instead of address lookup
+* Use local time for UserOnline Page
 
 ### 2.82
 * show most recent visitors first
