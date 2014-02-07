@@ -77,7 +77,12 @@ class UserOnline_Core {
 			$referral = '';
 
 		$user_ip = self::get_ip();
-		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) )
+			$user_agent = strip_tags( $_SERVER['HTTP_USER_AGENT'] );
+		else
+			$user_agent = '';
+
 		$current_user = wp_get_current_user();
 
 		// Check For Bot
