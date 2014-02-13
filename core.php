@@ -151,9 +151,7 @@ class UserOnline_Core {
 		$wpdb->query( "DELETE FROM $wpdb->useronline" );
 	}
 
-	function ajax() {
-		global $wpdb;
-
+	static function ajax() {
 		$mode = trim( $_POST['mode'] );
 
 		$page_title = strip_tags( $_POST['page_title'] );
