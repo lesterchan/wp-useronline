@@ -60,10 +60,10 @@ class UserOnline_Options extends scbAdminPage {
 		$this->option_name = 'useronline';
 	}
 
-	function validate( $options ) {
+	function validate( $options, $old_data = array() ) {
 		$options['timeout'] = absint( $options['timeout'] );
 		$options['url'] = trim( $options['url'] );
-		$options['names'] = (bool) $options['names'];
+		$options['names'] = intval($options['names']);
 
 		foreach ( $options['templates'] as $key => $template )
 			if ( is_array( $template ) )
@@ -125,10 +125,11 @@ class UserOnline_Options extends scbAdminPage {
 			),
 
 			array(
-				'title' => __( 'User Names', 'wp-useronline' ),
-				'type' => 'checkbox',
+				'title' => __( 'Link user names?', 'wp-useronline' ),
+				'type' => 'radio',
 				'name' => 'names',
-				'desc' => __( 'Link user names to their author page', 'wp-useronline' ),
+				'choices' => array( 1 => __( 'Yes', 'wp-useronline' ), 0 => __( 'No', 'wp-useronline' ) ),
+				'desc' => '<br />' . __( 'Link user names to their author page', 'wp-useronline' )
 			),
 		);
 

@@ -9,7 +9,7 @@ class UserOnline_Core {
 
 	private static $useronline;
 
-	function get_user_online_count() {
+	static function get_user_online_count() {
 		global $wpdb;
 
 		if ( is_null( self::$useronline ) )
@@ -18,7 +18,7 @@ class UserOnline_Core {
 		return self::$useronline;
 	}
 
-	function init( $options, $most ) {
+	static function init( $options, $most ) {
 		self::$options = $options;
 		self::$most = $most;
 
@@ -38,7 +38,7 @@ class UserOnline_Core {
 			add_filter( 'useronline_display_user', array( __CLASS__, 'linked_names' ), 10, 2 );
 	}
 
-	function linked_names( $name, $user ) {
+	static function linked_names( $name, $user ) {
 		if ( !$user->user_id )
 			return $name;
 
@@ -60,7 +60,7 @@ class UserOnline_Core {
 		scbUtil::do_scripts('wp-useronline');
 	}
 
-	function record( $page_url = '', $page_title = '' ) {
+	static function record( $page_url = '', $page_title = '' ) {
 		require_once dirname(__FILE__) . '/bots.php';
 
 		global $wpdb;
@@ -181,12 +181,12 @@ class UserOnline_Core {
 		die;
 	}
 
-	function wp_stats_integration() {
+	static function wp_stats_integration() {
 		if ( function_exists( 'stats_page' ) )
 			require_once dirname( __FILE__ ) . '/wp-stats.php';
 	}
 
-	private function get_title() {
+	private static function get_title() {
 		if ( is_admin() && function_exists( 'get_admin_page_title' ) ) {
 			$page_title = ' &raquo; ' . __( 'Admin', 'wp-useronline' ) . ' &raquo; ' . get_admin_page_title();
 		} else {
@@ -201,7 +201,7 @@ class UserOnline_Core {
 		return $page_title;
 	}
 
-	private function get_ip() {
+	private static function get_ip() {
 		if ( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) )
 			$ip_address = $_SERVER["HTTP_X_FORWARDED_FOR"];
 		else
