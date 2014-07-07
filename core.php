@@ -45,7 +45,7 @@ class UserOnline_Core {
 		return html_link( get_author_posts_url( $user->user_id ), $name );
 	}
 
-	function scripts() {
+	static function scripts() {
 		if ( !self::$add_script )
 			return;
 
