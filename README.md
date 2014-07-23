@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/lesterchan/wp-useronline.svg?branch=master)](https://travis-ci.org/lesterchan/wp-useronline)
 # WP-UserOnline
 Contributors: GamerZ, scribu  
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
