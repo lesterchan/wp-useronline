@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/lesterchan/wp-useronline.svg?branch=master)](https://travis-ci.org/lesterchan/wp-useronline)
 # WP-UserOnline
 Contributors: GamerZ, scribu  
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
@@ -11,14 +10,15 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
 
 ## Description
-
 This plugin enables you to display how many users are online on your Wordpress site, with detailed statistics of where they are and who they are (Members/Guests/Search Bots).
 
+### Build Status
+[![Build Status](https://travis-ci.org/lesterchan/wp-useronline.svg?branch=master)](https://travis-ci.org/lesterchan/wp-useronline)
+
 ### Development
-* [https://github.com/lesterchan/wp-useronline](https://github.com/lesterchan/wp-useronline "https://github.com/lesterchan/wp-useronline")
+[https://github.com/lesterchan/wp-useronline](https://github.com/lesterchan/wp-useronline "https://github.com/lesterchan/wp-useronline")
 
 ## Installation
-
 You can either install it automatically from the WordPress admin, or do it manually:
 
 1. Unzip the archive and put the `wp-useronline` folder into your plugins folder (/wp-content/plugins/).
