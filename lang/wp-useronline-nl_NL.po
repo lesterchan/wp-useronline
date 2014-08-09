@@ -89,7 +89,7 @@ msgstr "Bezoeker"
 #: useronline-options.php:160
 #: wp-useronline.php:913
 msgid "1 User"
-msgstr ""
+msgstr "1 Gebruiker"
 
 #: useronline-options.php:161
 #: wp-useronline.php:913
@@ -135,7 +135,7 @@ msgstr "%USERONLINE_COUNT% Bots"
 #: wp-useronline.php:915
 #: wp-useronline.php:916
 msgid ","
-msgstr ""
+msgstr ","
 
 #: useronline-options.php:179
 #: wp-useronline.php:916
