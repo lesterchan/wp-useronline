@@ -45,7 +45,7 @@ class UserOnline_Core {
 		return html_link( get_author_posts_url( $user->user_id ), $name );
 	}
 
-	function scripts() {
+	static function scripts() {
 		if ( !self::$add_script )
 			return;
 
@@ -53,7 +53,7 @@ class UserOnline_Core {
 
 		wp_enqueue_script( 'wp-useronline', plugins_url( "useronline$js_dev.js", __FILE__ ), array( 'jquery' ), '2.80', true );
 		wp_localize_script( 'wp-useronline', 'useronlineL10n', array(
-			'ajax_url' => admin_url( 'admin-ajax.php', ( is_ssl() ? 'https' : 'http' ) ),
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'timeout' => self::$options->timeout * 1000
 		) );
 

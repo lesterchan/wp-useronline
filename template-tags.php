@@ -278,8 +278,10 @@ class UserOnline_Template {
 	static function get_counts( $buckets ) {
 		$counts = array();
 		$total = 0;
-		foreach ( array( 'member', 'guest', 'bot' ) as $user_type )
-			$total += $counts[$user_type] = count( @$buckets[$user_type] );
+		foreach ( array( 'member', 'guest', 'bot' ) as $user_type ) {
+			$count = isset( $buckets[$user_type] ) ? count( @$buckets[$user_type] ) : 0;
+			$total += $counts[$user_type] = $count;
+		}
 
 		$counts['user'] = $total;
 

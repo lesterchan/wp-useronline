@@ -10,11 +10,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Enable you to display how many users are online on your Wordpress blog with detailed statistics.
 
 ## Description
-
 This plugin enables you to display how many users are online on your Wordpress site, with detailed statistics of where they are and who they are (Members/Guests/Search Bots).
 
+### Build Status
+[![Build Status](https://travis-ci.org/lesterchan/wp-useronline.svg?branch=master)](https://travis-ci.org/lesterchan/wp-useronline)
+
 ### Development
-* [https://github.com/lesterchan/wp-useronline](https://github.com/lesterchan/wp-useronline "https://github.com/lesterchan/wp-useronline")
+[https://github.com/lesterchan/wp-useronline](https://github.com/lesterchan/wp-useronline "https://github.com/lesterchan/wp-useronline")
 
 ### Credits
 * Plugin icon by [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com)
