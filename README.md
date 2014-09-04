@@ -3,7 +3,7 @@ Contributors: GamerZ, scribu
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
 Requires at least: 3.1  
 Tested up to: 4.0  
-Stable tag: 2.83  
+Stable tag: 2.84  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -90,6 +90,8 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 `var_dump(PHP_VERSION);`
 
 ## Changelog
+### 2.84
+* NEW: Bump to 4.0
 
 ### 2.83
 * Show user agent when hovering over IP, instead of address lookup
