@@ -53,9 +53,9 @@ If you ARE NOT using nice permalinks, you need to go to `WP-Admin -> Settings ->
 
 ## Screenshots
 
-1. Right Now text
-2. Admin page
-3. Settings page
+1. Admin - Dashboard's Right Now
+2. UserOnline Page
+3. Admin - Settings Page
 
 ## Frequently Asked Questions
 
