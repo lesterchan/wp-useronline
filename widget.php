@@ -1,9 +1,9 @@
 <?php
 
 class UserOnline_Widget extends scbWidget {
-	function UserOnline_Widget() {
+	function __construct() {
 		$widget_ops = array( 'description' => __( 'WP-UserOnline users online statistics', 'wp-useronline' ) );
-		$this->WP_Widget( 'useronline', __( 'UserOnline', 'wp-useronline' ), $widget_ops );
+		parent::__construct( 'useronline', __( 'UserOnline', 'wp-useronline' ), $widget_ops );
 	}
 
 	function content( $instance ) {
