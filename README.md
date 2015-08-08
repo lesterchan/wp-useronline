@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/site/donation/  
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
 Requires at least: 3.1  
-Tested up to: 4.2  
-Stable tag: 2.85  
+Tested up to: 4.3
+Stable tag: 2.86
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -94,6 +94,9 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 `var_dump(PHP_VERSION);`
 
 ## Changelog
+### 2.86
+* FIXED: Notices in Widget Constructor for WordPress 4.3
+
 ### 2.85
 * NEW: Uses WordPress native uninstall.php
 
