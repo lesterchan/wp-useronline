@@ -60,7 +60,7 @@ class UserOnline_Options extends scbAdminPage {
 		$this->option_name = 'useronline';
 	}
 
-	function validate( $options, $old_data = [] ) {
+	function validate( $options, $old_data = array() ) {
 		$options['timeout'] = absint( $options['timeout'] );
 		$options['url'] = trim( $options['url'] );
 		$options['names'] = intval($options['names']);
