@@ -217,14 +217,14 @@ class UserOnline_Template {
 					$referral_link = self::format_link( $user->referral, $_referral );
 				}
 
-				$output .= "<p><strong>#$nr - $name</strong> $user_ip $_on $date<br/>$page_title $current_link $referral_link</p>\n";
+				$output .= apply_filters("useronline_custom_template", "<p><strong>#$nr - $name</strong> $user_ip $_on $date<br/>$page_title $current_link $referral_link</p>\n", $nr, $user);
 			}
 		}
 
 		return $output;
 	}
 
-	static private function format_link($url, $title) {
+	static function format_link($url, $title) {
 		if ( !empty($url) )
 			return '[' . html_link( $url, $title ) . ']';
 
