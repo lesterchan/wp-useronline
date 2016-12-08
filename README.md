@@ -2,9 +2,9 @@
 Contributors: GamerZ, scribu  
 Donate link: http://lesterchan.net/site/donation/  
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
-Requires at least: 3.1  
-Tested up to: 4.5
-Stable tag: 2.87  
+Requires at least: 4.0  
+Tested up to: 4.7  
+Stable tag: 2.87.1  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -94,6 +94,10 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 `var_dump(PHP_VERSION);`
 
 ## Changelog
+### 2.87.1
+* NEW: Bump to 4.7
+* NEW: New useronline_custom_template filter
+
 ### 2.87
 * NEW: Remove po/mo files from the plugin
 * NEW: Use translate.wordpress.org to translate the plugin
