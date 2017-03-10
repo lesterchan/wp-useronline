@@ -9,6 +9,8 @@ Author URI: https://lesterchan.net
 Text Domain: wp-useronline
 */
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 @include dirname( __FILE__ ) . '/scb/load.php';
 
 function _useronline_init() {
