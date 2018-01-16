@@ -59,27 +59,27 @@ If you ARE NOT using nice permalinks, you need to go to `WP-Admin -> Settings ->
 
 ### To Display Most Number Of Users Online
 * Use:
-`
+```php
 <?php if (function_exists('get_most_users_online')): ?>
    <p>Most Users Ever Online Is <?php echo get_most_users_online(); ?> On <?php echo get_most_users_online_date(); ?></p>
 <?php endif; ?>
-`
+```
 
 ### To Display Users Browsing Site
 * Use:
-`
+```php
 <?php if (function_exists('get_users_browsing_site')): ?>
    <div id="useronline-browsing-site"><?php echo get_users_browsing_site(); ?></div>
 <?php endif; ?>
-`
+```
 
 ### To Display Users Browsing A Page
 * Use:
-`
+```php
 <?php if (function_exists('get_users_browsing_page')): ?>
    <div id="useronline-browsing-page"><?php echo get_users_browsing_page(); ?></div>
 <?php endif; ?>
-`
+```
 
 ### Error on activation: "Parse error: syntax error, unexpected..."
 
