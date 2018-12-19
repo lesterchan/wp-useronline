@@ -14,12 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 include __DIR__ . '/scb/load.php';
 
 function _useronline_init() {
-	load_plugin_textdomain( 'wp-useronline' );
+	load_plugin_textdomain( 'wp-useronline', false, dirname( plugin_basename( __FILE__ ) ) );
 
-	require_once dirname( __FILE__ ) . '/core.php';
-	require_once dirname( __FILE__ ) . '/template-tags.php';
-	require_once dirname( __FILE__ ) . '/deprecated.php';
-	require_once dirname( __FILE__ ) . '/widget.php';
+	require_once __DIR__ . '/core.php';
+	require_once __DIR__ . '/template-tags.php';
+	require_once __DIR__ . '/deprecated.php';
+	require_once __DIR__ . '/widget.php';
 
 	new scbTable( 'useronline', __FILE__, "
 		timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
