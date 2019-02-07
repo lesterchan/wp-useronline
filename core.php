@@ -126,7 +126,7 @@ class UserOnline_Core {
 		$timestamp = current_time( 'mysql' );
 
 		// Purge table
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->useronline WHERE user_ip = %s OR timestamp < DATE_SUB(%s, INTERVAL %d SECOND)", $user_ip, $timestamp, self::$options->timeout ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->useronline WHERE (user_id <> 0 AND user_id = %d) OR (user_id = 0 AND user_agent = %s AND user_ip = %s) OR (timestamp < DATE_SUB(%s, INTERVAL %d SECOND))", $user_id, $user_agent, $user_ip, $timestamp, self::$options->timeout ) );
 
 		// Insert Users
 		$data = compact( 'timestamp', 'user_type', 'user_id', 'user_name', 'user_ip', 'user_agent', 'page_title', 'page_url', 'referral' );
