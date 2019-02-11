@@ -48,7 +48,7 @@ class UserOnline_Admin_Integration extends scbAdminPage {
 
 class UserOnline_Options extends scbAdminPage {
 
-	function setup() {
+	public function setup() {
 		$this->textdomain = 'wp-useronline';
 
 		$this->args = array(
@@ -60,7 +60,7 @@ class UserOnline_Options extends scbAdminPage {
 		$this->option_name = 'useronline';
 	}
 
-	function validate( $options, $old_data = array() ) {
+	public function validate( $options, $old_data = array() ) {
 		$options['timeout'] = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : 0;
 		$options['url'] = ! empty( $options['url'] ) ? trim( $options['url'] ) : '';
 		$options['names'] = ! empty( $options['names'] ) ? (int) $options['names'] : 0;
@@ -74,7 +74,7 @@ class UserOnline_Options extends scbAdminPage {
 		return $options;
 	}
 
-	function page_head() {
+	public function page_head() {
 ?>
 <style type="text/css">
 .form-table td {vertical-align: top}
@@ -99,7 +99,7 @@ class UserOnline_Options extends scbAdminPage {
 <?php
 	}
 
-	function page_content() {
+	public function page_content() {
 		$options = $this->options->get();
 		$defaults = $this->options->get_defaults();
 
