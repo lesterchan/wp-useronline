@@ -97,7 +97,7 @@ function users_online_page() {
 function is_user_online( $user_id ) {
 	global $wpdb;
 
-	return (bool) $wpdb->get_var( $wpdb-prepare( "SELECT COUNT( * ) FROM $wpdb->useronline WHERE user_id = %d LIMIT 1", $user_id ) );
+	return (bool) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( * ) FROM $wpdb->useronline WHERE user_id = %d LIMIT 1", $user_id ) );
 }
 
 function get_useronline_( $output, $type = 'site' ) {
