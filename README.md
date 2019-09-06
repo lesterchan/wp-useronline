@@ -1,9 +1,9 @@
 # WP-UserOnline
 Contributors: GamerZ, scribu  
-Donate link: http://lesterchan.net/site/donation/  
+Donate link: https://lesterchan.net/site/donation/  
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
 Requires at least: 4.0  
-Tested up to: 5.1  
+Tested up to: 5.2  
 Stable tag: 2.87.3  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
@@ -90,6 +90,8 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 ## Changelog
 ### 2.87.3
 * FIXED: Duplicated Settings Saved admin_notices
+* FIXED: Missing arrow
+* FIXED: Updated bots list
 
 ### 2.87.2
 * NEW: Bump to 4.9
