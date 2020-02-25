@@ -60,6 +60,7 @@ function useronline_get_bots() {
 		'Moreover' => 'moreover',
 		'MSN' => 'msnbot',
 		'NBot' => 'nbot',
+		'Node-Fetch' => 'node-fetch',
 		'oBot' => 'oBot',
 		'NextLinks' => 'findlinks',
 		'PaperLiBot' => 'paperliBot',
