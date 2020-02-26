@@ -70,7 +70,6 @@ function useronline_get_bots() {
 		'Radian6' => 'radian6',
 		'RadioUserland' => 'userland',
 		'Moz' => 'rogerbot',
-                'Rogerbot' => 'rogerbot',  
 		'SEOkicks' => 'seokicks-robot',
 		'SemrushBot' => 'semrushbot',
 		'SerendeputyBot' => 'serendeputybot',
