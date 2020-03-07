@@ -63,6 +63,7 @@ function useronline_get_bots() {
 		'Node-Fetch' => 'node-fetch',
 		'oBot' => 'oBot',
 		'NextLinks' => 'findlinks',
+		'Panscient' => 'panscient.com',
 		'PaperLiBot' => 'paperliBot',
 		'PhantomJS' => 'phantomjs',
 		'Proximic' => 'proximic',
