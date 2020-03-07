@@ -24,6 +24,7 @@ function useronline_get_bots() {
 		'CCBot' => 'ccbot',
 		'CFNetwork' => 'cfnetwork',
 		'Cliqzbot' => 'cliqzbot',
+		'Coccoc' => 'coccocbot',
 		'Crawl' => 'crawl',
 		'Curl' => 'Curl',
 		'DotBot' => 'dotbot',
