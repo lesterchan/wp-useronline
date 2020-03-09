@@ -13,6 +13,7 @@ function useronline_get_bots() {
 		'Apple' => 'applebot',
 		'Archive.org' => 'archive.org_bot',
 		'Ask Jeeves' => 'jeeves',
+		'Aspiegel' => 'AspiegelBot',
 		'Baidu' => 'baidu',
 		'Become.com' => 'become.com',
 		'Bing' => 'bingbot',
