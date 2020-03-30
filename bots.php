@@ -79,6 +79,7 @@ function useronline_get_bots() {
 		'SemrushBot' => 'semrushbot',
 		'SerendeputyBot' => 'serendeputybot',
 		'Seznam' => 'seznam',
+		'SirdataBot ' => 'SirdataBot ',
 		'SiteExplorer' => 'siteexplorer',
 		'Slurp' => 'slurp',
 		'Sogou' => 'Sogou',
