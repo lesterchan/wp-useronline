@@ -74,6 +74,7 @@ function useronline_get_bots() {
 		'Qwantify' => 'qwantify',
 		'Radian6' => 'radian6',
 		'RadioUserland' => 'userland',
+		'RyteBot' => 'RyteBot',
 		'Moz' => 'rogerbot',
 		'SEOkicks' => 'seokicks-robot',
 		'SemrushBot' => 'semrushbot',
