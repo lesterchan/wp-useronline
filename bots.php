@@ -57,6 +57,7 @@ function useronline_get_bots() {
 		'Lycos' => 'lycos',
 		'Maui' => 'mauibot',
 		'Mediatoolkit' => 'mediatoolkitbot',
+		'MetaFeedly' => 'MetaFeedly',
 		'MetaURI' => 'metauri',
 		'MJ12bot' => 'mj12bot',
 		'MojeekBot' => 'mojeekBot',
