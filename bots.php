@@ -4,6 +4,7 @@ function useronline_get_bots() {
 	$bots = array(
 		'360Spider' => '360spider',
 		'AddThis' => 'addthis',
+                'AHC' => 'AHC',
 		'Ahrefs' => 'ahrefsbot',
 		'Alex' => 'ia_archiver',
 		'AllTheWeb' => 'fast-webcrawler',
