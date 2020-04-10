@@ -43,6 +43,7 @@ function useronline_get_bots() {
 		'Gais' => 'gaisbo',
 		'Gigabot' => 'gigabot',
 		'Gluten Free' => 'gluten free crawler',
+		'Goforit' => 'GOFORITBOT',
 		'Google' => 'google',
 		'Grid' => 'gridbot',
 		'GroupHigh' => 'grouphigh',
