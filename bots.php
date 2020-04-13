@@ -86,6 +86,7 @@ function useronline_get_bots() {
 		'SirdataBot ' => 'SirdataBot ',
 		'SiteExplorer' => 'siteexplorer',
 		'Slurp' => 'slurp',
+		'SMTBot' => 'SMTBot',
 		'Sogou' => 'Sogou',
 		'OpenLinkProfiler.org' => 'spbot',
 		'SurveyBot' => 'surveybot',
