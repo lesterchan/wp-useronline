@@ -4,7 +4,7 @@ Donate link: https://lesterchan.net/site/donation/
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
 Requires at least: 4.0  
 Tested up to: 5.4  
-Stable tag: 2.87.4  
+Stable tag: 2.87.5  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -88,8 +88,12 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 `var_dump(PHP_VERSION);`
 
 ## Changelog
-### 2.87.4
+### 2.85.5
 * NEW: Bump to WordPress 5.4
+* NEW: Added more bots
+
+### 2.87.4
+* NEW: Bump to WordPress 5.3
 * NEW: Added more bots
 * FIXED: Update SCB Framework To Remove contextual_help
 
