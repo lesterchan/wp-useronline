@@ -6,7 +6,7 @@ function useronline_get_bots() {
 		'AddThis' => 'addthis',
 		'Adsbot' => 'Adsbot',
 		'AdScanner' => 'adscanner',
-                'AHC' => 'AHC',
+		'AHC' => 'AHC',
 		'Ahrefs' => 'ahrefsbot',
 		'Alex' => 'ia_archiver',
 		'AllTheWeb' => 'fast-webcrawler',
