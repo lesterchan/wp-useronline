@@ -3,7 +3,7 @@ Contributors: GamerZ, scribu
 Donate link: https://lesterchan.net/site/donation/  
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
 Requires at least: 4.0  
-Tested up to: 5.5  
+Tested up to: 5.6  
 Stable tag: 2.87.6  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
@@ -91,6 +91,7 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 ### 2.85.6
 * NEW: Bump to WordPress 5.5
 * NEW: Added more bots
+* NEW: Remove hardcoded Archive text in page title
 
 ### 2.85.5
 * NEW: Bump to WordPress 5.4
