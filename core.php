@@ -192,7 +192,7 @@ class UserOnline_Core {
 			if ( empty( $page_title ) )
 				$page_title = ' &raquo; ' . strip_tags( $_SERVER['REQUEST_URI'] );
 			elseif ( is_singular() )
-				$page_title = ' &raquo; ' . __( 'Archive', 'wp-useronline' ) . ' ' . $page_title;
+				$page_title = ' &raquo; ' . $page_title;
 		}
 		$page_title = get_bloginfo( 'name' ) . $page_title;
 
