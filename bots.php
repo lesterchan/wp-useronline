@@ -97,6 +97,7 @@ function useronline_get_bots() {
 		'Scoutjet' => 'Scoutjet',
 		'Screaming Frog SEO Spider' => 'Screaming Frog SEO Spider',
 		'SEOkicks' => 'seokicks-robot',
+		'Semanticbot' => 'Semanticbot',
 		'SemrushBot' => 'semrushbot',
 		'SerendeputyBot' => 'serendeputybot',
 		'Seznam' => 'seznam',
