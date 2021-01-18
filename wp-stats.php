@@ -2,13 +2,58 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class UserOnline_WpStats {
+	/**
+	 * Variables
+	 *
+	 * @method static
+	 *
+	 * @var UserOnline_WpStats
+	 */
+	private static $instance;
 
-	public static function init() {
-		add_filter( 'wp_stats_page_admin_plugins', array( __CLASS__, 'page_admin_general_stats' ) );
-		add_filter( 'wp_stats_page_plugins', array( __CLASS__, 'page_general_stats' ) );
+	/**
+	 * Constructor method
+	 *
+	 * @access public
+	 */
+	public function __construct() {
+		add_action( 'plugins_loaded', array( $this, 'add_hooks' ) );
 	}
 
-	// Add WP-UserOnline General Stats To WP-Stats Page Options
+	/**
+	 * Initializes the plugin object and returns its instance
+	 *
+	 * @return UserOnline_WpStats
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Adds all the plugin's hooks
+	 *
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function add_hooks() {
+		add_filter( 'wp_stats_page_admin_plugins', array( $this, 'page_admin_general_stats' ) );
+		add_filter( 'wp_stats_page_plugins', array( $this, 'page_general_stats' ) );
+	}
+
+	/**
+	 * Add WP-UserOnline General Stats To WP-Stats Page Options
+	 *
+	 * @param string $content
+	 *
+	 * @access public
+	 *
+	 * @return string
+	 */
 	public function page_admin_general_stats( $content ) {
 		$stats_display = get_option( 'stats_display' );
 
@@ -17,7 +62,15 @@ class UserOnline_WpStats {
 		return $content;
 	}
 
-	// Add WP-UserOnline General Stats To WP-Stats Page
+	/**
+	 * Add WP-UserOnline General Stats To WP-Stats Page
+	 *
+	 * @param string $content
+	 *
+	 * @access public
+	 *
+	 * @return string
+	 */
 	public function page_general_stats( $content ) {
 		$stats_display = get_option( 'stats_display' );
 
@@ -38,5 +91,5 @@ class UserOnline_WpStats {
 		return $content;
 	}
 }
-UserOnline_WpStats::init();
 
+UserOnline_WpStats::get_instance();
