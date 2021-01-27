@@ -89,9 +89,10 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 
 ## Changelog
 ### 2.85.6
-* NEW: Bump to WordPress 5.5
+* NEW: Bump to WordPress 5.6
 * NEW: Added more bots
 * NEW: Remove hardcoded Archive text in page title
+* FIXED: Update SCB Framework to support PHP 8
 
 ### 2.85.5
 * NEW: Bump to WordPress 5.4
