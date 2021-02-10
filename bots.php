@@ -87,6 +87,7 @@ function useronline_get_bots() {
 		'PetalBot' => 'PetalBot',
 		'PhantomJS' => 'phantomjs',
 		'Picsearch' => 'picsearch',
+		'Pinterestbot' => 'Pinterestbot',
 		'Proximic' => 'proximic',
 		'PubSub' => 'pubsub',
 		'Radian6' => 'radian6',
