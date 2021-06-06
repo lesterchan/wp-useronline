@@ -1,6 +1,5 @@
 # WP-UserOnline
 Contributors: GamerZ, scribu, HardcoreGames  
-Donate link: https://lesterchan.net/site/donation/  
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
 Requires at least: 4.0  
 Tested up to: 5.7  
