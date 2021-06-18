@@ -45,6 +45,7 @@ This plugin enables you to display how many users are online on your Wordpress s
 
 ### Development
 [https://github.com/lesterchan/wp-useronline](https://github.com/lesterchan/wp-useronline "https://github.com/lesterchan/wp-useronline")
+[https://github.com/HardcoreGames/wp-useronline] (https://github.com/HardcoreGames/wp-useronline "https://github.com/HardcoreGames/wp-useronline")
 
 ### Credits
 * Plugin icon by [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com)
