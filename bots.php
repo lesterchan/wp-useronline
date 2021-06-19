@@ -92,6 +92,7 @@ function useronline_get_bots() {
 		'PubSub' => 'pubsub',
 		'Radian6' => 'radian6',
 		'RadioUserland' => 'userland',
+		'Re-re Studio' => 'Re-re Studio',
 		'RyteBot' => 'RyteBot',
 		'Moz' => 'rogerbot',
 		'Qwantify' => 'Qwantify',
