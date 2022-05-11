@@ -114,6 +114,7 @@ function useronline_get_bots() {
 		'Syndic8' => 'syndic8',
 		'Technorati' => 'technorati',
 		'TelegramBot' => 'telegrambot',
+		'Tiny Tiny RSS' => 'Tiny Tiny RSS',
 		'Thither' => 'thither',
 		'TraceMyFile' => 'tracemyfile',
 		'Trendsmap' => 'trendsmap',
