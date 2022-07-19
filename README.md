@@ -1,10 +1,10 @@
 # WP-UserOnline
-Contributors: GamerZ, scribu  
+Contributors: GamerZ  
 Donate link: https://lesterchan.net/site/donation/  
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
 Requires at least: 4.0  
-Tested up to: 5.9  
-Stable tag: 2.87.6  
+Tested up to: 6.0. 
+Stable tag: 2.88.0. 
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
