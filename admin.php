@@ -62,14 +62,14 @@ class UserOnline_Options extends scbAdminPage {
 
 	public function validate( $options, $old_data = array() ) {
 		$options['timeout'] = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : 0;
-		$options['url'] = ! empty( $options['url'] ) ? trim( $options['url'] ) : '';
+		$options['url'] = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
 		$options['names'] = ! empty( $options['names'] ) ? (int) $options['names'] : 0;
 
 		foreach ( $options['templates'] as $key => $template )
 			if ( is_array( $template ) )
-				$options['templates'][$key]['text'] = trim( $template['text'] );
+				$options['templates'][$key]['text'] = wp_kses_post( trim( $template['text'] ) );
 			else
-				$options['templates'][$key] = trim( $template );
+				$options['templates'][$key] = wp_kses_post( trim( $template ) );
 
 		return $options;
 	}
