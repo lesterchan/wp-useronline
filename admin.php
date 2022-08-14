@@ -65,11 +65,21 @@ class UserOnline_Options extends scbAdminPage {
 		$options['url'] = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
 		$options['names'] = ! empty( $options['names'] ) ? (int) $options['names'] : 0;
 
-		foreach ( $options['templates'] as $key => $template )
-			if ( is_array( $template ) )
+		foreach ( $options['naming'] as $key => $template ) {
+			$options['naming'][$key] = wp_kses_post( trim( $template ) );
+		}
+		foreach ( $options['templates'] as $key => $template ) {
+			if ( is_array( $template ) ) {
 				$options['templates'][$key]['text'] = wp_kses_post( trim( $template['text'] ) );
-			else
+				if ( ! empty( $template['separators'] ) && is_array( $template['separators'] ) ) {
+						foreach( $template['separators'] as $seperator_key => $seperator_value ) {
+							$options['templates'][$key]['separators'][$seperator_key] = wp_kses_post( trim( $seperator_value ) );
+						}
+				}
+			} else {
 				$options['templates'][$key] = wp_kses_post( trim( $template ) );
+			}
+		}
 
 		return $options;
 	}
@@ -206,7 +216,7 @@ class UserOnline_Options extends scbAdminPage {
 										'type' => 'text',
 										'name' => array( 'naming', $type ),
 										'extra' => 'size="30"',
-										'desc' => html( 'td', '%input%' )
+										'desc' => html( 'td', $type )
 									), $data );
 								}
 								echo "\n</tr>\n";
