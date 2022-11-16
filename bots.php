@@ -91,6 +91,7 @@ function useronline_get_bots() {
 		'Pinterestbot' => 'Pinterestbot',
 		'Proximic' => 'proximic',
 		'PubSub' => 'pubsub',
+		'Python' => 'Python',
 		'Radian6' => 'radian6',
 		'RadioUserland' => 'userland',
 		'Re-re Studio' => 'Re-re Studio',
