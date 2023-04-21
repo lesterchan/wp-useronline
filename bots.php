@@ -47,6 +47,7 @@ function useronline_get_bots() {
 		'Facebook Preview' => 'facebookexternalhit',
 		'faceBot' => 'facebot',
 		'Feedfetcher' => 'Feedfetcher',
+		'Femtosearch' => 'FemtosearchBot',
 		'Findexa' => 'findexa',
 		'Flipboard Preview' => 'FlipboardProxy',
 		'Gais' => 'gaisbo',
