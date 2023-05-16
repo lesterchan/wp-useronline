@@ -7,8 +7,12 @@ class UserOnline_Widget extends scbWidget {
 	}
 
 	function content( $instance ) {
+		if ( empty( $instance['type'] ) ) {
+			return '';	
+		}
+		
 		$out = '';
-
+		
 		switch( $instance['type'] ) {
 			case 'users_online':
 				$out .= html( 'div id="useronline-count"', get_users_online() );
