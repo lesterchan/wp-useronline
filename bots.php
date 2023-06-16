@@ -28,6 +28,7 @@ function useronline_get_bots() {
 		'Blog Search Engine' => 'blogsearch',
 		'BUbiNG' => 'bubing',
 		'Buck' => 'Buck',
+		'Bytespider' => 'Bytespider',
 		'CCBot' => 'ccbot',
 		'CFNetwork' => 'cfnetwork',
 		'CheckMarkNetwork' => 'CheckMarkNetwork',
