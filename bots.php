@@ -137,6 +137,7 @@ function useronline_get_bots() {
 		'XoviBot' => 'xoviBot',
 		'Yahoo' => 'yahoo',
 		'Yandex' => 'yandex',
+		'Disqus' => 'disqus',
 		'YisouSpider' => 'yisouspider'
 	);
 
