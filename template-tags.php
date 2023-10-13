@@ -238,8 +238,8 @@ class UserOnline_Template {
 			return
 			html( 'span', array('dir' => 'ltr'),
 				html( 'a', array(
-					'href' => 'http://whois.domaintools.com/' . $ip,
-					'title' => $user->user_agent
+					'href' => esc_url( 'http://whois.domaintools.com/' . $ip ),
+					'title' => esc_attr( $user->user_agent )
 				), $ip )
 			);
 		}
