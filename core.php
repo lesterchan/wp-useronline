@@ -66,20 +66,21 @@ class UserOnline_Core {
 		global $wpdb;
 
 		if ( empty( $page_url ) )
-			$page_url = $_SERVER['REQUEST_URI'];
+			$page_url = wp_strip_all_tags( $_SERVER['REQUEST_URI'] );
 
 		if ( empty( $page_title ) )
-			$page_title = self::get_title();
+			$page_title = wp_strip_all_tags( self::get_title() );
 
-		if ( isset( $_SERVER['HTTP_REFERER'] ) )
-			$referral = strip_tags( $_SERVER['HTTP_REFERER'] );
-		else
+		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+			$referral = wp_strip_all_tags( $_SERVER['HTTP_REFERER'] );
+		} else {
 			$referral = '';
+		}
 
-		$user_ip = self::get_ip();
+		$user_ip = wp_strip_all_tags( self::get_ip() );
 
 		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) )
-			$user_agent = strip_tags( $_SERVER['HTTP_USER_AGENT'] );
+			$user_agent = wp_strip_all_tags( $_SERVER['HTTP_USER_AGENT'] );
 		else
 			$user_agent = '';
 
@@ -112,7 +113,7 @@ class UserOnline_Core {
 			} elseif ( !empty( $_COOKIE['comment_author_'.COOKIEHASH] ) ) {
 				// Check For Comment Author ( Guest )
 				$user_id = 0;
-				$user_name = trim( strip_tags( $_COOKIE['comment_author_'.COOKIEHASH] ) );
+				$user_name = trim( wp_strip_all_tags( $_COOKIE['comment_author_'.COOKIEHASH] ) );
 				$user_type = 'guest';
 			} else {
 				// Check For Guest
