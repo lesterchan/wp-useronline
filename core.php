@@ -65,12 +65,14 @@ class UserOnline_Core {
 
 		global $wpdb;
 
-		if ( empty( $page_url ) )
+		if ( empty( $page_url ) ) {
 			$page_url = wp_strip_all_tags( $_SERVER['REQUEST_URI'] );
+		}
 
-		if ( empty( $page_title ) )
+		if ( empty( $page_title ) ) {
 			$page_title = wp_strip_all_tags( self::get_title() );
-
+		}
+		
 		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 			$referral = wp_strip_all_tags( $_SERVER['HTTP_REFERER'] );
 		} else {
@@ -79,10 +81,11 @@ class UserOnline_Core {
 
 		$user_ip = wp_strip_all_tags( self::get_ip() );
 
-		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) )
+		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
 			$user_agent = wp_strip_all_tags( $_SERVER['HTTP_USER_AGENT'] );
-		else
+		} else {
 			$user_agent = '';
+		}
 
 		$current_user = wp_get_current_user();
 
