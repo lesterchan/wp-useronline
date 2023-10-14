@@ -232,7 +232,7 @@ class UserOnline_Template {
 	}
 
 	static function format_ip( $user ) {
-		$ip = $user->user_ip;
+		$ip = wp_strip_all_tags( $user->user_ip );
 
 		if ( current_user_can( 'edit_users' ) && !empty( $ip ) && $ip != 'unknown' ) {
 			return
