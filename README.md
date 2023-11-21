@@ -31,10 +31,6 @@ This plugin enables you to display how many users are online on your Wordpress s
 <?php endif; ?>
 ```
 
-### Build Status
-
-[![Build Status](https://travis-ci.org/lesterchan/wp-useronline.svg?branch=master)](https://travis-ci.org/lesterchan/wp-useronline)
-
 ### Development
 
 [https://github.com/lesterchan/wp-useronline](https://github.com/lesterchan/wp-useronline "https://github.com/lesterchan/wp-useronline")
