@@ -32,6 +32,7 @@ function useronline_get_bots() {
 		'CCBot' => 'ccbot',
 		'CFNetwork' => 'cfnetwork',
 		'CheckMarkNetwork' => 'CheckMarkNetwork',
+		'ClaudeBot' => 'ClaudeBot',
 		'Cliqzbot' => 'cliqzbot',
 		'Coccoc' => 'coccocbot',
 		'Crawl' => 'crawl',
