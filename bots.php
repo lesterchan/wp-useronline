@@ -58,6 +58,7 @@ function useronline_get_bots() {
 		'Go-http-client' => 'Go-http-client',
 		'Goforit' => 'GOFORITBOT',
 		'Google' => 'google',
+		'GPTBot' => 'GPTBot',
 		'Grid' => 'gridbot',
 		'GroupHigh' => 'grouphigh',
 		'Heritrix' => 'heritrix',
