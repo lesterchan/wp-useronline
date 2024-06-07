@@ -31,6 +31,7 @@ function useronline_get_bots() {
 		'Bytespider' => 'Bytespider',
 		'CCBot' => 'ccbot',
 		'CFNetwork' => 'cfnetwork',
+		'ChatGPT' => 'ChatGPT',
 		'CheckMarkNetwork' => 'CheckMarkNetwork',
 		'ClaudeBot' => 'ClaudeBot',
 		'Cliqzbot' => 'cliqzbot',
