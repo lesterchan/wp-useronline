@@ -127,7 +127,7 @@ function useronline_get_bots() {
 		'The Tweeted Times' => 'tweetedtimes',
 		'TweetmemeBot' => 'tweetmemeBot',
 		'Twingly' => 'twingly',
-		'Twitter' => 'twitterbot',
+		'X' => 'twitterbot',
 		'VoilaBot' => 'VoilaBot',
 		'Wget' => 'wget',
 		'WhatsApp' => 'whatsapp',
