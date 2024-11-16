@@ -3,8 +3,8 @@ Contributors: GamerZ
 Donate link: https://lesterchan.net/site/donation/  
 Tags: useronline, usersonline, wp-useronline, online, users, user, ajax, widget  
 Requires at least: 4.0  
-Tested up to: 6.4  
-Stable tag: 2.88.3  
+Tested up to: 6.7  
+Stable tag: 2.88.4  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -85,6 +85,11 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 `var_dump(PHP_VERSION);`
 
 ## Changelog
+
+### 2.88.4
+* FIXED: Add load_plugin_textdomain during init
+* NEW: Update bots
+
 ### 2.88.3
 * FIXED: Strip all tags before inserting data into the DB.
 
