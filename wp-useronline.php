@@ -14,8 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 include __DIR__ . '/scb/load.php';
 
 function _useronline_init() {
-	load_plugin_textdomain( 'wp-useronline' );
-
 	require_once __DIR__ . '/core.php';
 	require_once __DIR__ . '/template-tags.php';
 	require_once __DIR__ . '/deprecated.php';
