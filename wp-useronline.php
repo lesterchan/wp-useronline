@@ -94,3 +94,9 @@ function _useronline_init() {
 }
 scb_init( '_useronline_init' );
 
+add_action( 'plugins_loaded', 'useronline_init_widget' );
+function useronline_init_widget() {
+	require_once __DIR__ . '/scb/Widget.php';
+	require_once __DIR__ . '/widget.php';
+	scbWidget::init( 'UserOnline_Widget', __FILE__, 'useronline' );
+}
