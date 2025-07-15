@@ -104,6 +104,7 @@ function useronline_get_bots() {
 		'Moz' => 'rogerbot',
 		'Qwantify' => 'Qwantify',
 		'Scoutjet' => 'Scoutjet',
+		'Scrapy' => 'Scrapy',
 		'Screaming Frog SEO Spider' => 'Screaming Frog SEO Spider',
 		'SEOkicks' => 'seokicks-robot',
 		'Semanticbot' => 'Semanticbot',
