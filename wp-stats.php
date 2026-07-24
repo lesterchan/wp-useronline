@@ -57,7 +57,7 @@ class UserOnline_WpStats {
 	public function page_admin_general_stats( $content ) {
 		$stats_display = get_option( 'stats_display' );
 
-		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_useronline" value="useronline"' . checked( $stats_display['useronline'], 1, false ) . '/>&nbsp;&nbsp;<label for="wpstats_useronline">'.__( 'WP-UserOnline', 'wp-useronline' ).'</label><br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_useronline" value="useronline"' . checked( $stats_display['useronline'] ?? 0, 1, false ) . '/>&nbsp;&nbsp;<label for="wpstats_useronline">'.__( 'WP-UserOnline', 'wp-useronline' ).'</label><br />'."\n";
 
 		return $content;
 	}
@@ -80,7 +80,7 @@ class UserOnline_WpStats {
 			get_users_online_count(), 'wp-useronline'
 		);
 
-		if ( $stats_display['useronline'] === 1 )
+		if ( (int) ($stats_display['useronline'] ?? 0) === 1 )
 			$content .=
 			 html( 'p', html( 'strong', __( 'WP-UserOnline', 'wp-useronline' ) ) )
 			.html( 'ul',
