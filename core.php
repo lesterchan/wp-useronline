@@ -2,6 +2,14 @@
 
 class UserOnline_Core {
 
+	/**
+	 * Bumped whenever sanitize_options() gets stricter, so that values already
+	 * in the database are put through the new rules once.
+	 */
+	const SANITIZE_VERSION = 1;
+
+	const SANITIZE_VERSION_OPTION = 'useronline_sanitize_version';
+
 	static $add_script = false;
 
 	static $options;
@@ -34,8 +42,99 @@ class UserOnline_Core {
 
 		add_shortcode( 'page_useronline', 'users_online_page' );
 
+		self::maybe_sanitize_stored_options();
+
 		if ( self::$options->names )
 			add_filter( 'useronline_display_user', array( __CLASS__, 'linked_names' ), 10, 2 );
+	}
+
+	/**
+	 * Sanitize a set of plugin options.
+	 *
+	 * The naming conventions and templates are echoed verbatim by
+	 * get_users_online() and UserOnline_Template::compact_list(), so they are
+	 * sanitized on the way in rather than on the way out. Missing or malformed
+	 * keys fall back to the defaults instead of warning: scbOptions::get()
+	 * merges only the top level of the array, so a partial save can otherwise
+	 * leave nested template keys absent.
+	 *
+	 * @param array $options
+	 *
+	 * @return array
+	 */
+	static function sanitize_options( $options ) {
+		if ( ! is_array( $options ) )
+			$options = array();
+
+		$defaults = isset( self::$options ) ? self::$options->get_defaults() : array();
+
+		$options['timeout'] = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : 0;
+		$options['url'] = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
+		$options['names'] = ! empty( $options['names'] ) ? (int) $options['names'] : 0;
+
+		// Naming conventions: fill any gaps from the defaults, then sanitize
+		// every entry, including keys the defaults don't know about.
+		$default_naming = isset( $defaults['naming'] ) && is_array( $defaults['naming'] ) ? $defaults['naming'] : array();
+		$naming = isset( $options['naming'] ) && is_array( $options['naming'] ) ? $options['naming'] : array();
+		$naming = array_merge( $default_naming, $naming );
+
+		foreach ( $naming as $key => $template ) {
+			$naming[ $key ] = wp_kses_post( trim( (string) $template ) );
+		}
+		$options['naming'] = $naming;
+
+		// Templates: rebuilt from the defaults so the shape is guaranteed for
+		// compact_list(), which indexes into ['text'] and ['separators'].
+		$default_templates = isset( $defaults['templates'] ) && is_array( $defaults['templates'] ) ? $defaults['templates'] : array();
+		$templates = isset( $options['templates'] ) && is_array( $options['templates'] ) ? $options['templates'] : array();
+
+		$clean = array();
+		foreach ( $default_templates as $key => $default_template ) {
+			if ( is_array( $default_template ) ) {
+				$stored = isset( $templates[ $key ] ) && is_array( $templates[ $key ] ) ? $templates[ $key ] : array();
+
+				$text = isset( $stored['text'] ) && ! is_array( $stored['text'] ) ? $stored['text'] : $default_template['text'];
+
+				$clean[ $key ] = array(
+					'text' => wp_kses_post( trim( (string) $text ) ),
+					'separators' => array()
+				);
+
+				$stored_separators = isset( $stored['separators'] ) && is_array( $stored['separators'] ) ? $stored['separators'] : array();
+
+				foreach ( $default_template['separators'] as $separator_key => $separator_default ) {
+					$separator = isset( $stored_separators[ $separator_key ] ) && ! is_array( $stored_separators[ $separator_key ] )
+						? $stored_separators[ $separator_key ]
+						: $separator_default;
+
+					// Not trimmed: the defaults are ", " and the trailing space
+					// is what keeps names apart in the rendered list.
+					$clean[ $key ]['separators'][ $separator_key ] = wp_kses_post( (string) $separator );
+				}
+			} else {
+				$stored = isset( $templates[ $key ] ) && ! is_array( $templates[ $key ] ) ? $templates[ $key ] : $default_template;
+
+				$clean[ $key ] = wp_kses_post( trim( (string) $stored ) );
+			}
+		}
+		$options['templates'] = $clean;
+
+		return $options;
+	}
+
+	/**
+	 * Re-sanitize options that were stored before the escaping rules were
+	 * tightened. Sanitizing only on save means an install that was already
+	 * compromised stays compromised after it updates, because the bad value is
+	 * never resubmitted through the settings form.
+	 */
+	private static function maybe_sanitize_stored_options() {
+		if ( (int) get_option( self::SANITIZE_VERSION_OPTION ) >= self::SANITIZE_VERSION )
+			return;
+
+		self::$options->update( self::sanitize_options( self::$options->get() ) );
+
+		update_option( self::SANITIZE_VERSION_OPTION, self::SANITIZE_VERSION );
 	}
 
 	static function linked_names( $name, $user ) {
@@ -156,14 +255,21 @@ class UserOnline_Core {
 	}
 
 	static function ajax() {
-		$mode = trim( $_POST['mode'] );
+		$mode = isset( $_POST['mode'] ) ? trim( (string) $_POST['mode'] ) : '';
 
-		$page_title = strip_tags( $_POST['page_title'] );
+		// Validate the mode before anything is written. An unrecognised mode
+		// used to fall straight through the switch below while still having
+		// recorded a row on the way in.
+		if ( ! in_array( $mode, array( 'count', 'browsing-site', 'browsing-page', 'details' ), true ) )
+			die;
 
-		$page_url = str_replace( get_bloginfo( 'url' ), '', $_POST['page_url'] );
+		$page_url = self::local_url( isset( $_POST['page_url'] ) ? (string) $_POST['page_url'] : '' );
 
-		if ( $page_url != $_POST['page_url'] )
-			self::record( $page_url, $page_title );
+		if ( null !== $page_url ) {
+			$page_title = isset( $_POST['page_title'] ) ? sanitize_text_field( (string) $_POST['page_title'] ) : '';
+
+			self::record( $page_url, mb_substr( $page_title, 0, 250 ) );
+		}
 
 		switch( $mode ) {
 			case 'count':
@@ -173,7 +279,7 @@ class UserOnline_Core {
 				users_browsing_site();
 				break;
 			case 'browsing-page':
-				users_browsing_page($page_url);
+				users_browsing_page( (string) $page_url );
 				break;
 			case 'details':
 				echo users_online_page();
@@ -181,6 +287,45 @@ class UserOnline_Core {
 		}
 
 		die;
+	}
+
+	/**
+	 * Reduce a client-submitted absolute URL to a site-relative path.
+	 *
+	 * The caller chooses this value, so anything not belonging to this site is
+	 * rejected outright by returning null. Replaces a str_replace() plus
+	 * inequality test that accepted any URL merely containing the site URL.
+	 *
+	 * The path is kept whole rather than having the site URL cut off it, so
+	 * that it matches what record() stores from REQUEST_URI on a subdirectory
+	 * install and the browsing-page lookup can actually find those rows.
+	 *
+	 * @param string $url
+	 *
+	 * @return string|null Site-relative path, or null when the URL is foreign.
+	 */
+	private static function local_url( $url ) {
+		$url = trim( $url );
+
+		if ( '' === $url )
+			return null;
+
+		$parts = wp_parse_url( $url );
+		$home = wp_parse_url( home_url() );
+
+		if ( empty( $parts['host'] ) || empty( $home['host'] ) )
+			return null;
+
+		if ( strtolower( $parts['host'] ) !== strtolower( $home['host'] ) )
+			return null;
+
+		$path = isset( $parts['path'] ) && '' !== $parts['path'] ? $parts['path'] : '/';
+
+		if ( ! empty( $parts['query'] ) )
+			$path .= '?' . $parts['query'];
+
+		// page_url is a varchar( 255 ).
+		return mb_substr( wp_strip_all_tags( $path ), 0, 255 );
 	}
 
 	static function wp_stats_integration() {
@@ -204,14 +349,29 @@ class UserOnline_Core {
 	}
 
 	private static function get_ip() {
-		if ( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) )
-			$ip_address = $_SERVER["HTTP_X_FORWARDED_FOR"];
-		else
-			$ip_address = $_SERVER["REMOTE_ADDR"];
+		// X-Forwarded-For is set by the client and can say anything at all, so
+		// it is only consulted when the site declares that it sits behind a
+		// trusted proxy. Otherwise a visitor could forge an address on every
+		// request, which both falsifies the log and defeats the de-duplication
+		// in record().
+		$headers = array( 'REMOTE_ADDR' );
 
-		list( $ip_address ) = explode( ',', $ip_address );
+		if ( apply_filters( 'useronline_trust_proxy', defined( 'USERONLINE_TRUST_PROXY' ) && USERONLINE_TRUST_PROXY ) )
+			array_unshift( $headers, 'HTTP_X_FORWARDED_FOR' );
 
-		return $ip_address;
+		foreach ( $headers as $header ) {
+			if ( empty( $_SERVER[ $header ] ) )
+				continue;
+
+			list( $ip_address ) = explode( ',', $_SERVER[ $header ] );
+
+			$ip_address = filter_var( trim( $ip_address ), FILTER_VALIDATE_IP );
+
+			if ( false !== $ip_address )
+				return $ip_address;
+		}
+
+		return '';
 	}
 }
 

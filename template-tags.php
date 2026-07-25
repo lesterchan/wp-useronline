@@ -153,7 +153,7 @@ class UserOnline_Template {
 
 		// Print Member Name
 		$temp_member = '';
-		$members = @$buckets['member'];
+		$members = isset( $buckets['member'] ) ? $buckets['member'] : array();
 		if ( $members ) {
 			$temp_member = array();
 			foreach ( $members as $member )
@@ -211,12 +211,30 @@ class UserOnline_Template {
 				$user_ip = self::format_ip( $user );
 				$date = self::format_date( $user->timestamp, true );
 
+				// Reset per user, so that a user whose location is hidden below
+				// doesn't inherit the previous user's page details.
+				$page_title = '';
+				$current_link = '';
+				$referral_link = '';
+
 				if ( current_user_can( 'edit_users' ) || false === strpos( $user->page_url, 'wp-admin' ) ) {
 					$page_title = esc_html( $user->page_title );
 					$current_link = self::format_link( $user->page_url, $_url );
 					$referral_link = self::format_link( $user->referral, $_referral );
 				}
 
+				/**
+				 * Filter the markup for a single user on the detailed list.
+				 *
+				 * The default value is already escaped. $user carries the raw,
+				 * visitor-controlled database row ( page_title, page_url,
+				 * referral and user_agent are all attacker-supplied ), so
+				 * anything rebuilt from it must be escaped again.
+				 *
+				 * @param string $markup Escaped markup for this user.
+				 * @param string $nr     Formatted position in the list.
+				 * @param object $user   Raw useronline row. Unescaped.
+				 */
 				$output .= apply_filters("useronline_custom_template", "<p><strong>#$nr - $name</strong> $user_ip $_on $date<br/>$page_title $current_link $referral_link</p>\n", $nr, $user);
 			}
 		}
@@ -232,17 +250,21 @@ class UserOnline_Template {
 	}
 
 	static function format_ip( $user ) {
-		$ip = esc_attr( $user->user_ip );
+		$ip = $user->user_ip;
 
 		if ( current_user_can( 'edit_users' ) && !empty( $ip ) && $ip != 'unknown' ) {
+			// html() escapes attributes, so $ip and $user_agent are passed raw
+			// and escaped once, at the point they are rendered.
 			return
 			html( 'span', array('dir' => 'ltr'),
 				html( 'a', array(
-					'href' => esc_url( 'http://whois.domaintools.com/' . $ip ),
-					'title' => esc_attr( $user->user_agent )
-				), $ip )
+					'href' => 'http://whois.domaintools.com/' . rawurlencode( $ip ),
+					'title' => $user->user_agent
+				), esc_html( $ip ) )
 			);
 		}
+
+		return '';
 	}
 
 	static function format_date( $date, $mysql = false ) {
@@ -279,7 +301,7 @@ class UserOnline_Template {
 		$counts = array();
 		$total = 0;
 		foreach ( array( 'member', 'guest', 'bot' ) as $user_type ) {
-			$count = isset( $buckets[$user_type] ) ? count( @$buckets[$user_type] ) : 0;
+			$count = isset( $buckets[$user_type] ) ? count( $buckets[$user_type] ) : 0;
 			$total += $counts[$user_type] = $count;
 		}
 

@@ -8,6 +8,7 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) )
 $option_names = array(
 	'useronline'
 	, 'useronline_most'
+	, 'useronline_sanitize_version'
 	, 'widget_useronline'
 );
 

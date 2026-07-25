@@ -3,8 +3,8 @@ Contributors: GamerZ
 Donate link: https://lesterchan.net/site/donation/  
 Tags: useronline, usersonline, wp-useronline, online, widget  
 Requires at least: 4.6  
-Tested up to: 6.7  
-Stable tag: 2.88.9  
+Tested up to: 7.0  
+Stable tag: 2.88.10  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -85,6 +85,14 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 `var_dump(PHP_VERSION);`
 
 ## Changelog
+### 2.88.10
+* NEW: WordPress 7.0
+* NEW: X-Forwarded-For is now ignored unless the site opts in. If your site is behind a reverse proxy or CDN, define USERONLINE_TRUST_PROXY as true, or use the useronline_trust_proxy filter, to keep recording visitor IPs instead of the proxy IP.
+* FIXED: A user browsing wp-admin no longer shows the previously listed user's page title, URL and referrer in place of their own.
+* FIXED: Naming and template options are re-sanitised on upgrade, not only when saved, so values stored by older versions are cleaned up.
+* FIXED: The AJAX endpoint validates the requested mode before recording anything, and rejects page URLs that do not belong to this site.
+* FIXED: Undefined array key warnings when no members are online and when REMOTE_ADDR is not set.
+
 ### 2.88.9
 * FIXED: Check scbWidget exists first before loading scbWidget. Props @whiteshadow.
 

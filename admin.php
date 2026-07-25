@@ -61,27 +61,7 @@ class UserOnline_Options extends scbAdminPage {
 	}
 
 	public function validate( $options, $old_data = array() ) {
-		$options['timeout'] = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : 0;
-		$options['url'] = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
-		$options['names'] = ! empty( $options['names'] ) ? (int) $options['names'] : 0;
-
-		foreach ( $options['naming'] as $key => $template ) {
-			$options['naming'][$key] = wp_kses_post( trim( $template ) );
-		}
-		foreach ( $options['templates'] as $key => $template ) {
-			if ( is_array( $template ) ) {
-				$options['templates'][$key]['text'] = wp_kses_post( trim( $template['text'] ) );
-				if ( ! empty( $template['separators'] ) && is_array( $template['separators'] ) ) {
-						foreach( $template['separators'] as $seperator_key => $seperator_value ) {
-							$options['templates'][$key]['separators'][$seperator_key] = wp_kses_post( trim( $seperator_value ) );
-						}
-				}
-			} else {
-				$options['templates'][$key] = wp_kses_post( trim( $template ) );
-			}
-		}
-
-		return $options;
+		return UserOnline_Core::sanitize_options( $options );
 	}
 
 	public function page_head() {
