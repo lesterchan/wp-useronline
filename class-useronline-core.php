@@ -1,5 +1,13 @@
 <?php
+/**
+ * Recording and rendering of the currently online users.
+ *
+ * @package WP-UserOnline
+ */
 
+/**
+ * Records each request into the useronline table and serves the AJAX refresh.
+ */
 class UserOnline_Core {
 
 	/**
@@ -8,16 +16,45 @@ class UserOnline_Core {
 	 */
 	const SANITIZE_VERSION = 1;
 
+	/**
+	 * Option holding the sanitize version already applied to stored options.
+	 */
 	const SANITIZE_VERSION_OPTION = 'useronline_sanitize_version';
 
-	static $add_script = false;
+	/**
+	 * Whether the refresh script should be enqueued for this request.
+	 *
+	 * @var bool
+	 */
+	public static $add_script = false;
 
-	static $options;
-	static $most;
+	/**
+	 * Plugin options.
+	 *
+	 * @var scbOptions
+	 */
+	public static $options;
 
+	/**
+	 * Most-ever-online record.
+	 *
+	 * @var scbOptions
+	 */
+	public static $most;
+
+	/**
+	 * Cached count of users online for this request.
+	 *
+	 * @var int|null
+	 */
 	private static $useronline;
 
-	static function get_user_online_count() {
+	/**
+	 * Get the number of users currently online.
+	 *
+	 * @return int
+	 */
+	public static function get_user_online_count() {
 		global $wpdb;
 
 		if ( is_null( self::$useronline ) ) {
@@ -27,7 +64,15 @@ class UserOnline_Core {
 		return self::$useronline;
 	}
 
-	static function init( $options, $most ) {
+	/**
+	 * Wire up the plugin's hooks.
+	 *
+	 * @param scbOptions $options Plugin options.
+	 * @param scbOptions $most    Most-ever-online record.
+	 *
+	 * @return void
+	 */
+	public static function init( $options, $most ) {
 		self::$options = $options;
 		self::$most    = $most;
 
@@ -64,7 +109,7 @@ class UserOnline_Core {
 	 *
 	 * @return array
 	 */
-	static function sanitize_options( $options ) {
+	public static function sanitize_options( $options ) {
 		if ( ! is_array( $options ) ) {
 			$options = array();
 		}
@@ -130,6 +175,8 @@ class UserOnline_Core {
 	 * tightened. Sanitizing only on save means an install that was already
 	 * compromised stays compromised after it updates, because the bad value is
 	 * never resubmitted through the settings form.
+	 *
+	 * @return void
 	 */
 	private static function maybe_sanitize_stored_options() {
 		if ( (int) get_option( self::SANITIZE_VERSION_OPTION ) >= self::SANITIZE_VERSION ) {
@@ -141,7 +188,17 @@ class UserOnline_Core {
 		update_option( self::SANITIZE_VERSION_OPTION, self::SANITIZE_VERSION );
 	}
 
-	static function linked_names( $name, $user ) {
+	/**
+	 * Link a member's name to their author archive.
+	 *
+	 * Filter callback for 'useronline_display_user'.
+	 *
+	 * @param string $name Escaped display name.
+	 * @param object $user Useronline row.
+	 *
+	 * @return string
+	 */
+	public static function linked_names( $name, $user ) {
 		if ( ! $user->user_id ) {
 			return $name;
 		}
@@ -149,7 +206,12 @@ class UserOnline_Core {
 		return html_link( get_author_posts_url( $user->user_id ), $name );
 	}
 
-	static function scripts() {
+	/**
+	 * Enqueue the refresh script, if anything on this page needs it.
+	 *
+	 * @return void
+	 */
+	public static function scripts() {
 		if ( ! self::$add_script ) {
 			return;
 		}
@@ -169,13 +231,23 @@ class UserOnline_Core {
 		scbUtil::do_scripts( 'wp-useronline' );
 	}
 
-	static function record( $page_url = '', $page_title = '' ) {
+	/**
+	 * Record the current visitor as online.
+	 *
+	 * @param string $page_url   Site-relative URL. Defaults to REQUEST_URI.
+	 * @param string $page_title Page title. Defaults to the generated title.
+	 *
+	 * @return void
+	 */
+	public static function record( $page_url = '', $page_title = '' ) {
 		require_once __DIR__ . '/bots.php';
 
 		global $wpdb;
 
 		if ( empty( $page_url ) ) {
-			$page_url = wp_strip_all_tags( $_SERVER['REQUEST_URI'] );
+			$page_url = isset( $_SERVER['REQUEST_URI'] )
+				? wp_strip_all_tags( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+				: '';
 		}
 
 		if ( empty( $page_title ) ) {
@@ -183,7 +255,7 @@ class UserOnline_Core {
 		}
 
 		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-			$referral = wp_strip_all_tags( $_SERVER['HTTP_REFERER'] );
+			$referral = wp_strip_all_tags( wp_unslash( $_SERVER['HTTP_REFERER'] ) );
 		} else {
 			$referral = '';
 		}
@@ -191,14 +263,14 @@ class UserOnline_Core {
 		$user_ip = wp_strip_all_tags( self::get_ip() );
 
 		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
-			$user_agent = wp_strip_all_tags( $_SERVER['HTTP_USER_AGENT'] );
+			$user_agent = wp_strip_all_tags( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) );
 		} else {
 			$user_agent = '';
 		}
 
 		$current_user = wp_get_current_user();
 
-		// Check For Bot
+		// Check For Bot.
 		$bots = useronline_get_bots();
 
 		$bot_found = false;
@@ -206,7 +278,6 @@ class UserOnline_Core {
 			if ( stristr( $user_agent, $lookfor ) !== false ) {
 				$user_id   = 0;
 				$user_name = $name;
-				$username  = $lookfor;
 				$user_type = 'bot';
 				$bot_found = true;
 
@@ -214,42 +285,43 @@ class UserOnline_Core {
 			}
 		}
 
-		// If No Bot Is Found, Then We Check Members And Guests
+		// If No Bot Is Found, Then We Check Members And Guests.
 		if ( ! $bot_found ) {
 			if ( $current_user->ID ) {
-				// Check For Member
+				// Check For Member.
 				$user_id   = $current_user->ID;
 				$user_name = $current_user->display_name;
 				$user_type = 'member';
-				$where     = $wpdb->prepare( 'WHERE user_id = %d', $user_id );
 			} elseif ( ! empty( $_COOKIE[ 'comment_author_' . COOKIEHASH ] ) ) {
 				// Check For Comment Author ( Guest )
 				$user_id   = 0;
-				$user_name = trim( wp_strip_all_tags( $_COOKIE[ 'comment_author_' . COOKIEHASH ] ) );
+				$user_name = trim( wp_strip_all_tags( wp_unslash( $_COOKIE[ 'comment_author_' . COOKIEHASH ] ) ) );
 				$user_type = 'guest';
 			} else {
-				// Check For Guest
+				// Check For Guest.
 				$user_id   = 0;
 				$user_name = __( 'Guest', 'wp-useronline' );
 				$user_type = 'guest';
 			}
 		}
 
-		// Current GMT Timestamp
+		// Current GMT Timestamp.
 		$timestamp = current_time( 'mysql' );
 
-		// Purge table
+		// Purge table.
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->useronline WHERE (user_id <> 0 AND user_id = %d) OR (user_id = 0 AND user_agent = %s AND user_ip = %s) OR (timestamp < DATE_SUB(%s, INTERVAL %d SECOND))", $user_id, $user_agent, $user_ip, $timestamp, self::$options->timeout ) );
 
-		// Insert Users
+		// Insert Users. Every value that came from a superglobal was unslashed
+		// where it was read, so there is deliberately no stripslashes_deep()
+		// here: it used to run over the whole row and would also mangle a
+		// display_name read straight from the database.
 		$data = compact( 'timestamp', 'user_type', 'user_id', 'user_name', 'user_ip', 'user_agent', 'page_title', 'page_url', 'referral' );
-		$data = stripslashes_deep( $data );
 		$wpdb->replace( $wpdb->useronline, $data );
 
-		// Count Users Online
+		// Count Users Online.
 		self::$useronline = intval( $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->useronline" ) );
 
-		// Maybe Update Most User Online
+		// Maybe Update Most User Online.
 		if ( self::$useronline > self::$most->count ) {
 			self::$most->update(
 				array(
@@ -260,14 +332,30 @@ class UserOnline_Core {
 		}
 	}
 
-	private function clear_table() {
+	/**
+	 * Empty the useronline table.
+	 *
+	 * @return void
+	 */
+	private static function clear_table() {
 		global $wpdb;
 
 		$wpdb->query( "DELETE FROM $wpdb->useronline" );
 	}
 
-	static function ajax() {
-		$mode = isset( $_POST['mode'] ) ? trim( (string) $_POST['mode'] ) : '';
+	/**
+	 * Serve the periodic refresh for the on-page counters and lists.
+	 *
+	 * Reachable by logged-out visitors, so every input is treated as hostile.
+	 *
+	 * @return void
+	 */
+	public static function ajax() {
+		// No nonce is checked here on purpose: the endpoint has to answer
+		// logged-out visitors, whose nonces come from a session shared by every
+		// anonymous caller and so prove nothing. Every value below is treated
+		// as hostile instead.
+		$mode = isset( $_POST['mode'] ) ? sanitize_key( wp_unslash( $_POST['mode'] ) ) : '';
 
 		// Validate the mode before anything is written. An unrecognised mode
 		// used to fall straight through the switch below while still having
@@ -276,10 +364,10 @@ class UserOnline_Core {
 			die;
 		}
 
-		$page_url = self::local_url( isset( $_POST['page_url'] ) ? (string) $_POST['page_url'] : '' );
+		$page_url = self::local_url( isset( $_POST['page_url'] ) ? wp_unslash( $_POST['page_url'] ) : '' );
 
 		if ( null !== $page_url ) {
-			$page_title = isset( $_POST['page_title'] ) ? sanitize_text_field( (string) $_POST['page_title'] ) : '';
+			$page_title = isset( $_POST['page_title'] ) ? sanitize_text_field( wp_unslash( $_POST['page_title'] ) ) : '';
 
 			self::record( $page_url, mb_substr( $page_title, 0, 250 ) );
 		}
@@ -345,19 +433,30 @@ class UserOnline_Core {
 		return mb_substr( wp_strip_all_tags( $path ), 0, 255 );
 	}
 
-	static function wp_stats_integration() {
+	/**
+	 * Load the WP-Stats integration when that plugin is present.
+	 *
+	 * @return void
+	 */
+	public static function wp_stats_integration() {
 		if ( function_exists( 'stats_page' ) ) {
-			require_once __DIR__ . '/wp-stats.php';
+			require_once __DIR__ . '/class-useronline-wpstats.php';
 		}
 	}
 
+	/**
+	 * Build the title recorded for the current request.
+	 *
+	 * @return string
+	 */
 	private static function get_title() {
 		if ( is_admin() && function_exists( 'get_admin_page_title' ) ) {
 			$page_title = ' &raquo; ' . __( 'Admin', 'wp-useronline' ) . ' &raquo; ' . get_admin_page_title();
 		} else {
 			$page_title = wp_title( '&raquo;', false );
 			if ( empty( $page_title ) ) {
-				$page_title = ' &raquo; ' . strip_tags( $_SERVER['REQUEST_URI'] );
+				$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+				$page_title  = ' &raquo; ' . wp_strip_all_tags( $request_uri );
 			} elseif ( is_singular() ) {
 				$page_title = ' &raquo; ' . $page_title;
 			}
@@ -367,6 +466,11 @@ class UserOnline_Core {
 		return $page_title;
 	}
 
+	/**
+	 * Determine the visitor's IP address.
+	 *
+	 * @return string Validated IP, or an empty string when none can be trusted.
+	 */
 	private static function get_ip() {
 		// X-Forwarded-For is set by the client and can say anything at all, so
 		// it is only consulted when the site declares that it sits behind a
@@ -384,7 +488,7 @@ class UserOnline_Core {
 				continue;
 			}
 
-			list( $ip_address ) = explode( ',', $_SERVER[ $header ] );
+			list( $ip_address ) = explode( ',', wp_unslash( $_SERVER[ $header ] ) );
 
 			$ip_address = filter_var( trim( $ip_address ), FILTER_VALIDATE_IP );
 

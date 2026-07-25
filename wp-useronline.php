@@ -1,22 +1,33 @@
 <?php
-/*
-Plugin Name: WP-UserOnline
+/**
+ * WP-UserOnline
+ *
+ * @package WP-UserOnline
+ *
+ * @wordpress-plugin
+ * Plugin Name: WP-UserOnline
 Plugin URI: https://lesterchan.net/portfolio/programming/php/
 Description: Enable you to display how many users are online on your WordPress site
 Version: 2.88.10
 Author: Lester 'GaMerZ' Chan
 Author URI: https://lesterchan.net
 Text Domain: wp-useronline
-*/
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 require __DIR__ . '/scb/load.php';
 
+/**
+ * Boot the plugin: register the table, options, hooks and admin pages.
+ *
+ * @return void
+ */
 function _useronline_init() {
-	require_once __DIR__ . '/core.php';
+	require_once __DIR__ . '/class-useronline-core.php';
+	require_once __DIR__ . '/class-useronline-template.php';
 	require_once __DIR__ . '/template-tags.php';
 	require_once __DIR__ . '/deprecated.php';
 
@@ -93,25 +104,28 @@ function _useronline_init() {
 	UserOnline_Core::init( $options, $most );
 
 	if ( is_admin() ) {
-		require_once __DIR__ . '/admin.php';
+		require_once __DIR__ . '/class-useronline-admin-integration.php';
+		require_once __DIR__ . '/class-useronline-options.php';
 		scbAdminPage::register( 'UserOnline_Admin_Integration', __FILE__ );
 		scbAdminPage::register( 'UserOnline_Options', __FILE__, UserOnline_Core::$options );
 	}
 
 	if ( function_exists( 'stats_page' ) ) {
-		require_once __DIR__ . '/wp-stats.php';
+		require_once __DIR__ . '/class-useronline-wpstats.php';
 	}
-
-	// scbUtil::do_uninstall( __FILE__ );
-	// scbUtil::do_activation( __FILE__ );
 }
 scb_init( '_useronline_init' );
 
 add_action( 'plugins_loaded', 'useronline_init_widget' );
+/**
+ * Register the users online widget.
+ *
+ * @return void
+ */
 function useronline_init_widget() {
 	if ( ! class_exists( 'scbWidget', false ) ) {
 		require_once __DIR__ . '/scb/Widget.php';
 	}
-	require_once __DIR__ . '/widget.php';
+	require_once __DIR__ . '/class-useronline-widget.php';
 	scbWidget::init( 'UserOnline_Widget', __FILE__, 'useronline' );
 }

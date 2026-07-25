@@ -1,72 +1,49 @@
 <?php
+/**
+ * Settings screen for WP-UserOnline.
+ *
+ * @package WP-UserOnline
+ */
 
-class UserOnline_Admin_Integration extends scbAdminPage {
-
-	function setup() {
-		$this->textdomain = 'wp-useronline';
-
-		$this->args = array(
-			'page_title'  => __( 'Users Online Now', $this->textdomain ),
-			'menu_title'  => __( 'WP-UserOnline', $this->textdomain ),
-			'page_slug'   => 'useronline',
-			'parent'      => 'index.php',
-			'action_link' => false,
-			'capability'  => 'list_users',
-		);
-
-		add_action( 'rightnow_end', array( $this, 'rightnow' ) );
-	}
-
-	function rightnow() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		$total_users = get_users_online_count();
-
-		$str = _n(
-			"There is <strong><a href='%1\$s'>%2\$s user</a></strong> online now.",
-			"There are a total of <strong><a href='%1\$s'>%2\$s users</a></strong> online now.",
-			$total_users,
-			'wp-useronline'
-		);
-
-		$out  = sprintf( $str, add_query_arg( 'page', $this->args['page_slug'], admin_url( 'index.php' ) ), number_format_i18n( $total_users ) );
-		$out .= '<br>';
-
-		if ( $tmp = get_users_browsing_site() ) {
-			$out .= $tmp . '<br>';
-		}
-
-		$out .= UserOnline_Template::format_most_users();
-
-		echo html( 'p', $out );
-	}
-
-	function page_content() {
-		echo users_online_page();
-	}
-}
-
-
+/**
+ * Settings screen for the naming conventions and output templates.
+ */
 class UserOnline_Options extends scbAdminPage {
 
+	/**
+	 * Configure the settings page.
+	 *
+	 * @return void
+	 */
 	public function setup() {
 		$this->textdomain = 'wp-useronline';
 
 		$this->args = array(
-			'page_title' => __( 'UserOnline Options', $this->textdomain ),
-			'menu_title' => __( 'UserOnline', $this->textdomain ),
+			'page_title' => __( 'UserOnline Options', 'wp-useronline' ),
+			'menu_title' => __( 'UserOnline', 'wp-useronline' ),
 			'page_slug'  => 'useronline-settings',
 		);
 
 		$this->option_name = 'useronline';
 	}
 
+	/**
+	 * Sanitize submitted settings.
+	 *
+	 * @param array $options  Submitted values.
+	 * @param array $old_data Previously stored values.
+	 *
+	 * @return array
+	 */
 	public function validate( $options, $old_data = array() ) {
 		return UserOnline_Core::sanitize_options( $options );
 	}
 
+	/**
+	 * Print the page's inline styles and scripts.
+	 *
+	 * @return void
+	 */
 	public function page_head() {
 		?>
 <style type="text/css">
@@ -92,6 +69,11 @@ class UserOnline_Options extends scbAdminPage {
 		<?php
 	}
 
+	/**
+	 * Render the settings form.
+	 *
+	 * @return void
+	 */
 	public function page_content() {
 		$options  = $this->options->get();
 		$defaults = $this->options->get_defaults();
@@ -144,7 +126,7 @@ class UserOnline_Options extends scbAdminPage {
 
 		</table>
 
-		<h3><?php _e( 'Useronline Templates', 'wp-useronline' ); ?></h3>
+		<h3><?php esc_html_e( 'Useronline Templates', 'wp-useronline' ); ?></h3>
 		<table class="form-table">
 			<tbody id="default_template_useronline" style="display:none">
 				<?php $this->useronline_template_table( $defaults ); ?>
@@ -161,37 +143,44 @@ class UserOnline_Options extends scbAdminPage {
 			);
 			foreach ( $templates as $name => $title ) {
 				?>
-				<tbody id="default_template_<?php echo $name; ?>" style="display:none">
+				<tbody id="default_template_<?php echo esc_attr( $name ); ?>" style="display:none">
 					<?php $this->template_table( $title, $name, $defaults ); ?>
 				</tbody>
 
-				<tbody id="current_template_<?php echo $name; ?>">
+				<tbody id="current_template_<?php echo esc_attr( $name ); ?>">
 					<?php $this->template_table( $title, $name, $options ); ?>
 				</tbody>
 			<?php } ?>
 		</table>
 		<p class="submit">
-			<input type="submit" name="action" class="button" value="<?php _e( 'Save Changes', 'wp-useronline' ); ?>" />
+			<input type="submit" name="action" class="button" value="<?php esc_attr_e( 'Save Changes', 'wp-useronline' ); ?>" />
 		</p>
 	</form>
 		<?php
 	}
 
+	/**
+	 * Render the naming conventions rows.
+	 *
+	 * @param array $data Values to populate the fields with.
+	 *
+	 * @return void
+	 */
 	private function naming_table( $data ) {
 		?>
 			<tr>
 				<td width="30%">
-					<strong><?php _e( 'Naming Conventions:', 'wp-useronline' ); ?></strong><br /><br />
-					<?php _e( 'Allowed Variables:', 'wp-useronline' ); ?><br />
+					<strong><?php esc_html_e( 'Naming Conventions:', 'wp-useronline' ); ?></strong><br /><br />
+					<?php esc_html_e( 'Allowed Variables:', 'wp-useronline' ); ?><br />
 					- %COUNT%<br /><br />
-					<input type="button" value="<?php _e( 'Restore Defaults', 'wp-useronline' ); ?>" onclick="useronline_default_naming();" class="button" />
+					<input type="button" value="<?php esc_attr_e( 'Restore Defaults', 'wp-useronline' ); ?>" onclick="useronline_default_naming();" class="button" />
 				</td>
 				<td>
 					<table class="form-table">
 						<thead>
 							<tr>
-								<th><?php _e( 'Singular Form', 'wp-useronline' ); ?></th>
-								<th><?php _e( 'Plural Form', 'wp-useronline' ); ?></th>
+								<th><?php esc_html_e( 'Singular Form', 'wp-useronline' ); ?></th>
+								<th><?php esc_html_e( 'Plural Form', 'wp-useronline' ); ?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -220,17 +209,24 @@ class UserOnline_Options extends scbAdminPage {
 		<?php
 	}
 
+	/**
+	 * Render the "users online" template row.
+	 *
+	 * @param array $data Values to populate the fields with.
+	 *
+	 * @return void
+	 */
 	private function useronline_template_table( $data ) {
 		?>
 			<tr>
 				<td width="30%">
-					<strong><?php _e( 'User(s) Online:', 'wp-useronline' ); ?></strong><br /><br />
-					<?php _e( 'Allowed Variables:', 'wp-useronline' ); ?><br />
+					<strong><?php esc_html_e( 'User(s) Online:', 'wp-useronline' ); ?></strong><br /><br />
+					<?php esc_html_e( 'Allowed Variables:', 'wp-useronline' ); ?><br />
 					- %USERS%<br />
 					- %PAGE_URL%<br />
 					- %MOSTONLINE_COUNT%<br />
 					- %MOSTONLINE_DATE%<br /><br />
-					<input type="button" value="<?php _e( 'Restore Default Template', 'wp-useronline' ); ?>" onclick="useronline_default_template( 'useronline' );" class="button" />
+					<input type="button" value="<?php esc_attr_e( 'Restore Default Template', 'wp-useronline' ); ?>" onclick="useronline_default_template( 'useronline' );" class="button" />
 				</td>
 				<td>
 					<?php
@@ -247,12 +243,21 @@ class UserOnline_Options extends scbAdminPage {
 		<?php
 	}
 
+	/**
+	 * Render a browsing-site/browsing-page template row.
+	 *
+	 * @param string $title  Row heading.
+	 * @param string $option Template key.
+	 * @param array  $data   Values to populate the fields with.
+	 *
+	 * @return void
+	 */
 	private function template_table( $title, $option, $data ) {
 		?>
 			<tr>
 				<td width="30%">
-					<strong><?php echo $title; ?></strong><br /><br />
-					<?php _e( 'Allowed Variables:', 'wp-useronline' ); ?><br />
+					<strong><?php echo esc_html( $title ); ?></strong><br /><br />
+					<?php esc_html_e( 'Allowed Variables:', 'wp-useronline' ); ?><br />
 					- %USERS%<br />
 					- %MEMBERS%<br />
 					- %MEMBER_NAMES%<br />
@@ -260,15 +265,15 @@ class UserOnline_Options extends scbAdminPage {
 					- %GUESTS%<br />
 					- %BOTS_SEPARATOR%<br />
 					- %BOTS%<br /><br />
-					<input type="button" value="<?php _e( 'Restore Default Template', 'wp-useronline' ); ?>" onclick="useronline_default_template( '<?php echo $option; ?>' );" class="button" />
+					<input type="button" value="<?php esc_attr_e( 'Restore Default Template', 'wp-useronline' ); ?>" onclick="useronline_default_template( '<?php echo esc_js( $option ); ?>' );" class="button" />
 				</td>
 				<td>
 					<table class="form-table">
 						<thead>
 							<tr>
-								<th><?php _e( 'Member Names Separator', 'wp-useronline' ); ?></th>
-								<th><?php _e( 'Guests Separator', 'wp-useronline' ); ?></th>
-								<th><?php _e( 'Bots Separator', 'wp-useronline' ); ?></th>
+								<th><?php esc_html_e( 'Member Names Separator', 'wp-useronline' ); ?></th>
+								<th><?php esc_html_e( 'Guests Separator', 'wp-useronline' ); ?></th>
+								<th><?php esc_html_e( 'Bots Separator', 'wp-useronline' ); ?></th>
 							</tr>
 						</thead>
 						<tr>

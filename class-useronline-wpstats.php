@@ -1,8 +1,17 @@
 <?php
+/**
+ * WP-Stats integration.
+ *
+ * @package WP-UserOnline
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
+/**
+ * Adds WP-UserOnline figures to the WP-Stats plugin's pages.
+ */
 class UserOnline_WpStats {
 	/**
 	 * Variables
@@ -50,7 +59,7 @@ class UserOnline_WpStats {
 	/**
 	 * Add WP-UserOnline General Stats To WP-Stats Page Options
 	 *
-	 * @param string $content
+	 * @param string $content Existing options markup.
 	 *
 	 * @access public
 	 *
@@ -67,7 +76,7 @@ class UserOnline_WpStats {
 	/**
 	 * Add WP-UserOnline General Stats To WP-Stats Page
 	 *
-	 * @param string $content
+	 * @param string $content Existing stats markup.
 	 *
 	 * @access public
 	 *
@@ -76,6 +85,7 @@ class UserOnline_WpStats {
 	public function page_general_stats( $content ) {
 		$stats_display = get_option( 'stats_display' );
 
+		/* translators: %s: number of users currently online. */
 		$str = _n(
 			'<strong>%s</strong> user online now.',
 			'<strong>%s</strong> users online now.',

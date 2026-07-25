@@ -1,5 +1,18 @@
 <?php
+/**
+ * Known bot user agents.
+ *
+ * @package WP-UserOnline
+ */
 
+/**
+ * Get the list of bots to match incoming user agents against.
+ *
+ * Keys are the display name shown in the users online list; values are the
+ * case-insensitive needle looked for in the User-Agent header.
+ *
+ * @return array<string, string> Bot display name => user agent fragment.
+ */
 function useronline_get_bots() {
 	$bots = array(
 		'360Spider'                 => '360spider',
