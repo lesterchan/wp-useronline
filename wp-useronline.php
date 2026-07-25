@@ -2,23 +2,28 @@
 /*
 Plugin Name: WP-UserOnline
 Plugin URI: https://lesterchan.net/portfolio/programming/php/
-Description: Enable you to display how many users are online on your Wordpress site
+Description: Enable you to display how many users are online on your WordPress site
 Version: 2.88.10
 Author: Lester 'GaMerZ' Chan
 Author URI: https://lesterchan.net
 Text Domain: wp-useronline
 */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-include __DIR__ . '/scb/load.php';
+require __DIR__ . '/scb/load.php';
 
 function _useronline_init() {
 	require_once __DIR__ . '/core.php';
 	require_once __DIR__ . '/template-tags.php';
 	require_once __DIR__ . '/deprecated.php';
 
-	new scbTable( 'useronline', __FILE__, "
+	new scbTable(
+		'useronline',
+		__FILE__,
+		"
 		timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		user_type varchar( 20 ) NOT NULL default 'guest',
 		user_id bigint( 20 ) NOT NULL default 0,
@@ -29,51 +34,61 @@ function _useronline_init() {
 		page_url varchar( 255 ) NOT NULL default '',
 		referral varchar( 255 ) NOT NULL default '',
 		UNIQUE KEY useronline_id ( timestamp, user_type, user_ip )
-	", 'delete_first' );
+	",
+		'delete_first'
+	);
 
-	$most = new scbOptions( 'useronline_most', __FILE__, array(
-		'count' => 1,
-		'date' => current_time( 'timestamp' )
-	) );
+	$most = new scbOptions(
+		'useronline_most',
+		__FILE__,
+		array(
+			'count' => 1,
+			'date'  => current_time( 'timestamp' ),
+		)
+	);
 
-	$options = new scbOptions( 'useronline', __FILE__, array(
-		'timeout' => 300,
-		'url' => trailingslashit( get_bloginfo( 'url' ) ) . 'useronline',
-		'names' => false,
+	$options = new scbOptions(
+		'useronline',
+		__FILE__,
+		array(
+			'timeout'   => 300,
+			'url'       => trailingslashit( get_bloginfo( 'url' ) ) . 'useronline',
+			'names'     => false,
 
-		'naming' => array(
-			'user'		=> __( '1 User', 'wp-useronline' ),
-			'users'		=> __( '%COUNT% Users', 'wp-useronline' ),
-			'member'	=> __( '1 Member', 'wp-useronline' ),
-			'members'	=> __( '%COUNT% Members', 'wp-useronline' ),
-			'guest' 	=> __( '1 Guest', 'wp-useronline' ),
-			'guests'	=> __( '%COUNT% Guests', 'wp-useronline' ),
-			'bot'		=> __( '1 Bot', 'wp-useronline' ),
-			'bots'		=> __( '%COUNT% Bots', 'wp-useronline' )
-		),
-
-		'templates' => array(
-			'useronline' => '<a href="%PAGE_URL%"><strong>%USERS%</strong> '.__( 'Online', 'wp-useronline' ).'</a>',
-
-			'browsingsite' => array(
-				'separators' => array(
-					'members' => __( ',', 'wp-useronline' ).' ',
-					'guests' => __( ',', 'wp-useronline' ).' ',
-					'bots' => __( ',', 'wp-useronline' ).' ',
-				),
-				'text' => _x( 'Users', 'Template Element', 'wp-useronline' ).': <strong>%MEMBER_NAMES%%GUESTS_SEPARATOR%%GUESTS%%BOTS_SEPARATOR%%BOTS%</strong>'
+			'naming'    => array(
+				'user'    => __( '1 User', 'wp-useronline' ),
+				'users'   => __( '%COUNT% Users', 'wp-useronline' ),
+				'member'  => __( '1 Member', 'wp-useronline' ),
+				'members' => __( '%COUNT% Members', 'wp-useronline' ),
+				'guest'   => __( '1 Guest', 'wp-useronline' ),
+				'guests'  => __( '%COUNT% Guests', 'wp-useronline' ),
+				'bot'     => __( '1 Bot', 'wp-useronline' ),
+				'bots'    => __( '%COUNT% Bots', 'wp-useronline' ),
 			),
 
-			'browsingpage' => array(
-				'separators' => array(
-					'members' => __( ',', 'wp-useronline' ).' ',
-					'guests' => __( ',', 'wp-useronline' ).' ',
-					'bots' => __( ',', 'wp-useronline' ).' ',
+			'templates' => array(
+				'useronline'   => '<a href="%PAGE_URL%"><strong>%USERS%</strong> ' . __( 'Online', 'wp-useronline' ) . '</a>',
+
+				'browsingsite' => array(
+					'separators' => array(
+						'members' => __( ',', 'wp-useronline' ) . ' ',
+						'guests'  => __( ',', 'wp-useronline' ) . ' ',
+						'bots'    => __( ',', 'wp-useronline' ) . ' ',
+					),
+					'text'       => _x( 'Users', 'Template Element', 'wp-useronline' ) . ': <strong>%MEMBER_NAMES%%GUESTS_SEPARATOR%%GUESTS%%BOTS_SEPARATOR%%BOTS%</strong>',
 				),
-				'text' => '<strong>%USERS%</strong> '.__( 'Browsing This Page.', 'wp-useronline' ).'<br />'._x( 'Users', 'Template Element', 'wp-useronline' ).': <strong>%MEMBER_NAMES%%GUESTS_SEPARATOR%%GUESTS%%BOTS_SEPARATOR%%BOTS%</strong>'
-			)
+
+				'browsingpage' => array(
+					'separators' => array(
+						'members' => __( ',', 'wp-useronline' ) . ' ',
+						'guests'  => __( ',', 'wp-useronline' ) . ' ',
+						'bots'    => __( ',', 'wp-useronline' ) . ' ',
+					),
+					'text'       => '<strong>%USERS%</strong> ' . __( 'Browsing This Page.', 'wp-useronline' ) . '<br />' . _x( 'Users', 'Template Element', 'wp-useronline' ) . ': <strong>%MEMBER_NAMES%%GUESTS_SEPARATOR%%GUESTS%%BOTS_SEPARATOR%%BOTS%</strong>',
+				),
+			),
 		)
-	) );
+	);
 
 	UserOnline_Core::init( $options, $most );
 
@@ -83,11 +98,12 @@ function _useronline_init() {
 		scbAdminPage::register( 'UserOnline_Options', __FILE__, UserOnline_Core::$options );
 	}
 
-	if ( function_exists( 'stats_page' ) )
+	if ( function_exists( 'stats_page' ) ) {
 		require_once __DIR__ . '/wp-stats.php';
+	}
 
-#	scbUtil::do_uninstall( __FILE__ );
-#	scbUtil::do_activation( __FILE__ );
+	// scbUtil::do_uninstall( __FILE__ );
+	// scbUtil::do_activation( __FILE__ );
 }
 scb_init( '_useronline_init' );
 

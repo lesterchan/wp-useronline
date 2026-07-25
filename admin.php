@@ -6,34 +6,37 @@ class UserOnline_Admin_Integration extends scbAdminPage {
 		$this->textdomain = 'wp-useronline';
 
 		$this->args = array(
-			'page_title' => __( 'Users Online Now', $this->textdomain ),
-			'menu_title' => __( 'WP-UserOnline', $this->textdomain ),
-			'page_slug' => 'useronline',
-			'parent' => 'index.php',
+			'page_title'  => __( 'Users Online Now', $this->textdomain ),
+			'menu_title'  => __( 'WP-UserOnline', $this->textdomain ),
+			'page_slug'   => 'useronline',
+			'parent'      => 'index.php',
 			'action_link' => false,
-			'capability' => 'list_users',
+			'capability'  => 'list_users',
 		);
 
 		add_action( 'rightnow_end', array( $this, 'rightnow' ) );
 	}
 
 	function rightnow() {
-		if ( !current_user_can( 'manage_options' ) )
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
+		}
 
 		$total_users = get_users_online_count();
 
 		$str = _n(
-			"There is <strong><a href='%s'>%s user</a></strong> online now.",
-			"There are a total of <strong><a href='%s'>%s users</a></strong> online now.",
-			$total_users, 'wp-useronline'
+			"There is <strong><a href='%1\$s'>%2\$s user</a></strong> online now.",
+			"There are a total of <strong><a href='%1\$s'>%2\$s users</a></strong> online now.",
+			$total_users,
+			'wp-useronline'
 		);
 
-		$out = sprintf( $str, add_query_arg( 'page', $this->args['page_slug'], admin_url( 'index.php' ) ), number_format_i18n( $total_users ) );
+		$out  = sprintf( $str, add_query_arg( 'page', $this->args['page_slug'], admin_url( 'index.php' ) ), number_format_i18n( $total_users ) );
 		$out .= '<br>';
 
-		if ( $tmp = get_users_browsing_site() )
+		if ( $tmp = get_users_browsing_site() ) {
 			$out .= $tmp . '<br>';
+		}
 
 		$out .= UserOnline_Template::format_most_users();
 
@@ -54,7 +57,7 @@ class UserOnline_Options extends scbAdminPage {
 		$this->args = array(
 			'page_title' => __( 'UserOnline Options', $this->textdomain ),
 			'menu_title' => __( 'UserOnline', $this->textdomain ),
-			'page_slug' => 'useronline-settings',
+			'page_slug'  => 'useronline-settings',
 		);
 
 		$this->option_name = 'useronline';
@@ -65,7 +68,7 @@ class UserOnline_Options extends scbAdminPage {
 	}
 
 	public function page_head() {
-?>
+		?>
 <style type="text/css">
 .form-table td {vertical-align: top}
 .form-table .form-table {margin-top: 0}
@@ -86,40 +89,43 @@ class UserOnline_Options extends scbAdminPage {
 		return false;
 	}
 </script>
-<?php
+		<?php
 	}
 
 	public function page_content() {
-		$options = $this->options->get();
+		$options  = $this->options->get();
 		$defaults = $this->options->get_defaults();
 
-?>
+		?>
 	<form method="post" action="">
 		<?php wp_nonce_field( $this->nonce ); ?>
 		<table class="form-table">
-<?php
+		<?php
 		$rows = array(
 			array(
 				'title' => __( 'Time Out', 'wp-useronline' ),
-				'type' => 'text',
-				'name' => 'timeout',
-				'desc' => '<br />' . __( 'How long until it will remove the user from the database (in seconds).', 'wp-useronline' ),
-				'extra' => 'size="4"'
+				'type'  => 'text',
+				'name'  => 'timeout',
+				'desc'  => '<br />' . __( 'How long until it will remove the user from the database (in seconds).', 'wp-useronline' ),
+				'extra' => 'size="4"',
 			),
 
 			array(
 				'title' => __( 'UserOnline URL', 'wp-useronline' ),
-				'type' => 'text',
-				'name' => 'url',
-				'desc' => '<br />' . __( 'URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2', 'wp-useronline' ),
+				'type'  => 'text',
+				'name'  => 'url',
+				'desc'  => '<br />' . __( 'URL To UserOnline Page<br />Example: http://www.yoursite.com/useronline/<br />Example: http://www.yoursite.com/?page_id=2', 'wp-useronline' ),
 			),
 
 			array(
-				'title' => __( 'Link user names?', 'wp-useronline' ),
-				'type' => 'radio',
-				'name' => 'names',
-				'choices' => array( 1 => __( 'Yes', 'wp-useronline' ), 0 => __( 'No', 'wp-useronline' ) ),
-				'desc' => '<br />' . __( 'Link user names to their author page', 'wp-useronline' )
+				'title'   => __( 'Link user names?', 'wp-useronline' ),
+				'type'    => 'radio',
+				'name'    => 'names',
+				'choices' => array(
+					1 => __( 'Yes', 'wp-useronline' ),
+					0 => __( 'No', 'wp-useronline' ),
+				),
+				'desc'    => '<br />' . __( 'Link user names to their author page', 'wp-useronline' ),
 			),
 		);
 
@@ -127,7 +133,7 @@ class UserOnline_Options extends scbAdminPage {
 			echo $this->table_row( $row );
 		}
 
-?>
+		?>
 		<tbody id="default_naming" style="display:none">
 			<?php $this->naming_table( $defaults ); ?>
 		</tbody>
@@ -153,7 +159,8 @@ class UserOnline_Options extends scbAdminPage {
 				'browsingsite' => __( 'User(s) Browsing Site:', 'wp-useronline' ),
 				'browsingpage' => __( 'User(s) Browsing Page:', 'wp-useronline' ),
 			);
-			foreach ( $templates as $name => $title ) { ?>
+			foreach ( $templates as $name => $title ) {
+				?>
 				<tbody id="default_template_<?php echo $name; ?>" style="display:none">
 					<?php $this->template_table( $title, $name, $defaults ); ?>
 				</tbody>
@@ -167,11 +174,11 @@ class UserOnline_Options extends scbAdminPage {
 			<input type="submit" name="action" class="button" value="<?php _e( 'Save Changes', 'wp-useronline' ); ?>" />
 		</p>
 	</form>
-<?php
+		<?php
 	}
 
 	private function naming_table( $data ) {
-?>
+		?>
 			<tr>
 				<td width="30%">
 					<strong><?php _e( 'Naming Conventions:', 'wp-useronline' ); ?></strong><br /><br />
@@ -189,29 +196,32 @@ class UserOnline_Options extends scbAdminPage {
 						</thead>
 						<tbody>
 						<?php
-							foreach ( array( 'user', 'member', 'guest', 'bot' ) as $tmp ) {
-								echo "\n<tr>\n";
-								foreach ( array( $tmp, $tmp . 's' ) as $type ) {
-									echo $this->input( array(
-										'type' => 'text',
-										'name' => array( 'naming', $type ),
+						foreach ( array( 'user', 'member', 'guest', 'bot' ) as $tmp ) {
+							echo "\n<tr>\n";
+							foreach ( array( $tmp, $tmp . 's' ) as $type ) {
+								echo $this->input(
+									array(
+										'type'  => 'text',
+										'name'  => array( 'naming', $type ),
 										'extra' => 'size="30"',
-										'desc' => html( 'td', $type )
-									), $data );
-								}
-								echo "\n</tr>\n";
+										'desc'  => html( 'td', $type ),
+									),
+									$data
+								);
 							}
+							echo "\n</tr>\n";
+						}
 						?>
 						</tbody>
 					</table>
 					<br />
 				</td>
 			</tr>
-<?php
+		<?php
 	}
 
 	private function useronline_template_table( $data ) {
-?>
+		?>
 			<tr>
 				<td width="30%">
 					<strong><?php _e( 'User(s) Online:', 'wp-useronline' ); ?></strong><br /><br />
@@ -223,17 +233,22 @@ class UserOnline_Options extends scbAdminPage {
 					<input type="button" value="<?php _e( 'Restore Default Template', 'wp-useronline' ); ?>" onclick="useronline_default_template( 'useronline' );" class="button" />
 				</td>
 				<td>
-					<?php echo $this->input( array(
-						'type' => 'textarea',
-						'name' => array( 'templates', 'useronline' ),
-					), $data ); ?>
+					<?php
+					echo $this->input(
+						array(
+							'type' => 'textarea',
+							'name' => array( 'templates', 'useronline' ),
+						),
+						$data
+					);
+					?>
 				</td>
 			</tr>
-<?php
+		<?php
 	}
 
 	private function template_table( $title, $option, $data ) {
-?>
+		?>
 			<tr>
 				<td width="30%">
 					<strong><?php echo $title; ?></strong><br /><br />
@@ -257,23 +272,36 @@ class UserOnline_Options extends scbAdminPage {
 							</tr>
 						</thead>
 						<tr>
-							<?php foreach ( array_keys( $this->options->templates[$option]['separators'] ) as $type ) {
-								echo html( 'td', $this->input( array(
-									'type' => 'text',
-									'name' => array( 'templates', $option, 'separators', $type ),
-									'extra' => "size='15'",
-								), $data ) );
-							} ?>
+							<?php
+							foreach ( array_keys( $this->options->templates[ $option ]['separators'] ) as $type ) {
+								echo html(
+									'td',
+									$this->input(
+										array(
+											'type'  => 'text',
+											'name'  => array( 'templates', $option, 'separators', $type ),
+											'extra' => "size='15'",
+										),
+										$data
+									)
+								);
+							}
+							?>
 						</tr>
 					</table>
 					<br />
-					<?php echo $this->input( array(
-						'type' => 'textarea',
-						'name' => array( 'templates', $option, 'text' )
-					), $data ); ?>
+					<?php
+					echo $this->input(
+						array(
+							'type' => 'textarea',
+							'name' => array( 'templates', $option, 'text' ),
+						),
+						$data
+					);
+					?>
 				</td>
 			</tr>
-<?php
+		<?php
 	}
 }
 

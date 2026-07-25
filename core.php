@@ -20,15 +20,16 @@ class UserOnline_Core {
 	static function get_user_online_count() {
 		global $wpdb;
 
-		if ( is_null( self::$useronline ) )
+		if ( is_null( self::$useronline ) ) {
 			self::$useronline = intval( $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->useronline" ) );
+		}
 
 		return self::$useronline;
 	}
 
 	static function init( $options, $most ) {
 		self::$options = $options;
-		self::$most = $most;
+		self::$most    = $most;
 
 		add_action( 'plugins_loaded', array( __CLASS__, 'wp_stats_integration' ) );
 
@@ -44,8 +45,9 @@ class UserOnline_Core {
 
 		self::maybe_sanitize_stored_options();
 
-		if ( self::$options->names )
+		if ( self::$options->names ) {
 			add_filter( 'useronline_display_user', array( __CLASS__, 'linked_names' ), 10, 2 );
+		}
 	}
 
 	/**
@@ -63,20 +65,21 @@ class UserOnline_Core {
 	 * @return array
 	 */
 	static function sanitize_options( $options ) {
-		if ( ! is_array( $options ) )
+		if ( ! is_array( $options ) ) {
 			$options = array();
+		}
 
 		$defaults = isset( self::$options ) ? self::$options->get_defaults() : array();
 
 		$options['timeout'] = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : 0;
-		$options['url'] = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
-		$options['names'] = ! empty( $options['names'] ) ? (int) $options['names'] : 0;
+		$options['url']     = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
+		$options['names']   = ! empty( $options['names'] ) ? (int) $options['names'] : 0;
 
 		// Naming conventions: fill any gaps from the defaults, then sanitize
 		// every entry, including keys the defaults don't know about.
 		$default_naming = isset( $defaults['naming'] ) && is_array( $defaults['naming'] ) ? $defaults['naming'] : array();
-		$naming = isset( $options['naming'] ) && is_array( $options['naming'] ) ? $options['naming'] : array();
-		$naming = array_merge( $default_naming, $naming );
+		$naming         = isset( $options['naming'] ) && is_array( $options['naming'] ) ? $options['naming'] : array();
+		$naming         = array_merge( $default_naming, $naming );
 
 		foreach ( $naming as $key => $template ) {
 			$naming[ $key ] = wp_kses_post( trim( (string) $template ) );
@@ -86,7 +89,7 @@ class UserOnline_Core {
 		// Templates: rebuilt from the defaults so the shape is guaranteed for
 		// compact_list(), which indexes into ['text'] and ['separators'].
 		$default_templates = isset( $defaults['templates'] ) && is_array( $defaults['templates'] ) ? $defaults['templates'] : array();
-		$templates = isset( $options['templates'] ) && is_array( $options['templates'] ) ? $options['templates'] : array();
+		$templates         = isset( $options['templates'] ) && is_array( $options['templates'] ) ? $options['templates'] : array();
 
 		$clean = array();
 		foreach ( $default_templates as $key => $default_template ) {
@@ -96,8 +99,8 @@ class UserOnline_Core {
 				$text = isset( $stored['text'] ) && ! is_array( $stored['text'] ) ? $stored['text'] : $default_template['text'];
 
 				$clean[ $key ] = array(
-					'text' => wp_kses_post( trim( (string) $text ) ),
-					'separators' => array()
+					'text'       => wp_kses_post( trim( (string) $text ) ),
+					'separators' => array(),
 				);
 
 				$stored_separators = isset( $stored['separators'] ) && is_array( $stored['separators'] ) ? $stored['separators'] : array();
@@ -129,8 +132,9 @@ class UserOnline_Core {
 	 * never resubmitted through the settings form.
 	 */
 	private static function maybe_sanitize_stored_options() {
-		if ( (int) get_option( self::SANITIZE_VERSION_OPTION ) >= self::SANITIZE_VERSION )
+		if ( (int) get_option( self::SANITIZE_VERSION_OPTION ) >= self::SANITIZE_VERSION ) {
 			return;
+		}
 
 		self::$options->update( self::sanitize_options( self::$options->get() ) );
 
@@ -138,29 +142,35 @@ class UserOnline_Core {
 	}
 
 	static function linked_names( $name, $user ) {
-		if ( !$user->user_id )
+		if ( ! $user->user_id ) {
 			return $name;
+		}
 
 		return html_link( get_author_posts_url( $user->user_id ), $name );
 	}
 
 	static function scripts() {
-		if ( !self::$add_script )
+		if ( ! self::$add_script ) {
 			return;
+		}
 
 		$js_dev = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
 
 		wp_enqueue_script( 'wp-useronline', plugins_url( "useronline$js_dev.js", __FILE__ ), array( 'jquery' ), '2.80', true );
-		wp_localize_script( 'wp-useronline', 'useronlineL10n', array(
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'timeout' => self::$options->timeout * 1000
-		) );
+		wp_localize_script(
+			'wp-useronline',
+			'useronlineL10n',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'timeout'  => self::$options->timeout * 1000,
+			)
+		);
 
-		scbUtil::do_scripts('wp-useronline');
+		scbUtil::do_scripts( 'wp-useronline' );
 	}
 
 	static function record( $page_url = '', $page_title = '' ) {
-		require_once dirname(__FILE__) . '/bots.php';
+		require_once __DIR__ . '/bots.php';
 
 		global $wpdb;
 
@@ -171,7 +181,7 @@ class UserOnline_Core {
 		if ( empty( $page_title ) ) {
 			$page_title = wp_strip_all_tags( self::get_title() );
 		}
-		
+
 		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 			$referral = wp_strip_all_tags( $_SERVER['HTTP_REFERER'] );
 		} else {
@@ -194,9 +204,9 @@ class UserOnline_Core {
 		$bot_found = false;
 		foreach ( $bots as $name => $lookfor ) {
 			if ( stristr( $user_agent, $lookfor ) !== false ) {
-				$user_id = 0;
+				$user_id   = 0;
 				$user_name = $name;
-				$username = $lookfor;
+				$username  = $lookfor;
 				$user_type = 'bot';
 				$bot_found = true;
 
@@ -205,21 +215,21 @@ class UserOnline_Core {
 		}
 
 		// If No Bot Is Found, Then We Check Members And Guests
-		if ( !$bot_found ) {
+		if ( ! $bot_found ) {
 			if ( $current_user->ID ) {
 				// Check For Member
-				$user_id = $current_user->ID;
+				$user_id   = $current_user->ID;
 				$user_name = $current_user->display_name;
 				$user_type = 'member';
-				$where = $wpdb->prepare( "WHERE user_id = %d", $user_id );
-			} elseif ( !empty( $_COOKIE['comment_author_'.COOKIEHASH] ) ) {
+				$where     = $wpdb->prepare( 'WHERE user_id = %d', $user_id );
+			} elseif ( ! empty( $_COOKIE[ 'comment_author_' . COOKIEHASH ] ) ) {
 				// Check For Comment Author ( Guest )
-				$user_id = 0;
-				$user_name = trim( wp_strip_all_tags( $_COOKIE['comment_author_'.COOKIEHASH] ) );
+				$user_id   = 0;
+				$user_name = trim( wp_strip_all_tags( $_COOKIE[ 'comment_author_' . COOKIEHASH ] ) );
 				$user_type = 'guest';
 			} else {
 				// Check For Guest
-				$user_id = 0;
+				$user_id   = 0;
 				$user_name = __( 'Guest', 'wp-useronline' );
 				$user_type = 'guest';
 			}
@@ -241,10 +251,12 @@ class UserOnline_Core {
 
 		// Maybe Update Most User Online
 		if ( self::$useronline > self::$most->count ) {
-			self::$most->update( array(
-				'count' => self::$useronline,
-				'date' => current_time( 'timestamp' )
-			) );
+			self::$most->update(
+				array(
+					'count' => self::$useronline,
+					'date'  => current_time( 'timestamp' ),
+				)
+			);
 		}
 	}
 
@@ -260,8 +272,9 @@ class UserOnline_Core {
 		// Validate the mode before anything is written. An unrecognised mode
 		// used to fall straight through the switch below while still having
 		// recorded a row on the way in.
-		if ( ! in_array( $mode, array( 'count', 'browsing-site', 'browsing-page', 'details' ), true ) )
+		if ( ! in_array( $mode, array( 'count', 'browsing-site', 'browsing-page', 'details' ), true ) ) {
 			die;
+		}
 
 		$page_url = self::local_url( isset( $_POST['page_url'] ) ? (string) $_POST['page_url'] : '' );
 
@@ -271,7 +284,7 @@ class UserOnline_Core {
 			self::record( $page_url, mb_substr( $page_title, 0, 250 ) );
 		}
 
-		switch( $mode ) {
+		switch ( $mode ) {
 			case 'count':
 				users_online();
 				break;
@@ -307,30 +320,35 @@ class UserOnline_Core {
 	private static function local_url( $url ) {
 		$url = trim( $url );
 
-		if ( '' === $url )
+		if ( '' === $url ) {
 			return null;
+		}
 
 		$parts = wp_parse_url( $url );
-		$home = wp_parse_url( home_url() );
+		$home  = wp_parse_url( home_url() );
 
-		if ( empty( $parts['host'] ) || empty( $home['host'] ) )
+		if ( empty( $parts['host'] ) || empty( $home['host'] ) ) {
 			return null;
+		}
 
-		if ( strtolower( $parts['host'] ) !== strtolower( $home['host'] ) )
+		if ( strtolower( $parts['host'] ) !== strtolower( $home['host'] ) ) {
 			return null;
+		}
 
 		$path = isset( $parts['path'] ) && '' !== $parts['path'] ? $parts['path'] : '/';
 
-		if ( ! empty( $parts['query'] ) )
+		if ( ! empty( $parts['query'] ) ) {
 			$path .= '?' . $parts['query'];
+		}
 
 		// page_url is a varchar( 255 ).
 		return mb_substr( wp_strip_all_tags( $path ), 0, 255 );
 	}
 
 	static function wp_stats_integration() {
-		if ( function_exists( 'stats_page' ) )
-			require_once dirname( __FILE__ ) . '/wp-stats.php';
+		if ( function_exists( 'stats_page' ) ) {
+			require_once __DIR__ . '/wp-stats.php';
+		}
 	}
 
 	private static function get_title() {
@@ -338,10 +356,11 @@ class UserOnline_Core {
 			$page_title = ' &raquo; ' . __( 'Admin', 'wp-useronline' ) . ' &raquo; ' . get_admin_page_title();
 		} else {
 			$page_title = wp_title( '&raquo;', false );
-			if ( empty( $page_title ) )
+			if ( empty( $page_title ) ) {
 				$page_title = ' &raquo; ' . strip_tags( $_SERVER['REQUEST_URI'] );
-			elseif ( is_singular() )
+			} elseif ( is_singular() ) {
 				$page_title = ' &raquo; ' . $page_title;
+			}
 		}
 		$page_title = get_bloginfo( 'name' ) . $page_title;
 
@@ -356,22 +375,24 @@ class UserOnline_Core {
 		// in record().
 		$headers = array( 'REMOTE_ADDR' );
 
-		if ( apply_filters( 'useronline_trust_proxy', defined( 'USERONLINE_TRUST_PROXY' ) && USERONLINE_TRUST_PROXY ) )
+		if ( apply_filters( 'useronline_trust_proxy', defined( 'USERONLINE_TRUST_PROXY' ) && USERONLINE_TRUST_PROXY ) ) {
 			array_unshift( $headers, 'HTTP_X_FORWARDED_FOR' );
+		}
 
 		foreach ( $headers as $header ) {
-			if ( empty( $_SERVER[ $header ] ) )
+			if ( empty( $_SERVER[ $header ] ) ) {
 				continue;
+			}
 
 			list( $ip_address ) = explode( ',', $_SERVER[ $header ] );
 
 			$ip_address = filter_var( trim( $ip_address ), FILTER_VALIDATE_IP );
 
-			if ( false !== $ip_address )
+			if ( false !== $ip_address ) {
 				return $ip_address;
+			}
 		}
 
 		return '';
 	}
 }
-

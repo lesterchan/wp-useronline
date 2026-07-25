@@ -27,9 +27,9 @@ function get_most_useronline_date() {
 function get_useronline_count( $display = false ) {
 	_deprecated_function( __FUNCTION__, '2.70', 'users_online_count()' );
 
-	if ( !$display )
+	if ( ! $display ) {
 		return get_users_online_count();
+	}
 
 	users_online_count();
 }
-
