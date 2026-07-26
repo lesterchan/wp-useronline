@@ -50,7 +50,7 @@ class UserOnline_Recorder {
 	public static function record( $page_url = '', $page_title = '' ) {
 		global $wpdb;
 
-		require_once __DIR__ . '/../bots.php';
+		require_once __DIR__ . '/bots.php';
 
 		if ( '' === $page_url ) {
 			$page_url = isset( $_SERVER['REQUEST_URI'] )

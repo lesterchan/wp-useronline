@@ -57,7 +57,7 @@ require_once __DIR__ . '/includes/class-useronline-options.php';
 require_once __DIR__ . '/includes/class-useronline-template.php';
 require_once __DIR__ . '/includes/class-useronline-recorder.php';
 require_once __DIR__ . '/includes/class-useronline.php';
-require_once __DIR__ . '/template-tags.php';
-require_once __DIR__ . '/deprecated.php';
+require_once __DIR__ . '/includes/template-tags.php';
+require_once __DIR__ . '/includes/deprecated.php';
 
 UserOnline::get_instance();
