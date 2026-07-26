@@ -180,8 +180,10 @@ class UserOnline_Recorder {
 			$page_title = wp_get_document_title();
 
 			if ( '' === $page_title ) {
-				$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
-				$page_title  = ' &raquo; ' . wp_strip_all_tags( $request_uri );
+				$request_uri = isset( $_SERVER['REQUEST_URI'] )
+					? wp_strip_all_tags( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+					: '';
+				$page_title  = ' &raquo; ' . $request_uri;
 			} else {
 				return $page_title;
 			}
@@ -222,7 +224,9 @@ class UserOnline_Recorder {
 				continue;
 			}
 
-			list( $ip_address ) = explode( ',', wp_unslash( $_SERVER[ $header ] ) );
+			$forwarded = wp_strip_all_tags( wp_unslash( $_SERVER[ $header ] ) );
+
+			list( $ip_address ) = explode( ',', $forwarded );
 
 			$ip_address = filter_var( trim( $ip_address ), FILTER_VALIDATE_IP );
 

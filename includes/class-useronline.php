@@ -194,7 +194,7 @@ class UserOnline {
 		}
 
 		$page_url = UserOnline_Recorder::local_url(
-			isset( $_POST['page_url'] ) ? wp_unslash( $_POST['page_url'] ) : ''
+			isset( $_POST['page_url'] ) ? esc_url_raw( wp_unslash( $_POST['page_url'] ) ) : ''
 		);
 
 		if ( null !== $page_url ) {

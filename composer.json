@@ -1,0 +1,26 @@
+{
+	"name": "lesterchan/wp-useronline",
+	"description": "Enable you to display how many users are online on your WordPress site.",
+	"type": "wordpress-plugin",
+	"homepage": "https://wordpress.org/plugins/wp-useronline/",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Lester Chan",
+			"email": "lesterchan@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9.6",
+		"yoast/phpunit-polyfills": "^2.0"
+	},
+	"scripts": {
+		"test": "phpunit"
+	},
+	"config": {
+		"allow-plugins": false
+	}
+}

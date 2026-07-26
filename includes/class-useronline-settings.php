@@ -147,6 +147,17 @@ class UserOnline_Settings {
 	}
 
 	/**
+	 * Render a list of template tokens as inline code.
+	 *
+	 * @param string[] $tokens Literal tokens, e.g. %USERS%.
+	 *
+	 * @return string
+	 */
+	private static function token_list( array $tokens ) {
+		return '<code>' . implode( '</code>, <code>', array_map( 'esc_html', $tokens ) ) . '</code>';
+	}
+
+	/**
 	 * Build a name attribute for a nested option key.
 	 *
 	 * @param string ...$keys Nested keys.
@@ -264,7 +275,7 @@ class UserOnline_Settings {
 	 * @return void
 	 */
 	public function section_naming() {
-		echo '<p>' . esc_html__( 'Allowed variable: %COUNT%', 'wp-useronline' ) . '</p>';
+		echo '<p>' . esc_html__( 'Allowed variable:', 'wp-useronline' ) . ' <code>%COUNT%</code></p>';
 	}
 
 	/**
@@ -307,7 +318,8 @@ class UserOnline_Settings {
 		?>
 		<div id="useronline-template-useronline">
 			<p class="description">
-				<?php esc_html_e( 'Allowed variables: %USERS%, %PAGE_URL%, %MOSTONLINE_COUNT%, %MOSTONLINE_DATE%', 'wp-useronline' ); ?>
+				<?php esc_html_e( 'Allowed variables:', 'wp-useronline' ); ?>
+				<?php echo wp_kses_post( self::token_list( array( '%USERS%', '%PAGE_URL%', '%MOSTONLINE_COUNT%', '%MOSTONLINE_DATE%' ) ) ); ?>
 			</p>
 			<textarea class="large-text code" rows="3"
 				name="<?php echo esc_attr( $this->name( 'templates', 'useronline' ) ); ?>"
@@ -350,7 +362,8 @@ class UserOnline_Settings {
 		?>
 		<div id="<?php echo esc_attr( $id ); ?>">
 			<p class="description">
-				<?php esc_html_e( 'Allowed variables: %USERS%, %MEMBERS%, %MEMBER_NAMES%, %1$GUESTS_SEPARATOR%, %2$GUESTS%, %BOTS_SEPARATOR%, %BOTS%', 'wp-useronline' ); ?>
+				<?php esc_html_e( 'Allowed variables:', 'wp-useronline' ); ?>
+				<?php echo wp_kses_post( self::token_list( array( '%USERS%', '%MEMBERS%', '%MEMBER_NAMES%', '%GUESTS_SEPARATOR%', '%GUESTS%', '%BOTS_SEPARATOR%', '%BOTS%' ) ) ); ?>
 			</p>
 			<textarea class="large-text code" rows="3"
 				name="<?php echo esc_attr( $this->name( 'templates', $key, 'text' ) ); ?>"

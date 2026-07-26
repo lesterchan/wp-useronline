@@ -9,11 +9,64 @@
 		outright. JavaScript is linted with ESLint instead.
 	-->
 	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
 
 	<file>.</file>
+
+	<!--
+		Dependency trees. Without these the scan walks every installed package
+		and runs the runner out of memory.
+	-->
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
 
 	<rule ref="WordPress"/>
 
 	<config name="text_domain" value="wp-useronline"/>
 	<config name="minimum_wp_version" value="6.0"/>
+
+	<!--
+		wp_strip_all_tags() and local_url() both sanitize; the sniff cannot see
+		through them and reports the raw superglobal as unsanitized.
+	-->
+	<rule ref="WordPress.Security.ValidatedSanitizedInput">
+		<properties>
+			<property name="customSanitizingFunctions" type="array">
+				<element value="wp_strip_all_tags"/>
+				<element value="local_url"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!--
+		The plugin owns the useronline table, so every read and write is by
+		definition a direct query with nothing to cache and no core API to use.
+	-->
+	<rule ref="WordPress.DB.DirectDatabaseQuery">
+		<severity>0</severity>
+	</rule>
+
+	<!--
+		Table names are identifiers built from $wpdb->prefix and a literal, with
+		no user input. Identifiers cannot be bound, and the %i placeholder needs
+		WordPress 6.2 while this plugin supports 6.0.
+	-->
+	<rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
+		<severity>0</severity>
+	</rule>
+
+	<!--
+		The AJAX endpoint must answer logged-out visitors, whose nonces come
+		from a session shared by every anonymous caller and so prove nothing.
+		Every input is validated instead. See UserOnline::ajax().
+	-->
+	<rule ref="WordPress.Security.NonceVerification">
+		<exclude-pattern>includes/class-useronline\.php</exclude-pattern>
+	</rule>
+
+	<!-- Tests drive the table directly and print to the CLI. -->
+	<rule ref="WordPress.Security.EscapeOutput">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
 </ruleset>
