@@ -3,7 +3,7 @@
  * Plugin Name: WP-UserOnline
  * Plugin URI: https://lesterchan.net/portfolio/programming/php/
  * Description: Enable you to display how many users are online on your WordPress site.
- * Version: 3.0.0
+ * Version: 3.0.1
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Lester 'GaMerZ' Chan
@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * WP-UserOnline version.
  */
-define( 'WP_USERONLINE_VERSION', '3.0.0' );
+define( 'WP_USERONLINE_VERSION', '3.0.1' );
 
 /**
  * Database schema version. Bump when the table definition changes.

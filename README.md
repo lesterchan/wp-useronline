@@ -4,7 +4,7 @@ Donate link: https://lesterchan.net/site/donation/
 Tags: useronline, usersonline, wp-useronline, online, widget  
 Requires at least: 6.0  
 Tested up to: 7.0  
-Stable tag: 3.0.0  
+Stable tag: 3.0.1  
 Requires PHP: 7.4  
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -107,7 +107,7 @@ proxy's address behind one.
 
 ### The plugin will not activate
 
-WP-UserOnline 3.0.0 requires WordPress 6.0 and PHP 7.4. WordPress checks both and
+WP-UserOnline 3.0 and later requires WordPress 6.0 and PHP 7.4. WordPress checks both and
 refuses to activate the plugin on anything older, telling you which one is short.
 
 To see what your host is running, look at `Tools -> Site Health -> Info -> Server`, or
@@ -117,6 +117,9 @@ If you cannot upgrade, WP-UserOnline 2.88.9 is the last release supporting older
 versions.
 
 ## Changelog
+### 3.0.1
+* NEW: template-tags.php, deprecated.php and bots.php moved into includes/, leaving the plugin root to the main file, index.php, uninstall.php and the script. Nothing user facing changed: template tags are called as functions, so themes are unaffected.
+
 ### 3.0.0
 * NEW: Dropped the bundled WP-SCB Framework. The plugin no longer ships ~3,600 lines of third party framework code and has no submodule.
 * NEW: Rewritten on WordPress core APIs: the Settings API for the options screen, WP_Widget for the widget, dbDelta plus a schema version for the table, and register_activation_hook for install.
