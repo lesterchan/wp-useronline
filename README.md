@@ -124,22 +124,20 @@ versions.
 * NEW: The refresh script is now vanilla JavaScript using fetch(). jQuery is no longer enqueued by this plugin at all.
 * NEW: Dropped useronline.dev.js. The script ships as a single readable useronline.js, which is under a kilobyte gzipped.
 * NEW: Requires WordPress 6.0 and PHP 7.4.
+* NEW: Tested up to WordPress 7.0.
 * NEW: Internal version markers moved inside the useronline option instead of their own rows, so the plugin owns fewer autoloaded options.
-* NEW: X-Forwarded-For is ignored unless the site opts in. Behind a reverse proxy or CDN, define USERONLINE_TRUST_PROXY as true, or use the useronline_trust_proxy filter, to keep recording visitor IPs instead of the proxy IP.
+* NEW: X-Forwarded-For is ignored unless the site opts in. Behind a reverse proxy or CDN, define USERONLINE_TRUST_PROXY as true, or use the useronline_trust_proxy filter, to keep recording visitor IPs instead of the proxy IP. See the FAQ.
+* NEW: PHPUnit test suite and GitHub Actions CI.
 * FIXED: A user browsing wp-admin no longer shows the previously listed user's page title, URL and referrer in place of their own.
+* FIXED: The Users Online Count widget never loaded the refresh script, so its number never updated. This affected earlier releases too.
+* FIXED: Restore Defaults cleared the Time Out field instead of resetting it to 300.
 * FIXED: Settings are re-sanitised on upgrade, not only when saved, so values stored by older versions are cleaned up.
+* FIXED: The upgrade marker could not be saved once the settings screen had been loaded, which made the sanitise step and the table check re-run on every request.
 * FIXED: The AJAX endpoint validates the requested mode before recording anything, and rejects page URLs that do not belong to this site.
 * FIXED: Page titles and names containing quotes or backslashes are no longer mangled when recorded.
 * FIXED: Uninstall on multisite used a deprecated function, stopped at 100 sites, and dropped the table once per option instead of once per site.
-* NOTE: Template tags, the [page_useronline] shortcode and all four filters are unchanged. Themes calling UserOnline_Core or UserOnline_Template directly will need updating.
-
-### 2.88.10
-* NEW: WordPress 7.0
-* NEW: X-Forwarded-For is now ignored unless the site opts in. If your site is behind a reverse proxy or CDN, define USERONLINE_TRUST_PROXY as true, or use the useronline_trust_proxy filter, to keep recording visitor IPs instead of the proxy IP.
-* FIXED: A user browsing wp-admin no longer shows the previously listed user's page title, URL and referrer in place of their own.
-* FIXED: Naming and template options are re-sanitised on upgrade, not only when saved, so values stored by older versions are cleaned up.
-* FIXED: The AJAX endpoint validates the requested mode before recording anything, and rejects page URLs that do not belong to this site.
 * FIXED: Undefined array key warnings when no members are online and when REMOTE_ADDR is not set.
+* NOTE: Template tags, the [page_useronline] shortcode and all four filters are unchanged. Themes calling UserOnline_Core or UserOnline_Template directly will need updating.
 
 ### 2.88.9
 * FIXED: Check scbWidget exists first before loading scbWidget. Props @whiteshadow.
