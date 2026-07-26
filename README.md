@@ -79,11 +79,42 @@ If you ARE NOT using nice permalinks, you need to go to `WP-Admin -> Settings ->
 <?php endif; ?>
 ```
 
-### Error on activation: "Parse error: syntax error, unexpected..."
+### Every visitor shows the same IP address
 
-Make sure your host is running PHP 5. The only foolproof way to do this is to add this line to wp-config.php (after the opening `<?php` tag):
+Your site is behind a reverse proxy or CDN — Cloudflare, a load balancer, nginx in
+front of Apache — so the address PHP sees is the proxy's, not the visitor's.
 
-`var_dump(PHP_VERSION);`
+The real address is in the `X-Forwarded-For` header, but WP-UserOnline ignores that
+header by default: any client can send it with any value, so trusting it blindly lets
+a visitor forge their address. Opt in only if a proxy you control actually sets it, by
+adding this to `wp-config.php` above the `/* That's all, stop editing! */` line:
+
+```php
+define( 'USERONLINE_TRUST_PROXY', true );
+```
+
+If you need to decide at runtime — say, only trust it for requests arriving from your
+load balancer — use the filter instead:
+
+```php
+add_filter( 'useronline_trust_proxy', function () {
+	return isset( $_SERVER['REMOTE_ADDR'] ) && '10.0.0.1' === $_SERVER['REMOTE_ADDR'];
+} );
+```
+
+With neither set, the plugin records `REMOTE_ADDR` — correct on a plain host, and the
+proxy's address behind one.
+
+### The plugin will not activate
+
+WP-UserOnline 3.0.0 requires WordPress 6.0 and PHP 7.4. WordPress checks both and
+refuses to activate the plugin on anything older, telling you which one is short.
+
+To see what your host is running, look at `Tools -> Site Health -> Info -> Server`, or
+install [WP-ServerInfo](https://wordpress.org/plugins/wp-serverinfo/).
+
+If you cannot upgrade, WP-UserOnline 2.88.9 is the last release supporting older
+versions.
 
 ## Changelog
 ### 3.0.0
