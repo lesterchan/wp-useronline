@@ -204,7 +204,10 @@ class UserOnline_Settings {
 			$value = $value[ $key ];
 		}
 
-		return is_string( $value ) ? $value : '';
+		// Scalar, not just string: the timeout default is an int, and returning
+		// '' for it made Restore Defaults clear the field instead of resetting
+		// it to 300.
+		return is_scalar( $value ) ? (string) $value : '';
 	}
 
 	/**
