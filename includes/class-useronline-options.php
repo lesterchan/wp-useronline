@@ -30,9 +30,13 @@ class UserOnline_Options {
 	const MOST_OPTION = 'useronline_most';
 
 	/**
-	 * Option holding the sanitize version already applied to stored settings.
+	 * Reserved key inside the settings holding internal version markers.
+	 *
+	 * Bookkeeping rather than a user setting, so it is deliberately absent from
+	 * defaults() and never rendered by the settings screen. Keeping it in the
+	 * main option means the plugin owns two autoloaded rows instead of four.
 	 */
-	const SANITIZE_VERSION_OPTION = 'useronline_sanitize_version';
+	const VERSIONS_KEY = 'versions';
 
 	/**
 	 * Bumped when sanitize() gets stricter, so stored values are re-run once.
@@ -111,6 +115,50 @@ class UserOnline_Options {
 	 */
 	public static function update( array $options ) {
 		update_option( self::OPTION, $options );
+	}
+
+	/**
+	 * Read an internal version marker.
+	 *
+	 * @param string $which Marker name, e.g. 'sanitize' or 'db'.
+	 *
+	 * @return string Stored value, or an empty string when never set.
+	 */
+	public static function get_version( $which ) {
+		$stored = get_option( self::OPTION, array() );
+
+		if ( ! is_array( $stored ) || ! isset( $stored[ self::VERSIONS_KEY ][ $which ] ) ) {
+			return '';
+		}
+
+		return (string) $stored[ self::VERSIONS_KEY ][ $which ];
+	}
+
+	/**
+	 * Write an internal version marker.
+	 *
+	 * Reads and writes the raw option rather than going through get(), so the
+	 * defaults are not baked into storage as a side effect.
+	 *
+	 * @param string $which Marker name, e.g. 'sanitize' or 'db'.
+	 * @param string $value Value to store.
+	 *
+	 * @return void
+	 */
+	public static function set_version( $which, $value ) {
+		$stored = get_option( self::OPTION, array() );
+
+		if ( ! is_array( $stored ) ) {
+			$stored = array();
+		}
+
+		if ( ! isset( $stored[ self::VERSIONS_KEY ] ) || ! is_array( $stored[ self::VERSIONS_KEY ] ) ) {
+			$stored[ self::VERSIONS_KEY ] = array();
+		}
+
+		$stored[ self::VERSIONS_KEY ][ $which ] = (string) $value;
+
+		update_option( self::OPTION, $stored );
 	}
 
 	/**
@@ -229,6 +277,16 @@ class UserOnline_Options {
 			}
 		}
 
+		// Carry the internal version markers across. The settings form never
+		// posts them, and $options is only what was submitted, so without this
+		// every save would drop them and make the next request look like a
+		// fresh install -- re-running the migration and the table install.
+		$stored = get_option( self::OPTION, array() );
+
+		if ( is_array( $stored ) && ! empty( $stored[ self::VERSIONS_KEY ] ) && is_array( $stored[ self::VERSIONS_KEY ] ) ) {
+			$clean[ self::VERSIONS_KEY ] = array_map( 'strval', $stored[ self::VERSIONS_KEY ] );
+		}
+
 		return $clean;
 	}
 
@@ -242,12 +300,12 @@ class UserOnline_Options {
 	 * @return void
 	 */
 	public static function maybe_migrate() {
-		if ( (int) get_option( self::SANITIZE_VERSION_OPTION ) >= self::SANITIZE_VERSION ) {
+		if ( (int) self::get_version( 'sanitize' ) >= self::SANITIZE_VERSION ) {
 			return;
 		}
 
 		self::update( self::sanitize( self::get() ) );
 
-		update_option( self::SANITIZE_VERSION_OPTION, self::SANITIZE_VERSION );
+		self::set_version( 'sanitize', self::SANITIZE_VERSION );
 	}
 }

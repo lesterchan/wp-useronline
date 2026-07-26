@@ -93,6 +93,7 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 * NEW: The refresh script is now vanilla JavaScript using fetch(). jQuery is no longer enqueued by this plugin at all.
 * NEW: Dropped useronline.dev.js. The script ships as a single readable useronline.js, which is under a kilobyte gzipped.
 * NEW: Requires WordPress 6.0 and PHP 7.4.
+* NEW: Internal version markers moved inside the useronline option instead of their own rows, so the plugin owns fewer autoloaded options.
 * NEW: X-Forwarded-For is ignored unless the site opts in. Behind a reverse proxy or CDN, define USERONLINE_TRUST_PROXY as true, or use the useronline_trust_proxy filter, to keep recording visitor IPs instead of the proxy IP.
 * FIXED: A user browsing wp-admin no longer shows the previously listed user's page title, URL and referrer in place of their own.
 * FIXED: Settings are re-sanitised on upgrade, not only when saved, so values stored by older versions are cleaned up.

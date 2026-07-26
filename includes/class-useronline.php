@@ -239,7 +239,7 @@ class UserOnline {
 	 * @return void
 	 */
 	private function maybe_upgrade_table() {
-		if ( get_option( 'useronline_db_version' ) === WP_USERONLINE_DB_VERSION ) {
+		if ( UserOnline_Options::get_version( 'db' ) === WP_USERONLINE_DB_VERSION ) {
 			return;
 		}
 
@@ -273,6 +273,6 @@ class UserOnline {
 			) {$charset_collate};"
 		);
 
-		update_option( 'useronline_db_version', WP_USERONLINE_DB_VERSION );
+		UserOnline_Options::set_version( 'db', WP_USERONLINE_DB_VERSION );
 	}
 }
