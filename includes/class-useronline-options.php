@@ -277,14 +277,30 @@ class UserOnline_Options {
 			}
 		}
 
-		// Carry the internal version markers across. The settings form never
-		// posts them, and $options is only what was submitted, so without this
-		// every save would drop them and make the next request look like a
-		// fresh install -- re-running the migration and the table install.
-		$stored = get_option( self::OPTION, array() );
+		// Carry the internal version markers across, preferring whatever the
+		// caller passed in and falling back to what is stored.
+		//
+		// Both halves are load-bearing. The settings form never posts the
+		// markers, so a save would drop them without the stored fallback, and
+		// the next request would look like a fresh install -- re-running the
+		// migration and the table install. But set_version() writes through
+		// update_option(), which runs this callback, and at that point
+		// get_option() still returns the *pre-update* value: reading only from
+		// storage would discard the very marker being written, so the markers
+		// could never be set at all once the setting is registered.
+		$versions = array();
+		$stored   = get_option( self::OPTION, array() );
 
 		if ( is_array( $stored ) && ! empty( $stored[ self::VERSIONS_KEY ] ) && is_array( $stored[ self::VERSIONS_KEY ] ) ) {
-			$clean[ self::VERSIONS_KEY ] = array_map( 'strval', $stored[ self::VERSIONS_KEY ] );
+			$versions = $stored[ self::VERSIONS_KEY ];
+		}
+
+		if ( ! empty( $options[ self::VERSIONS_KEY ] ) && is_array( $options[ self::VERSIONS_KEY ] ) ) {
+			$versions = array_merge( $versions, $options[ self::VERSIONS_KEY ] );
+		}
+
+		if ( ! empty( $versions ) ) {
+			$clean[ self::VERSIONS_KEY ] = array_map( 'strval', $versions );
 		}
 
 		return $clean;

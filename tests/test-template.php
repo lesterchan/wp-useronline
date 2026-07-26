@@ -10,6 +10,8 @@
  */
 class Test_UserOnline_Template extends WP_UnitTestCase {
 
+	use UserOnline_Reset_Statics;
+
 	/**
 	 * Start each test from an empty table.
 	 */
@@ -19,7 +21,7 @@ class Test_UserOnline_Template extends WP_UnitTestCase {
 		parent::set_up();
 
 		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
-		UserOnline_Template::flush_cache();
+		$this->reset_useronline_statics();
 	}
 
 	/**
@@ -50,7 +52,7 @@ class Test_UserOnline_Template extends WP_UnitTestCase {
 			)
 		);
 
-		UserOnline_Template::flush_cache();
+		$this->reset_useronline_statics();
 	}
 
 	/**

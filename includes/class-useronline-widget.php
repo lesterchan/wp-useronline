@@ -80,6 +80,11 @@ class UserOnline_Widget extends WP_Widget {
 			return;
 		}
 
+		// Every container above is a target the refresh script polls, so ask
+		// for it here. The count-only variants never reach compact_list(),
+		// which is what otherwise requests it.
+		UserOnline_Template::request_script();
+
 		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput
 
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';

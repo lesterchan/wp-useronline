@@ -40,6 +40,20 @@ class UserOnline_Template {
 	}
 
 	/**
+	 * Ask for the refresh script on this request.
+	 *
+	 * Anything emitting a container the script targets must call this, not just
+	 * the list builders below. A widget showing only the count renders
+	 * #useronline-count without going through compact_list(), and before 3.0.0
+	 * that meant the script was never enqueued and the number never updated.
+	 *
+	 * @return void
+	 */
+	public static function request_script() {
+		self::$needs_script = true;
+	}
+
+	/**
 	 * Drop the per-request query cache.
 	 *
 	 * Called whenever the table is written to, so that anything rendered later
@@ -98,7 +112,7 @@ class UserOnline_Template {
 	 * @return mixed
 	 */
 	public static function compact_list( $type, $output = 'html', $page_url = '' ) {
-		self::$needs_script = true;
+		self::request_script();
 
 		if ( 'page' === $type && '' === $page_url ) {
 			$page_url = isset( $_SERVER['REQUEST_URI'] )
@@ -176,7 +190,7 @@ class UserOnline_Template {
 	 * @return string
 	 */
 	public static function detailed_list( $counts, $user_buckets, $nicetexts ) {
-		self::$needs_script = true;
+		self::request_script();
 
 		if ( 0 === $counts['user'] ) {
 			return '<h2>' . esc_html__( 'No one is online now.', 'wp-useronline' ) . '</h2>';

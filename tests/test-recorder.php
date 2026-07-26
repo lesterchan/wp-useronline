@@ -10,6 +10,8 @@
  */
 class Test_UserOnline_Recorder extends WP_UnitTestCase {
 
+	use UserOnline_Reset_Statics;
+
 	/**
 	 * Start each test from an empty table and a known request.
 	 */
@@ -19,7 +21,7 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 		parent::set_up();
 
 		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
-		UserOnline_Template::flush_cache();
+		$this->reset_useronline_statics();
 
 		$_SERVER['REMOTE_ADDR'] = '203.0.113.9';
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );

@@ -11,6 +11,7 @@
 		<testsuite name="wp-useronline">
 			<directory suffix=".php">./tests/</directory>
 			<exclude>./tests/bootstrap.php</exclude>
+			<exclude>./tests/helper-reset.php</exclude>
 		</testsuite>
 	</testsuites>
 </phpunit>
