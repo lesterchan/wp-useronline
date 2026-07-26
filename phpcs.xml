@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ruleset name="WP-UserOnline">
+	<description>WordPress Coding Standards for WP-UserOnline.</description>
+
+	<!--
+		PHP only. WPCS has had no JavaScript sniffs since 3.0, so scanning .js
+		here would only apply PHP_CodeSniffer's own PEAR/Squiz *PHP* conventions
+		to JavaScript through a tokenizer that PHP_CodeSniffer 4.0 removes
+		outright. JavaScript is linted with ESLint instead.
+	-->
+	<arg name="extensions" value="php"/>
+
+	<file>.</file>
+
+	<rule ref="WordPress"/>
+
+	<config name="text_domain" value="wp-useronline"/>
+	<config name="minimum_wp_version" value="6.0"/>
+</ruleset>
