@@ -1,19 +1,24 @@
 <?php
 /**
- * Template tags and the rendering helpers behind them.
+ * WP-UserOnline template tags.
  *
- * @package WP-UserOnline
+ * The public API for themes. These names and their behaviour are stable across
+ * the 3.0.0 restructure.
+ *
+ * @package wp-useronline
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-// Function: Display UserOnline.
 /**
  * Display the users online template.
  *
  * @return void
  */
 function users_online() {
-	echo get_users_online();
+	echo get_users_online(); // phpcs:ignore WordPress.Security.EscapeOutput
 }
 
 /**
@@ -22,22 +27,22 @@ function users_online() {
  * @return string
  */
 function get_users_online() {
-	$template = UserOnline_Core::$options->templates['useronline'];
-	$template = str_ireplace( '%PAGE_URL%', UserOnline_Core::$options->url, $template );
-	$template = str_ireplace( '%MOSTONLINE_COUNT%', get_most_users_online(), $template );
+	$template = UserOnline_Options::get( 'templates' )['useronline'];
+
+	$template = str_ireplace( '%PAGE_URL%', esc_url( UserOnline_Options::get( 'url' ) ), $template );
+	$template = str_ireplace( '%MOSTONLINE_COUNT%', number_format_i18n( get_most_users_online() ), $template );
 	$template = str_ireplace( '%MOSTONLINE_DATE%', get_most_users_online_date(), $template );
 
 	return UserOnline_Template::format_count( get_users_online_count(), 'user', $template );
 }
 
-// Function: Display UserOnline Count.
 /**
  * Display the number of users online.
  *
  * @return void
  */
 function users_online_count() {
-	echo number_format_i18n( get_useronline_count() );
+	echo esc_html( number_format_i18n( get_users_online_count() ) );
 }
 
 /**
@@ -46,17 +51,16 @@ function users_online_count() {
  * @return int
  */
 function get_users_online_count() {
-	return UserOnline_Core::get_user_online_count();
+	return UserOnline_Recorder::count();
 }
 
-// Function: Display Max UserOnline.
 /**
  * Display the highest recorded number of users online.
  *
  * @return void
  */
 function most_users_online() {
-	echo number_format_i18n( get_most_users_online() );
+	echo esc_html( number_format_i18n( get_most_users_online() ) );
 }
 
 /**
@@ -65,17 +69,16 @@ function most_users_online() {
  * @return int
  */
 function get_most_users_online() {
-	return intval( UserOnline_Core::$most->count );
+	return (int) UserOnline_Options::most( 'count' );
 }
 
-// Function: Display Max UserOnline Date.
 /**
  * Display the date the record was set.
  *
  * @return void
  */
 function most_users_online_date() {
-	echo get_most_users_online_date();
+	echo esc_html( get_most_users_online_date() );
 }
 
 /**
@@ -84,17 +87,16 @@ function most_users_online_date() {
  * @return string
  */
 function get_most_users_online_date() {
-	return UserOnline_Template::format_date( UserOnline_Core::$most->date );
+	return UserOnline_Template::format_date( UserOnline_Options::most( 'date' ) );
 }
 
-// Function: Display Users Browsing The Site.
 /**
  * Display who is browsing the site.
  *
  * @return void
  */
 function users_browsing_site() {
-	echo get_users_browsing_site();
+	echo get_users_browsing_site(); // phpcs:ignore WordPress.Security.EscapeOutput
 }
 
 /**
@@ -106,7 +108,6 @@ function get_users_browsing_site() {
 	return UserOnline_Template::compact_list( 'site' );
 }
 
-// Function: Display Users Browsing The ( Current ) Page.
 /**
  * Display who is browsing a page.
  *
@@ -115,7 +116,7 @@ function get_users_browsing_site() {
  * @return void
  */
 function users_browsing_page( $page_url = '' ) {
-	echo get_users_browsing_page( $page_url );
+	echo get_users_browsing_page( $page_url ); // phpcs:ignore WordPress.Security.EscapeOutput
 }
 
 /**
@@ -129,50 +130,58 @@ function get_users_browsing_page( $page_url = '' ) {
 	return UserOnline_Template::compact_list( 'page', 'html', $page_url );
 }
 
-// Function: UserOnline Page.
 /**
  * Build the full users online page.
  *
  * @return string
  */
 function users_online_page() {
-	global $wpdb;
+	$users = UserOnline_Template::compact_list( 'site', 'list' );
 
-	$usersonline = $wpdb->get_results( "SELECT * FROM $wpdb->useronline ORDER BY timestamp DESC" );
-
-	$user_buckets = array();
-	foreach ( $usersonline as $useronline ) {
-		$user_buckets[ $useronline->user_type ][] = $useronline;
+	$buckets = array();
+	foreach ( $users as $user ) {
+		$buckets[ $user->user_type ][] = $user;
 	}
 
-	$user_buckets = apply_filters( 'useronline_buckets', $user_buckets );
+	/**
+	 * Filter the users online grouped by type.
+	 *
+	 * @param array $buckets Users grouped by user_type.
+	 */
+	$buckets = apply_filters( 'useronline_buckets', $buckets );
 
-	$counts = UserOnline_Template::get_counts( $user_buckets );
+	$counts = UserOnline_Template::get_counts( $buckets );
 
 	$nicetexts = array();
 	foreach ( array( 'user', 'member', 'guest', 'bot' ) as $user_type ) {
 		$nicetexts[ $user_type ] = UserOnline_Template::format_count( $counts[ $user_type ], $user_type );
 	}
 
-	$text = _n(
-		'There is <strong>%1$s</strong> online now: <strong>%2$s</strong>, <strong>%3$s</strong> and <strong>%4$s</strong>.',
-		'There are a total of <strong>%1$s</strong> online now: <strong>%2$s</strong>, <strong>%3$s</strong> and <strong>%4$s</strong>.',
-		$counts['user'],
-		'wp-useronline'
+	$text = vsprintf(
+		/* translators: 1: total online, 2: members, 3: guests, 4: bots. */
+		_n(
+			'There is <strong>%1$s</strong> online now: <strong>%2$s</strong>, <strong>%3$s</strong> and <strong>%4$s</strong>.',
+			'There are a total of <strong>%1$s</strong> online now: <strong>%2$s</strong>, <strong>%3$s</strong> and <strong>%4$s</strong>.',
+			$counts['user'],
+			'wp-useronline'
+		),
+		$nicetexts
 	);
 
-	$output =
-	html(
-		'div id="useronline-details"',
-		html( 'p', vsprintf( $text, $nicetexts ) )
-		. html( 'p', UserOnline_Template::format_most_users() )
-		. UserOnline_Template::detailed_list( $counts, $user_buckets, $nicetexts )
-	);
+	$output = '<div id="useronline-details">'
+		. '<p>' . $text . '</p>'
+		. '<p>' . UserOnline_Template::format_most_users() . '</p>'
+		. UserOnline_Template::detailed_list( $counts, $buckets, $nicetexts )
+		. '</div>';
 
+	/**
+	 * Filter the complete users online page markup.
+	 *
+	 * @param string $output Escaped markup.
+	 */
 	return apply_filters( 'useronline_page', $output );
 }
 
-// Function Check If User Is Online.
 /**
  * Check whether a user is currently online.
  *
@@ -183,14 +192,17 @@ function users_online_page() {
 function is_user_online( $user_id ) {
 	global $wpdb;
 
-	return (bool) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( * ) FROM $wpdb->useronline WHERE user_id = %d LIMIT 1", $user_id ) );
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	return (bool) $wpdb->get_var(
+		$wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->useronline} WHERE user_id = %d LIMIT 1", $user_id )
+	);
 }
 
 /**
  * Get the users online list in the requested shape.
  *
  * @param string $output One of 'html', 'list', 'buckets' or 'counts'.
- * @param string $type Either 'site' or 'page'.
+ * @param string $type   Either 'site' or 'page'.
  *
  * @return mixed
  */

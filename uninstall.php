@@ -22,6 +22,7 @@ function useronline_delete_options() {
 		'useronline',
 		'useronline_most',
 		'useronline_sanitize_version',
+		'useronline_db_version',
 		'widget_useronline',
 	);
 
