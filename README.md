@@ -2,46 +2,53 @@
 Contributors: GamerZ  
 Donate link: https://lesterchan.net/site/donation/  
 Tags: useronline, usersonline, wp-useronline, online, widget  
-Requires at least: 6.0  
+Requires at least: 6.8  
 Tested up to: 7.0  
-Stable tag: 3.0.1  
-Requires PHP: 7.4  
-License: GPLv2 or later
+Stable tag: 4.0.0  
+Requires PHP: 8.2  
+License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Enable you to display how many users are online on your WordPress site with detailed statistics.
 
 ## Description
-This plugin enables you to display how many users are online on your WordPress site, with detailed statistics of where they are and who they are (Members/Guests/Search Bots).
 
-### Usage (With Widget)
-1. Go to `WP-Admin -> Appearance -> Widgets`
-1. The widget name is <strong>UserOnline</strong>.
-1. Scroll down for instructions on how to create a *UserOnline Page*.
+WP-UserOnline shows how many people are on your site right now, and where they are. Members are named, guests and search bots are counted, and the whole thing refreshes itself in the background without a page reload.
 
-### Usage (Without Widget)
-* Open `wp-content/themes/<YOUR THEME NAME>/sidebar.php` and add Anywhere:
+### Features
 
-```php
-<?php if (function_exists('users_online')): ?>
-	<p>Users online: <div id="useronline-count"><?php users_online(); ?></div></p>
-<?php endif; ?>
-```
-
-### Development
-[https://github.com/lesterchan/wp-useronline](https://github.com/lesterchan/wp-useronline "https://github.com/lesterchan/wp-useronline")
-
-### Credits
-* Plugin icon by [Freepik](https://www.freepik.com) from [Flaticon](https://www.flaticon.com)
+* A counter, a "who is browsing this page" line and a "who is browsing the site" line, each usable on its own.
+* A full users online page, listing every visitor with the page they are on, where they came from and when they arrived.
+* A sidebar widget offering any of those five combinations.
+* Every string is a template you can edit, so the wording is yours rather than the plugin's.
+* Around three hundred search bots recognised by user agent, and a filter for adding your own.
+* An admin screen listing everyone online now, plus a line in the Dashboard's At a Glance panel.
+* A section on the WP-Stats page when that plugin is installed.
 
 ### Donations
 I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appreciate it. If not feel free to use it without any obligations.
 
-## Screenshots
+## Usage
 
-1. Admin - Dashboard's Right Now
-2. UserOnline Page
-3. Admin - Settings Page
+The simplest way is the widget. Go to `WP-Admin -> Appearance -> Widgets`, add the **UserOnline** widget to a sidebar, and pick which of the five statistics types it should show.
+
+A classic theme can call the template tags directly instead, anywhere in `sidebar.php`, `header.php` or a template part:
+
+```php
+<?php if ( function_exists( 'users_online' ) ) : ?>
+	<p>Users online: <span id="useronline-count"><?php users_online(); ?></span></p>
+<?php endif; ?>
+```
+
+The element ids matter: `useronline-count`, `useronline-browsing-site`, `useronline-browsing-page` and `useronline-details` are what the refresh script looks for. A figure printed outside one of them is correct when the page loads and then stays where it is.
+
+To give visitors a page of their own listing everyone online, create a page and put the shortcode in it:
+
+```
+[page_useronline]
+```
+
+The settings live at **WP-Admin -> WP-UserOnline -> Settings**, and the list of who is online right now at **WP-Admin -> WP-UserOnline -> Users Online**.
 
 ## Frequently Asked Questions
 
@@ -53,29 +60,29 @@ I spent most of my free time creating, updating, maintaining and supporting thes
 1. Type `[page_useronline]` in the post's content area
 1. Click 'Publish'
 
-If you ARE NOT using nice permalinks, you need to go to `WP-Admin -> Settings -> UserOnline` and under 'UserOnline URL', you need to fill in the URL to the UserOnline Page you created above.
+If you ARE NOT using nice permalinks, you need to go to `WP-Admin -> WP-UserOnline -> Settings` and under 'UserOnline URL', you need to fill in the URL to the UserOnline Page you created above.
 
 ### To Display Most Number Of Users Online
 * Use:
 ```php
-<?php if (function_exists('get_most_users_online')): ?>
-   <p>Most Users Ever Online Is <?php echo get_most_users_online(); ?> On <?php echo get_most_users_online_date(); ?></p>
+<?php if ( function_exists( 'get_most_users_online' ) ) : ?>
+	<p>Most Users Ever Online Is <?php echo get_most_users_online(); ?> On <?php echo get_most_users_online_date(); ?></p>
 <?php endif; ?>
 ```
 
 ### To Display Users Browsing Site
 * Use:
 ```php
-<?php if (function_exists('get_users_browsing_site')): ?>
-   <div id="useronline-browsing-site"><?php echo get_users_browsing_site(); ?></div>
+<?php if ( function_exists( 'get_users_browsing_site' ) ) : ?>
+	<div id="useronline-browsing-site"><?php echo get_users_browsing_site(); ?></div>
 <?php endif; ?>
 ```
 
 ### To Display Users Browsing A Page
 * Use:
 ```php
-<?php if (function_exists('get_users_browsing_page')): ?>
-   <div id="useronline-browsing-page"><?php echo get_users_browsing_page(); ?></div>
+<?php if ( function_exists( 'get_users_browsing_page' ) ) : ?>
+	<div id="useronline-browsing-page"><?php echo get_users_browsing_page(); ?></div>
 <?php endif; ?>
 ```
 
@@ -90,14 +97,14 @@ a visitor forge their address. Opt in only if a proxy you control actually sets 
 adding this to `wp-config.php` above the `/* That's all, stop editing! */` line:
 
 ```php
-define( 'USERONLINE_TRUST_PROXY', true );
+define( 'WP_USERONLINE_TRUST_PROXY', true );
 ```
 
 If you need to decide at runtime — say, only trust it for requests arriving from your
 load balancer — use the filter instead:
 
 ```php
-add_filter( 'useronline_trust_proxy', function () {
+add_filter( 'wp_useronline_trust_proxy', function () {
 	return isset( $_SERVER['REMOTE_ADDR'] ) && '10.0.0.1' === $_SERVER['REMOTE_ADDR'];
 } );
 ```
@@ -105,20 +112,74 @@ add_filter( 'useronline_trust_proxy', function () {
 With neither set, the plugin records `REMOTE_ADDR` — correct on a plain host, and the
 proxy's address behind one.
 
+Both the constant and the filter were renamed in 4.0.0, from `USERONLINE_TRUST_PROXY`
+and `useronline_trust_proxy`. The old names do nothing at all now, so if your site was
+already opted in, rename them or every visitor will start showing the proxy's address.
+
+### Who can see the users online screen?
+
+Anyone with `manage_options`, which in practice means administrators. Before 4.0.0 the
+screen was open to anyone who could `list_users`, which on many sites included editors.
+To put it back that way, filter the capability — the context tells the two screens
+apart, so this does not open the settings screen at the same time:
+
+```php
+add_filter( 'wp_useronline_capability', function ( $capability, $context ) {
+	return 'useronline' === $context ? 'list_users' : $capability;
+}, 10, 2 );
+```
+
+### Can I change the list of search bots?
+
+Yes. `wp_useronline_bots` filters the whole list, whose keys are the names shown in the
+users online list and whose values are the case-insensitive fragment looked for in the
+user agent:
+
+```php
+add_filter( 'wp_useronline_bots', function ( $bots ) {
+	$bots['My Crawler'] = 'mycrawler';
+
+	return $bots;
+} );
+```
+
 ### The plugin will not activate
 
-WP-UserOnline 3.0 and later requires WordPress 6.0 and PHP 7.4. WordPress checks both and
+WP-UserOnline 4.0 and later requires WordPress 6.8 and PHP 8.2. WordPress checks both and
 refuses to activate the plugin on anything older, telling you which one is short.
 
 To see what your host is running, look at `Tools -> Site Health -> Info -> Server`, or
 install [WP-ServerInfo](https://wordpress.org/plugins/wp-serverinfo/).
 
-If you cannot upgrade, WP-UserOnline 2.88.9 is the last release supporting older
-versions.
+If you cannot upgrade, WP-UserOnline 3.0.0 is the last release supporting WordPress 6.0
+and PHP 7.4.
+
+## Screenshots
+
+1. Admin - Dashboard's Right Now
+2. UserOnline Page
+3. Admin - Settings Page
 
 ## Changelog
-### 3.0.1
-* NEW: template-tags.php, deprecated.php and bots.php moved into includes/, leaving the plugin root to the main file, index.php, uninstall.php and the script. Nothing user facing changed: template tags are called as functions, so themes are unaffected.
+### 4.0.0
+* BREAKING: Requires WordPress 6.8 and PHP 8.2, up from 6.0 and 7.4. A site on an older stack simply will not be offered the update.
+* BREAKING: Every filter the plugin fires is renamed and the old names are dropped, with no deprecation shims: `useronline_bots`, `useronline_buckets`, `useronline_custom_template`, `useronline_page`, `useronline_display_user` and `useronline_trust_proxy` all become `wp_useronline_*`. This voids the promise made in the 3.0.0 changelog that the filters were unchanged, and is why this release is 4.0.0 rather than 3.0.1.
+* BREAKING: `USERONLINE_TRUST_PROXY` is now `WP_USERONLINE_TRUST_PROXY`. A site still defining the old name silently stops trusting its proxy and starts recording the proxy's address for every visitor. See the FAQ.
+* BREAKING: The two screens moved into one top-level WP-UserOnline menu, Users Online first and Settings last, at `admin.php?page=wp-useronline` and `admin.php?page=wp-useronline-settings`. They used to be under Dashboard and under Settings respectively.
+* BREAKING: Both screens now require `manage_options`. The users online screen previously needed only `list_users`. The new `wp_useronline_capability` filter puts it back, per screen.
+* BREAKING: The option rows are renamed. `useronline` becomes `wp_useronline_options` and `useronline_most` becomes `wp_useronline_most`, which is no longer autoloaded. Your settings are migrated automatically on the first load after the update.
+* BREAKING: The shared, unprefixed `stats_display` option row is no longer read. WP-Stats integration is now a setting of this plugin's own, and WP-Stats asks each plugin for its section through the `wp_stats_sections` filter rather than reading anybody's options. Update all seven WP-Stats-aware plugins together; see the Upgrade Notice.
+* BREAKING: Every class is renamed to `WP_UserOnline_*`. `UserOnline`, `UserOnline_Template`, `UserOnline_Options` and the rest no longer exist under those names.
+* BREAKING: The refresh script is at `js/wp-useronline.js` rather than `useronline.js`, its localised object is `wpUserOnlineL10n` rather than `useronlineL10n`, and the admin-ajax action it posts is `wp_useronline` rather than `useronline`.
+* NEW: The upgrade markers live in their own `wp_useronline_version` option row, holding exactly `plugin` and `db`, and are written together in one update at the end of the upgrade.
+* NEW: WP-Stats integration is a setting on the plugin's own settings screen, under WP-Stats, instead of a checkbox added to the WP-Stats options page.
+* NEW: `wp_useronline_capability` filters the capability each screen requires, with a context saying which screen is asking.
+* NEW: The settings screen's Restore Defaults behaviour is a proper enqueued script, `js/wp-useronline-admin.js`, rather than markup printed inside the page.
+* NEW: The JavaScript is covered by vitest and jsdom, and the PHP suite runs on the network as well as on a single site.
+* CHANGED: `WP_UserOnline_Install` owns the table, the migration and the markers, so install and uninstall sit beside each other and neither can drift.
+* FIXED: The upgrade markers no longer live inside the settings array. They were kept under a reserved `versions` key that the settings form never posted, so every save had to rescue them from the stored value by hand — which is the arrangement behind the 3.0.0 bug where the marker could not be saved at all once the settings screen had been loaded. The sanitiser is now a pure function of what was posted and reads no options at all.
+* FIXED: The settings screen no longer emits an inline `style` attribute or an inline `<script>` block.
+* NOTE: The template tags, the `[page_useronline]` shortcode and the `useronline-count`, `useronline-browsing-site`, `useronline-browsing-page` and `useronline-details` element ids are unchanged. Everything else that was public has moved; see the Upgrade Notice.
 
 ### 3.0.0
 * NEW: Dropped the bundled WP-SCB Framework. The plugin no longer ships ~3,600 lines of third party framework code and has no submodule.
@@ -140,7 +201,7 @@ versions.
 * FIXED: Page titles and names containing quotes or backslashes are no longer mangled when recorded.
 * FIXED: Uninstall on multisite used a deprecated function, stopped at 100 sites, and dropped the table once per option instead of once per site.
 * FIXED: Undefined array key warnings when no members are online and when REMOTE_ADDR is not set.
-* NOTE: Template tags, the [page_useronline] shortcode and all four filters are unchanged. Themes calling UserOnline_Core or UserOnline_Template directly will need updating.
+* NOTE: This entry originally said the template tags, the [page_useronline] shortcode and all four filters were unchanged. That was true of 3.0.0, but 4.0.0 renames all four filters and the proxy constant. The template tags and the shortcode are still unchanged. Themes calling UserOnline_Core or UserOnline_Template directly needed updating in 3.0.0, and again in 4.0.0.
 
 ### 2.88.9
 * FIXED: Check scbWidget exists first before loading scbWidget. Props @whiteshadow.
@@ -220,42 +281,42 @@ versions.
 * NEW: Bump to 4.0
 
 ### 2.83
-* Show user agent when hovering over IP, instead of address lookup
-* Use local time for UserOnline Page
-* Fixed 'Strict Standards: Non-static method' warnings
-* Update scb Framework
+* CHANGED: Show user agent when hovering over IP, instead of address lookup
+* CHANGED: Use local time for UserOnline Page
+* FIXED: 'Strict Standards: Non-static method' warnings
+* FIXED: Update scb Framework
 
 ### 2.82
-* show most recent visitors first
-* fix duplicate entry errors
-* fix ajax requests for SSL
+* CHANGED: Show most recent visitors first
+* FIXED: Duplicate entry errors
+* FIXED: AJAX requests for SSL
 
 ### 2.81
-* fixed settings page
-* fixed "Return to default" buttons
-* show user list in admin only to users with 'manage_options' capability
-* added 'useronline_bots' filter
+* FIXED: Settings page
+* FIXED: "Return to default" buttons
+* CHANGED: Show user list in admin only to users with 'manage_options' capability
+* NEW: Added 'useronline_bots' filter
 
 ### 2.80
-* don't show url and referral links for users in the admin area
-* smarter detection via ajax requests
-* fix SQL errors
+* CHANGED: Do not show url and referral links for users in the admin area
+* CHANGED: Smarter detection via AJAX requests
+* FIXED: SQL errors
 
 ### 2.72
-* fix fatal error on upgrade
+* FIXED: Fatal error on upgrade
 
 ### 2.71
-* fix %USERONLINE_COUNT% problem
+* FIXED: %USERONLINE_COUNT% problem
 
 ### 2.70
-* added option to link user names to their author page
-* allow displaying online users from a different page than the current page
-* bundle language files
-* [more info](https://scribu.net/wordpress/wp-useronline/wu-2-70.html)
+* NEW: Added option to link user names to their author page
+* NEW: Allow displaying online users from a different page than the current page
+* NEW: Bundle language files
+* NOTE: [more info](https://scribu.net/wordpress/wp-useronline/wu-2-70.html)
 
 ### 2.62 (2010-03-07)
-* fix integration with WP-Stats
-* fix error with get_admin_page_title()
+* FIXED: Integration with WP-Stats
+* FIXED: Error with get_admin_page_title()
 
 ## Upgrade Notice
 
