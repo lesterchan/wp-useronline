@@ -10,38 +10,63 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Reads, writes and sanitizes the plugin's options.
+ * Reads, writes, sanitizes and migrates the plugin's settings.
  *
- * Replaces the scbOptions wrapper the plugin used before 3.0.0. The option
- * keys are unchanged, so existing installs keep their settings.
+ * Three rows, each with one job: wp_useronline_options for everything a site
+ * owner can change, wp_useronline_version for the two upgrade markers, and
+ * wp_useronline_most for the accumulating most-ever-online record, which is
+ * data rather than a setting and is deliberately not autoloaded.
  *
- * @since 3.0.0
+ * The markers used to live inside the settings array, under a reserved
+ * 'versions' key. The settings form never posts them, so every save had to
+ * rescue them from the stored value by hand -- fourteen lines of plumbing whose
+ * only purpose was to undo the damage the arrangement caused, and which still
+ * shipped the bug recorded in the 3.0.0 changelog: the marker could not be
+ * saved at all once the settings screen had been loaded, so the migration and
+ * the table check re-ran on every single request. With the markers in a row of
+ * their own that failure is impossible by construction, the plumbing is gone,
+ * and sanitize() below is what a sanitize_callback is supposed to be: posted
+ * input in, clean settings out, with no reach back into get_option().
+ *
+ * @since 4.0.0
  */
 class WP_UserOnline_Options {
 
 	/**
 	 * Option holding the plugin settings.
 	 */
-	const OPTION = 'useronline';
+	const OPTION = 'wp_useronline_options';
 
 	/**
-	 * Option holding the most-ever-online record.
+	 * Option holding the 'plugin' and 'db' upgrade markers, and nothing else.
 	 */
-	const MOST = 'useronline_most';
+	const VERSION = 'wp_useronline_version';
 
 	/**
-	 * Reserved key inside the settings holding internal version markers.
+	 * Option holding the most-ever-online record. Not autoloaded.
+	 */
+	const MOST = 'wp_useronline_most';
+
+	/**
+	 * The rows renamed by the 4.0.0 migration.
 	 *
-	 * Bookkeeping rather than a user setting, so it is deliberately absent from
-	 * defaults() and never rendered by the settings screen. Keeping it in the
-	 * main option means the plugin owns two autoloaded rows instead of four.
+	 * @var array
 	 */
-	const VERSIONS_KEY = 'versions';
+	private static $legacy_options = array( 'useronline', 'useronline_most' );
 
 	/**
-	 * Bumped when sanitize() gets stricter, so stored values are re-run once.
+	 * The unprefixed row this plugin shared with WP-Stats and five others.
+	 *
+	 * It was never any one plugin's to own: whichever of the seven saved the
+	 * WP-Stats screen last wrote the whole row. Each plugin keeps its own copy
+	 * now, so the migration folds it in and deletes it -- and, unlike the rows
+	 * above, it is deliberately absent from all_option_names(), because
+	 * uninstalling one plugin must not clear a setting that a sibling which has
+	 * not upgraded yet is still reading.
+	 *
+	 * @var string
 	 */
-	const SANITIZE_VERSION = 1;
+	private static $shared_option = 'stats_display';
 
 	/**
 	 * Default settings.
@@ -50,10 +75,13 @@ class WP_UserOnline_Options {
 	 */
 	public static function defaults() {
 		return array(
-			'timeout'   => 300,
-			'url'       => trailingslashit( home_url() ) . 'useronline',
-			'names'     => 0,
-			'naming'    => array(
+			'timeout'       => 300,
+			'url'           => trailingslashit( home_url() ) . 'useronline',
+			'names'         => 0,
+			// The plugin's half of the WP-Stats contract. Its own setting now,
+			// not a slice of a row seven plugins wrote to at once.
+			'stats_display' => true,
+			'naming'        => array(
 				'user'    => __( '1 User', 'wp-useronline' ),
 				'users'   => __( '%COUNT% Users', 'wp-useronline' ),
 				'member'  => __( '1 Member', 'wp-useronline' ),
@@ -63,7 +91,7 @@ class WP_UserOnline_Options {
 				'bot'     => __( '1 Bot', 'wp-useronline' ),
 				'bots'    => __( '%COUNT% Bots', 'wp-useronline' ),
 			),
-			'templates' => array(
+			'templates'     => array(
 				'useronline'   => '<a href="%PAGE_URL%"><strong>%USERS%</strong> ' . __( 'Online', 'wp-useronline' ) . '</a>',
 				'browsingsite' => array(
 					'separators' => array(
@@ -118,47 +146,39 @@ class WP_UserOnline_Options {
 	}
 
 	/**
-	 * Read an internal version marker.
+	 * The two upgrade markers, normalised.
 	 *
-	 * @param string $which Marker name, e.g. 'sanitize' or 'db'.
+	 * Always exactly 'plugin' and 'db', whatever is actually in the row, so a
+	 * caller never has to guard either key.
 	 *
-	 * @return string Stored value, or an empty string when never set.
+	 * @return array
 	 */
-	public static function get_version( $which ) {
-		$stored = get_option( self::OPTION, array() );
+	public static function markers() {
+		$stored = get_option( self::VERSION, array() );
+		$stored = is_array( $stored ) ? $stored : array();
 
-		if ( ! is_array( $stored ) || ! isset( $stored[ self::VERSIONS_KEY ][ $which ] ) ) {
-			return '';
-		}
-
-		return (string) $stored[ self::VERSIONS_KEY ][ $which ];
+		return array(
+			'plugin' => isset( $stored['plugin'] ) ? (string) $stored['plugin'] : '',
+			'db'     => isset( $stored['db'] ) ? (string) $stored['db'] : '',
+		);
 	}
 
 	/**
-	 * Write an internal version marker.
+	 * Record that this version's upgrade has finished.
 	 *
-	 * Reads and writes the raw option rather than going through get(), so the
-	 * defaults are not baked into storage as a side effect.
-	 *
-	 * @param string $which Marker name, e.g. 'sanitize' or 'db'.
-	 * @param string $value Value to store.
+	 * One write, both markers, at the end of the upgrade routine, so a
+	 * half-finished upgrade never records itself as complete.
 	 *
 	 * @return void
 	 */
-	public static function set_version( $which, $value ) {
-		$stored = get_option( self::OPTION, array() );
-
-		if ( ! is_array( $stored ) ) {
-			$stored = array();
-		}
-
-		if ( ! isset( $stored[ self::VERSIONS_KEY ] ) || ! is_array( $stored[ self::VERSIONS_KEY ] ) ) {
-			$stored[ self::VERSIONS_KEY ] = array();
-		}
-
-		$stored[ self::VERSIONS_KEY ][ $which ] = (string) $value;
-
-		update_option( self::OPTION, $stored );
+	public static function update_markers() {
+		update_option(
+			self::VERSION,
+			array(
+				'plugin' => WP_USERONLINE_VERSION,
+				'db'     => WP_USERONLINE_DB_VERSION,
+			)
+		);
 	}
 
 	/**
@@ -188,6 +208,10 @@ class WP_UserOnline_Options {
 	/**
 	 * Store the most-ever-online record.
 	 *
+	 * Written with autoload off: it is accumulating data rather than a setting,
+	 * it changes on any request that sets a new record, and nothing outside the
+	 * template tags ever reads it.
+	 *
 	 * @param int $count Number of users online.
 	 * @param int $date  Unix timestamp the record was set.
 	 *
@@ -199,7 +223,8 @@ class WP_UserOnline_Options {
 			array(
 				'count' => (int) $count,
 				'date'  => (int) $date,
-			)
+			),
+			false
 		);
 	}
 
@@ -213,7 +238,9 @@ class WP_UserOnline_Options {
 	 * absent for the renderer.
 	 *
 	 * Registered as the sanitize_callback for the setting, so the Settings API
-	 * runs it on every save.
+	 * runs it on every save. A pure function of its argument: there is no
+	 * get_option() call anywhere below, and nothing lives in the settings row
+	 * that the form does not post.
 	 *
 	 * @param mixed $options Submitted settings.
 	 *
@@ -226,10 +253,11 @@ class WP_UserOnline_Options {
 
 		$defaults = self::defaults();
 
-		$clean            = array();
-		$clean['timeout'] = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : $defaults['timeout'];
-		$clean['url']     = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
-		$clean['names']   = empty( $options['names'] ) ? 0 : 1;
+		$clean                  = array();
+		$clean['timeout']       = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : $defaults['timeout'];
+		$clean['url']           = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
+		$clean['names']         = empty( $options['names'] ) ? 0 : 1;
+		$clean['stats_display'] = ! empty( $options['stats_display'] );
 
 		// A timeout of zero would purge every row on the next request.
 		if ( 0 === $clean['timeout'] ) {
@@ -277,51 +305,137 @@ class WP_UserOnline_Options {
 			}
 		}
 
-		// Carry the internal version markers across, preferring whatever the
-		// caller passed in and falling back to what is stored.
-		//
-		// Both halves are load-bearing. The settings form never posts the
-		// markers, so a save would drop them without the stored fallback, and
-		// the next request would look like a fresh install -- re-running the
-		// migration and the table install. But set_version() writes through
-		// update_option(), which runs this callback, and at that point
-		// get_option() still returns the *pre-update* value: reading only from
-		// storage would discard the very marker being written, so the markers
-		// could never be set at all once the setting is registered.
-		$versions = array();
-		$stored   = get_option( self::OPTION, array() );
-
-		if ( is_array( $stored ) && ! empty( $stored[ self::VERSIONS_KEY ] ) && is_array( $stored[ self::VERSIONS_KEY ] ) ) {
-			$versions = $stored[ self::VERSIONS_KEY ];
-		}
-
-		if ( ! empty( $options[ self::VERSIONS_KEY ] ) && is_array( $options[ self::VERSIONS_KEY ] ) ) {
-			$versions = array_merge( $versions, $options[ self::VERSIONS_KEY ] );
-		}
-
-		if ( ! empty( $versions ) ) {
-			$clean[ self::VERSIONS_KEY ] = array_map( 'strval', $versions );
-		}
-
 		return $clean;
 	}
 
 	/**
-	 * Re-sanitize settings stored before the escaping rules were tightened.
+	 * Fold every pre-4.0.0 option row into the three rows the plugin now owns.
 	 *
-	 * Sanitizing only on save means an install that was already compromised
-	 * stays compromised after it updates, because the bad value is never
-	 * resubmitted through the settings form.
+	 * The settings row is renamed from 'useronline', the record row from
+	 * 'useronline_most', and the reserved 'versions' key inside the settings is
+	 * dropped -- the markers live in wp_useronline_version now. The shared,
+	 * unprefixed 'stats_display' row is folded in and deleted with the rest.
+	 *
+	 * Idempotent: after the first run there are no legacy rows left to read,
+	 * and re-sanitizing settings that are already clean changes nothing. That
+	 * re-sanitize is deliberate -- an install carrying values stored before the
+	 * escaping rules were tightened never resubmits them through the form, so
+	 * the upgrade is the only chance to clean them.
 	 *
 	 * @return void
 	 */
 	public static function maybe_migrate() {
-		if ( (int) self::get_version( 'sanitize' ) >= self::SANITIZE_VERSION ) {
+		$stored = get_option( self::OPTION, null );
+
+		// The old row is the starting point when the new one does not exist
+		// yet, so an install upgrading from 3.0.0 keeps every setting it had.
+		if ( null === $stored ) {
+			$stored = get_option( 'useronline', array() );
+		}
+
+		$merged = is_array( $stored ) ? $stored : array();
+
+		// The markers' old home. sanitize() would drop it anyway; unsetting it
+		// here says so out loud.
+		unset( $merged['versions'] );
+
+		$merged = self::migrate_stats_display( $merged );
+
+		self::update( self::sanitize( $merged ) );
+
+		self::migrate_most();
+
+		foreach ( self::$legacy_options as $legacy_name ) {
+			delete_option( $legacy_name );
+		}
+
+		delete_option( self::$shared_option );
+	}
+
+	/**
+	 * Carry the most-ever-online record over to its renamed row.
+	 *
+	 * Renamed rather than rebuilt: it is the site's highest ever count and
+	 * there is nowhere else to recover it from.
+	 *
+	 * @return void
+	 */
+	private static function migrate_most() {
+		if ( null !== get_option( self::MOST, null ) ) {
 			return;
 		}
 
-		self::update( self::sanitize( self::get() ) );
+		$most = get_option( 'useronline_most', null );
 
-		self::set_version( 'sanitize', self::SANITIZE_VERSION );
+		if ( ! is_array( $most ) ) {
+			return;
+		}
+
+		self::update_most(
+			isset( $most['count'] ) ? $most['count'] : 1,
+			isset( $most['date'] ) ? $most['date'] : time()
+		);
+	}
+
+	/**
+	 * Take this plugin's share of the row it used to hold jointly.
+	 *
+	 * The old stats_display row was an array of checkbox keys written by
+	 * whichever of the seven contributing plugins saved the WP-Stats screen
+	 * last, and this plugin owned one of those keys.
+	 *
+	 * An absent row means "on", never "off". All seven plugins fold it in and
+	 * each deletes it afterwards, so whichever one the site updates first takes
+	 * it away and the other six find nothing left to read. Treating that as a
+	 * deliberate opt-out would make the users online block disappear from the
+	 * stats page of any site that happened to update a sibling first, silently
+	 * and with nothing in any log to explain it. The worst case the other way
+	 * round is a block the owner switches off again.
+	 *
+	 * @param array $merged Settings assembled so far.
+	 *
+	 * @return array
+	 */
+	private static function migrate_stats_display( $merged ) {
+		if ( isset( $merged['stats_display'] ) ) {
+			return $merged;
+		}
+
+		$legacy = get_option( self::$shared_option, null );
+
+		if ( null === $legacy ) {
+			// A sibling has already migrated it away. Not "switched off".
+			$merged['stats_display'] = true;
+
+			return $merged;
+		}
+
+		$merged['stats_display'] = is_array( $legacy )
+			? ! empty( $legacy['useronline'] )
+			: (bool) $legacy;
+
+		return $merged;
+	}
+
+	/**
+	 * Every option row the plugin owns, for uninstall.
+	 *
+	 * The legacy names are included so uninstalling after an upgrade that never
+	 * ran still clears them. The shared stats_display row is deliberately not
+	 * here: it is not this plugin's to take away on the way out, and a sibling
+	 * that has not upgraded yet is still reading it.
+	 *
+	 * @return array
+	 */
+	public static function all_option_names() {
+		return array_merge(
+			self::$legacy_options,
+			array(
+				self::OPTION,
+				self::VERSION,
+				self::MOST,
+				'widget_useronline',
+			)
+		);
 	}
 }

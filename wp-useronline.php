@@ -69,6 +69,7 @@ define( 'WP_USERONLINE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WP_USERONLINE_URL', plugin_dir_url( __FILE__ ) );
 
 require_once __DIR__ . '/includes/class-wp-useronline-options.php';
+require_once __DIR__ . '/includes/class-wp-useronline-install.php';
 require_once __DIR__ . '/includes/class-wp-useronline-template.php';
 require_once __DIR__ . '/includes/class-wp-useronline-recorder.php';
 require_once __DIR__ . '/includes/class-wp-useronline.php';

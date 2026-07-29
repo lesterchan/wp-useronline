@@ -33,7 +33,7 @@ class WP_UserOnline {
 	public function __construct() {
 		$this->register_table();
 
-		register_activation_hook( WP_USERONLINE_MAIN_FILE, array( $this, 'activate' ) );
+		register_activation_hook( WP_USERONLINE_MAIN_FILE, array( 'WP_UserOnline_Install', 'activate' ) );
 
 		add_action( 'plugins_loaded', array( $this, 'add_hooks' ) );
 	}
@@ -72,8 +72,7 @@ class WP_UserOnline {
 	 * @return void
 	 */
 	public function add_hooks() {
-		WP_UserOnline_Options::maybe_migrate();
-		$this->maybe_upgrade_table();
+		WP_UserOnline_Install::maybe_upgrade();
 
 		add_action( 'wp_head', array( $this, 'record' ) );
 		add_action( 'admin_head', array( $this, 'record' ) );
@@ -221,58 +220,4 @@ class WP_UserOnline {
 		wp_die( '', '', array( 'response' => 200 ) );
 	}
 
-	/**
-	 * Create the table on activation.
-	 *
-	 * @return void
-	 */
-	public function activate() {
-		$this->install_table();
-	}
-
-	/**
-	 * Run the table install when the stored schema version is behind.
-	 *
-	 * Activation alone is not enough: the hook does not fire on a plugin
-	 * update, so the check runs on load too.
-	 *
-	 * @return void
-	 */
-	private function maybe_upgrade_table() {
-		if ( WP_UserOnline_Options::get_version( 'db' ) === WP_USERONLINE_DB_VERSION ) {
-			return;
-		}
-
-		$this->install_table();
-	}
-
-	/**
-	 * Create or update the useronline table.
-	 *
-	 * @return void
-	 */
-	private function install_table() {
-		global $wpdb;
-
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-		$charset_collate = $wpdb->get_charset_collate();
-
-		dbDelta(
-			"CREATE TABLE {$wpdb->useronline} (
-				timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				user_type varchar(20) NOT NULL default 'guest',
-				user_id bigint(20) NOT NULL default 0,
-				user_name varchar(250) NOT NULL default '',
-				user_ip varchar(39) NOT NULL default '',
-				user_agent text NOT NULL,
-				page_title text NOT NULL,
-				page_url varchar(255) NOT NULL default '',
-				referral varchar(255) NOT NULL default '',
-				UNIQUE KEY useronline_id (timestamp, user_type, user_ip)
-			) {$charset_collate};"
-		);
-
-		WP_UserOnline_Options::set_version( 'db', WP_USERONLINE_DB_VERSION );
-	}
 }
