@@ -25,8 +25,6 @@ class WP_UserOnline_WPStats_Test extends WP_UserOnline_TestCase {
 		return isset( $sections['wp_useronline'] ) ? $sections['wp_useronline'] : null;
 	}
 
-	// --- the filter -----------------------------------------------------
-
 	public function test_the_class_hooks_wp_stats_sections_and_nothing_else() {
 		$this->assertNotFalse( has_filter( 'wp_stats_sections', array( 'WP_UserOnline_WPStats', 'register_section' ) ), 'the section is not offered' );
 
@@ -54,8 +52,6 @@ class WP_UserOnline_WPStats_Test extends WP_UserOnline_TestCase {
 		$this->assertArrayHasKey( 'wp_useronline', $sections, 'a null filter value should still yield this entry' );
 	}
 
-	// --- the entry shape ------------------------------------------------
-
 	public function test_the_title_is_a_non_empty_translated_string_because_wp_stats_echoes_it() {
 		$section = $this->section();
 
@@ -80,8 +76,6 @@ class WP_UserOnline_WPStats_Test extends WP_UserOnline_TestCase {
 		$this->assertIsInt( $section['priority'], 'the priority must be an int' );
 	}
 
-	// --- opting out -----------------------------------------------------
-
 	public function test_opting_out_returns_the_sections_untouched() {
 		$this->set_option( 'stats_display', false );
 
@@ -102,8 +96,6 @@ class WP_UserOnline_WPStats_Test extends WP_UserOnline_TestCase {
 
 		$this->assertNull( $this->section(), 'the shared legacy row must not be consulted any more' );
 	}
-
-	// --- rendering ------------------------------------------------------
 
 	public function test_render_echoes_rather_than_returns_because_wp_stats_buffers() {
 		$this->record_row();
@@ -129,7 +121,7 @@ class WP_UserOnline_WPStats_Test extends WP_UserOnline_TestCase {
 	public function test_render_does_not_echo_its_own_heading_because_wp_stats_does_that() {
 		$this->record_row();
 
-		$html = $this->capture( array( 'WP_UserOnline_WPStats', 'render' ) );
+		$html  = $this->capture( array( 'WP_UserOnline_WPStats', 'render' ) );
 		$title = $this->section()['title'];
 
 		$this->assertStringNotContainsString( '<h2', $html, 'the contributor must not print a heading' );

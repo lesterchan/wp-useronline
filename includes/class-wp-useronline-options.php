@@ -48,11 +48,18 @@ class WP_UserOnline_Options {
 	const MOST = 'wp_useronline_most';
 
 	/**
-	 * The rows renamed by the 4.0.0 migration.
+	 * The row the settings lived in before they were renamed.
 	 *
-	 * @var array
+	 * @var string
 	 */
-	private static $legacy_options = array( 'useronline', 'useronline_most' );
+	private static $renamed_from = 'useronline';
+
+	/**
+	 * The row the most-ever-online record lived in before it was renamed.
+	 *
+	 * @var string
+	 */
+	private static $most_renamed_from = 'useronline_most';
 
 	/**
 	 * The unprefixed row this plugin shared with WP-Stats and five others.
@@ -67,6 +74,15 @@ class WP_UserOnline_Options {
 	 * @var string
 	 */
 	private static $shared_option = 'stats_display';
+
+	/**
+	 * The rows the 4.0.0 migration renames and then deletes.
+	 *
+	 * @return array
+	 */
+	private static function legacy_options() {
+		return array( self::$renamed_from, self::$most_renamed_from );
+	}
 
 	/**
 	 * Default settings.
@@ -330,7 +346,7 @@ class WP_UserOnline_Options {
 		// The old row is the starting point when the new one does not exist
 		// yet, so an install upgrading from 3.0.0 keeps every setting it had.
 		if ( null === $stored ) {
-			$stored = get_option( 'useronline', array() );
+			$stored = get_option( self::$renamed_from, array() );
 		}
 
 		$merged = is_array( $stored ) ? $stored : array();
@@ -345,7 +361,7 @@ class WP_UserOnline_Options {
 
 		self::migrate_most();
 
-		foreach ( self::$legacy_options as $legacy_name ) {
+		foreach ( self::legacy_options() as $legacy_name ) {
 			delete_option( $legacy_name );
 		}
 
@@ -365,7 +381,7 @@ class WP_UserOnline_Options {
 			return;
 		}
 
-		$most = get_option( 'useronline_most', null );
+		$most = get_option( self::$most_renamed_from, null );
 
 		if ( ! is_array( $most ) ) {
 			return;
@@ -429,7 +445,7 @@ class WP_UserOnline_Options {
 	 */
 	public static function all_option_names() {
 		return array_merge(
-			self::$legacy_options,
+			self::legacy_options(),
 			array(
 				self::OPTION,
 				self::VERSION,

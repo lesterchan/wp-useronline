@@ -21,8 +21,6 @@ class WP_UserOnline_Recorder_Test extends WP_UserOnline_TestCase {
 		return $wpdb->get_row( "SELECT * FROM {$wpdb->useronline} ORDER BY timestamp DESC LIMIT 1", ARRAY_A );
 	}
 
-	// --- the client-supplied URL ----------------------------------------
-
 	public function test_a_url_on_this_site_is_reduced_to_its_path_and_query() {
 		$this->assertSame( '/some/page/?x=1', WP_UserOnline_Recorder::local_url( home_url( '/some/page/?x=1' ) ), 'the path or query was lost' );
 	}
@@ -52,8 +50,6 @@ class WP_UserOnline_Recorder_Test extends WP_UserOnline_TestCase {
 
 		$this->assertSame( 255, strlen( WP_UserOnline_Recorder::local_url( $long ) ), 'page_url is a varchar(255)' );
 	}
-
-	// --- the visitor's address ------------------------------------------
 
 	public function test_a_forged_forwarded_for_header_is_ignored_unless_the_site_opts_in() {
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '1.2.3.4';
@@ -95,8 +91,6 @@ class WP_UserOnline_Recorder_Test extends WP_UserOnline_TestCase {
 		$this->assertSame( '/ip-none', $row['page_url'], 'nothing was recorded' );
 		$this->assertSame( '', $row['user_ip'], 'an address was invented' );
 	}
-
-	// --- what lands in the table ----------------------------------------
 
 	/**
 	 * The old code unslashed the whole row a second time and ate them.

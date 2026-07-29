@@ -19,8 +19,6 @@ class WP_UserOnline_Admin_Test extends WP_UserOnline_TestCase {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 	}
 
-	// --- the menu -------------------------------------------------------
-
 	public function test_there_is_one_top_level_menu_rather_than_two_scattered_entries() {
 		global $menu;
 
@@ -72,8 +70,6 @@ class WP_UserOnline_Admin_Test extends WP_UserOnline_TestCase {
 		$this->assertNotContains( WP_UserOnline_Admin::PAGE, wp_list_pluck( (array) $menu, 2 ), 'a subscriber was offered the menu' );
 	}
 
-	// --- the capability -------------------------------------------------
-
 	public function test_both_screens_require_manage_options_by_default() {
 		$this->assertSame( 'manage_options', WP_UserOnline_Admin::capability( 'useronline' ), 'the report should require manage_options' );
 		$this->assertSame( 'manage_options', WP_UserOnline_Admin::capability( 'settings' ), 'the settings should require manage_options' );
@@ -92,8 +88,6 @@ class WP_UserOnline_Admin_Test extends WP_UserOnline_TestCase {
 		$this->assertSame( 'list_users', WP_UserOnline_Admin::capability( 'useronline' ), 'the report capability was not filtered' );
 		$this->assertSame( 'manage_options', WP_UserOnline_Admin::capability( 'settings' ), 'the settings capability should not have moved' );
 	}
-
-	// --- the screen -----------------------------------------------------
 
 	public function test_rendering_is_gated_on_the_capability_and_not_merely_the_menu() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
@@ -114,8 +108,6 @@ class WP_UserOnline_Admin_Test extends WP_UserOnline_TestCase {
 		$this->assertStringContainsString( '<div class="wrap">', $html, 'the screen is not in a wrap' );
 		$this->assertStringContainsString( '<h1>', $html, 'the screen has no heading' );
 	}
-
-	// --- At a Glance ----------------------------------------------------
 
 	public function test_at_a_glance_is_silent_for_a_user_without_the_capability() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'editor' ) ) );

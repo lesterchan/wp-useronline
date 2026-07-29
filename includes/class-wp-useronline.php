@@ -177,6 +177,7 @@ class WP_UserOnline {
 	 * @return void
 	 */
 	public function ajax() {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- A nonce cannot authenticate a logged-out visitor: anonymous nonces come from one session shared by every such caller, so verifying one proves nothing. Each field below is validated instead, and the endpoint changes nothing but this visitor's own row.
 		$modes = array( 'count', 'browsing-site', 'browsing-page', 'details' );
 
 		$mode = isset( $_POST['mode'] ) ? sanitize_key( wp_unslash( $_POST['mode'] ) ) : '';
@@ -196,6 +197,7 @@ class WP_UserOnline {
 
 			WP_UserOnline_Recorder::record( $page_url, mb_substr( $page_title, 0, 250 ) );
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		switch ( $mode ) {
 			case 'count':
@@ -208,7 +210,7 @@ class WP_UserOnline {
 				users_browsing_page( (string) $page_url );
 				break;
 			case 'details':
-				echo users_online_page(); // phpcs:ignore WordPress.Security.EscapeOutput
+				echo wp_kses_post( users_online_page() );
 				break;
 		}
 

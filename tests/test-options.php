@@ -10,8 +10,6 @@
  */
 class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 
-	// --- reading --------------------------------------------------------
-
 	public function test_a_missing_key_falls_back_to_its_default_rather_than_warning() {
 		WP_UserOnline_Options::update( array( 'timeout' => 42 ) );
 
@@ -28,8 +26,6 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 
 		$this->assertSame( 300, WP_UserOnline_Options::get( 'timeout' ), 'the defaults should stand in' );
 	}
-
-	// --- sanitizing -----------------------------------------------------
 
 	public function test_script_tags_are_stripped_from_the_naming_conventions() {
 		$clean = WP_UserOnline_Options::sanitize(
@@ -138,8 +134,6 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 		$this->assertSame( WP_USERONLINE_DB_VERSION, $markers['db'], 'saving the settings lost the db marker' );
 	}
 
-	// --- the markers ----------------------------------------------------
-
 	public function test_the_markers_are_always_two_keys_however_damaged_the_row_is() {
 		update_option( WP_UserOnline_Options::VERSION, 'not an array' );
 
@@ -155,8 +149,6 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 
 		$this->assertSame( '', WP_UserOnline_Options::markers()['plugin'], 'a missing marker should be an empty string' );
 	}
-
-	// --- the record -----------------------------------------------------
 
 	public function test_the_most_ever_online_record_round_trips() {
 		WP_UserOnline_Options::update_most( 42, 1767225600 );
@@ -176,8 +168,6 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 
 		$this->assertNotContains( $autoload, array( 'yes', 'on', 'auto', 'auto-on' ), 'the record row should not be autoloaded' );
 	}
-
-	// --- the migration --------------------------------------------------
 
 	public function test_the_migration_renames_the_settings_row_and_deletes_the_old_one() {
 		delete_option( WP_UserOnline_Options::OPTION );
@@ -263,8 +253,6 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 
 		$this->assertSame( 500, WP_UserOnline_Options::most( 'count' ), 'a stale legacy row overwrote the current record' );
 	}
-
-	// --- the shared WP-Stats row ----------------------------------------
 
 	public function test_an_absent_shared_stats_row_means_on_because_a_sibling_deleted_it() {
 		delete_option( WP_UserOnline_Options::OPTION );

@@ -71,8 +71,6 @@ class WP_UserOnline_Ajax_Test extends WP_UserOnline_TestCase {
 		return $output;
 	}
 
-	// --- what it refuses to record --------------------------------------
-
 	/**
 	 * An unrecognised mode used to fall through the switch having already
 	 * written a row on the way in.
@@ -128,8 +126,6 @@ class WP_UserOnline_Ajax_Test extends WP_UserOnline_TestCase {
 
 		$this->assertSame( 0, $this->rows(), 'an empty request recorded something' );
 	}
-
-	// --- what it does record --------------------------------------------
 
 	public function test_a_recognised_mode_records_the_visitor() {
 		$this->do_ajax(
@@ -226,8 +222,6 @@ class WP_UserOnline_Ajax_Test extends WP_UserOnline_TestCase {
 
 		$this->assertSame( $title, $wpdb->get_var( "SELECT page_title FROM {$wpdb->useronline}" ), 'the title was mangled' );
 	}
-
-	// --- what it must not leak ------------------------------------------
 
 	public function test_the_details_mode_hides_admin_locations_from_anonymous_callers() {
 		$this->record_row(

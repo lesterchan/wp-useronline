@@ -50,6 +50,11 @@ class WP_UserOnline_Widget extends WP_Widget {
 	/**
 	 * Render the widget on the front end.
 	 *
+	 * Assembled into one string and printed through wp_kses_post() at the end.
+	 * The sidebar's own before_widget and after_widget are markup this widget
+	 * did not write and cannot escape piecemeal -- before_widget opens tags that
+	 * after_widget closes -- so they are balanced first and filtered together.
+	 *
 	 * @param array $args     Sidebar arguments.
 	 * @param array $instance Saved widget settings.
 	 *
@@ -85,19 +90,15 @@ class WP_UserOnline_Widget extends WP_Widget {
 		// which is what otherwise requests it.
 		WP_UserOnline_Template::request_script();
 
-		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput
-
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
-		if ( '' !== $title ) {
-			echo $args['before_title'] . esc_html( $title ) . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput
-		}
+		$heading = '' === $title
+			? ''
+			: $args['before_title'] . esc_html( $title ) . $args['after_title'];
 
-		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput
-
-		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput
+		echo wp_kses_post( $args['before_widget'] . $heading . $out . $args['after_widget'] );
 	}
 
 	/**

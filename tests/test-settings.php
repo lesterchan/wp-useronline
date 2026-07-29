@@ -32,8 +32,6 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 		return $this->capture( array( 'WP_UserOnline_Settings', $method ) );
 	}
 
-	// --- registration ---------------------------------------------------
-
 	public function test_the_setting_is_registered_against_the_group_the_form_posts_to() {
 		$registered = get_registered_settings();
 
@@ -92,8 +90,6 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 			$this->assertStringStartsWith( 'wp_useronline_', $section, $section . ' is not prefixed' );
 		}
 	}
-
-	// --- the fields -----------------------------------------------------
 
 	public function test_fields_carry_the_renamed_nested_option_name() {
 		$html = $this->render( 'field_naming' );
@@ -202,8 +198,6 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	public function test_the_wp_stats_toggle_posts_into_this_plugins_own_row() {
 		$this->assertStringContainsString( 'name="wp_useronline_options[stats_display]"', $this->render( 'field_stats_display' ), 'the toggle does not write to this plugin\'s settings' );
 	}
-
-	// --- the screen -----------------------------------------------------
 
 	public function test_no_field_emits_an_inline_style_attribute() {
 		$html = $this->render( 'field_template_browsingsite' ) . $this->render( 'field_naming' ) . $this->render( 'field_names' );

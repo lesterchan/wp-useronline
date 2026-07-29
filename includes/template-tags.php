@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return void
  */
 function users_online() {
-	echo get_users_online(); // phpcs:ignore WordPress.Security.EscapeOutput
+	echo wp_kses_post( get_users_online() );
 }
 
 /**
@@ -96,7 +96,7 @@ function get_most_users_online_date() {
  * @return void
  */
 function users_browsing_site() {
-	echo get_users_browsing_site(); // phpcs:ignore WordPress.Security.EscapeOutput
+	echo wp_kses_post( get_users_browsing_site() );
 }
 
 /**
@@ -116,7 +116,7 @@ function get_users_browsing_site() {
  * @return void
  */
 function users_browsing_page( $page_url = '' ) {
-	echo get_users_browsing_page( $page_url ); // phpcs:ignore WordPress.Security.EscapeOutput
+	echo wp_kses_post( get_users_browsing_page( $page_url ) );
 }
 
 /**
@@ -200,7 +200,6 @@ function users_online_page() {
 function is_user_online( $user_id ) {
 	global $wpdb;
 
-	// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 	return (bool) $wpdb->get_var(
 		$wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->useronline} WHERE user_id = %d LIMIT 1", $user_id )
 	);

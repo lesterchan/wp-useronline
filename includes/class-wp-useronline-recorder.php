@@ -32,7 +32,6 @@ class WP_UserOnline_Recorder {
 		global $wpdb;
 
 		if ( null === self::$count ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			self::$count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->useronline}" );
 		}
 
@@ -78,7 +77,6 @@ class WP_UserOnline_Recorder {
 		$timestamp = current_time( 'mysql' );
 
 		// Drop this visitor's previous row, plus anything that has timed out.
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->useronline}
@@ -95,7 +93,6 @@ class WP_UserOnline_Recorder {
 
 		// Every value taken from a superglobal was unslashed where it was read,
 		// so there is deliberately no stripslashes_deep() over the row here.
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->replace(
 			$wpdb->useronline,
 			array(

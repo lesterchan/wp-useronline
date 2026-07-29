@@ -11,8 +11,6 @@
  */
 class WP_UserOnline_Install_Test extends WP_UserOnline_TestCase {
 
-	// --- the table ------------------------------------------------------
-
 	public function test_the_table_name_is_registered_on_wpdb() {
 		global $wpdb;
 
@@ -48,8 +46,6 @@ class WP_UserOnline_Install_Test extends WP_UserOnline_TestCase {
 
 		$this->assertSame( $wpdb->useronline, $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->useronline}'" ), 'the table did not survive a second install' );
 	}
-
-	// --- the markers ----------------------------------------------------
 
 	public function test_installing_stamps_both_markers_in_one_row() {
 		delete_option( WP_UserOnline_Options::VERSION );
@@ -114,8 +110,6 @@ class WP_UserOnline_Install_Test extends WP_UserOnline_TestCase {
 		$this->assertSame( WP_USERONLINE_DB_VERSION, WP_UserOnline_Options::markers()['db'], 'a fresh install did not get stamped' );
 	}
 
-	// --- the hooks ------------------------------------------------------
-
 	public function test_the_plugin_registers_the_hooks_it_needs_to_do_anything_at_all() {
 		$plugin = WP_UserOnline::get_instance();
 
@@ -136,8 +130,6 @@ class WP_UserOnline_Install_Test extends WP_UserOnline_TestCase {
 	public function test_the_shortcode_is_registered_under_its_documented_name() {
 		$this->assertTrue( shortcode_exists( 'page_useronline' ), 'the documented shortcode is gone' );
 	}
-
-	// --- the script -----------------------------------------------------
 
 	public function test_the_script_is_not_enqueued_when_nothing_on_the_page_needs_it() {
 		$this->reset_statics();

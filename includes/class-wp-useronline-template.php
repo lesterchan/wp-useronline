@@ -85,7 +85,6 @@ class WP_UserOnline_Template {
 		}
 
 		if ( 'page' === $type ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$rows = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT * FROM {$wpdb->useronline} WHERE page_url = %s ORDER BY timestamp DESC",
@@ -93,7 +92,6 @@ class WP_UserOnline_Template {
 				)
 			);
 		} else {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->useronline} ORDER BY timestamp DESC" );
 		}
 

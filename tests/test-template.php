@@ -41,8 +41,6 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 		);
 	}
 
-	// --- what a viewer may see ------------------------------------------
-
 	/**
 	 * A hidden row must not inherit the previous row's details, which is what
 	 * the loop used to do.
@@ -87,8 +85,6 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 		$this->assertStringNotContainsString( '198.51.100.7', users_online_page(), 'an address was shown to a visitor' );
 	}
 
-	// --- escaping --------------------------------------------------------
-
 	public function test_the_user_agent_is_escaped_exactly_once_in_the_title_attribute() {
 		$this->record_row(
 			array(
@@ -114,12 +110,25 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 		$this->assertStringNotContainsString( '<script', get_users_online(), 'a script tag reached the front end' );
 	}
 
-	// --- counting and grouping -------------------------------------------
-
 	public function test_the_counts_add_up_across_the_three_visitor_types() {
-		$this->record_row( array( 'user_type' => 'member', 'user_ip' => '198.51.100.10' ) );
-		$this->record_row( array( 'user_type' => 'guest', 'user_ip' => '198.51.100.11' ) );
-		$this->record_row( array( 'user_type' => 'bot', 'user_ip' => '198.51.100.12' ) );
+		$this->record_row(
+			array(
+				'user_type' => 'member',
+				'user_ip'   => '198.51.100.10',
+			)
+		);
+		$this->record_row(
+			array(
+				'user_type' => 'guest',
+				'user_ip'   => '198.51.100.11',
+			)
+		);
+		$this->record_row(
+			array(
+				'user_type' => 'bot',
+				'user_ip'   => '198.51.100.12',
+			)
+		);
 
 		$counts = WP_UserOnline_Template::compact_list( 'site', 'counts' );
 
@@ -130,8 +139,18 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_the_browsing_page_list_only_counts_rows_on_that_page() {
-		$this->record_row( array( 'page_url' => '/here/', 'user_ip' => '198.51.100.20' ) );
-		$this->record_row( array( 'page_url' => '/elsewhere/', 'user_ip' => '198.51.100.21' ) );
+		$this->record_row(
+			array(
+				'page_url' => '/here/',
+				'user_ip'  => '198.51.100.20',
+			)
+		);
+		$this->record_row(
+			array(
+				'page_url' => '/elsewhere/',
+				'user_ip'  => '198.51.100.21',
+			)
+		);
 
 		$rows = WP_UserOnline_Template::compact_list( 'page', 'list', '/here/' );
 

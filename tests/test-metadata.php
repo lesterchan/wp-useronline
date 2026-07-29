@@ -92,8 +92,6 @@ class WP_UserOnline_Metadata_Test extends WP_UserOnline_TestCase {
 		return isset( $matches[1] ) ? $matches[1] : '';
 	}
 
-	// --- the README header ------------------------------------------------
-
 	/**
 	 * Markdown turns a line ending in two spaces into a line break. Without
 	 * them wordpress.org renders the whole header as one paragraph, which is
@@ -166,8 +164,6 @@ class WP_UserOnline_Metadata_Test extends WP_UserOnline_TestCase {
 		$this->assertSame( '8.2', $this->header_field( 'Requires PHP:' ), 'the header PHP floor is wrong' );
 		$this->assertSame( '8.2', $this->readme_field( 'Requires PHP:' ), 'the README PHP floor is wrong' );
 	}
-
-	// --- the README body --------------------------------------------------
 
 	/**
 	 * Level three headings are free; this is only about the h2s.
@@ -263,8 +259,6 @@ class WP_UserOnline_Metadata_Test extends WP_UserOnline_TestCase {
 		}
 	}
 
-	// --- what ships -------------------------------------------------------
-
 	/**
 	 * Not just a source grep: a dependency array built at runtime would pass
 	 * that on its own, so the registered handle is checked as well.
@@ -339,8 +333,6 @@ class WP_UserOnline_Metadata_Test extends WP_UserOnline_TestCase {
 			$this->assertFalse( wp_styles()->get_data( $handle, 'rtl' ), $handle . ' declares rtl style data' );
 		}
 	}
-
-	// --- the option rows --------------------------------------------------
 
 	/**
 	 * Runs on a network too, where uninstall.php loops over every site and the
