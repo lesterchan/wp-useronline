@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-UserOnline class-useronline-admin.php
+ * WP-UserOnline class-wp-useronline-admin.php
  *
  * @package wp-useronline
  */
@@ -14,12 +14,43 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class UserOnline_Admin {
+class WP_UserOnline_Admin {
 
 	/**
-	 * Dashboard page slug.
+	 * Menu slug, and the slug of the users online screen itself.
 	 */
-	const PAGE = 'useronline';
+	const PAGE = 'wp-useronline';
+
+	/**
+	 * Capability every WP-UserOnline screen requires.
+	 */
+	const CAPABILITY = 'manage_options';
+
+	/**
+	 * The capability a screen requires, filtered.
+	 *
+	 * Every capability check in the plugin goes through here, so a site that
+	 * wants to hand the read-only users online screen to editors has one place
+	 * to say so and cannot open the settings screen by accident at the same
+	 * time.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string $context Which screen is asking: 'useronline' or 'settings'.
+	 *
+	 * @return string
+	 */
+	public static function capability( $context = 'useronline' ) {
+		/**
+		 * Filter the capability a WP-UserOnline screen requires.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param string $capability Capability name.
+		 * @param string $context    Which screen is asking.
+		 */
+		return (string) apply_filters( 'wp_useronline_capability', self::CAPABILITY, $context );
+	}
 
 	/**
 	 * Constructor.
@@ -38,7 +69,7 @@ class UserOnline_Admin {
 		add_dashboard_page(
 			__( 'Users Online Now', 'wp-useronline' ),
 			__( 'WP-UserOnline', 'wp-useronline' ),
-			'list_users',
+			self::capability( 'useronline' ),
 			self::PAGE,
 			array( $this, 'render_page' )
 		);
@@ -50,7 +81,7 @@ class UserOnline_Admin {
 	 * @return void
 	 */
 	public function render_page() {
-		if ( ! current_user_can( 'list_users' ) ) {
+		if ( ! current_user_can( self::capability( 'useronline' ) ) ) {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'wp-useronline' ) );
 		}
 
@@ -66,7 +97,7 @@ class UserOnline_Admin {
 	 * @return void
 	 */
 	public function right_now() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( self::capability( 'useronline' ) ) ) {
 			return;
 		}
 
@@ -92,6 +123,6 @@ class UserOnline_Admin {
 			echo wp_kses_post( $browsing ) . '<br />';
 		}
 
-		echo wp_kses_post( UserOnline_Template::format_most_users() ) . '</p>';
+		echo wp_kses_post( WP_UserOnline_Template::format_most_users() ) . '</p>';
 	}
 }

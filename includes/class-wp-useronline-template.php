@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-UserOnline class-useronline-template.php
+ * WP-UserOnline class-wp-useronline-template.php
  *
  * @package wp-useronline
  */
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class UserOnline_Template {
+class WP_UserOnline_Template {
 
 	/**
 	 * Per-request cache of query results, keyed by type and page URL.
@@ -141,8 +141,8 @@ class UserOnline_Template {
 			return $counts;
 		}
 
-		$naming   = UserOnline_Options::get( 'naming' );
-		$template = UserOnline_Options::get( 'templates' )[ 'browsing' . $type ];
+		$naming   = WP_UserOnline_Options::get( 'naming' );
+		$template = WP_UserOnline_Options::get( 'templates' )[ 'browsing' . $type ];
 
 		$out = self::format_count( $counts['user'], 'user', $template['text'] );
 
@@ -344,7 +344,7 @@ class UserOnline_Template {
 	 * @return string
 	 */
 	public static function format_count( $count, $user_type, $template = false ) {
-		$naming = UserOnline_Options::get( 'naming' );
+		$naming = WP_UserOnline_Options::get( 'naming' );
 		$key    = ( 1 === (int) $count ) ? $user_type : $user_type . 's';
 
 		$out = str_ireplace( '%COUNT%', number_format_i18n( $count ), $naming[ $key ] );

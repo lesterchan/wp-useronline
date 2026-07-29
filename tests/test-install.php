@@ -11,7 +11,7 @@
  */
 class Test_UserOnline_Install extends WP_UnitTestCase {
 
-	use UserOnline_Reset_Statics;
+	use WP_UserOnline_Reset_Statics;
 
 	/**
 	 * Clear per-request statics that leak across a PHPUnit process.
@@ -61,7 +61,7 @@ class Test_UserOnline_Install extends WP_UnitTestCase {
 	public function test_activation_can_run_twice() {
 		global $wpdb;
 
-		$plugin = UserOnline::get_instance();
+		$plugin = WP_UserOnline::get_instance();
 
 		$plugin->activate();
 		$plugin->activate();
@@ -73,16 +73,16 @@ class Test_UserOnline_Install extends WP_UnitTestCase {
 	 * Activation stamps the schema version, so the on-load check stays quiet.
 	 */
 	public function test_activation_stamps_the_db_version() {
-		UserOnline::get_instance()->activate();
+		WP_UserOnline::get_instance()->activate();
 
-		$this->assertSame( WP_USERONLINE_DB_VERSION, UserOnline_Options::get_version( 'db' ) );
+		$this->assertSame( WP_USERONLINE_DB_VERSION, WP_UserOnline_Options::get_version( 'db' ) );
 	}
 
 	/**
 	 * The marker lives inside the main option, not a row of its own.
 	 */
 	public function test_no_standalone_version_rows() {
-		UserOnline::get_instance()->activate();
+		WP_UserOnline::get_instance()->activate();
 
 		$this->assertFalse( get_option( 'useronline_db_version' ) );
 		$this->assertFalse( get_option( 'useronline_sanitize_version' ) );
@@ -92,7 +92,7 @@ class Test_UserOnline_Install extends WP_UnitTestCase {
 	 * The plugin registers the hooks it needs to do anything at all.
 	 */
 	public function test_core_hooks_are_registered() {
-		$plugin = UserOnline::get_instance();
+		$plugin = WP_UserOnline::get_instance();
 
 		$this->assertNotFalse( has_action( 'wp_head', array( $plugin, 'record' ) ) );
 		$this->assertNotFalse( has_action( 'admin_head', array( $plugin, 'record' ) ) );
@@ -107,7 +107,7 @@ class Test_UserOnline_Install extends WP_UnitTestCase {
 	public function test_script_is_not_enqueued_when_unused() {
 		$this->reset_useronline_statics();
 
-		UserOnline::get_instance()->enqueue_scripts();
+		WP_UserOnline::get_instance()->enqueue_scripts();
 
 		$this->assertFalse( wp_script_is( 'wp-useronline', 'enqueued' ) );
 	}
@@ -116,9 +116,9 @@ class Test_UserOnline_Install extends WP_UnitTestCase {
 	 * ...and is once a list has rendered, with no jQuery dependency.
 	 */
 	public function test_script_is_enqueued_once_needed() {
-		UserOnline_Template::compact_list( 'site' );
+		WP_UserOnline_Template::compact_list( 'site' );
 
-		UserOnline::get_instance()->enqueue_scripts();
+		WP_UserOnline::get_instance()->enqueue_scripts();
 
 		$this->assertTrue( wp_script_is( 'wp-useronline', 'enqueued' ) );
 

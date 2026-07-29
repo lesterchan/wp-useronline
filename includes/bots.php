@@ -13,7 +13,7 @@
  *
  * @return array<string, string> Bot display name => user agent fragment.
  */
-function useronline_get_bots() {
+function wp_useronline_get_bots() {
 	$bots = array(
 		'360Spider'                 => '360spider',
 		'AddThis'                   => 'addthis',

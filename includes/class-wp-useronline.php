@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-UserOnline class-useronline.php
+ * WP-UserOnline class-wp-useronline.php
  *
  * @package wp-useronline
  */
@@ -14,12 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class UserOnline {
+class WP_UserOnline {
 
 	/**
 	 * Static instance.
 	 *
-	 * @var UserOnline|null
+	 * @var WP_UserOnline|null
 	 */
 	private static $instance;
 
@@ -41,7 +41,7 @@ class UserOnline {
 	/**
 	 * Initializes the plugin object and returns its instance.
 	 *
-	 * @return UserOnline
+	 * @return WP_UserOnline
 	 */
 	public static function get_instance() {
 		if ( ! isset( self::$instance ) ) {
@@ -72,7 +72,7 @@ class UserOnline {
 	 * @return void
 	 */
 	public function add_hooks() {
-		UserOnline_Options::maybe_migrate();
+		WP_UserOnline_Options::maybe_migrate();
 		$this->maybe_upgrade_table();
 
 		add_action( 'wp_head', array( $this, 'record' ) );
@@ -86,22 +86,22 @@ class UserOnline {
 
 		add_shortcode( 'page_useronline', 'users_online_page' );
 
-		if ( UserOnline_Options::get( 'names' ) ) {
+		if ( WP_UserOnline_Options::get( 'names' ) ) {
 			add_filter( 'useronline_display_user', array( $this, 'linked_names' ), 10, 2 );
 		}
 
 		if ( is_admin() ) {
-			require_once __DIR__ . '/class-useronline-admin.php';
-			require_once __DIR__ . '/class-useronline-settings.php';
+			require_once __DIR__ . '/class-wp-useronline-admin.php';
+			require_once __DIR__ . '/class-wp-useronline-settings.php';
 
-			new UserOnline_Admin();
-			new UserOnline_Settings();
+			new WP_UserOnline_Admin();
+			new WP_UserOnline_Settings();
 		}
 
 		if ( function_exists( 'stats_page' ) ) {
-			require_once __DIR__ . '/class-useronline-wpstats.php';
+			require_once __DIR__ . '/class-wp-useronline-wpstats.php';
 
-			new UserOnline_WpStats();
+			new WP_UserOnline_WPStats();
 		}
 	}
 
@@ -111,7 +111,7 @@ class UserOnline {
 	 * @return void
 	 */
 	public function record() {
-		UserOnline_Recorder::record();
+		WP_UserOnline_Recorder::record();
 	}
 
 	/**
@@ -136,9 +136,9 @@ class UserOnline {
 	 * @return void
 	 */
 	public function register_widget() {
-		require_once __DIR__ . '/class-useronline-widget.php';
+		require_once __DIR__ . '/class-wp-useronline-widget.php';
 
-		register_widget( 'UserOnline_Widget' );
+		register_widget( 'WP_UserOnline_Widget' );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class UserOnline {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		if ( ! UserOnline_Template::needs_script() ) {
+		if ( ! WP_UserOnline_Template::needs_script() ) {
 			return;
 		}
 
@@ -167,7 +167,7 @@ class UserOnline {
 			'useronlineL10n',
 			array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'timeout'  => (int) UserOnline_Options::get( 'timeout' ) * 1000,
+				'timeout'  => (int) WP_UserOnline_Options::get( 'timeout' ) * 1000,
 			)
 		);
 	}
@@ -193,14 +193,14 @@ class UserOnline {
 			wp_die( '', '', array( 'response' => 200 ) );
 		}
 
-		$page_url = UserOnline_Recorder::local_url(
+		$page_url = WP_UserOnline_Recorder::local_url(
 			isset( $_POST['page_url'] ) ? esc_url_raw( wp_unslash( $_POST['page_url'] ) ) : ''
 		);
 
 		if ( null !== $page_url ) {
 			$page_title = isset( $_POST['page_title'] ) ? sanitize_text_field( wp_unslash( $_POST['page_title'] ) ) : '';
 
-			UserOnline_Recorder::record( $page_url, mb_substr( $page_title, 0, 250 ) );
+			WP_UserOnline_Recorder::record( $page_url, mb_substr( $page_title, 0, 250 ) );
 		}
 
 		switch ( $mode ) {
@@ -239,7 +239,7 @@ class UserOnline {
 	 * @return void
 	 */
 	private function maybe_upgrade_table() {
-		if ( UserOnline_Options::get_version( 'db' ) === WP_USERONLINE_DB_VERSION ) {
+		if ( WP_UserOnline_Options::get_version( 'db' ) === WP_USERONLINE_DB_VERSION ) {
 			return;
 		}
 
@@ -273,6 +273,6 @@ class UserOnline {
 			) {$charset_collate};"
 		);
 
-		UserOnline_Options::set_version( 'db', WP_USERONLINE_DB_VERSION );
+		WP_UserOnline_Options::set_version( 'db', WP_USERONLINE_DB_VERSION );
 	}
 }

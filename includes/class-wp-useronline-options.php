@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-UserOnline class-useronline-options.php
+ * WP-UserOnline class-wp-useronline-options.php
  *
  * @package wp-useronline
  */
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class UserOnline_Options {
+class WP_UserOnline_Options {
 
 	/**
 	 * Option holding the plugin settings.
@@ -27,7 +27,7 @@ class UserOnline_Options {
 	/**
 	 * Option holding the most-ever-online record.
 	 */
-	const MOST_OPTION = 'useronline_most';
+	const MOST = 'useronline_most';
 
 	/**
 	 * Reserved key inside the settings holding internal version markers.
@@ -169,7 +169,7 @@ class UserOnline_Options {
 	 * @return mixed
 	 */
 	public static function most( $key = null ) {
-		$stored = get_option( self::MOST_OPTION, array() );
+		$stored = get_option( self::MOST, array() );
 		$data   = array_merge(
 			array(
 				'count' => 1,
@@ -195,7 +195,7 @@ class UserOnline_Options {
 	 */
 	public static function update_most( $count, $date ) {
 		update_option(
-			self::MOST_OPTION,
+			self::MOST,
 			array(
 				'count' => (int) $count,
 				'date'  => (int) $date,

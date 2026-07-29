@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-UserOnline class-useronline-widget.php
+ * WP-UserOnline class-wp-useronline-widget.php
  *
  * @package wp-useronline
  */
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class UserOnline_Widget extends WP_Widget {
+class WP_UserOnline_Widget extends WP_Widget {
 
 	/**
 	 * Register the widget with WordPress.
@@ -83,7 +83,7 @@ class UserOnline_Widget extends WP_Widget {
 		// Every container above is a target the refresh script polls, so ask
 		// for it here. The count-only variants never reach compact_list(),
 		// which is what otherwise requests it.
-		UserOnline_Template::request_script();
+		WP_UserOnline_Template::request_script();
 
 		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput
 

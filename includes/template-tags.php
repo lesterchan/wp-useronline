@@ -27,13 +27,13 @@ function users_online() {
  * @return string
  */
 function get_users_online() {
-	$template = UserOnline_Options::get( 'templates' )['useronline'];
+	$template = WP_UserOnline_Options::get( 'templates' )['useronline'];
 
-	$template = str_ireplace( '%PAGE_URL%', esc_url( UserOnline_Options::get( 'url' ) ), $template );
+	$template = str_ireplace( '%PAGE_URL%', esc_url( WP_UserOnline_Options::get( 'url' ) ), $template );
 	$template = str_ireplace( '%MOSTONLINE_COUNT%', number_format_i18n( get_most_users_online() ), $template );
 	$template = str_ireplace( '%MOSTONLINE_DATE%', get_most_users_online_date(), $template );
 
-	return UserOnline_Template::format_count( get_users_online_count(), 'user', $template );
+	return WP_UserOnline_Template::format_count( get_users_online_count(), 'user', $template );
 }
 
 /**
@@ -51,7 +51,7 @@ function users_online_count() {
  * @return int
  */
 function get_users_online_count() {
-	return UserOnline_Recorder::count();
+	return WP_UserOnline_Recorder::count();
 }
 
 /**
@@ -69,7 +69,7 @@ function most_users_online() {
  * @return int
  */
 function get_most_users_online() {
-	return (int) UserOnline_Options::most( 'count' );
+	return (int) WP_UserOnline_Options::most( 'count' );
 }
 
 /**
@@ -87,7 +87,7 @@ function most_users_online_date() {
  * @return string
  */
 function get_most_users_online_date() {
-	return UserOnline_Template::format_date( UserOnline_Options::most( 'date' ) );
+	return WP_UserOnline_Template::format_date( WP_UserOnline_Options::most( 'date' ) );
 }
 
 /**
@@ -105,7 +105,7 @@ function users_browsing_site() {
  * @return string
  */
 function get_users_browsing_site() {
-	return UserOnline_Template::compact_list( 'site' );
+	return WP_UserOnline_Template::compact_list( 'site' );
 }
 
 /**
@@ -127,7 +127,7 @@ function users_browsing_page( $page_url = '' ) {
  * @return string
  */
 function get_users_browsing_page( $page_url = '' ) {
-	return UserOnline_Template::compact_list( 'page', 'html', $page_url );
+	return WP_UserOnline_Template::compact_list( 'page', 'html', $page_url );
 }
 
 /**
@@ -136,7 +136,7 @@ function get_users_browsing_page( $page_url = '' ) {
  * @return string
  */
 function users_online_page() {
-	$users = UserOnline_Template::compact_list( 'site', 'list' );
+	$users = WP_UserOnline_Template::compact_list( 'site', 'list' );
 
 	$buckets = array();
 	foreach ( $users as $user ) {
@@ -150,11 +150,11 @@ function users_online_page() {
 	 */
 	$buckets = apply_filters( 'useronline_buckets', $buckets );
 
-	$counts = UserOnline_Template::get_counts( $buckets );
+	$counts = WP_UserOnline_Template::get_counts( $buckets );
 
 	$nicetexts = array();
 	foreach ( array( 'user', 'member', 'guest', 'bot' ) as $user_type ) {
-		$nicetexts[ $user_type ] = UserOnline_Template::format_count( $counts[ $user_type ], $user_type );
+		$nicetexts[ $user_type ] = WP_UserOnline_Template::format_count( $counts[ $user_type ], $user_type );
 	}
 
 	$text = vsprintf(
@@ -170,8 +170,8 @@ function users_online_page() {
 
 	$output = '<div id="useronline-details">'
 		. '<p>' . $text . '</p>'
-		. '<p>' . UserOnline_Template::format_most_users() . '</p>'
-		. UserOnline_Template::detailed_list( $counts, $buckets, $nicetexts )
+		. '<p>' . WP_UserOnline_Template::format_most_users() . '</p>'
+		. WP_UserOnline_Template::detailed_list( $counts, $buckets, $nicetexts )
 		. '</div>';
 
 	/**
@@ -207,5 +207,5 @@ function is_user_online( $user_id ) {
  * @return mixed
  */
 function get_useronline_( $output, $type = 'site' ) {
-	return UserOnline_Template::compact_list( $type, $output );
+	return WP_UserOnline_Template::compact_list( $type, $output );
 }

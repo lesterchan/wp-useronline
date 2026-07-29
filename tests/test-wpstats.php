@@ -11,12 +11,12 @@
  */
 class Test_UserOnline_WpStats extends WP_UnitTestCase {
 
-	use UserOnline_Reset_Statics;
+	use WP_UserOnline_Reset_Statics;
 
 	/**
 	 * Integration instance under test.
 	 *
-	 * @var UserOnline_WpStats
+	 * @var WP_UserOnline_WPStats
 	 */
 	private $stats;
 
@@ -28,13 +28,13 @@ class Test_UserOnline_WpStats extends WP_UnitTestCase {
 
 		parent::set_up();
 
-		require_once dirname( __DIR__ ) . '/includes/class-useronline-wpstats.php';
+		require_once dirname( __DIR__ ) . '/includes/class-wp-useronline-wpstats.php';
 
 		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
 		$this->reset_useronline_statics();
 		delete_option( 'stats_display' );
 
-		$this->stats = new UserOnline_WpStats();
+		$this->stats = new WP_UserOnline_WPStats();
 	}
 
 	/**
@@ -108,8 +108,8 @@ class Test_UserOnline_WpStats extends WP_UnitTestCase {
 	public function test_stats_appends_the_figures_when_enabled() {
 		update_option( 'stats_display', array( 'useronline' => 1 ) );
 
-		UserOnline_Recorder::record( '/somewhere', 'Somewhere' );
-		UserOnline_Options::update_most( 42, time() );
+		WP_UserOnline_Recorder::record( '/somewhere', 'Somewhere' );
+		WP_UserOnline_Options::update_most( 42, time() );
 
 		$html = $this->stats->stats( 'EXISTING' );
 

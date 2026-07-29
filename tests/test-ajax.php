@@ -6,14 +6,14 @@
  */
 
 /**
- * UserOnline::ajax() is reachable by logged-out visitors and checks no nonce,
+ * WP_UserOnline::ajax() is reachable by logged-out visitors and checks no nonce,
  * so every input is hostile by assumption. These cover that contract.
  *
  * @group ajax
  */
 class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 
-	use UserOnline_Reset_Statics;
+	use WP_UserOnline_Reset_Statics;
 
 	/**
 	 * Start from an empty table, logged out, with a known request.

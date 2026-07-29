@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-UserOnline class-useronline-wpstats.php
+ * WP-UserOnline class-wp-useronline-wpstats.php
  *
  * @package wp-useronline
  */
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class UserOnline_WpStats {
+class WP_UserOnline_WPStats {
 
 	/**
 	 * Constructor.
@@ -100,7 +100,7 @@ class UserOnline_WpStats {
 		$content .= '<p><strong>' . esc_html__( 'WP-UserOnline', 'wp-useronline' ) . '</strong></p>'
 			. '<ul>'
 			. '<li>' . wp_kses_post( $text ) . '</li>'
-			. '<li>' . wp_kses_post( UserOnline_Template::format_most_users() ) . '</li>'
+			. '<li>' . wp_kses_post( WP_UserOnline_Template::format_most_users() ) . '</li>'
 			. '</ul>';
 
 		return $content;

@@ -3,9 +3,9 @@
  * Plugin Name: WP-UserOnline
  * Plugin URI: https://lesterchan.net/portfolio/programming/php/
  * Description: Enable you to display how many users are online on your WordPress site.
- * Version: 3.0.1
- * Requires at least: 6.0
- * Requires PHP: 7.4
+ * Version: 4.0.0
+ * Requires at least: 6.8
+ * Requires PHP: 8.2
  * Author: Lester 'GaMerZ' Chan
  * Author URI: https://lesterchan.net
  * License: GPLv2 or later
@@ -17,7 +17,7 @@
  */
 
 /*
-	Copyright 2026 Lester Chan  (email : lesterchan@gmail.com)
+	Copyright 2026  Lester Chan  (email : lesterchan@gmail.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -39,25 +39,40 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WP-UserOnline version.
+ * WP-UserOnline version. Compared against the 'plugin' marker in wp_useronline_version.
  */
-define( 'WP_USERONLINE_VERSION', '3.0.1' );
+define( 'WP_USERONLINE_VERSION', '4.0.0' );
 
 /**
- * Database schema version. Bump when the table definition changes.
+ * Schema counter. Compared against the 'db' marker in wp_useronline_version.
  */
 define( 'WP_USERONLINE_DB_VERSION', '1' );
+
+/**
+ * Plugin slug, text domain and menu slug.
+ */
+define( 'WP_USERONLINE_SLUG', 'wp-useronline' );
 
 /**
  * WP-UserOnline main file.
  */
 define( 'WP_USERONLINE_MAIN_FILE', __FILE__ );
 
-require_once __DIR__ . '/includes/class-useronline-options.php';
-require_once __DIR__ . '/includes/class-useronline-template.php';
-require_once __DIR__ . '/includes/class-useronline-recorder.php';
-require_once __DIR__ . '/includes/class-useronline.php';
+/**
+ * Filesystem path of the plugin directory, with a trailing slash.
+ */
+define( 'WP_USERONLINE_DIR', plugin_dir_path( __FILE__ ) );
+
+/**
+ * URL of the plugin directory, with a trailing slash.
+ */
+define( 'WP_USERONLINE_URL', plugin_dir_url( __FILE__ ) );
+
+require_once __DIR__ . '/includes/class-wp-useronline-options.php';
+require_once __DIR__ . '/includes/class-wp-useronline-template.php';
+require_once __DIR__ . '/includes/class-wp-useronline-recorder.php';
+require_once __DIR__ . '/includes/class-wp-useronline.php';
 require_once __DIR__ . '/includes/template-tags.php';
 require_once __DIR__ . '/includes/deprecated.php';
 
-UserOnline::get_instance();
+WP_UserOnline::get_instance();

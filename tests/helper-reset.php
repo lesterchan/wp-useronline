@@ -12,7 +12,7 @@
  * request starts fresh and record() invalidates them. A PHPUnit run is one long
  * process, so they leak between tests unless cleared explicitly.
  */
-trait UserOnline_Reset_Statics {
+trait WP_UserOnline_Reset_Statics {
 
 	/**
 	 * Clear every static cache the plugin keeps.
@@ -21,8 +21,8 @@ trait UserOnline_Reset_Statics {
 	 */
 	protected function reset_useronline_statics() {
 		$targets = array(
-			'UserOnline_Recorder' => array( 'count' => null ),
-			'UserOnline_Template' => array(
+			'WP_UserOnline_Recorder' => array( 'count' => null ),
+			'WP_UserOnline_Template' => array(
 				'cache'        => array(),
 				'needs_script' => false,
 			),

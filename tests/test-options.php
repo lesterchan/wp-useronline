@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for UserOnline_Options.
+ * Tests for WP_UserOnline_Options.
  *
  * @package WP-UserOnline
  */
@@ -15,24 +15,24 @@ class Test_UserOnline_Options extends WP_UnitTestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		delete_option( UserOnline_Options::OPTION );
+		delete_option( WP_UserOnline_Options::OPTION );
 	}
 
 	/**
 	 * A missing key falls back to the default rather than warning.
 	 */
 	public function test_get_merges_defaults() {
-		update_option( UserOnline_Options::OPTION, array( 'timeout' => 42 ) );
+		update_option( WP_UserOnline_Options::OPTION, array( 'timeout' => 42 ) );
 
-		$this->assertSame( 42, UserOnline_Options::get( 'timeout' ) );
-		$this->assertSame( '1 Member', UserOnline_Options::get( 'naming' )['member'] );
+		$this->assertSame( 42, WP_UserOnline_Options::get( 'timeout' ) );
+		$this->assertSame( '1 Member', WP_UserOnline_Options::get( 'naming' )['member'] );
 	}
 
 	/**
 	 * Script tags are stripped from the naming conventions.
 	 */
 	public function test_sanitize_strips_scripts() {
-		$clean = UserOnline_Options::sanitize(
+		$clean = WP_UserOnline_Options::sanitize(
 			array( 'naming' => array( 'user' => '1 User<script>alert(1)</script>' ) )
 		);
 
@@ -44,7 +44,7 @@ class Test_UserOnline_Options extends WP_UnitTestCase {
 	 * A javascript: URL is rejected outright.
 	 */
 	public function test_sanitize_rejects_javascript_url() {
-		$clean = UserOnline_Options::sanitize( array( 'url' => 'javascript:alert(1)' ) );
+		$clean = WP_UserOnline_Options::sanitize( array( 'url' => 'javascript:alert(1)' ) );
 
 		$this->assertSame( '', $clean['url'] );
 	}
@@ -53,7 +53,7 @@ class Test_UserOnline_Options extends WP_UnitTestCase {
 	 * A partial submission cannot leave the renderer without its nested keys.
 	 */
 	public function test_sanitize_rebuilds_template_shape() {
-		$clean = UserOnline_Options::sanitize( array( 'templates' => array( 'browsingsite' => 'not an array' ) ) );
+		$clean = WP_UserOnline_Options::sanitize( array( 'templates' => array( 'browsingsite' => 'not an array' ) ) );
 
 		$this->assertArrayHasKey( 'text', $clean['templates']['browsingsite'] );
 		$this->assertArrayHasKey( 'bots', $clean['templates']['browsingsite']['separators'] );
@@ -64,7 +64,7 @@ class Test_UserOnline_Options extends WP_UnitTestCase {
 	 * Separators keep their whitespace; that trailing space separates names.
 	 */
 	public function test_sanitize_does_not_trim_separators() {
-		$clean = UserOnline_Options::sanitize( array() );
+		$clean = WP_UserOnline_Options::sanitize( array() );
 
 		$this->assertSame( ', ', $clean['templates']['browsingsite']['separators']['members'] );
 	}
@@ -73,7 +73,7 @@ class Test_UserOnline_Options extends WP_UnitTestCase {
 	 * A zero timeout would purge every row on the next request.
 	 */
 	public function test_sanitize_rejects_zero_timeout() {
-		$clean = UserOnline_Options::sanitize( array( 'timeout' => '0' ) );
+		$clean = WP_UserOnline_Options::sanitize( array( 'timeout' => '0' ) );
 
 		$this->assertSame( 300, $clean['timeout'] );
 	}
@@ -82,8 +82,8 @@ class Test_UserOnline_Options extends WP_UnitTestCase {
 	 * Running the sanitizer twice must not keep changing the value.
 	 */
 	public function test_sanitize_is_idempotent() {
-		$once  = UserOnline_Options::sanitize( array() );
-		$twice = UserOnline_Options::sanitize( $once );
+		$once  = WP_UserOnline_Options::sanitize( array() );
+		$twice = WP_UserOnline_Options::sanitize( $once );
 
 		$this->assertSame( $once, $twice );
 	}
@@ -93,10 +93,10 @@ class Test_UserOnline_Options extends WP_UnitTestCase {
 	 * carry them over. Without this every save re-triggers the migrations.
 	 */
 	public function test_sanitize_preserves_version_markers() {
-		UserOnline_Options::set_version( 'sanitize', 1 );
-		UserOnline_Options::set_version( 'db', '1' );
+		WP_UserOnline_Options::set_version( 'sanitize', 1 );
+		WP_UserOnline_Options::set_version( 'db', '1' );
 
-		$clean = UserOnline_Options::sanitize( array( 'timeout' => '120' ) );
+		$clean = WP_UserOnline_Options::sanitize( array( 'timeout' => '120' ) );
 
 		$this->assertSame( '1', $clean['versions']['sanitize'] );
 		$this->assertSame( '1', $clean['versions']['db'] );
@@ -106,9 +106,9 @@ class Test_UserOnline_Options extends WP_UnitTestCase {
 	 * Markers live inside the main option, not in rows of their own.
 	 */
 	public function test_version_markers_use_no_extra_option_rows() {
-		UserOnline_Options::set_version( 'db', '1' );
+		WP_UserOnline_Options::set_version( 'db', '1' );
 
-		$this->assertSame( '1', UserOnline_Options::get_version( 'db' ) );
+		$this->assertSame( '1', WP_UserOnline_Options::get_version( 'db' ) );
 		$this->assertFalse( get_option( 'useronline_db_version' ) );
 		$this->assertFalse( get_option( 'useronline_sanitize_version' ) );
 	}
@@ -118,15 +118,15 @@ class Test_UserOnline_Options extends WP_UnitTestCase {
 	 */
 	public function test_maybe_migrate_cleans_stored_settings() {
 		update_option(
-			UserOnline_Options::OPTION,
+			WP_UserOnline_Options::OPTION,
 			array( 'templates' => array( 'useronline' => '<a href="%PAGE_URL%"><script>alert(1)</script></a>' ) )
 		);
 
-		UserOnline_Options::maybe_migrate();
+		WP_UserOnline_Options::maybe_migrate();
 
-		$stored = get_option( UserOnline_Options::OPTION );
+		$stored = get_option( WP_UserOnline_Options::OPTION );
 
 		$this->assertStringNotContainsString( '<script', $stored['templates']['useronline'] );
-		$this->assertSame( '1', UserOnline_Options::get_version( 'sanitize' ) );
+		$this->assertSame( '1', WP_UserOnline_Options::get_version( 'sanitize' ) );
 	}
 }

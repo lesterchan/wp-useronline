@@ -13,7 +13,7 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 	/**
 	 * Settings instance under test.
 	 *
-	 * @var UserOnline_Settings
+	 * @var WP_UserOnline_Settings
 	 */
 	private $settings;
 
@@ -23,11 +23,11 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 	public function set_up() {
 		parent::set_up();
 
-		require_once dirname( __DIR__ ) . '/includes/class-useronline-settings.php';
+		require_once dirname( __DIR__ ) . '/includes/class-wp-useronline-settings.php';
 
-		delete_option( UserOnline_Options::OPTION );
+		delete_option( WP_UserOnline_Options::OPTION );
 
-		$this->settings = new UserOnline_Settings();
+		$this->settings = new WP_UserOnline_Settings();
 		$this->settings->register_settings();
 	}
 
@@ -50,7 +50,7 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 	public function test_setting_is_registered() {
 		$registered = get_registered_settings();
 
-		$this->assertArrayHasKey( UserOnline_Options::OPTION, $registered );
+		$this->assertArrayHasKey( WP_UserOnline_Options::OPTION, $registered );
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 			'naming'  => array( 'user' => '1 User<script>alert(1)</script>' ),
 		);
 
-		$clean = sanitize_option( UserOnline_Options::OPTION, $dirty );
+		$clean = sanitize_option( WP_UserOnline_Options::OPTION, $dirty );
 
 		$this->assertStringNotContainsString( '<script', $clean['naming']['user'] );
 		$this->assertSame( 120, $clean['timeout'] );
@@ -75,9 +75,9 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 	 * Saving through the registered callback must not drop the version markers.
 	 */
 	public function test_save_preserves_version_markers() {
-		UserOnline_Options::set_version( 'sanitize', 1 );
+		WP_UserOnline_Options::set_version( 'sanitize', 1 );
 
-		$clean = sanitize_option( UserOnline_Options::OPTION, array( 'timeout' => '60' ) );
+		$clean = sanitize_option( WP_UserOnline_Options::OPTION, array( 'timeout' => '60' ) );
 
 		$this->assertSame( '1', $clean['versions']['sanitize'] );
 	}
@@ -88,7 +88,7 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 	public function test_sections_and_fields_are_registered() {
 		global $wp_settings_sections, $wp_settings_fields;
 
-		$page = UserOnline_Settings::PAGE;
+		$page = WP_UserOnline_Settings::PAGE;
 
 		$this->assertArrayHasKey( $page, $wp_settings_sections );
 		$this->assertArrayHasKey( 'useronline_general', $wp_settings_sections[ $page ] );
@@ -160,7 +160,7 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 	 * The radio reflects the stored value.
 	 */
 	public function test_names_field_reflects_stored_value() {
-		UserOnline_Options::update( UserOnline_Options::sanitize( array( 'names' => 1 ) ) );
+		WP_UserOnline_Options::update( WP_UserOnline_Options::sanitize( array( 'names' => 1 ) ) );
 
 		$html = $this->render( 'field_names' );
 
@@ -171,7 +171,7 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 	 * The timeout field carries the stored value and its default.
 	 */
 	public function test_timeout_field() {
-		UserOnline_Options::update( UserOnline_Options::sanitize( array( 'timeout' => 120 ) ) );
+		WP_UserOnline_Options::update( WP_UserOnline_Options::sanitize( array( 'timeout' => 120 ) ) );
 
 		$html = $this->render( 'field_timeout' );
 
@@ -184,8 +184,8 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 	 * The URL field is a url input and escapes what it renders.
 	 */
 	public function test_url_field_escapes_its_value() {
-		UserOnline_Options::update(
-			UserOnline_Options::sanitize( array( 'url' => 'https://example.com/who/?a=1&b=2' ) )
+		WP_UserOnline_Options::update(
+			WP_UserOnline_Options::sanitize( array( 'url' => 'https://example.com/who/?a=1&b=2' ) )
 		);
 
 		$html = $this->render( 'field_url' );
@@ -222,8 +222,8 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 	 * Stored markup is escaped into the textarea rather than rendered.
 	 */
 	public function test_template_textarea_escapes_stored_markup() {
-		UserOnline_Options::update(
-			UserOnline_Options::sanitize(
+		WP_UserOnline_Options::update(
+			WP_UserOnline_Options::sanitize(
 				array( 'templates' => array( 'useronline' => '<a href="%PAGE_URL%">%USERS%</a>' ) )
 			)
 		);
@@ -245,7 +245,7 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 
 		$slugs = isset( $submenu['options-general.php'] ) ? wp_list_pluck( $submenu['options-general.php'], 2 ) : array();
 
-		$this->assertContains( UserOnline_Settings::PAGE, $slugs );
+		$this->assertContains( WP_UserOnline_Settings::PAGE, $slugs );
 	}
 
 	/**
@@ -271,7 +271,7 @@ class Test_UserOnline_Settings extends WP_UnitTestCase {
 		$html = ob_get_clean();
 
 		$this->assertStringContainsString( 'action="options.php"', $html );
-		$this->assertStringContainsString( "value='" . UserOnline_Settings::GROUP . "'", $html );
+		$this->assertStringContainsString( "value='" . WP_UserOnline_Settings::GROUP . "'", $html );
 		$this->assertStringContainsString( '_wpnonce', $html );
 		$this->assertStringContainsString( 'useronline-restore', $html );
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for UserOnline_Template rendering.
+ * Tests for WP_UserOnline_Template rendering.
  *
  * @package WP-UserOnline
  */
@@ -10,7 +10,7 @@
  */
 class Test_UserOnline_Template extends WP_UnitTestCase {
 
-	use UserOnline_Reset_Statics;
+	use WP_UserOnline_Reset_Statics;
 
 	/**
 	 * Start each test from an empty table.
@@ -161,8 +161,8 @@ class Test_UserOnline_Template extends WP_UnitTestCase {
 	 * A stored template can never smuggle a script through the renderer.
 	 */
 	public function test_rendered_output_carries_no_script() {
-		UserOnline_Options::update(
-			UserOnline_Options::sanitize(
+		WP_UserOnline_Options::update(
+			WP_UserOnline_Options::sanitize(
 				array( 'templates' => array( 'useronline' => '<a href="%PAGE_URL%"><script>alert(1)</script>%USERS%</a>' ) )
 			)
 		);

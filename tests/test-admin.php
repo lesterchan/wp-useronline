@@ -10,12 +10,12 @@
  */
 class Test_UserOnline_Admin extends WP_UnitTestCase {
 
-	use UserOnline_Reset_Statics;
+	use WP_UserOnline_Reset_Statics;
 
 	/**
 	 * Admin instance under test.
 	 *
-	 * @var UserOnline_Admin
+	 * @var WP_UserOnline_Admin
 	 */
 	private $admin;
 
@@ -27,12 +27,12 @@ class Test_UserOnline_Admin extends WP_UnitTestCase {
 
 		parent::set_up();
 
-		require_once dirname( __DIR__ ) . '/includes/class-useronline-admin.php';
+		require_once dirname( __DIR__ ) . '/includes/class-wp-useronline-admin.php';
 
 		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
 		$this->reset_useronline_statics();
 
-		$this->admin = new UserOnline_Admin();
+		$this->admin = new WP_UserOnline_Admin();
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Test_UserOnline_Admin extends WP_UnitTestCase {
 
 		$slugs = wp_list_pluck( $submenu['index.php'], 2 );
 
-		$this->assertContains( UserOnline_Admin::PAGE, $slugs );
+		$this->assertContains( WP_UserOnline_Admin::PAGE, $slugs );
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Test_UserOnline_Admin extends WP_UnitTestCase {
 
 		$slugs = isset( $submenu['index.php'] ) ? wp_list_pluck( $submenu['index.php'], 2 ) : array();
 
-		$this->assertNotContains( UserOnline_Admin::PAGE, $slugs );
+		$this->assertNotContains( WP_UserOnline_Admin::PAGE, $slugs );
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Test_UserOnline_Admin extends WP_UnitTestCase {
 	public function test_render_page_outputs_the_list() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
-		UserOnline_Recorder::record( '/somewhere', 'Somewhere' );
+		WP_UserOnline_Recorder::record( '/somewhere', 'Somewhere' );
 
 		$html = $this->render_page();
 
@@ -141,11 +141,11 @@ class Test_UserOnline_Admin extends WP_UnitTestCase {
 	public function test_right_now_reports_the_count() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
-		UserOnline_Recorder::record( '/somewhere', 'Somewhere' );
+		WP_UserOnline_Recorder::record( '/somewhere', 'Somewhere' );
 
 		$html = $this->render_right_now();
 
-		$this->assertStringContainsString( 'index.php?page=' . UserOnline_Admin::PAGE, $html );
+		$this->assertStringContainsString( 'index.php?page=' . WP_UserOnline_Admin::PAGE, $html );
 		$this->assertStringContainsString( 'online now', $html );
 	}
 
@@ -155,7 +155,7 @@ class Test_UserOnline_Admin extends WP_UnitTestCase {
 	public function test_right_now_reports_the_record() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
-		UserOnline_Options::update_most( 99, time() );
+		WP_UserOnline_Options::update_most( 99, time() );
 
 		$this->assertStringContainsString( '99', $this->render_right_now() );
 	}

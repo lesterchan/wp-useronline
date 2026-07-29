@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for UserOnline_Recorder.
+ * Tests for WP_UserOnline_Recorder.
  *
  * @package WP-UserOnline
  */
@@ -10,7 +10,7 @@
  */
 class Test_UserOnline_Recorder extends WP_UnitTestCase {
 
-	use UserOnline_Reset_Statics;
+	use WP_UserOnline_Reset_Statics;
 
 	/**
 	 * Start each test from an empty table and a known request.
@@ -42,21 +42,21 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 	 * A URL on this site is reduced to its path.
 	 */
 	public function test_local_url_keeps_path_and_query() {
-		$this->assertSame( '/some/page/?x=1', UserOnline_Recorder::local_url( home_url( '/some/page/?x=1' ) ) );
+		$this->assertSame( '/some/page/?x=1', WP_UserOnline_Recorder::local_url( home_url( '/some/page/?x=1' ) ) );
 	}
 
 	/**
 	 * A bare host becomes the site root.
 	 */
 	public function test_local_url_bare_host_becomes_root() {
-		$this->assertSame( '/', UserOnline_Recorder::local_url( home_url() ) );
+		$this->assertSame( '/', WP_UserOnline_Recorder::local_url( home_url() ) );
 	}
 
 	/**
 	 * Anything on another host is rejected.
 	 */
 	public function test_local_url_rejects_foreign_host() {
-		$this->assertNull( UserOnline_Recorder::local_url( 'http://evil.example.net/x/' ) );
+		$this->assertNull( WP_UserOnline_Recorder::local_url( 'http://evil.example.net/x/' ) );
 	}
 
 	/**
@@ -64,14 +64,14 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 	 * site URL passed it.
 	 */
 	public function test_local_url_rejects_embedded_site_url() {
-		$this->assertNull( UserOnline_Recorder::local_url( 'http://evil.example.net/?q=' . home_url() ) );
+		$this->assertNull( WP_UserOnline_Recorder::local_url( 'http://evil.example.net/?q=' . home_url() ) );
 	}
 
 	/**
 	 * An empty submission records nothing.
 	 */
 	public function test_local_url_rejects_empty() {
-		$this->assertNull( UserOnline_Recorder::local_url( '' ) );
+		$this->assertNull( WP_UserOnline_Recorder::local_url( '' ) );
 	}
 
 	/**
@@ -80,7 +80,7 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 	public function test_local_url_is_capped() {
 		$long = home_url( '/' . str_repeat( 'a', 600 ) );
 
-		$this->assertSame( 255, strlen( UserOnline_Recorder::local_url( $long ) ) );
+		$this->assertSame( 255, strlen( WP_UserOnline_Recorder::local_url( $long ) ) );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 	public function test_forwarded_for_ignored_by_default() {
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '1.2.3.4';
 
-		UserOnline_Recorder::record( '/ip-default', 'probe' );
+		WP_UserOnline_Recorder::record( '/ip-default', 'probe' );
 
 		$this->assertSame( '203.0.113.9', $this->last_row()['user_ip'] );
 	}
@@ -101,7 +101,7 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '1.2.3.4';
 		add_filter( 'useronline_trust_proxy', '__return_true' );
 
-		UserOnline_Recorder::record( '/ip-trusted', 'probe' );
+		WP_UserOnline_Recorder::record( '/ip-trusted', 'probe' );
 
 		remove_filter( 'useronline_trust_proxy', '__return_true' );
 
@@ -115,7 +115,7 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '<script>alert(1)</script>';
 		add_filter( 'useronline_trust_proxy', '__return_true' );
 
-		UserOnline_Recorder::record( '/ip-garbage', 'probe' );
+		WP_UserOnline_Recorder::record( '/ip-garbage', 'probe' );
 
 		remove_filter( 'useronline_trust_proxy', '__return_true' );
 
@@ -128,7 +128,7 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 	public function test_missing_remote_addr_still_records() {
 		unset( $_SERVER['REMOTE_ADDR'] );
 
-		UserOnline_Recorder::record( '/ip-none', 'probe' );
+		WP_UserOnline_Recorder::record( '/ip-none', 'probe' );
 
 		$row = $this->last_row();
 
@@ -143,7 +143,7 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 	public function test_titles_are_not_mangled() {
 		$title = 'It\'s a "quoted" back\\slash title';
 
-		UserOnline_Recorder::record( '/slashes', $title );
+		WP_UserOnline_Recorder::record( '/slashes', $title );
 
 		$this->assertSame( $title, $this->last_row()['page_title'] );
 	}
@@ -157,12 +157,12 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 	 * reports the first page.
 	 */
 	public function test_record_flushes_the_template_cache() {
-		UserOnline_Recorder::record( '/first', 'first' );
-		$before = UserOnline_Template::compact_list( 'site', 'list' );
+		WP_UserOnline_Recorder::record( '/first', 'first' );
+		$before = WP_UserOnline_Template::compact_list( 'site', 'list' );
 		$this->assertSame( '/first', $before[0]->page_url );
 
-		UserOnline_Recorder::record( '/second', 'second' );
-		$after = UserOnline_Template::compact_list( 'site', 'list' );
+		WP_UserOnline_Recorder::record( '/second', 'second' );
+		$after = WP_UserOnline_Template::compact_list( 'site', 'list' );
 		$this->assertSame( '/second', $after[0]->page_url );
 	}
 }

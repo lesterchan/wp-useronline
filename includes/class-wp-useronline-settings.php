@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-UserOnline class-useronline-settings.php
+ * WP-UserOnline class-wp-useronline-settings.php
  *
  * @package wp-useronline
  */
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class UserOnline_Settings {
+class WP_UserOnline_Settings {
 
 	/**
 	 * Settings group used by register_setting() and settings_fields().
@@ -27,7 +27,7 @@ class UserOnline_Settings {
 	/**
 	 * Settings page slug.
 	 */
-	const PAGE = 'useronline-settings';
+	const PAGE = 'wp-useronline-settings';
 
 	/**
 	 * Constructor.
@@ -46,7 +46,7 @@ class UserOnline_Settings {
 		add_options_page(
 			__( 'UserOnline Options', 'wp-useronline' ),
 			__( 'UserOnline', 'wp-useronline' ),
-			'manage_options',
+			WP_UserOnline_Admin::capability( 'settings' ),
 			self::PAGE,
 			array( $this, 'render_page' )
 		);
@@ -60,11 +60,11 @@ class UserOnline_Settings {
 	public function register_settings() {
 		register_setting(
 			self::GROUP,
-			UserOnline_Options::OPTION,
+			WP_UserOnline_Options::OPTION,
 			array(
 				'type'              => 'array',
-				'sanitize_callback' => array( 'UserOnline_Options', 'sanitize' ),
-				'default'           => UserOnline_Options::defaults(),
+				'sanitize_callback' => array( 'WP_UserOnline_Options', 'sanitize' ),
+				'default'           => WP_UserOnline_Options::defaults(),
 			)
 		);
 
@@ -165,7 +165,7 @@ class UserOnline_Settings {
 	 * @return string
 	 */
 	private function name( ...$keys ) {
-		return UserOnline_Options::OPTION . '[' . implode( '][', $keys ) . ']';
+		return WP_UserOnline_Options::OPTION . '[' . implode( '][', $keys ) . ']';
 	}
 
 	/**
@@ -195,7 +195,7 @@ class UserOnline_Settings {
 	 * @return string
 	 */
 	private function default_for( array $keys ) {
-		$value = UserOnline_Options::defaults();
+		$value = WP_UserOnline_Options::defaults();
 
 		foreach ( $keys as $key ) {
 			if ( ! is_array( $value ) || ! isset( $value[ $key ] ) ) {
@@ -231,7 +231,7 @@ class UserOnline_Settings {
 	 * @return void
 	 */
 	public function field_timeout() {
-		$this->text_input( array( 'timeout' ), UserOnline_Options::get( 'timeout' ), '4' );
+		$this->text_input( array( 'timeout' ), WP_UserOnline_Options::get( 'timeout' ), '4' );
 		echo '<p class="description">' . esc_html__( 'How long until it will remove the user from the database (in seconds).', 'wp-useronline' ) . '</p>';
 	}
 
@@ -244,7 +244,7 @@ class UserOnline_Settings {
 		printf(
 			'<input type="url" class="regular-text" name="%1$s" value="%2$s" />',
 			esc_attr( $this->name( 'url' ) ),
-			esc_attr( UserOnline_Options::get( 'url' ) )
+			esc_attr( WP_UserOnline_Options::get( 'url' ) )
 		);
 		echo '<p class="description">' . esc_html__( 'URL to the page showing who is online.', 'wp-useronline' ) . '</p>';
 	}
@@ -255,7 +255,7 @@ class UserOnline_Settings {
 	 * @return void
 	 */
 	public function field_names() {
-		$names = (int) UserOnline_Options::get( 'names' );
+		$names = (int) WP_UserOnline_Options::get( 'names' );
 		?>
 		<fieldset>
 			<label>
@@ -287,7 +287,7 @@ class UserOnline_Settings {
 	 * @return void
 	 */
 	public function field_naming() {
-		$naming = UserOnline_Options::get( 'naming' );
+		$naming = WP_UserOnline_Options::get( 'naming' );
 		?>
 		<table class="widefat striped" id="useronline-naming">
 			<thead>
@@ -317,7 +317,7 @@ class UserOnline_Settings {
 	 * @return void
 	 */
 	public function field_template_useronline() {
-		$templates = UserOnline_Options::get( 'templates' );
+		$templates = WP_UserOnline_Options::get( 'templates' );
 		?>
 		<div id="useronline-template-useronline">
 			<p class="description">
@@ -359,7 +359,7 @@ class UserOnline_Settings {
 	 * @return void
 	 */
 	private function render_browsing_template( $key ) {
-		$templates = UserOnline_Options::get( 'templates' );
+		$templates = WP_UserOnline_Options::get( 'templates' );
 		$template  = $templates[ $key ];
 		$id        = 'useronline-template-' . $key;
 		?>
@@ -395,7 +395,7 @@ class UserOnline_Settings {
 	 * @return void
 	 */
 	public function render_page() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( WP_UserOnline_Admin::capability( 'settings' ) ) ) {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'wp-useronline' ) );
 		}
 		?>

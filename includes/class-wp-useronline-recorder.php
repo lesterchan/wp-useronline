@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-UserOnline class-useronline-recorder.php
+ * WP-UserOnline class-wp-useronline-recorder.php
  *
  * @package wp-useronline
  */
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class UserOnline_Recorder {
+class WP_UserOnline_Recorder {
 
 	/**
 	 * Cached count of users online for this request.
@@ -74,7 +74,7 @@ class UserOnline_Recorder {
 
 		$user = self::identify( $user_agent );
 
-		$timeout   = (int) UserOnline_Options::get( 'timeout' );
+		$timeout   = (int) WP_UserOnline_Options::get( 'timeout' );
 		$timestamp = current_time( 'mysql' );
 
 		// Drop this visitor's previous row, plus anything that has timed out.
@@ -114,12 +114,12 @@ class UserOnline_Recorder {
 		// The table just changed, so anything already fetched this request is
 		// stale.
 		self::$count = null;
-		UserOnline_Template::flush_cache();
+		WP_UserOnline_Template::flush_cache();
 
 		$online = self::count();
 
-		if ( $online > (int) UserOnline_Options::most( 'count' ) ) {
-			UserOnline_Options::update_most( $online, time() );
+		if ( $online > (int) WP_UserOnline_Options::most( 'count' ) ) {
+			WP_UserOnline_Options::update_most( $online, time() );
 		}
 	}
 
@@ -131,7 +131,7 @@ class UserOnline_Recorder {
 	 * @return array{user_id:int,user_name:string,user_type:string}
 	 */
 	private static function identify( $user_agent ) {
-		foreach ( useronline_get_bots() as $name => $needle ) {
+		foreach ( wp_useronline_get_bots() as $name => $needle ) {
 			if ( false !== stristr( $user_agent, $needle ) ) {
 				return array(
 					'user_id'   => 0,
@@ -208,11 +208,11 @@ class UserOnline_Recorder {
 		/**
 		 * Filter whether X-Forwarded-For may be trusted.
 		 *
-		 * @param bool $trust Defaults to the USERONLINE_TRUST_PROXY constant.
+		 * @param bool $trust Defaults to the WP_USERONLINE_TRUST_PROXY constant.
 		 */
 		$trust_proxy = apply_filters(
 			'useronline_trust_proxy',
-			defined( 'USERONLINE_TRUST_PROXY' ) && USERONLINE_TRUST_PROXY
+			defined( 'WP_USERONLINE_TRUST_PROXY' ) && WP_USERONLINE_TRUST_PROXY
 		);
 
 		if ( $trust_proxy ) {

@@ -10,7 +10,7 @@
  */
 class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 
-	use UserOnline_Reset_Statics;
+	use WP_UserOnline_Reset_Statics;
 
 	/**
 	 * Start from an empty table and default settings.
@@ -22,7 +22,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 
 		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
 		$this->reset_useronline_statics();
-		delete_option( UserOnline_Options::OPTION );
+		delete_option( WP_UserOnline_Options::OPTION );
 
 		$_SERVER['REMOTE_ADDR'] = '203.0.113.9';
 		unset( $_SERVER['HTTP_USER_AGENT'] );
@@ -42,7 +42,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 	public function test_users_online_count() {
 		$this->assertSame( 0, get_users_online_count() );
 
-		UserOnline_Recorder::record( '/one', 'one' );
+		WP_UserOnline_Recorder::record( '/one', 'one' );
 
 		$this->assertSame( 1, get_users_online_count() );
 	}
@@ -51,8 +51,8 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 	 * %PAGE_URL% is substituted with the configured URL, escaped.
 	 */
 	public function test_get_users_online_substitutes_page_url() {
-		UserOnline_Options::update(
-			UserOnline_Options::sanitize( array( 'url' => 'https://example.com/who/' ) )
+		WP_UserOnline_Options::update(
+			WP_UserOnline_Options::sanitize( array( 'url' => 'https://example.com/who/' ) )
 		);
 
 		$this->assertStringContainsString( 'https://example.com/who/', get_users_online() );
@@ -63,16 +63,16 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 	 * The naming convention switches on the count.
 	 */
 	public function test_format_count_pluralises() {
-		$this->assertSame( '1 Member', UserOnline_Template::format_count( 1, 'member' ) );
-		$this->assertSame( '3 Members', UserOnline_Template::format_count( 3, 'member' ) );
-		$this->assertSame( '0 Members', UserOnline_Template::format_count( 0, 'member' ) );
+		$this->assertSame( '1 Member', WP_UserOnline_Template::format_count( 1, 'member' ) );
+		$this->assertSame( '3 Members', WP_UserOnline_Template::format_count( 3, 'member' ) );
+		$this->assertSame( '0 Members', WP_UserOnline_Template::format_count( 0, 'member' ) );
 	}
 
 	/**
 	 * Counts are grouped per user type, with a total.
 	 */
 	public function test_get_counts_totals_every_bucket() {
-		$counts = UserOnline_Template::get_counts(
+		$counts = WP_UserOnline_Template::get_counts(
 			array(
 				'member' => array( 1, 2 ),
 				'bot'    => array( 1 ),
@@ -94,7 +94,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 		$this->assertFalse( is_user_online( $user_id ) );
 
 		wp_set_current_user( $user_id );
-		UserOnline_Recorder::record( '/member', 'member' );
+		WP_UserOnline_Recorder::record( '/member', 'member' );
 
 		$this->assertTrue( is_user_online( $user_id ) );
 	}
@@ -108,7 +108,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 		$user_id = self::factory()->user->create( array( 'display_name' => 'Alice' ) );
 		wp_set_current_user( $user_id );
 
-		UserOnline_Recorder::record( '/member', 'member' );
+		WP_UserOnline_Recorder::record( '/member', 'member' );
 
 		$row = $wpdb->get_row( "SELECT * FROM {$wpdb->useronline}", ARRAY_A );
 
@@ -125,7 +125,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
 
-		UserOnline_Recorder::record( '/bot', 'bot' );
+		WP_UserOnline_Recorder::record( '/bot', 'bot' );
 
 		$row = $wpdb->get_row( "SELECT * FROM {$wpdb->useronline}", ARRAY_A );
 
@@ -141,7 +141,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 
 		wp_set_current_user( 0 );
 
-		UserOnline_Recorder::record( '/guest', 'guest' );
+		WP_UserOnline_Recorder::record( '/guest', 'guest' );
 
 		$row = $wpdb->get_row( "SELECT * FROM {$wpdb->useronline}", ARRAY_A );
 
@@ -158,7 +158,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 		wp_set_current_user( 0 );
 		$_COOKIE[ 'comment_author_' . COOKIEHASH ] = 'Bob';
 
-		UserOnline_Recorder::record( '/commenter', 'commenter' );
+		WP_UserOnline_Recorder::record( '/commenter', 'commenter' );
 
 		$row = $wpdb->get_row( "SELECT * FROM {$wpdb->useronline}", ARRAY_A );
 
@@ -172,7 +172,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 	public function test_linked_names_filter_wraps_members() {
 		$user_id = self::factory()->user->create( array( 'display_name' => 'Alice' ) );
 
-		$plugin = UserOnline::get_instance();
+		$plugin = WP_UserOnline::get_instance();
 		$user   = (object) array(
 			'user_id'   => $user_id,
 			'user_name' => 'Alice',
@@ -188,7 +188,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 	 * A guest has no author archive, so the name is left alone.
 	 */
 	public function test_linked_names_leaves_guests_alone() {
-		$plugin = UserOnline::get_instance();
+		$plugin = WP_UserOnline::get_instance();
 		$user   = (object) array(
 			'user_id'   => 0,
 			'user_name' => 'Guest',
@@ -201,9 +201,9 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 	 * The most-online sentence carries the recorded figures.
 	 */
 	public function test_format_most_users_reports_the_record() {
-		UserOnline_Options::update_most( 42, time() );
+		WP_UserOnline_Options::update_most( 42, time() );
 
-		$this->assertStringContainsString( '42', UserOnline_Template::format_most_users() );
+		$this->assertStringContainsString( '42', WP_UserOnline_Template::format_most_users() );
 		$this->assertSame( 42, get_most_users_online() );
 	}
 
@@ -211,7 +211,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 	 * The echoing tags print what their get_ counterparts return.
 	 */
 	public function test_echo_tags_print_their_values() {
-		UserOnline_Recorder::record( '/one', 'one' );
+		WP_UserOnline_Recorder::record( '/one', 'one' );
 
 		ob_start();
 		users_online_count();
@@ -226,7 +226,7 @@ class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
 	 * The shortcode is registered and renders the detailed page.
 	 */
 	public function test_shortcode_renders_the_page() {
-		UserOnline_Recorder::record( '/one', 'one' );
+		WP_UserOnline_Recorder::record( '/one', 'one' );
 
 		$this->assertTrue( shortcode_exists( 'page_useronline' ) );
 		$this->assertStringContainsString( 'useronline-details', do_shortcode( '[page_useronline]' ) );
