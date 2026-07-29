@@ -96,8 +96,8 @@ class WP_UserOnline {
 		WP_UserOnline_WPStats::init();
 
 		if ( is_admin() ) {
-			new WP_UserOnline_Admin();
-			new WP_UserOnline_Settings();
+			WP_UserOnline_Admin::init();
+			WP_UserOnline_Settings::init();
 		}
 	}
 

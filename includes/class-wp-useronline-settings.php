@@ -10,19 +10,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Settings screen, built on the Settings API.
+ * The settings screen, built on the Settings API.
  *
- * Replaces the scbAdminPage form the plugin used before 3.0.0. The option name
- * is unchanged, so existing settings carry over.
+ * WP_UserOnline_Admin owns the menu and the screens; this class owns
+ * register_setting(), the sections, the field_<name>() callbacks and the
+ * sanitiser. Everything the screen renders comes out of do_settings_sections(),
+ * so there is no hand-written form table anywhere below.
  *
- * @since 3.0.0
+ * @since 4.0.0
  */
 class WP_UserOnline_Settings {
 
 	/**
 	 * Settings group used by register_setting() and settings_fields().
 	 */
-	const GROUP = 'useronline_settings';
+	const GROUP = 'wp_useronline_options';
 
 	/**
 	 * Settings page slug.
@@ -30,26 +32,33 @@ class WP_UserOnline_Settings {
 	const PAGE = 'wp-useronline-settings';
 
 	/**
-	 * Constructor.
+	 * General settings section.
 	 */
-	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'add_page' ) );
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
-	}
+	const SECTION_GENERAL = 'wp_useronline_general';
 
 	/**
-	 * Add the settings page under the Settings menu.
+	 * Naming conventions section.
+	 */
+	const SECTION_NAMING = 'wp_useronline_naming';
+
+	/**
+	 * Templates section.
+	 */
+	const SECTION_TEMPLATES = 'wp_useronline_templates';
+
+	/**
+	 * WP-Stats integration section.
+	 */
+	const SECTION_WPSTATS = 'wp_useronline_wpstats';
+
+	/**
+	 * Hook the settings up.
 	 *
 	 * @return void
 	 */
-	public function add_page() {
-		add_options_page(
-			__( 'UserOnline Options', 'wp-useronline' ),
-			__( 'UserOnline', 'wp-useronline' ),
-			WP_UserOnline_Admin::capability( 'settings' ),
-			self::PAGE,
-			array( $this, 'render_page' )
-		);
+	public static function init() {
+		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
 	/**
@@ -57,7 +66,7 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function register_settings() {
+	public static function register_settings() {
 		register_setting(
 			self::GROUP,
 			WP_UserOnline_Options::OPTION,
@@ -69,7 +78,7 @@ class WP_UserOnline_Settings {
 		);
 
 		add_settings_section(
-			'useronline_general',
+			self::SECTION_GENERAL,
 			__( 'General', 'wp-useronline' ),
 			'__return_empty_string',
 			self::PAGE
@@ -78,44 +87,44 @@ class WP_UserOnline_Settings {
 		add_settings_field(
 			'timeout',
 			__( 'Time Out', 'wp-useronline' ),
-			array( $this, 'field_timeout' ),
+			array( __CLASS__, 'field_timeout' ),
 			self::PAGE,
-			'useronline_general'
+			self::SECTION_GENERAL
 		);
 
 		add_settings_field(
 			'url',
 			__( 'UserOnline URL', 'wp-useronline' ),
-			array( $this, 'field_url' ),
+			array( __CLASS__, 'field_url' ),
 			self::PAGE,
-			'useronline_general'
+			self::SECTION_GENERAL
 		);
 
 		add_settings_field(
 			'names',
 			__( 'Link user names?', 'wp-useronline' ),
-			array( $this, 'field_names' ),
+			array( __CLASS__, 'field_names' ),
 			self::PAGE,
-			'useronline_general'
+			self::SECTION_GENERAL
 		);
 
 		add_settings_section(
-			'useronline_naming',
+			self::SECTION_NAMING,
 			__( 'Naming Conventions', 'wp-useronline' ),
-			array( $this, 'section_naming' ),
+			array( __CLASS__, 'section_naming' ),
 			self::PAGE
 		);
 
 		add_settings_field(
 			'naming',
 			__( 'Names', 'wp-useronline' ),
-			array( $this, 'field_naming' ),
+			array( __CLASS__, 'field_naming' ),
 			self::PAGE,
-			'useronline_naming'
+			self::SECTION_NAMING
 		);
 
 		add_settings_section(
-			'useronline_templates',
+			self::SECTION_TEMPLATES,
 			__( 'Templates', 'wp-useronline' ),
 			'__return_empty_string',
 			self::PAGE
@@ -124,25 +133,61 @@ class WP_UserOnline_Settings {
 		add_settings_field(
 			'template_useronline',
 			__( 'User(s) Online', 'wp-useronline' ),
-			array( $this, 'field_template_useronline' ),
+			array( __CLASS__, 'field_template_useronline' ),
 			self::PAGE,
-			'useronline_templates'
+			self::SECTION_TEMPLATES
 		);
 
 		add_settings_field(
 			'template_browsingsite',
 			__( 'User(s) Browsing Site', 'wp-useronline' ),
-			array( $this, 'field_template_browsingsite' ),
+			array( __CLASS__, 'field_template_browsingsite' ),
 			self::PAGE,
-			'useronline_templates'
+			self::SECTION_TEMPLATES
 		);
 
 		add_settings_field(
 			'template_browsingpage',
 			__( 'User(s) Browsing Page', 'wp-useronline' ),
-			array( $this, 'field_template_browsingpage' ),
+			array( __CLASS__, 'field_template_browsingpage' ),
 			self::PAGE,
-			'useronline_templates'
+			self::SECTION_TEMPLATES
+		);
+
+		add_settings_section(
+			self::SECTION_WPSTATS,
+			__( 'WP-Stats', 'wp-useronline' ),
+			array( __CLASS__, 'section_wpstats' ),
+			self::PAGE
+		);
+
+		add_settings_field(
+			'stats_display',
+			__( 'Show a users online section?', 'wp-useronline' ),
+			array( __CLASS__, 'field_stats_display' ),
+			self::PAGE,
+			self::SECTION_WPSTATS
+		);
+	}
+
+	/**
+	 * Load the Restore Defaults behaviour, on the settings screen only.
+	 *
+	 * @param string $hook_suffix Current admin screen.
+	 *
+	 * @return void
+	 */
+	public static function enqueue_scripts( $hook_suffix ) {
+		if ( ! is_string( $hook_suffix ) || false === strpos( $hook_suffix, self::PAGE ) ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'wp-useronline-admin',
+			WP_USERONLINE_URL . 'js/wp-useronline-admin.js',
+			array(),
+			WP_USERONLINE_VERSION,
+			true
 		);
 	}
 
@@ -164,7 +209,7 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return string
 	 */
-	private function name( ...$keys ) {
+	private static function name( ...$keys ) {
 		return WP_UserOnline_Options::OPTION . '[' . implode( '][', $keys ) . ']';
 	}
 
@@ -177,13 +222,13 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	private function text_input( array $keys, $value, $size = '30' ) {
+	private static function text_input( array $keys, $value, $size = '30' ) {
 		printf(
-			'<input type="text" name="%1$s" value="%2$s" size="%3$s" data-useronline-default="%4$s" />',
-			esc_attr( call_user_func_array( array( $this, 'name' ), $keys ) ),
+			'<input type="text" name="%1$s" value="%2$s" size="%3$s" data-wp-useronline-default="%4$s" />',
+			esc_attr( call_user_func_array( array( __CLASS__, 'name' ), $keys ) ),
 			esc_attr( $value ),
 			esc_attr( $size ),
-			esc_attr( $this->default_for( $keys ) )
+			esc_attr( self::default_for( $keys ) )
 		);
 	}
 
@@ -194,7 +239,7 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return string
 	 */
-	private function default_for( array $keys ) {
+	private static function default_for( array $keys ) {
 		$value = WP_UserOnline_Options::defaults();
 
 		foreach ( $keys as $key ) {
@@ -217,9 +262,9 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	private function restore_button( $target ) {
+	private static function restore_button( $target ) {
 		printf(
-			'<p><button type="button" class="button useronline-restore" data-target="%1$s">%2$s</button></p>',
+			'<p><button type="button" class="button wp-useronline-restore" data-target="%1$s">%2$s</button></p>',
 			esc_attr( $target ),
 			esc_html__( 'Restore Defaults', 'wp-useronline' )
 		);
@@ -230,8 +275,8 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function field_timeout() {
-		$this->text_input( array( 'timeout' ), WP_UserOnline_Options::get( 'timeout' ), '4' );
+	public static function field_timeout() {
+		self::text_input( array( 'timeout' ), WP_UserOnline_Options::get( 'timeout' ), '4' );
 		echo '<p class="description">' . esc_html__( 'How long until it will remove the user from the database (in seconds).', 'wp-useronline' ) . '</p>';
 	}
 
@@ -240,10 +285,10 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function field_url() {
+	public static function field_url() {
 		printf(
 			'<input type="url" class="regular-text" name="%1$s" value="%2$s" />',
-			esc_attr( $this->name( 'url' ) ),
+			esc_attr( self::name( 'url' ) ),
 			esc_attr( WP_UserOnline_Options::get( 'url' ) )
 		);
 		echo '<p class="description">' . esc_html__( 'URL to the page showing who is online.', 'wp-useronline' ) . '</p>';
@@ -254,17 +299,17 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function field_names() {
+	public static function field_names() {
 		$names = (int) WP_UserOnline_Options::get( 'names' );
 		?>
 		<fieldset>
 			<label>
-				<input type="radio" name="<?php echo esc_attr( $this->name( 'names' ) ); ?>" value="1" <?php checked( 1, $names ); ?> />
+				<input type="radio" name="<?php echo esc_attr( self::name( 'names' ) ); ?>" value="1" <?php checked( 1, $names ); ?> />
 				<?php esc_html_e( 'Yes', 'wp-useronline' ); ?>
 			</label>
 			<br />
 			<label>
-				<input type="radio" name="<?php echo esc_attr( $this->name( 'names' ) ); ?>" value="0" <?php checked( 0, $names ); ?> />
+				<input type="radio" name="<?php echo esc_attr( self::name( 'names' ) ); ?>" value="0" <?php checked( 0, $names ); ?> />
 				<?php esc_html_e( 'No', 'wp-useronline' ); ?>
 			</label>
 		</fieldset>
@@ -277,7 +322,7 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function section_naming() {
+	public static function section_naming() {
 		echo '<p>' . esc_html__( 'Allowed variable:', 'wp-useronline' ) . ' <code>%COUNT%</code></p>';
 	}
 
@@ -286,10 +331,10 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function field_naming() {
+	public static function field_naming() {
 		$naming = WP_UserOnline_Options::get( 'naming' );
 		?>
-		<table class="widefat striped" id="useronline-naming">
+		<table class="widefat striped" id="wp-useronline-naming">
 			<thead>
 				<tr>
 					<th scope="col"><?php esc_html_e( 'Type', 'wp-useronline' ); ?></th>
@@ -301,14 +346,14 @@ class WP_UserOnline_Settings {
 			<?php foreach ( array( 'user', 'member', 'guest', 'bot' ) as $type ) : ?>
 				<tr>
 					<th scope="row"><?php echo esc_html( $type ); ?></th>
-					<td><?php $this->text_input( array( 'naming', $type ), $naming[ $type ] ); ?></td>
-					<td><?php $this->text_input( array( 'naming', $type . 's' ), $naming[ $type . 's' ] ); ?></td>
+					<td><?php self::text_input( array( 'naming', $type ), $naming[ $type ] ); ?></td>
+					<td><?php self::text_input( array( 'naming', $type . 's' ), $naming[ $type . 's' ] ); ?></td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
 		</table>
 		<?php
-		$this->restore_button( '#useronline-naming' );
+		self::restore_button( '#wp-useronline-naming' );
 	}
 
 	/**
@@ -316,21 +361,21 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function field_template_useronline() {
+	public static function field_template_useronline() {
 		$templates = WP_UserOnline_Options::get( 'templates' );
 		?>
-		<div id="useronline-template-useronline">
+		<div id="wp-useronline-template-useronline">
 			<p class="description">
 				<?php esc_html_e( 'Allowed variables:', 'wp-useronline' ); ?>
 				<?php echo wp_kses_post( self::token_list( array( '%USERS%', '%PAGE_URL%', '%MOSTONLINE_COUNT%', '%MOSTONLINE_DATE%' ) ) ); ?>
 			</p>
 			<textarea class="large-text code" rows="3"
-				name="<?php echo esc_attr( $this->name( 'templates', 'useronline' ) ); ?>"
-				data-useronline-default="<?php echo esc_attr( $this->default_for( array( 'templates', 'useronline' ) ) ); ?>"
+				name="<?php echo esc_attr( self::name( 'templates', 'useronline' ) ); ?>"
+				data-wp-useronline-default="<?php echo esc_attr( self::default_for( array( 'templates', 'useronline' ) ) ); ?>"
 			><?php echo esc_textarea( $templates['useronline'] ); ?></textarea>
 		</div>
 		<?php
-		$this->restore_button( '#useronline-template-useronline' );
+		self::restore_button( '#wp-useronline-template-useronline' );
 	}
 
 	/**
@@ -338,8 +383,8 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function field_template_browsingsite() {
-		$this->render_browsing_template( 'browsingsite' );
+	public static function field_template_browsingsite() {
+		self::render_browsing_template( 'browsingsite' );
 	}
 
 	/**
@@ -347,8 +392,8 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function field_template_browsingpage() {
-		$this->render_browsing_template( 'browsingpage' );
+	public static function field_template_browsingpage() {
+		self::render_browsing_template( 'browsingpage' );
 	}
 
 	/**
@@ -358,10 +403,10 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	private function render_browsing_template( $key ) {
+	private static function render_browsing_template( $key ) {
 		$templates = WP_UserOnline_Options::get( 'templates' );
 		$template  = $templates[ $key ];
-		$id        = 'useronline-template-' . $key;
+		$id        = 'wp-useronline-template-' . $key;
 		?>
 		<div id="<?php echo esc_attr( $id ); ?>">
 			<p class="description">
@@ -369,24 +414,51 @@ class WP_UserOnline_Settings {
 				<?php echo wp_kses_post( self::token_list( array( '%USERS%', '%MEMBERS%', '%MEMBER_NAMES%', '%GUESTS_SEPARATOR%', '%GUESTS%', '%BOTS_SEPARATOR%', '%BOTS%' ) ) ); ?>
 			</p>
 			<textarea class="large-text code" rows="3"
-				name="<?php echo esc_attr( $this->name( 'templates', $key, 'text' ) ); ?>"
-				data-useronline-default="<?php echo esc_attr( $this->default_for( array( 'templates', $key, 'text' ) ) ); ?>"
+				name="<?php echo esc_attr( self::name( 'templates', $key, 'text' ) ); ?>"
+				data-wp-useronline-default="<?php echo esc_attr( self::default_for( array( 'templates', $key, 'text' ) ) ); ?>"
 			><?php echo esc_textarea( $template['text'] ); ?></textarea>
 
-			<p>
-				<?php foreach ( array( 'members', 'guests', 'bots' ) as $sep ) : ?>
-					<label style="margin-right:1em">
+			<?php foreach ( array( 'members', 'guests', 'bots' ) as $separator ) : ?>
+				<p>
+					<label>
 						<?php
 						/* translators: %s: separator type, one of members, guests or bots. */
-						echo esc_html( sprintf( __( '%s separator', 'wp-useronline' ), $sep ) );
+						echo esc_html( sprintf( __( '%s separator', 'wp-useronline' ), $separator ) );
 						?>
-						<?php $this->text_input( array( 'templates', $key, 'separators', $sep ), $template['separators'][ $sep ], '8' ); ?>
+						<?php self::text_input( array( 'templates', $key, 'separators', $separator ), $template['separators'][ $separator ], '8' ); ?>
 					</label>
-				<?php endforeach; ?>
-			</p>
+				</p>
+			<?php endforeach; ?>
 		</div>
 		<?php
-		$this->restore_button( '#' . $id );
+		self::restore_button( '#' . $id );
+	}
+
+	/**
+	 * WP-Stats section description.
+	 *
+	 * @return void
+	 */
+	public static function section_wpstats() {
+		echo '<p>' . esc_html__( 'This only does anything when the WP-Stats plugin is installed.', 'wp-useronline' ) . '</p>';
+	}
+
+	/**
+	 * WP-Stats section toggle.
+	 *
+	 * @return void
+	 */
+	public static function field_stats_display() {
+		?>
+		<fieldset>
+			<label>
+				<input type="checkbox" value="1"
+					name="<?php echo esc_attr( self::name( 'stats_display' ) ); ?>"
+					<?php checked( (bool) WP_UserOnline_Options::get( 'stats_display' ) ); ?> />
+				<?php esc_html_e( 'Show a users online section on the WP-Stats page.', 'wp-useronline' ); ?>
+			</label>
+		</fieldset>
+		<?php
 	}
 
 	/**
@@ -394,7 +466,7 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public function render_page() {
+	public static function render_page() {
 		if ( ! current_user_can( WP_UserOnline_Admin::capability( 'settings' ) ) ) {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'wp-useronline' ) );
 		}
@@ -410,23 +482,6 @@ class WP_UserOnline_Settings {
 				?>
 			</form>
 		</div>
-		<script>
-		( function () {
-			document.addEventListener( 'click', function ( e ) {
-				var button = e.target.closest( '.useronline-restore' );
-				if ( ! button ) {
-					return;
-				}
-				var scope = document.querySelector( button.dataset.target );
-				if ( ! scope ) {
-					return;
-				}
-				scope.querySelectorAll( '[data-useronline-default]' ).forEach( function ( field ) {
-					field.value = field.dataset.useronlineDefault;
-				} );
-			} );
-		}() );
-		</script>
 		<?php
 	}
 }
