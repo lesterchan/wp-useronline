@@ -146,9 +146,13 @@ function users_online_page() {
 	/**
 	 * Filter the users online grouped by type.
 	 *
+	 * Renamed from useronline_buckets in 4.0.0; the old name is gone.
+	 *
+	 * @since 4.0.0
+	 *
 	 * @param array $buckets Users grouped by user_type.
 	 */
-	$buckets = apply_filters( 'useronline_buckets', $buckets );
+	$buckets = apply_filters( 'wp_useronline_buckets', $buckets );
 
 	$counts = WP_UserOnline_Template::get_counts( $buckets );
 
@@ -177,9 +181,13 @@ function users_online_page() {
 	/**
 	 * Filter the complete users online page markup.
 	 *
+	 * Renamed from useronline_page in 4.0.0; the old name is gone.
+	 *
+	 * @since 4.0.0
+	 *
 	 * @param string $output Escaped markup.
 	 */
-	return apply_filters( 'useronline_page', $output );
+	return apply_filters( 'wp_useronline_page', $output );
 }
 
 /**

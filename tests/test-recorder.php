@@ -99,11 +99,11 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 	 */
 	public function test_forwarded_for_honoured_when_trusted() {
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '1.2.3.4';
-		add_filter( 'useronline_trust_proxy', '__return_true' );
+		add_filter( 'wp_useronline_trust_proxy', '__return_true' );
 
 		WP_UserOnline_Recorder::record( '/ip-trusted', 'probe' );
 
-		remove_filter( 'useronline_trust_proxy', '__return_true' );
+		remove_filter( 'wp_useronline_trust_proxy', '__return_true' );
 
 		$this->assertSame( '1.2.3.4', $this->last_row()['user_ip'] );
 	}
@@ -113,11 +113,11 @@ class Test_UserOnline_Recorder extends WP_UnitTestCase {
 	 */
 	public function test_garbage_forwarded_for_falls_back() {
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '<script>alert(1)</script>';
-		add_filter( 'useronline_trust_proxy', '__return_true' );
+		add_filter( 'wp_useronline_trust_proxy', '__return_true' );
 
 		WP_UserOnline_Recorder::record( '/ip-garbage', 'probe' );
 
-		remove_filter( 'useronline_trust_proxy', '__return_true' );
+		remove_filter( 'wp_useronline_trust_proxy', '__return_true' );
 
 		$this->assertSame( '203.0.113.9', $this->last_row()['user_ip'] );
 	}

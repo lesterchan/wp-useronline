@@ -11,7 +11,7 @@
 
 	function refresh( mode, target ) {
 		const body = new URLSearchParams( {
-			action: 'useronline',
+			action: 'wp_useronline',
 			mode,
 			page_url: location.protocol + '//' + location.host + location.pathname + location.search,
 			page_title: document.title,

@@ -208,10 +208,14 @@ class WP_UserOnline_Recorder {
 		/**
 		 * Filter whether X-Forwarded-For may be trusted.
 		 *
+		 * Renamed from useronline_trust_proxy in 4.0.0; the old name is gone.
+		 *
+		 * @since 4.0.0
+		 *
 		 * @param bool $trust Defaults to the WP_USERONLINE_TRUST_PROXY constant.
 		 */
 		$trust_proxy = apply_filters(
-			'useronline_trust_proxy',
+			'wp_useronline_trust_proxy',
 			defined( 'WP_USERONLINE_TRUST_PROXY' ) && WP_USERONLINE_TRUST_PROXY
 		);
 

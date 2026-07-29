@@ -10,85 +10,67 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Adds WP-UserOnline figures to the WP-Stats plugin's pages.
+ * Contributes this plugin's section to the WP-Stats page.
  *
- * @since 3.0.0
+ * Before 4.0.0 the two plugins met in a bare stats_display option row that
+ * seven plugins wrote to at once, and WP-Stats had to know the names of every
+ * panel its siblings owned. Now WP-Stats asks -- it fires wp_stats_sections and
+ * each plugin answers for itself -- so WP-Stats cannot render a section for a
+ * plugin that is not installed, and this class decides whether to appear at all
+ * by reading nothing but its own settings.
+ *
+ * Loaded unconditionally and inert without WP-Stats: nothing fires the filter,
+ * so nothing here runs. There is no class_exists() probing between plugins.
+ *
+ * @since 4.0.0
  */
 class WP_UserOnline_WPStats {
 
 	/**
-	 * Constructor.
+	 * Offer the section to WP-Stats.
+	 *
+	 * @return void
 	 */
-	public function __construct() {
-		add_filter( 'wp_stats_display_defaults', array( $this, 'display_defaults' ) );
-		add_filter( 'wp_stats_page_admin_plugins', array( $this, 'admin_stats' ) );
-		add_filter( 'wp_stats_page_plugins', array( $this, 'stats' ) );
+	public static function init() {
+		add_filter( 'wp_stats_sections', array( __CLASS__, 'register_section' ) );
 	}
 
 	/**
-	 * Tell WP-Stats about the toggle this plugin owns, and its default.
+	 * Add this plugin's entry to the section list.
 	 *
-	 * Without this WP-Stats only learns the key exists once its checkbox has
-	 * been submitted, so the panel would start out off on a fresh install.
-	 *
-	 * @param array $defaults Registered toggles.
+	 * @param array $sections Sections keyed by plugin slug with underscores.
 	 *
 	 * @return array
 	 */
-	public function display_defaults( $defaults ) {
-		// WP-Stats' own defaults win, so this only ever adds.
-		return array_merge( array( 'useronline' => 1 ), (array) $defaults );
+	public static function register_section( $sections ) {
+		$sections = (array) $sections;
+
+		if ( ! WP_UserOnline_Options::get( 'stats_display' ) ) {
+			// Opted out: contribute nothing, rather than an entry with an empty
+			// body that WP-Stats would still draw a heading for.
+			return $sections;
+		}
+
+		$sections['wp_useronline'] = array(
+			'title'    => __( 'Users Online', 'wp-useronline' ),
+			'priority' => 10,
+			'render'   => array( __CLASS__, 'render' ),
+		);
+
+		return $sections;
 	}
 
 	/**
-	 * Whether the WP-UserOnline toggle is on.
+	 * Echo the section body.
 	 *
-	 * @return bool
+	 * Takes no arguments and echoes rather than returns, per the contract:
+	 * WP-Stats assembles its page under ob_start(), so anything returned here
+	 * would be dropped without a word. The section's own heading is echoed by
+	 * WP-Stats before this runs.
+	 *
+	 * @return void
 	 */
-	private function is_displayed() {
-		if ( function_exists( 'wp_stats_display_enabled' ) ) {
-			return wp_stats_display_enabled( 'useronline' );
-		}
-
-		// WP-Stats before 3.0.0 kept the toggles in their own option row.
-		$stats_display = get_option( 'stats_display' );
-
-		return is_array( $stats_display ) && 1 === (int) ( $stats_display['useronline'] ?? 0 );
-	}
-
-	/**
-	 * Add the WP-UserOnline checkbox to the WP-Stats options.
-	 *
-	 * @param string $content Existing options markup.
-	 *
-	 * @return string
-	 */
-	public function admin_stats( $content ) {
-		// WP-Stats 3.0.0 owns the field name, which changed when it consolidated
-		// its option rows.
-		if ( function_exists( 'wp_stats_checkbox' ) ) {
-			return $content . wp_stats_checkbox( 'useronline', __( 'WP-UserOnline', 'wp-useronline' ) );
-		}
-
-		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_useronline" value="useronline"'
-			. checked( $this->is_displayed(), true, false ) . ' />&nbsp;&nbsp;'
-			. '<label for="wpstats_useronline">' . esc_html__( 'WP-UserOnline', 'wp-useronline' ) . '</label><br />' . "\n";
-
-		return $content;
-	}
-
-	/**
-	 * Add the WP-UserOnline figures to the WP-Stats page.
-	 *
-	 * @param string $content Existing stats markup.
-	 *
-	 * @return string
-	 */
-	public function stats( $content ) {
-		if ( ! $this->is_displayed() ) {
-			return $content;
-		}
-
+	public static function render() {
 		$total = get_users_online_count();
 
 		$text = sprintf(
@@ -97,12 +79,9 @@ class WP_UserOnline_WPStats {
 			esc_html( number_format_i18n( $total ) )
 		);
 
-		$content .= '<p><strong>' . esc_html__( 'WP-UserOnline', 'wp-useronline' ) . '</strong></p>'
-			. '<ul>'
-			. '<li>' . wp_kses_post( $text ) . '</li>'
-			. '<li>' . wp_kses_post( WP_UserOnline_Template::format_most_users() ) . '</li>'
-			. '</ul>';
-
-		return $content;
+		echo '<ul>' . "\n";
+		echo '<li>' . wp_kses_post( $text ) . '</li>' . "\n";
+		echo '<li>' . wp_kses_post( WP_UserOnline_Template::format_most_users() ) . '</li>' . "\n";
+		echo '</ul>' . "\n";
 	}
 }

@@ -97,8 +97,8 @@ class Test_UserOnline_Install extends WP_UnitTestCase {
 		$this->assertNotFalse( has_action( 'wp_head', array( $plugin, 'record' ) ) );
 		$this->assertNotFalse( has_action( 'admin_head', array( $plugin, 'record' ) ) );
 		$this->assertNotFalse( has_action( 'wp_footer', array( $plugin, 'enqueue_scripts' ) ) );
-		$this->assertNotFalse( has_action( 'wp_ajax_useronline', array( $plugin, 'ajax' ) ) );
-		$this->assertNotFalse( has_action( 'wp_ajax_nopriv_useronline', array( $plugin, 'ajax' ) ) );
+		$this->assertNotFalse( has_action( 'wp_ajax_wp_useronline', array( $plugin, 'ajax' ) ) );
+		$this->assertNotFalse( has_action( 'wp_ajax_nopriv_wp_useronline', array( $plugin, 'ajax' ) ) );
 	}
 
 	/**

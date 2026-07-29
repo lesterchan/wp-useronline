@@ -78,29 +78,26 @@ class WP_UserOnline {
 		add_action( 'admin_head', array( $this, 'record' ) );
 		add_action( 'wp_footer', array( $this, 'enqueue_scripts' ) );
 
-		add_action( 'wp_ajax_useronline', array( $this, 'ajax' ) );
-		add_action( 'wp_ajax_nopriv_useronline', array( $this, 'ajax' ) );
+		add_action( 'wp_ajax_wp_useronline', array( $this, 'ajax' ) );
+		add_action( 'wp_ajax_nopriv_wp_useronline', array( $this, 'ajax' ) );
 
 		add_action( 'widgets_init', array( $this, 'register_widget' ) );
 
 		add_shortcode( 'page_useronline', 'users_online_page' );
 
 		if ( WP_UserOnline_Options::get( 'names' ) ) {
-			add_filter( 'useronline_display_user', array( $this, 'linked_names' ), 10, 2 );
+			add_filter( 'wp_useronline_display_user', array( $this, 'linked_names' ), 10, 2 );
 		}
+
+		// Inert without WP-Stats -- nothing fires wp_stats_sections, so nothing
+		// in it runs. No class_exists() or function_exists() probing between
+		// plugins: whether a section appears is this plugin's own setting to
+		// answer, and whether anyone asks is WP-Stats' business.
+		WP_UserOnline_WPStats::init();
 
 		if ( is_admin() ) {
-			require_once __DIR__ . '/class-wp-useronline-admin.php';
-			require_once __DIR__ . '/class-wp-useronline-settings.php';
-
 			new WP_UserOnline_Admin();
 			new WP_UserOnline_Settings();
-		}
-
-		if ( function_exists( 'stats_page' ) ) {
-			require_once __DIR__ . '/class-wp-useronline-wpstats.php';
-
-			new WP_UserOnline_WPStats();
 		}
 	}
 
@@ -135,8 +132,6 @@ class WP_UserOnline {
 	 * @return void
 	 */
 	public function register_widget() {
-		require_once __DIR__ . '/class-wp-useronline-widget.php';
-
 		register_widget( 'WP_UserOnline_Widget' );
 	}
 
@@ -219,5 +214,4 @@ class WP_UserOnline {
 
 		wp_die( '', '', array( 'response' => 200 ) );
 	}
-
 }

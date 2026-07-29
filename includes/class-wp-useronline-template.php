@@ -249,11 +249,16 @@ class WP_UserOnline_Template {
 				 * referral and user_agent are all attacker-supplied ), so
 				 * anything rebuilt from it must be escaped again.
 				 *
+				 * Renamed from useronline_custom_template in 4.0.0; the old
+				 * name is gone.
+				 *
+				 * @since 4.0.0
+				 *
 				 * @param string $markup Escaped markup for this user.
 				 * @param string $nr     Formatted position in the list.
 				 * @param object $user   Raw useronline row. Unescaped.
 				 */
-				$out .= apply_filters( 'useronline_custom_template', $markup, $nr, $user );
+				$out .= apply_filters( 'wp_useronline_custom_template', $markup, $nr, $user );
 			}
 		}
 
@@ -328,10 +333,14 @@ class WP_UserOnline_Template {
 		/**
 		 * Filter a user's displayed name on the users online lists.
 		 *
+		 * Renamed from useronline_display_user in 4.0.0; the old name is gone.
+		 *
+		 * @since 4.0.0
+		 *
 		 * @param string $name Escaped display name.
 		 * @param object $user Raw useronline row. Unescaped.
 		 */
-		return apply_filters( 'useronline_display_user', esc_html( $user->user_name ), $user );
+		return apply_filters( 'wp_useronline_display_user', esc_html( $user->user_name ), $user );
 	}
 
 	/**

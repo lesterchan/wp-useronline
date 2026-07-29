@@ -158,5 +158,14 @@ function wp_useronline_get_bots() {
 		'YisouSpider'               => 'yisouspider',
 	);
 
-	return apply_filters( 'useronline_bots', $bots );
+	/**
+	 * Filter the list of bots matched against the visitor's user agent.
+	 *
+	 * Renamed from useronline_bots in 4.0.0; the old name is gone.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, string> $bots Display name => user agent fragment.
+	 */
+	return apply_filters( 'wp_useronline_bots', $bots );
 }
