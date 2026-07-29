@@ -6,143 +6,139 @@
  */
 
 /**
- * The integration only loads when WP-Stats is present, so these drive the class
- * directly rather than relying on that plugin being installed.
+ * The contract with WP-Stats, driven directly rather than by installing it.
+ *
+ * The whole point of the arrangement is that this class answers a filter and
+ * reads nothing but its own settings, so everything it promises can be checked
+ * without the other plugin being present.
  */
-class Test_UserOnline_WpStats extends WP_UnitTestCase {
-
-	use WP_UserOnline_Reset_Statics;
+class WP_UserOnline_WPStats_Test extends WP_UserOnline_TestCase {
 
 	/**
-	 * Integration instance under test.
+	 * The entry this plugin contributes, or null when it opted out.
 	 *
-	 * @var WP_UserOnline_WPStats
+	 * @return array|null
 	 */
-	private $stats;
+	private function section() {
+		$sections = WP_UserOnline_WPStats::register_section( array() );
 
-	/**
-	 * Load the class and start from a clean table.
-	 */
-	public function set_up() {
-		global $wpdb;
-
-		parent::set_up();
-
-		require_once dirname( __DIR__ ) . '/includes/class-wp-useronline-wpstats.php';
-
-		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
-		$this->reset_useronline_statics();
-		delete_option( 'stats_display' );
-
-		$this->stats = new WP_UserOnline_WPStats();
+		return isset( $sections['wp_useronline'] ) ? $sections['wp_useronline'] : null;
 	}
 
-	/**
-	 * Remove the option again.
-	 */
-	public function tear_down() {
-		delete_option( 'stats_display' );
-		parent::tear_down();
+	// --- the filter -----------------------------------------------------
+
+	public function test_the_class_hooks_wp_stats_sections_and_nothing_else() {
+		$this->assertNotFalse( has_filter( 'wp_stats_sections', array( 'WP_UserOnline_WPStats', 'register_section' ) ), 'the section is not offered' );
+
+		foreach ( array( 'wp_stats_display_defaults', 'wp_stats_page_admin_plugins', 'wp_stats_page_plugins' ) as $retired ) {
+			$this->assertFalse( has_filter( $retired ), $retired . ' is a pre-4.0.0 hook and must not be used' );
+		}
 	}
 
-	/**
-	 * The constructor hooks both WP-Stats filters.
-	 */
-	public function test_filters_are_registered() {
-		$this->assertNotFalse( has_filter( 'wp_stats_page_admin_plugins', array( $this->stats, 'admin_stats' ) ) );
-		$this->assertNotFalse( has_filter( 'wp_stats_page_plugins', array( $this->stats, 'stats' ) ) );
+	public function test_the_entry_is_keyed_by_this_plugins_slug_with_underscores() {
+		$sections = WP_UserOnline_WPStats::register_section( array() );
+
+		$this->assertSame( array( 'wp_useronline' ), array_keys( $sections ), 'the entry must be keyed wp_useronline and add nothing else' );
 	}
 
-	/**
-	 * The options screen gains a checkbox, appended to what came before.
-	 */
-	public function test_admin_stats_appends_a_checkbox() {
-		$html = $this->stats->admin_stats( 'EXISTING' );
+	public function test_the_entry_keeps_whatever_a_sibling_already_contributed() {
+		$sections = WP_UserOnline_WPStats::register_section( array( 'wp_polls' => array( 'title' => 'Polls' ) ) );
 
-		$this->assertStringStartsWith( 'EXISTING', $html );
-		$this->assertStringContainsString( 'name="stats_display[]"', $html );
-		$this->assertStringContainsString( 'value="useronline"', $html );
+		$this->assertArrayHasKey( 'wp_polls', $sections, 'a sibling entry was dropped' );
+		$this->assertArrayHasKey( 'wp_useronline', $sections, 'this plugin did not contribute' );
 	}
 
-	/**
-	 * The checkbox reflects the stored preference.
-	 */
-	public function test_admin_stats_checkbox_reflects_the_option() {
-		$this->assertStringNotContainsString( 'checked', $this->stats->admin_stats( '' ) );
+	public function test_a_non_array_filter_value_does_not_fatal() {
+		$sections = WP_UserOnline_WPStats::register_section( null );
 
+		$this->assertArrayHasKey( 'wp_useronline', $sections, 'a null filter value should still yield this entry' );
+	}
+
+	// --- the entry shape ------------------------------------------------
+
+	public function test_the_title_is_a_non_empty_translated_string_because_wp_stats_echoes_it() {
+		$section = $this->section();
+
+		$this->assertIsString( $section['title'], 'the title must be a string' );
+		$this->assertNotSame( '', $section['title'], 'an empty title makes WP-Stats skip the whole entry' );
+	}
+
+	public function test_the_render_callback_is_callable_and_takes_no_arguments() {
+		$section = $this->section();
+
+		$this->assertTrue( is_callable( $section['render'] ), 'the render callback must be callable' );
+
+		$reflection = new ReflectionMethod( 'WP_UserOnline_WPStats', 'render' );
+
+		$this->assertSame( 0, $reflection->getNumberOfParameters(), 'render() is called with no arguments' );
+	}
+
+	public function test_the_priority_is_sent_explicitly_as_an_integer() {
+		$section = $this->section();
+
+		$this->assertArrayHasKey( 'priority', $section, 'the priority should be sent explicitly' );
+		$this->assertIsInt( $section['priority'], 'the priority must be an int' );
+	}
+
+	// --- opting out -----------------------------------------------------
+
+	public function test_opting_out_returns_the_sections_untouched() {
+		$this->set_option( 'stats_display', false );
+
+		$sections = WP_UserOnline_WPStats::register_section( array( 'wp_polls' => array( 'title' => 'Polls' ) ) );
+
+		$this->assertSame( array( 'wp_polls' => array( 'title' => 'Polls' ) ), $sections, 'an opted out plugin must contribute nothing at all' );
+	}
+
+	public function test_a_fresh_install_contributes_because_the_default_is_on() {
+		delete_option( WP_UserOnline_Options::OPTION );
+
+		$this->assertNotNull( $this->section(), 'the section should be on by default' );
+	}
+
+	public function test_the_decision_is_made_from_this_plugins_own_row_alone() {
+		$this->set_option( 'stats_display', false );
 		update_option( 'stats_display', array( 'useronline' => 1 ) );
 
-		$this->assertStringContainsString( 'checked', $this->stats->admin_stats( '' ) );
+		$this->assertNull( $this->section(), 'the shared legacy row must not be consulted any more' );
 	}
 
-	/**
-	 * A missing option must not warn.
-	 */
-	public function test_admin_stats_handles_a_missing_option() {
-		delete_option( 'stats_display' );
+	// --- rendering ------------------------------------------------------
 
-		$this->assertStringContainsString( 'wpstats_useronline', $this->stats->admin_stats( '' ) );
+	public function test_render_echoes_rather_than_returns_because_wp_stats_buffers() {
+		$this->record_row();
+
+		ob_start();
+		$returned = WP_UserOnline_WPStats::render();
+		$echoed   = ob_get_clean();
+
+		$this->assertNull( $returned, 'render() must not return markup; WP-Stats would drop it' );
+		$this->assertNotSame( '', $echoed, 'render() echoed nothing' );
 	}
 
-	/**
-	 * With the preference off, the stats page is left untouched.
-	 */
-	public function test_stats_returns_content_unchanged_when_disabled() {
-		update_option( 'stats_display', array( 'useronline' => 0 ) );
-
-		$this->assertSame( 'EXISTING', $this->stats->stats( 'EXISTING' ) );
-	}
-
-	/**
-	 * And is untouched when the option was never saved.
-	 */
-	public function test_stats_returns_content_unchanged_when_absent() {
-		delete_option( 'stats_display' );
-
-		$this->assertSame( 'EXISTING', $this->stats->stats( 'EXISTING' ) );
-	}
-
-	/**
-	 * With it on, the figures are appended.
-	 */
-	public function test_stats_appends_the_figures_when_enabled() {
-		update_option( 'stats_display', array( 'useronline' => 1 ) );
-
-		WP_UserOnline_Recorder::record( '/somewhere', 'Somewhere' );
+	public function test_render_reports_the_count_and_the_record() {
+		$this->record_row();
 		WP_UserOnline_Options::update_most( 42, time() );
 
-		$html = $this->stats->stats( 'EXISTING' );
+		$html = $this->capture( array( 'WP_UserOnline_WPStats', 'render' ) );
 
-		$this->assertStringStartsWith( 'EXISTING', $html );
-		$this->assertStringContainsString( 'WP-UserOnline', $html );
-		$this->assertStringContainsString( 'online now', $html );
-		$this->assertStringContainsString( '42', $html );
+		$this->assertStringContainsString( 'online now', $html, 'the count line is missing' );
+		$this->assertStringContainsString( '42', $html, 'the most-ever figure is missing' );
 	}
 
-	/**
-	 * Visitor-controlled names cannot smuggle markup onto the stats page.
-	 */
-	public function test_stats_output_is_escaped() {
-		global $wpdb;
+	public function test_render_does_not_echo_its_own_heading_because_wp_stats_does_that() {
+		$this->record_row();
 
-		update_option( 'stats_display', array( 'useronline' => 1 ) );
+		$html = $this->capture( array( 'WP_UserOnline_WPStats', 'render' ) );
+		$title = $this->section()['title'];
 
-		$wpdb->insert(
-			$wpdb->useronline,
-			array(
-				'timestamp'  => current_time( 'mysql' ),
-				'user_type'  => 'guest',
-				'user_id'    => 0,
-				'user_name'  => '<script>alert(1)</script>',
-				'user_ip'    => '198.51.100.1',
-				'user_agent' => 'Mozilla/5.0',
-				'page_title' => 'A page',
-				'page_url'   => '/a-page/',
-				'referral'   => '',
-			)
-		);
-		$this->reset_useronline_statics();
+		$this->assertStringNotContainsString( '<h2', $html, 'the contributor must not print a heading' );
+		$this->assertStringNotContainsString( $title, $html, 'the title is WP-Stats\' to echo, not this plugin\'s' );
+	}
 
-		$this->assertStringNotContainsString( '<script', $this->stats->stats( '' ) );
+	public function test_a_visitor_controlled_name_cannot_smuggle_markup_onto_the_stats_page() {
+		$this->record_row( array( 'user_name' => '<script>alert(1)</script>' ) );
+
+		$this->assertStringNotContainsString( '<script', $this->capture( array( 'WP_UserOnline_WPStats', 'render' ) ), 'a script tag reached the stats page' );
 	}
 }

@@ -6,45 +6,41 @@
  */
 
 /**
- * WP_UserOnline::ajax() is reachable by logged-out visitors and checks no nonce,
- * so every input is hostile by assumption. These cover that contract.
+ * WP_UserOnline::ajax() is reachable by logged-out visitors and checks no
+ * nonce, so every input is hostile by assumption. These cover that contract.
  *
- * @group ajax
+ * The handler is driven directly rather than through WP_Ajax_UnitTestCase, so
+ * that every test in the suite shares one fixture base class. wp_die() is
+ * routed through the AJAX die handler and replaced with one that throws, which
+ * is what makes the unwind catchable.
  */
-class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
-
-	use WP_UserOnline_Reset_Statics;
+class WP_UserOnline_Ajax_Test extends WP_UserOnline_TestCase {
 
 	/**
-	 * Start from an empty table, logged out, with a known request.
+	 * Make the endpoint reachable from a test, logged out.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
-		global $wpdb;
-
 		parent::set_up();
 
-		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
-		$this->reset_useronline_statics();
+		wp_set_current_user( 0 );
 
-		$this->logout();
+		add_filter( 'wp_doing_ajax', '__return_true' );
+		add_filter(
+			'wp_die_ajax_handler',
+			static function () {
+				return static function ( $message ) {
+					throw new WPDieException( is_scalar( $message ) ? (string) $message : '' );
+				};
+			}
+		);
 
 		$_SERVER['REMOTE_ADDR'] = '203.0.113.9';
-		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
-	}
-
-	/**
-	 * Clear request state between tests.
-	 */
-	public function tear_down() {
-		$_POST = array();
-		parent::tear_down();
 	}
 
 	/**
 	 * Fire the endpoint and return whatever it echoed.
-	 *
-	 * The handler always finishes with wp_die(), which the AJAX test case turns
-	 * into one of two exceptions depending on whether anything was echoed.
 	 *
 	 * @param array $post Request body.
 	 *
@@ -52,37 +48,36 @@ class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 	 */
 	private function do_ajax( array $post ) {
 		$_POST           = $post;
-		$_POST['action'] = 'useronline';
+		$_POST['action'] = 'wp_useronline';
+		$_REQUEST        = $_POST;
 
-		$this->_last_response = '';
+		$depth  = ob_get_level();
+		$output = '';
 
 		try {
-			$this->_handleAjax( 'useronline' );
-		} catch ( WPAjaxDieContinueException $e ) {
+			ob_start();
+			WP_UserOnline::get_instance()->ajax();
+		} catch ( WPDieException $e ) {
 			unset( $e );
-		} catch ( WPAjaxDieStopException $e ) {
-			unset( $e );
+		} finally {
+			while ( ob_get_level() > $depth ) {
+				$output = ob_get_clean() . $output;
+			}
+
+			$_POST    = array();
+			$_REQUEST = array();
 		}
 
-		return $this->_last_response;
+		return $output;
 	}
 
-	/**
-	 * Count rows currently recorded.
-	 *
-	 * @return int
-	 */
-	private function rows() {
-		global $wpdb;
-
-		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->useronline}" );
-	}
+	// --- what it refuses to record --------------------------------------
 
 	/**
-	 * An unrecognised mode must record nothing. It used to fall through the
-	 * switch having already written a row on the way in.
+	 * An unrecognised mode used to fall through the switch having already
+	 * written a row on the way in.
 	 */
-	public function test_invalid_mode_records_nothing() {
+	public function test_an_unrecognised_mode_records_nothing() {
 		$this->do_ajax(
 			array(
 				'mode'       => 'garbage',
@@ -91,28 +86,10 @@ class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 			)
 		);
 
-		$this->assertSame( 0, $this->rows() );
+		$this->assertSame( 0, $this->rows(), 'an invalid mode still recorded a row' );
 	}
 
-	/**
-	 * A recognised mode records the visitor.
-	 */
-	public function test_valid_mode_records_a_row() {
-		$this->do_ajax(
-			array(
-				'mode'       => 'count',
-				'page_url'   => home_url( '/hello/' ),
-				'page_title' => 'Hello',
-			)
-		);
-
-		$this->assertSame( 1, $this->rows() );
-	}
-
-	/**
-	 * A URL on another host is rejected outright.
-	 */
-	public function test_foreign_host_records_nothing() {
+	public function test_a_url_on_another_host_is_rejected_outright() {
 		$this->do_ajax(
 			array(
 				'mode'       => 'count',
@@ -121,14 +98,14 @@ class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 			)
 		);
 
-		$this->assertSame( 0, $this->rows() );
+		$this->assertSame( 0, $this->rows(), 'a foreign URL was recorded' );
 	}
 
 	/**
 	 * The old check was a str_replace, so a foreign URL merely containing the
 	 * site URL satisfied it.
 	 */
-	public function test_embedded_site_url_records_nothing() {
+	public function test_a_foreign_url_that_merely_contains_the_site_url_is_rejected() {
 		$this->do_ajax(
 			array(
 				'mode'       => 'count',
@@ -137,25 +114,33 @@ class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 			)
 		);
 
-		$this->assertSame( 0, $this->rows() );
+		$this->assertSame( 0, $this->rows(), 'an embedded site URL satisfied the host check' );
 	}
 
-	/**
-	 * Missing parameters must not warn or fatal.
-	 */
 	public function test_missing_parameters_are_harmless() {
 		$this->do_ajax( array( 'mode' => 'count' ) );
 
-		$this->assertSame( 0, $this->rows() );
+		$this->assertSame( 0, $this->rows(), 'a request with no URL recorded something' );
 	}
 
-	/**
-	 * No parameters at all is the same.
-	 */
-	public function test_no_parameters_at_all() {
+	public function test_no_parameters_at_all_is_the_same() {
 		$this->do_ajax( array() );
 
-		$this->assertSame( 0, $this->rows() );
+		$this->assertSame( 0, $this->rows(), 'an empty request recorded something' );
+	}
+
+	// --- what it does record --------------------------------------------
+
+	public function test_a_recognised_mode_records_the_visitor() {
+		$this->do_ajax(
+			array(
+				'mode'       => 'count',
+				'page_url'   => home_url( '/hello/' ),
+				'page_title' => 'Hello',
+			)
+		);
+
+		$this->assertSame( 1, $this->rows(), 'a valid request recorded nothing' );
 	}
 
 	/**
@@ -174,7 +159,7 @@ class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 			)
 		);
 
-		$this->assertNotSame( '', $response, "mode {$mode} produced no output" );
+		$this->assertNotSame( '', $response, 'mode ' . $mode . ' produced no output' );
 	}
 
 	/**
@@ -195,7 +180,7 @@ class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 	 * The recorded path matches what wp_head would have stored, so the
 	 * browsing-page lookup can find it.
 	 */
-	public function test_recorded_path_keeps_query_string() {
+	public function test_the_recorded_path_keeps_its_query_string() {
 		global $wpdb;
 
 		$this->do_ajax(
@@ -206,13 +191,10 @@ class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 			)
 		);
 
-		$this->assertSame( '/some/page/?x=1', $wpdb->get_var( "SELECT page_url FROM {$wpdb->useronline}" ) );
+		$this->assertSame( '/some/page/?x=1', $wpdb->get_var( "SELECT page_url FROM {$wpdb->useronline}" ), 'the query string was cut off' );
 	}
 
-	/**
-	 * Oversized input is capped to the column widths.
-	 */
-	public function test_oversized_input_is_capped() {
+	public function test_oversized_input_is_capped_to_the_column_widths() {
 		global $wpdb;
 
 		$this->do_ajax(
@@ -225,14 +207,11 @@ class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 
 		$row = $wpdb->get_row( "SELECT * FROM {$wpdb->useronline}", ARRAY_A );
 
-		$this->assertSame( 255, strlen( $row['page_url'] ) );
-		$this->assertSame( 250, strlen( $row['page_title'] ) );
+		$this->assertSame( 255, strlen( $row['page_url'] ), 'the URL was not capped to the column width' );
+		$this->assertSame( 250, strlen( $row['page_title'] ), 'the title was not capped to the column width' );
 	}
 
-	/**
-	 * A title with quotes and backslashes survives the round trip.
-	 */
-	public function test_title_is_not_mangled() {
+	public function test_a_title_with_quotes_and_backslashes_survives_the_round_trip() {
 		global $wpdb;
 
 		$title = 'It\'s a "quoted" back\\slash title';
@@ -245,34 +224,23 @@ class Test_UserOnline_Ajax extends WP_Ajax_UnitTestCase {
 			)
 		);
 
-		$this->assertSame( $title, $wpdb->get_var( "SELECT page_title FROM {$wpdb->useronline}" ) );
+		$this->assertSame( $title, $wpdb->get_var( "SELECT page_title FROM {$wpdb->useronline}" ), 'the title was mangled' );
 	}
 
-	/**
-	 * The details mode must not leak a wp-admin location to a logged-out caller.
-	 */
-	public function test_details_hides_admin_locations_from_anonymous_callers() {
-		global $wpdb;
+	// --- what it must not leak ------------------------------------------
 
-		$wpdb->insert(
-			$wpdb->useronline,
+	public function test_the_details_mode_hides_admin_locations_from_anonymous_callers() {
+		$this->record_row(
 			array(
-				'timestamp'  => current_time( 'mysql' ),
-				'user_type'  => 'guest',
-				'user_id'    => 0,
 				'user_name'  => 'AdminUser',
-				'user_ip'    => '198.51.100.2',
-				'user_agent' => 'Mozilla/5.0',
 				'page_title' => 'SECRET-ADMIN-PAGE',
 				'page_url'   => '/wp-admin/options-general.php',
-				'referral'   => '',
 			)
 		);
-		$this->reset_useronline_statics();
 
 		$response = $this->do_ajax( array( 'mode' => 'details' ) );
 
-		$this->assertStringNotContainsString( 'SECRET-ADMIN-PAGE', $response );
-		$this->assertStringNotContainsString( 'options-general', $response );
+		$this->assertStringNotContainsString( 'SECRET-ADMIN-PAGE', $response, 'an admin page title leaked to a logged-out caller' );
+		$this->assertStringNotContainsString( 'options-general', $response, 'an admin page URL leaked to a logged-out caller' );
 	}
 }

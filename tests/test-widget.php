@@ -8,9 +8,7 @@
 /**
  * Settings sanitization and front-end output.
  */
-class Test_UserOnline_Widget extends WP_UnitTestCase {
-
-	use WP_UserOnline_Reset_Statics;
+class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 
 	/**
 	 * Widget instance under test.
@@ -32,17 +30,12 @@ class Test_UserOnline_Widget extends WP_UnitTestCase {
 	);
 
 	/**
-	 * Set up a widget and an empty table.
+	 * Set up a widget.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
-		global $wpdb;
-
 		parent::set_up();
-
-		require_once dirname( __DIR__ ) . '/includes/class-wp-useronline-widget.php';
-
-		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
-		$this->reset_useronline_statics();
 
 		$this->widget = new WP_UserOnline_Widget();
 	}

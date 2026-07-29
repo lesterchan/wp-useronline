@@ -8,52 +8,7 @@
 /**
  * Access control and escaping on the users online output.
  */
-class Test_UserOnline_Template extends WP_UnitTestCase {
-
-	use WP_UserOnline_Reset_Statics;
-
-	/**
-	 * Start each test from an empty table.
-	 */
-	public function set_up() {
-		global $wpdb;
-
-		parent::set_up();
-
-		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
-		$this->reset_useronline_statics();
-	}
-
-	/**
-	 * Insert a row directly, bypassing record().
-	 *
-	 * @param array $args Column overrides.
-	 *
-	 * @return void
-	 */
-	private function add_row( array $args ) {
-		global $wpdb;
-
-		$wpdb->insert(
-			$wpdb->useronline,
-			array_merge(
-				array(
-					'timestamp'  => current_time( 'mysql' ),
-					'user_type'  => 'guest',
-					'user_id'    => 0,
-					'user_name'  => 'Somebody',
-					'user_ip'    => '198.51.100.1',
-					'user_agent' => 'Mozilla/5.0',
-					'page_title' => 'A page',
-					'page_url'   => '/a-page/',
-					'referral'   => '',
-				),
-				$args
-			)
-		);
-
-		$this->reset_useronline_statics();
-	}
+class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 
 	/**
 	 * Seed one visible row followed by one in wp-admin.
@@ -64,7 +19,7 @@ class Test_UserOnline_Template extends WP_UnitTestCase {
 		$now   = current_time( 'mysql' );
 		$older = gmdate( 'Y-m-d H:i:s', strtotime( $now ) - 10 );
 
-		$this->add_row(
+		$this->record_row(
 			array(
 				'timestamp'  => $now,
 				'user_ip'    => '198.51.100.1',
@@ -74,7 +29,7 @@ class Test_UserOnline_Template extends WP_UnitTestCase {
 				'referral'   => 'http://example.com/ref-normal',
 			)
 		);
-		$this->add_row(
+		$this->record_row(
 			array(
 				'timestamp'  => $older,
 				'user_ip'    => '198.51.100.2',
@@ -86,54 +41,56 @@ class Test_UserOnline_Template extends WP_UnitTestCase {
 		);
 	}
 
+	// --- what a viewer may see ------------------------------------------
+
 	/**
-	 * A row in wp-admin is hidden from an unprivileged viewer -- and must not
-	 * inherit the previous row's details, which is what the loop used to do.
+	 * A hidden row must not inherit the previous row's details, which is what
+	 * the loop used to do.
 	 */
-	public function test_hidden_row_does_not_inherit_previous_details() {
+	public function test_a_row_in_wp_admin_is_hidden_without_inheriting_the_previous_rows_details() {
 		$this->seed_visible_then_hidden();
 		wp_set_current_user( 0 );
 
 		$output = users_online_page();
 
-		$this->assertSame( 1, substr_count( $output, 'SECRET-NORMAL-PAGE' ) );
-		$this->assertSame( 1, substr_count( $output, 'ref-normal' ) );
-		$this->assertStringNotContainsString( 'SECRET-ADMIN-PAGE', $output );
-		$this->assertStringNotContainsString( 'options-general', $output );
-		$this->assertStringNotContainsString( 'ref-admin', $output );
+		$this->assertSame( 1, substr_count( $output, 'SECRET-NORMAL-PAGE' ), 'the visible page title was repeated' );
+		$this->assertSame( 1, substr_count( $output, 'ref-normal' ), 'the visible referrer was repeated' );
+		$this->assertStringNotContainsString( 'SECRET-ADMIN-PAGE', $output, 'an admin page title leaked' );
+		$this->assertStringNotContainsString( 'options-general', $output, 'an admin page URL leaked' );
+		$this->assertStringNotContainsString( 'ref-admin', $output, 'an admin referrer leaked' );
 	}
 
-	/**
-	 * Both users are still listed; only the location is withheld.
-	 */
-	public function test_hidden_row_user_is_still_listed() {
+	public function test_both_users_are_still_listed_and_only_the_location_is_withheld() {
 		$this->seed_visible_then_hidden();
 		wp_set_current_user( 0 );
 
 		$output = users_online_page();
 
-		$this->assertStringContainsString( 'VisibleUser', $output );
-		$this->assertStringContainsString( 'AdminUser', $output );
+		$this->assertStringContainsString( 'VisibleUser', $output, 'the visible user is missing' );
+		$this->assertStringContainsString( 'AdminUser', $output, 'the hidden user should still be counted and named' );
 	}
 
-	/**
-	 * A viewer with edit_users sees everything.
-	 */
-	public function test_privileged_viewer_sees_admin_rows() {
+	public function test_a_viewer_with_edit_users_sees_everything() {
 		$this->seed_visible_then_hidden();
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
 		$output = users_online_page();
 
-		$this->assertStringContainsString( 'SECRET-ADMIN-PAGE', $output );
-		$this->assertStringContainsString( 'ref-admin', $output );
+		$this->assertStringContainsString( 'SECRET-ADMIN-PAGE', $output, 'a privileged viewer was denied the page title' );
+		$this->assertStringContainsString( 'ref-admin', $output, 'a privileged viewer was denied the referrer' );
 	}
 
-	/**
-	 * The user agent is escaped once, in the title attribute.
-	 */
-	public function test_user_agent_escaped_exactly_once() {
-		$this->add_row(
+	public function test_the_ip_is_hidden_from_unprivileged_viewers() {
+		$this->record_row( array( 'user_ip' => '198.51.100.7' ) );
+		wp_set_current_user( 0 );
+
+		$this->assertStringNotContainsString( '198.51.100.7', users_online_page(), 'an address was shown to a visitor' );
+	}
+
+	// --- escaping --------------------------------------------------------
+
+	public function test_the_user_agent_is_escaped_exactly_once_in_the_title_attribute() {
+		$this->record_row(
 			array(
 				'user_ip'    => '198.51.100.7',
 				'user_agent' => 'Mozilla/5.0 "quoted" <b>bold</b>',
@@ -143,30 +100,58 @@ class Test_UserOnline_Template extends WP_UnitTestCase {
 
 		$output = users_online_page();
 
-		$this->assertStringContainsString( '&quot;quoted&quot;', $output );
-		$this->assertStringNotContainsString( '&amp;quot;', $output );
+		$this->assertStringContainsString( '&quot;quoted&quot;', $output, 'the user agent was not escaped' );
+		$this->assertStringNotContainsString( '&amp;quot;', $output, 'the user agent was double escaped' );
 	}
 
-	/**
-	 * The IP is only shown to viewers allowed to see it.
-	 */
-	public function test_ip_hidden_from_unprivileged_viewers() {
-		$this->add_row( array( 'user_ip' => '198.51.100.7' ) );
-		wp_set_current_user( 0 );
-
-		$this->assertStringNotContainsString( '198.51.100.7', users_online_page() );
-	}
-
-	/**
-	 * A stored template can never smuggle a script through the renderer.
-	 */
-	public function test_rendered_output_carries_no_script() {
+	public function test_a_stored_template_can_never_smuggle_a_script_through_the_renderer() {
 		WP_UserOnline_Options::update(
 			WP_UserOnline_Options::sanitize(
 				array( 'templates' => array( 'useronline' => '<a href="%PAGE_URL%"><script>alert(1)</script>%USERS%</a>' ) )
 			)
 		);
 
-		$this->assertStringNotContainsString( '<script', get_users_online() );
+		$this->assertStringNotContainsString( '<script', get_users_online(), 'a script tag reached the front end' );
+	}
+
+	// --- counting and grouping -------------------------------------------
+
+	public function test_the_counts_add_up_across_the_three_visitor_types() {
+		$this->record_row( array( 'user_type' => 'member', 'user_ip' => '198.51.100.10' ) );
+		$this->record_row( array( 'user_type' => 'guest', 'user_ip' => '198.51.100.11' ) );
+		$this->record_row( array( 'user_type' => 'bot', 'user_ip' => '198.51.100.12' ) );
+
+		$counts = WP_UserOnline_Template::compact_list( 'site', 'counts' );
+
+		$this->assertSame( 1, $counts['member'], 'the member count is wrong' );
+		$this->assertSame( 1, $counts['guest'], 'the guest count is wrong' );
+		$this->assertSame( 1, $counts['bot'], 'the bot count is wrong' );
+		$this->assertSame( 3, $counts['user'], 'the total should be the sum of the three' );
+	}
+
+	public function test_the_browsing_page_list_only_counts_rows_on_that_page() {
+		$this->record_row( array( 'page_url' => '/here/', 'user_ip' => '198.51.100.20' ) );
+		$this->record_row( array( 'page_url' => '/elsewhere/', 'user_ip' => '198.51.100.21' ) );
+
+		$rows = WP_UserOnline_Template::compact_list( 'page', 'list', '/here/' );
+
+		$this->assertCount( 1, $rows, 'the page list counted a visitor on another page' );
+	}
+
+	/**
+	 * A widget showing only the count renders its container without going
+	 * through compact_list(), and before 3.0.0 that meant the script was never
+	 * enqueued and the number never updated.
+	 */
+	public function test_rendering_a_list_asks_for_the_refresh_script() {
+		$this->assertFalse( WP_UserOnline_Template::needs_script(), 'nothing has rendered yet' );
+
+		WP_UserOnline_Template::compact_list( 'site' );
+
+		$this->assertTrue( WP_UserOnline_Template::needs_script(), 'a rendered list did not ask for the script' );
+	}
+
+	public function test_an_empty_site_says_so_rather_than_rendering_an_empty_list() {
+		$this->assertStringContainsString( 'No one is online now.', users_online_page(), 'an empty site should say so' );
 	}
 }

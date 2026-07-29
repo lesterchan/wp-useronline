@@ -24,12 +24,22 @@ require_once $_tests_dir . '/includes/functions.php';
 
 /**
  * Load the plugin under test before WordPress finishes booting.
+ *
+ * @return void
  */
 function _useronline_manually_load_plugin() {
 	require dirname( __DIR__ ) . '/wp-useronline.php';
+
+	// register_activation_hook() never fires in the test environment, so the
+	// table has to be created by hand.
+	WP_UserOnline_Install::install();
 }
 tests_add_filter( 'muplugins_loaded', '_useronline_manually_load_plugin' );
 
-require_once __DIR__ . '/helper-reset.php';
-
 require $_tests_dir . '/includes/bootstrap.php';
+
+// After the WordPress bootstrap, which is what declares WP_UnitTestCase -- the
+// fixture base class extends it, so it cannot be loaded any earlier. Discovery
+// is by the test- prefix now, so a helper is never picked up on its own and has
+// to be required here explicitly.
+require_once __DIR__ . '/helper-testcase.php';

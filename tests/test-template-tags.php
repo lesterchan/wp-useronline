@@ -8,31 +8,27 @@
 /**
  * These names are the documented API themes call, so they are the contract.
  */
-class Test_UserOnline_Template_Tags extends WP_UnitTestCase {
-
-	use WP_UserOnline_Reset_Statics;
+class WP_UserOnline_Template_Tags_Test extends WP_UserOnline_TestCase {
 
 	/**
-	 * Start from an empty table and default settings.
+	 * These tags classify the visitor, so the user agent starts unset.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
-		global $wpdb;
-
 		parent::set_up();
 
-		$wpdb->query( "DELETE FROM {$wpdb->useronline}" );
-		$this->reset_useronline_statics();
-		delete_option( WP_UserOnline_Options::OPTION );
-
-		$_SERVER['REMOTE_ADDR'] = '203.0.113.9';
 		unset( $_SERVER['HTTP_USER_AGENT'] );
 	}
 
 	/**
 	 * Clear cookies between tests.
+	 *
+	 * @return void
 	 */
 	public function tear_down() {
 		$_COOKIE = array();
+
 		parent::tear_down();
 	}
 
