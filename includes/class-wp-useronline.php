@@ -150,7 +150,7 @@ class WP_UserOnline {
 		// drift out of sync with this one.
 		wp_enqueue_script(
 			'wp-useronline',
-			plugins_url( 'js/wp-useronline.js', WP_USERONLINE_MAIN_FILE ),
+			WP_USERONLINE_URL . 'js/wp-useronline.js',
 			array(),
 			WP_USERONLINE_VERSION,
 			true
@@ -158,10 +158,10 @@ class WP_UserOnline {
 
 		wp_localize_script(
 			'wp-useronline',
-			'useronlineL10n',
+			'wpUserOnlineL10n',
 			array(
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'timeout'  => (int) WP_UserOnline_Options::get( 'timeout' ) * 1000,
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'timeout' => (int) WP_UserOnline_Options::get( 'timeout' ) * 1000,
 			)
 		);
 	}
