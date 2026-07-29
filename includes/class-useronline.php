@@ -156,7 +156,7 @@ class UserOnline {
 		// drift out of sync with this one.
 		wp_enqueue_script(
 			'wp-useronline',
-			plugins_url( 'useronline.js', WP_USERONLINE_MAIN_FILE ),
+			plugins_url( 'js/wp-useronline.js', WP_USERONLINE_MAIN_FILE ),
 			array(),
 			WP_USERONLINE_VERSION,
 			true
