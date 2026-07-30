@@ -320,13 +320,11 @@ and PHP 7.4.
 
 ## Upgrade Notice
 
-### 4.0.0
-
-This is a major release and it changes things you may have customised. Read this before updating from 3.0.0.
+### 4.0.0. This is a major release and it changes things you may have customised. Read this before updating from 3.0.0.
 
 **Why 4.0.0 and not 3.0.1.** The 3.0.0 changelog told you, in as many words, that "all four filters are unchanged". That promise no longer holds: all four have been renamed, along with a fifth filter and one constant, and a version number ending in a bug-fix digit has no business carrying that. The line in the 3.0.0 changelog has been corrected to say so.
 
-**Your server has to be new enough.** WP-UserOnline now needs WordPress 6.8 and PHP 8.2, up from 6.0 and 7.4. If your site is older than that, WordPress will not offer you the update at all. Ask your host to move you to a current PHP before updating.
+**Your server has to be new enough.** WP-UserOnline now needs WordPress 6.8 and PHP 8.2. If your site is older than that, WordPress will not offer you the update at all. Ask your host to move you to a current PHP before updating.
 
 **Every filter has been renamed, and the old names are gone.** There are no deprecation shims: code hooking an old name simply stops running, silently. If you have any of these in a theme or a snippet plugin, rename them:
 
