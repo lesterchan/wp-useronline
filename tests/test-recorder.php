@@ -142,17 +142,23 @@ class WP_UserOnline_Recorder_Test extends WP_UserOnline_TestCase {
 		add_filter(
 			'wp_useronline_bots',
 			static function ( $bots ) {
-				$bots['My Crawler'] = 'mycrawler';
+				$bots['Zephyr Probe'] = 'zephyrprobe';
 
 				return $bots;
 			}
 		);
 
-		$_SERVER['HTTP_USER_AGENT'] = 'MyCrawler/1.0';
+		// Deliberately not a name containing "crawler". record() walks the list
+		// in order and stops at the first needle the agent contains, and the
+		// shipped list has 'Crawl' => 'crawl' in it -- so a "MyCrawler" agent is
+		// reported as Crawl no matter what a filter appends. That is the shipped
+		// behaviour and this test is about the filter being reached, not about
+		// a custom entry outranking a built-in one.
+		$_SERVER['HTTP_USER_AGENT'] = 'ZephyrProbe/1.0';
 
 		WP_UserOnline_Recorder::record( '/crawled', 'Crawled' );
 
-		$this->assertSame( 'My Crawler', $this->last_row()['user_name'], 'the filter did not reach the bot list' );
+		$this->assertSame( 'Zephyr Probe', $this->last_row()['user_name'], 'the filter did not reach the bot list' );
 	}
 
 	public function test_a_logged_in_visitor_is_recorded_as_a_member() {

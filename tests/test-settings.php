@@ -233,6 +233,12 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_the_restore_defaults_script_loads_on_the_settings_screen_only() {
+		// WP_Dependencies remembers registrations and enqueues for the whole
+		// process, so "is it enqueued" answers for every test that ran before
+		// this one too. Without a fresh instance the negative half of this test
+		// passes or fails on execution order rather than on the code.
+		$GLOBALS['wp_scripts'] = new WP_Scripts();
+
 		WP_UserOnline_Settings::enqueue_scripts( 'toplevel_page_' . WP_UserOnline_Admin::PAGE );
 		$this->assertFalse( wp_script_is( 'wp-useronline-admin', 'enqueued' ), 'the script loaded on the wrong screen' );
 

@@ -60,14 +60,46 @@ class WP_UserOnline_Admin_Test extends WP_UserOnline_TestCase {
 		}
 	}
 
+	/**
+	 * The menu is gated by the capability recorded against it.
+	 *
+	 * Not by its absence from $menu: add_menu_page() does not consult the
+	 * current user at all. It records the required capability as element 1 of
+	 * the menu item and WordPress enforces it later, in _wp_menu_output() and
+	 * user_can_access_admin_page(), when the sidebar is drawn. So the entry is
+	 * registered for everybody and the thing worth asserting is that it demands
+	 * a capability a subscriber does not have.
+	 *
+	 * @return void
+	 */
 	public function test_a_user_without_the_capability_never_gets_the_menu() {
-		global $menu;
+		global $menu, $submenu;
+
+		// Plain globals; no transaction rolls them back between tests.
+		$menu    = array();
+		$submenu = array();
 
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 
 		WP_UserOnline_Admin::add_page();
 
-		$this->assertNotContains( WP_UserOnline_Admin::PAGE, wp_list_pluck( (array) $menu, 2 ), 'a subscriber was offered the menu' );
+		$required = null;
+
+		foreach ( (array) $menu as $item ) {
+			if ( isset( $item[2] ) && WP_UserOnline_Admin::PAGE === $item[2] ) {
+				$required = $item[1];
+			}
+		}
+
+		$this->assertSame(
+			WP_UserOnline_Admin::capability(),
+			$required,
+			'the menu must demand the plugin capability'
+		);
+		$this->assertFalse(
+			current_user_can( (string) $required ),
+			'a subscriber must not hold the capability the menu demands'
+		);
 	}
 
 	public function test_both_screens_require_manage_options_by_default() {
