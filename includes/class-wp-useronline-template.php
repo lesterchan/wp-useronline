@@ -198,7 +198,7 @@ class WP_UserOnline_Template {
 		$label_url      = __( 'url', 'wp-useronline' );
 		$label_referral = __( 'referral', 'wp-useronline' );
 
-		$can_see_all = current_user_can( 'edit_users' );
+		$can_see_all = current_user_can( WP_UserOnline_Admin::capability( 'details' ) );
 
 		$out = '';
 		foreach ( array( 'member', 'guest', 'bot' ) as $user_type ) {
@@ -289,7 +289,7 @@ class WP_UserOnline_Template {
 	public static function format_ip( $user ) {
 		$ip = $user->user_ip;
 
-		if ( '' === $ip || 'unknown' === $ip || ! current_user_can( 'edit_users' ) ) {
+		if ( '' === $ip || 'unknown' === $ip || ! current_user_can( WP_UserOnline_Admin::capability( 'details' ) ) ) {
 			return '';
 		}
 

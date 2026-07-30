@@ -54,9 +54,20 @@ class WP_UserOnline_Admin {
 	 * to say so and cannot open the settings screen by accident at the same
 	 * time.
 	 *
+	 * The 'details' context is not a screen. It gates the two pieces of the
+	 * listing that are nobody else's business — the location of a user who is
+	 * inside wp-admin, and every visitor's IP address — on the screen and in the
+	 * front-end shortcode alike. It used to be a hardcoded `edit_users` check
+	 * sitting outside this filter, which put it beyond a site's reach and, under
+	 * multisite, beyond a site administrator's: core gates edit_users behind
+	 * manage_network_users there, so the administrator of a site could not see
+	 * the visitors to their own site. Sites that want the old, stricter rule back
+	 * can return 'edit_users' for this context.
+	 *
 	 * @since 4.0.0
 	 *
-	 * @param string $context Which screen is asking: 'useronline' or 'settings'.
+	 * @param string $context Which screen is asking: 'useronline', 'settings' or
+	 *                        'details'.
 	 *
 	 * @return string
 	 */

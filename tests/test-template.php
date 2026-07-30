@@ -100,6 +100,32 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 		$this->assertStringNotContainsString( '&amp;quot;', $output, 'the user agent was double escaped' );
 	}
 
+	/**
+	 * The detail gate is reachable from the filter, not hardcoded.
+	 *
+	 * It used to be a bare current_user_can( 'edit_users' ) that no site could
+	 * reach. If it ever goes back to one, this test still passes on the
+	 * administrator half and fails here.
+	 */
+	public function test_the_detail_gate_can_be_tightened_through_the_capability_filter() {
+		$this->seed_visible_then_hidden();
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		add_filter(
+			'wp_useronline_capability',
+			static function ( $capability, $context ) {
+				return 'details' === $context ? 'do_not_allow' : $capability;
+			},
+			10,
+			2
+		);
+
+		$output = users_online_page();
+
+		$this->assertStringNotContainsString( 'SECRET-ADMIN-PAGE', $output, 'the filter did not tighten the detail gate' );
+		$this->assertStringContainsString( 'AdminUser', $output, 'tightening the gate should hide the location, not the user' );
+	}
+
 	public function test_a_stored_template_can_never_smuggle_a_script_through_the_renderer() {
 		WP_UserOnline_Options::update(
 			WP_UserOnline_Options::sanitize(
