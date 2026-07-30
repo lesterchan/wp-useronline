@@ -166,6 +166,8 @@ class WP_UserOnline_Template_Tags_Test extends WP_UserOnline_TestCase {
 	 * With the names option on, members link to their author archive.
 	 */
 	public function test_linked_names_filter_wraps_members() {
+		$this->set_option( 'names', 1 );
+
 		$user_id = self::factory()->user->create( array( 'display_name' => 'Alice' ) );
 
 		$plugin = WP_UserOnline::get_instance();
@@ -176,8 +178,30 @@ class WP_UserOnline_Template_Tags_Test extends WP_UserOnline_TestCase {
 
 		$linked = $plugin->linked_names( 'Alice', $user );
 
-		$this->assertStringContainsString( '<a href="', $linked );
-		$this->assertStringContainsString( 'Alice', $linked );
+		$this->assertStringContainsString( '<a href="', $linked, 'a member was not linked to their archive' );
+		$this->assertStringContainsString( 'Alice', $linked, 'the name was lost' );
+	}
+
+	/**
+	 * With the names option off, the name is returned untouched.
+	 *
+	 * The filter is registered either way -- the setting is read inside the
+	 * callback rather than at plugins_loaded, because reading it that early
+	 * merged the translated defaults and tripped core's just-in-time textdomain
+	 * warning. So the off case has to be answered here.
+	 */
+	public function test_linked_names_leaves_members_alone_when_the_option_is_off() {
+		$this->set_option( 'names', 0 );
+
+		$user_id = self::factory()->user->create( array( 'display_name' => 'Alice' ) );
+
+		$plugin = WP_UserOnline::get_instance();
+		$user   = (object) array(
+			'user_id'   => $user_id,
+			'user_name' => 'Alice',
+		);
+
+		$this->assertSame( 'Alice', $plugin->linked_names( 'Alice', $user ), 'the name was linked with the option off' );
 	}
 
 	/**

@@ -11,6 +11,46 @@
  */
 class WP_UserOnline_Install_Test extends WP_UserOnline_TestCase {
 
+	/**
+	 * No translation is asked for in add_hooks(), which runs too early for one.
+	 *
+	 * Hooks are registered on plugins_loaded, which is before after_setup_theme,
+	 * and core's _load_textdomain_just_in_time() raises _doing_it_wrong for any
+	 * translation requested before that. Reading a setting there was enough to
+	 * trip it, because the defaults carry __() strings for the naming and
+	 * template fields -- so on any site with a language pack for this plugin
+	 * every single page load carried the notice.
+	 *
+	 * Asserted by watching the gettext filters rather than by reading the
+	 * source: the fix is "do not read options this early", and a source scan
+	 * cannot tell that a call reaches a translated default three frames down.
+	 */
+	public function test_add_hooks_translates_nothing() {
+		$translated = array();
+
+		$watch = static function ( $translation, $text, $domain ) use ( &$translated ) {
+			if ( 'wp-useronline' === $domain ) {
+				$translated[] = $text;
+			}
+
+			return $translation;
+		};
+
+		add_filter( 'gettext', $watch, 1, 3 );
+		add_filter( 'gettext_with_context', $watch, 1, 3 );
+
+		WP_UserOnline::get_instance()->add_hooks();
+
+		remove_filter( 'gettext', $watch, 1 );
+		remove_filter( 'gettext_with_context', $watch, 1 );
+
+		$this->assertSame(
+			array(),
+			$translated,
+			'add_hooks() asked for a translation before after_setup_theme: ' . implode( ', ', $translated )
+		);
+	}
+
 	public function test_the_table_name_is_registered_on_wpdb() {
 		global $wpdb;
 

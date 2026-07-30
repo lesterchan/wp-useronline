@@ -85,9 +85,23 @@ class WP_UserOnline {
 
 		add_shortcode( 'page_useronline', 'users_online_page' );
 
-		if ( WP_UserOnline_Options::get( 'names' ) ) {
-			add_filter( 'wp_useronline_display_user', array( $this, 'linked_names' ), 10, 2 );
-		}
+		/*
+		 * Registered unconditionally, with the setting consulted inside the
+		 * callback instead.
+		 *
+		 * add_hooks() runs on plugins_loaded, which is before after_setup_theme,
+		 * and reading a setting here meant merging the defaults -- which carry
+		 * __() strings for the naming and template fields. Core's
+		 * _load_textdomain_just_in_time() treats any translation requested before
+		 * after_setup_theme as too early and raises _doing_it_wrong, so on any
+		 * site with a language pack installed for this plugin every page load
+		 * carried that notice.
+		 *
+		 * Moving add_hooks() to init would not do: wp_widgets_init() runs on init
+		 * at priority 1, so widgets_init would already have fired and the widget
+		 * would never register.
+		 */
+		add_filter( 'wp_useronline_display_user', array( $this, 'linked_names' ), 10, 2 );
 
 		// Inert without WP-Stats -- nothing fires wp_stats_sections, so nothing
 		// in it runs. No class_exists() or function_exists() probing between
@@ -119,7 +133,7 @@ class WP_UserOnline {
 	 * @return string
 	 */
 	public function linked_names( $name, $user ) {
-		if ( empty( $user->user_id ) ) {
+		if ( ! WP_UserOnline_Options::get( 'names' ) || empty( $user->user_id ) ) {
 			return $name;
 		}
 
