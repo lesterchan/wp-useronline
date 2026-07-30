@@ -80,7 +80,6 @@ abstract class WP_UserOnline_TestCase extends WP_UnitTestCase {
 		foreach ( $targets as $class => $properties ) {
 			foreach ( $properties as $name => $value ) {
 				$property = new ReflectionProperty( $class, $name );
-				$property->setAccessible( true );
 				$property->setValue( null, $value );
 			}
 		}
