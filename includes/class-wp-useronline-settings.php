@@ -144,7 +144,7 @@ class WP_UserOnline_Settings {
 
 		add_settings_section(
 			self::SECTION_TEMPLATES,
-			__( 'Templates', 'wp-useronline' ),
+			'',
 			'__return_empty_string',
 			$templates
 		);
