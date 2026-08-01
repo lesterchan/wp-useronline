@@ -289,10 +289,21 @@ test.describe( 'Hostile markup in the refresh response', () => {
 	test.beforeAll( async ( { requestUtils } ) => {
 		await requestUtils.deleteAllPosts();
 
+		// Comments closed, for the same reason the admin bar is switched off
+		// below and it is the same mistake caught twice. This test's sentinel is
+		// page-global, so it is only about this plugin if nothing *else* on the
+		// page prints the display name raw. Core's comment form does: the
+		// "logged-in-as" line is `Logged in as <user_identity>` with no
+		// escaping, so twentytwentyone rendered the payload out of core's markup
+		// and the assertion at the top of the test failed while WP-UserOnline's
+		// own output was, and is, correctly escaped -- the same request showed
+		// `Hostile &lt;script&gt;window.__pwned = 1;&lt;/script&gt;` inside
+		// #useronline-details. Closing comments removes the form.
 		shortcodePost = await requestUtils.createPost( {
 			title: uniqueTitle( 'Refreshed who is online' ),
 			content: '[page_useronline]',
 			status: 'publish',
+			comment_status: 'closed',
 		} );
 
 		// A real account whose display name is the payload, because the

@@ -22,6 +22,7 @@ const { test, expect } = require( '@wordpress/e2e-test-utils-playwright' );
 const {
 	ONLINE_URL,
 	asGuest,
+	checkbox,
 	field,
 	installProbe,
 	openSettings,
@@ -83,7 +84,7 @@ test.describe( 'The settings screen', () => {
 		await expect( page.locator( field( 'timeout' ) ) ).toHaveValue( '300' );
 		await expect( page.locator( field( 'url' ) ) ).toBeVisible();
 		await expect( page.locator( '#wp-useronline-naming input' ) ).toHaveCount( 8 );
-		await expect( page.locator( field( 'stats_display' ) ) ).toBeChecked();
+		await expect( page.locator( checkbox( 'stats_display' ) ) ).toBeChecked();
 
 		// And nothing of the other tab's: the tabs are kept apart by the
 		// Settings API page each section is registered against, and a section
@@ -92,9 +93,14 @@ test.describe( 'The settings screen', () => {
 	} );
 
 	test( 'the Templates tab carries the templates, and only those', async ( { page } ) => {
+		// openTemplates() has already asserted the H1 and that Templates is the
+		// active tab, which is the whole of what identifies this screen. There
+		// is deliberately no "Templates" *section* heading to look for: the tab
+		// holds one section, registered with an empty title and
+		// __return_empty_string, because a lone section under a tab of the same
+		// name would print the word twice. The spec used to expect that
+		// heading.
 		await openTemplates( page );
-
-		await expect( page.getByRole( 'heading', { name: 'Templates' } ) ).toBeVisible();
 
 		await expect( page.locator( field( 'templates', 'useronline' ) ) ).toBeVisible();
 		await expect( page.locator( field( 'templates', 'browsingsite', 'text' ) ) ).toBeVisible();
@@ -329,9 +335,9 @@ test.describe( 'The settings screen', () => {
 
 	test( 'the WP-Stats checkbox turns off and back on', async ( { page } ) => {
 		await openSettings( page );
-		await expect( page.locator( field( 'stats_display' ) ) ).toBeChecked();
+		await expect( page.locator( checkbox( 'stats_display' ) ) ).toBeChecked();
 
-		await page.locator( field( 'stats_display' ) ).uncheck();
+		await page.locator( checkbox( 'stats_display' ) ).uncheck();
 		await saveSettings( page );
 
 		// An unticked checkbox posts nothing at all, and the sanitiser keeps
@@ -341,9 +347,9 @@ test.describe( 'The settings screen', () => {
 		expect( option( 'stats_display' ) ).toBe( false );
 
 		await openSettings( page );
-		await expect( page.locator( field( 'stats_display' ) ) ).not.toBeChecked();
+		await expect( page.locator( checkbox( 'stats_display' ) ) ).not.toBeChecked();
 
-		await page.locator( field( 'stats_display' ) ).check();
+		await page.locator( checkbox( 'stats_display' ) ).check();
 		await saveSettings( page );
 		expect( option( 'stats_display' ) ).toBe( true );
 	} );
@@ -408,7 +414,7 @@ test.describe( 'The settings screen', () => {
 		await openSettings( page );
 		await page.locator( field( 'timeout' ) ).fill( '900' );
 		await page.locator( field( 'naming', 'user' ) ).fill( 'One soul' );
-		await page.locator( field( 'stats_display' ) ).uncheck();
+		await page.locator( checkbox( 'stats_display' ) ).uncheck();
 		await saveSettings( page );
 
 		// The tab that saved saved, and the tab that did not is untouched.

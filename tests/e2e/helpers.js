@@ -617,6 +617,22 @@ function field( ...keys ) {
 }
 
 /**
+ * The same, for a checkbox.
+ *
+ * A checkbox on this screen is two inputs sharing one name: a hidden `0` that
+ * posts when the box is clear, and the checkbox itself. That is how an
+ * unchecked box reaches the server at all, so it is correct and it is not going
+ * away -- but it means field() matches two elements and every Playwright
+ * assertion on it dies of strict mode rather than of anything being wrong.
+ *
+ * @param {...string} keys Nested keys.
+ * @return {string} A CSS selector for the checkbox alone.
+ */
+function checkbox( ...keys ) {
+	return `input[type="checkbox"]${ field( ...keys ) }`;
+}
+
+/**
  * A title no earlier run can have used.
  *
  * @param {string} base What the title should say.
@@ -634,6 +650,7 @@ module.exports = {
 	TEMPLATES_URL,
 	addUserOnlineWidget,
 	asGuest,
+	checkbox,
 	cookieHash,
 	ensureUser,
 	field,

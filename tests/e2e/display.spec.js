@@ -18,6 +18,7 @@ const { test, expect } = require( '@wordpress/e2e-test-utils-playwright' );
 const {
 	asGuest,
 	addUserOnlineWidget,
+	ensureUser,
 	insertOnline,
 	installProbe,
 	probeUser,
@@ -304,24 +305,19 @@ test.describe( 'Front-end output', () => {
 
 	test( 'the "link user names" setting turns a member into a link to their archive', async ( {
 		page,
-		requestUtils,
 	} ) => {
-		const author = await requestUtils
-			.rest( {
-				method: 'POST',
-				path: '/wp/v2/users',
-				data: {
-					username: 'useronline_author',
-					email: 'useronline_author@example.com',
-					password: 'correct-horse-battery-staple',
-					roles: [ 'author' ],
-				},
-			} )
-			.catch( () => requestUtils.rest( { path: '/wp/v2/users?search=useronline_author' } ).then( ( u ) => u[ 0 ] ) );
+		// ensureUser(), which exists for exactly this and whose docblock says
+		// so. This test used to POST /wp/v2/users and, on the "that login is
+		// taken" error, fall back to a search -- with the query string inside
+		// `path`, which requestUtils does not accept and which answers
+		// rest_no_route. So it passed on a database that had never run it and
+		// failed on every run after that, which is the worst way round: the
+		// first sweep of a fresh install would have called it green.
+		const authorId = ensureUser( 'useronline_author', 'author', 'correct-horse-battery-staple' );
 
 		insertOnline( {
 			userType: 'member',
-			userId: author.id,
+			userId: authorId,
 			userName: 'useronline_author',
 			userIp: '203.0.113.11',
 		} );
