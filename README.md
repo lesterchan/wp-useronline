@@ -191,8 +191,6 @@ and PHP 7.4.
 
 Requires WordPress 6.8 and PHP 8.2.
 
-**Why 4.0.0 and not 3.0.1.** The 3.0.0 changelog stated that "all four filters are unchanged". All four have since been renamed, along with a fifth filter and a constant, which a bug-fix version has no business carrying. That changelog line has been corrected.
-
 **Every filter is renamed, with no deprecation shims.** Code hooking an old name stops running, silently:
 
 * `useronline_bots` is now `wp_useronline_bots`
