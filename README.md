@@ -162,7 +162,7 @@ and PHP 7.4.
 
 ## Changelog
 ### 4.0.0
-* BREAKING: Requires WordPress 6.8 and PHP 8.2, up from 6.0 and 7.4. A site on an older stack simply will not be offered the update.
+* BREAKING: Requires WordPress 6.8 and PHP 8.2, up from 6.0 and 7.4.
 * BREAKING: Every filter the plugin fires is renamed and the old names are dropped, with no deprecation shims: `useronline_bots`, `useronline_buckets`, `useronline_custom_template`, `useronline_page`, `useronline_display_user` and `useronline_trust_proxy` all become `wp_useronline_*`. This voids the promise made in the 3.0.0 changelog that the filters were unchanged, and is why this release is 4.0.0 rather than 3.0.1.
 * BREAKING: `USERONLINE_TRUST_PROXY` is now `WP_USERONLINE_TRUST_PROXY`. A site still defining the old name silently stops trusting its proxy and starts recording the proxy's address for every visitor. See the FAQ.
 * BREAKING: The two screens moved into one top-level WP-UserOnline menu, Users Online first and Settings last, at `admin.php?page=wp-useronline` and `admin.php?page=wp-useronline-settings`. They used to be under Dashboard and under Settings respectively.
@@ -183,13 +183,13 @@ and PHP 7.4.
 
 ## Upgrade Notice
 
-### 4.0.0. This is a major release and it changes things you may have customised. Read this before updating from 3.0.0.
+### 4.0.0
 
-**Why 4.0.0 and not 3.0.1.** The 3.0.0 changelog told you, in as many words, that "all four filters are unchanged". That promise no longer holds: all four have been renamed, along with a fifth filter and one constant, and a version number ending in a bug-fix digit has no business carrying that. The line in the 3.0.0 changelog has been corrected to say so.
+Requires WordPress 6.8 and PHP 8.2.
 
-**Your server has to be new enough.** WP-UserOnline now needs WordPress 6.8 and PHP 8.2. If your site is older than that, WordPress will not offer you the update at all. Ask your host to move you to a current PHP before updating.
+**Why 4.0.0 and not 3.0.1.** The 3.0.0 changelog stated that "all four filters are unchanged". All four have since been renamed, along with a fifth filter and a constant, which a bug-fix version has no business carrying. That changelog line has been corrected.
 
-**Every filter has been renamed, and the old names are gone.** There are no deprecation shims: code hooking an old name simply stops running, silently. If you have any of these in a theme or a snippet plugin, rename them:
+**Every filter is renamed, with no deprecation shims.** Code hooking an old name stops running, silently:
 
 * `useronline_bots` is now `wp_useronline_bots`
 * `useronline_buckets` is now `wp_useronline_buckets`
@@ -198,11 +198,11 @@ and PHP 7.4.
 * `useronline_display_user` is now `wp_useronline_display_user`
 * `useronline_trust_proxy` is now `wp_useronline_trust_proxy`
 
-**And the proxy constant with them.** If `wp-config.php` defines `USERONLINE_TRUST_PROXY`, rename it to `WP_USERONLINE_TRUST_PROXY`. Left as it was, the plugin stops trusting your proxy and every visitor starts showing the same IP address. See the FAQ.
+**`USERONLINE_TRUST_PROXY` is now `WP_USERONLINE_TRUST_PROXY`.** Left unrenamed in `wp-config.php`, the plugin stops trusting the proxy and every visitor reports the same IP address. See the FAQ.
 
-**The screens have moved into one menu.** Users Online was under Dashboard and the settings were under Settings; both are now under a single **WP-UserOnline** menu, with Users Online first and Settings last. Bookmarks to `index.php?page=useronline` become `admin.php?page=wp-useronline`, and `options-general.php?page=useronline-settings` becomes `admin.php?page=wp-useronline-settings`.
+**Both screens moved under one WP-UserOnline menu**, Users Online first and Settings last. `index.php?page=useronline` is now `admin.php?page=wp-useronline`, and `options-general.php?page=useronline-settings` is now `admin.php?page=wp-useronline-settings`.
 
-**Both screens now require `manage_options`.** The Users Online screen used to be open to anyone who could `list_users`, which included editors on many sites. If you want it back that way, filter it:
+**Both screens now require `manage_options`.** Users Online previously needed only `list_users`, which included editors on many sites. To restore that:
 
 ```php
 add_filter( 'wp_useronline_capability', function ( $capability, $context ) {
@@ -210,10 +210,10 @@ add_filter( 'wp_useronline_capability', function ( $capability, $context ) {
 }, 10, 2 );
 ```
 
-**Your settings move themselves.** The first page load after the update renames the `useronline` row to `wp_useronline_options` and the `useronline_most` row to `wp_useronline_most`, and puts the two upgrade markers in a row of their own, `wp_useronline_version`. You do not have to do anything, but code that reads those old rows directly will find them gone. `wp_useronline_most` is no longer autoloaded, which is a small saving on every page load.
+**Settings migrate on the first admin page load.** `useronline` becomes `wp_useronline_options`, `useronline_most` becomes `wp_useronline_most`, and the two upgrade markers move into `wp_useronline_version`. Code reading the old rows directly will find them gone. `wp_useronline_most` is no longer autoloaded.
 
-**If you use WP-Stats, update all seven plugins together.** WP-Stats, WP-UserOnline, WP-Polls, WP-PostRatings, WP-EMail, WP-PostViews and WP-DownloadManager all used to share one unprefixed option row, `stats_display`. Each of them now keeps its own copy and deletes the shared row once it has read it, so whichever you update first takes it away from the rest. Every plugin treats a missing row as "show my block" rather than "hide it", so nothing disappears — but a block you had deliberately switched off may come back. Switch it off again under **WP-UserOnline -> Settings -> WP-Stats**, where "Show a users online section on the WP-Stats page" now lives.
+**Update all seven WP-Stats plugins together.** WP-Stats, WP-UserOnline, WP-Polls, WP-PostRatings, WP-EMail, WP-PostViews and WP-DownloadManager shared one unprefixed `stats_display` row. Each now keeps its own copy and deletes the shared row once it has read it, so whichever you update first takes it from the rest. A missing row means "show", so a block you had switched off may reappear — switch it off again under **WP-UserOnline -> Settings -> WP-Stats**.
 
-**Classes were renamed too.** Everything is `WP_UserOnline_*` now: `UserOnline` is `WP_UserOnline`, `UserOnline_Template` is `WP_UserOnline_Template`, and so on. The template tags — `users_online()`, `get_users_online()`, `get_users_browsing_site()`, `get_most_users_online()` and the rest — and the `[page_useronline]` shortcode are unchanged, and so are the `useronline-count`, `useronline-browsing-site`, `useronline-browsing-page` and `useronline-details` element ids your theme puts on the page.
+**Classes are renamed to `WP_UserOnline_*`**: `UserOnline` is `WP_UserOnline`, `UserOnline_Template` is `WP_UserOnline_Template`, and so on. The template tags — `users_online()`, `get_users_online()`, `get_users_browsing_site()`, `get_most_users_online()` and the rest — the `[page_useronline]` shortcode, and the `useronline-count`, `useronline-browsing-site`, `useronline-browsing-page` and `useronline-details` element ids are unchanged.
 
-**Custom JavaScript.** The refresh script is at `js/wp-useronline.js` rather than `useronline.js`, its localised object is `wpUserOnlineL10n` rather than `useronlineL10n`, and the admin-ajax action it posts is `wp_useronline` rather than `useronline`.
+**Custom JavaScript.** `useronline.js` is now `js/wp-useronline.js`, its localised object is `wpUserOnlineL10n` rather than `useronlineL10n`, and the admin-ajax action is `wp_useronline` rather than `useronline`.
