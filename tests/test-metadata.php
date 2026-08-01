@@ -285,7 +285,7 @@ class WP_UserOnline_Metadata_Test extends WP_UserOnline_TestCase {
 	public function test_every_directory_has_an_index_php() {
 		$root = dirname( __DIR__ );
 
-		$directories = array( '', '/bin', '/includes', '/js', '/tests', '/tests/js' );
+		$directories = array( '', '/bin', '/includes', '/js', '/tests', '/tests/e2e', '/tests/js' );
 
 		foreach ( $directories as $directory ) {
 			$this->assertFileExists( $root . $directory . '/index.php', ( '' === $directory ? '/' : $directory ) . ' has no index.php' );
@@ -305,7 +305,11 @@ class WP_UserOnline_Metadata_Test extends WP_UserOnline_TestCase {
 
 					$name = $current->getFilename();
 
-					return ! in_array( $name, array( 'node_modules', 'vendor', 'languages' ), true ) && '.' !== $name[0];
+					// artifacts/ is Playwright's: traces, screenshots and the
+					// stored admin session from a local run. It is gitignored
+					// and never shipped, so it has no index.php and no business
+					// being walked here.
+					return ! in_array( $name, array( 'node_modules', 'vendor', 'languages', 'artifacts' ), true ) && '.' !== $name[0];
 				}
 			),
 			RecursiveIteratorIterator::SELF_FIRST
