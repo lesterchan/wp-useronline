@@ -75,9 +75,15 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 		$this->assertSame( 300, $clean['timeout'], 'a non-array submission should give the defaults' );
 	}
 
-	public function test_the_wp_stats_toggle_is_a_bool_that_defaults_to_off_when_unchecked() {
+	/**
+	 * A bool either way, and the zero the screen posts alongside the box is
+	 * what carries "off" -- absence means "this tab did not post it".
+	 *
+	 * @return void
+	 */
+	public function test_the_wp_stats_toggle_is_a_bool_the_hidden_zero_can_turn_off() {
 		$this->assertTrue( WP_UserOnline_Options::sanitize( array( 'stats_display' => '1' ) )['stats_display'], 'a checked box should store true' );
-		$this->assertFalse( WP_UserOnline_Options::sanitize( array() )['stats_display'], 'an unchecked box should store false' );
+		$this->assertFalse( WP_UserOnline_Options::sanitize( array( 'stats_display' => '0' ) )['stats_display'], 'the hidden zero should store false' );
 	}
 
 	/**
@@ -112,17 +118,26 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 	/**
 	 * The other half of the same guard, and the one a stored value cannot fake.
 	 *
-	 * A sanitize callback that reads storage is how the markers came to need
-	 * rescuing in the first place, so the absence of that read is asserted
-	 * against the source rather than inferred from behaviour.
+	 * The sanitiser does read storage -- it has to, because three tabs post
+	 * disjoint slices of one row and whatever a submission leaves out has to
+	 * survive it. What it must never read is another row: rescuing the markers
+	 * out of the settings on every save is the arrangement that shipped the
+	 * 3.0.0 bug, and the markers live in a row of their own now precisely so
+	 * that this function has no business with them.
 	 */
-	public function test_the_sanitizer_reads_no_options_at_all() {
+	public function test_the_sanitizer_reads_its_own_row_and_no_other() {
 		$source = (string) file_get_contents( dirname( __DIR__ ) . '/includes/class-wp-useronline-options.php' );
 		$start  = strpos( $source, 'public static function sanitize(' );
 		$end    = strpos( $source, 'public static function maybe_migrate(', $start );
 		$body   = substr( $source, $start, $end - $start );
 
-		$this->assertStringNotContainsString( 'get_option(', $body, 'the sanitize callback reaches back into storage' );
+		preg_match_all( '/get_option\(\s*([^,)]+)/', $body, $matches );
+
+		$this->assertSame(
+			array( 'self::OPTION' ),
+			array_unique( array_map( 'trim', $matches[1] ) ),
+			'the sanitize callback reaches into a row that is not its own'
+		);
 	}
 
 	public function test_a_save_cannot_disturb_the_marker_row() {

@@ -62,22 +62,51 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 		$this->assertSame( WP_USERONLINE_VERSION, WP_UserOnline_Options::markers()['plugin'], 'a save disturbed the marker row' );
 	}
 
-	public function test_all_four_sections_and_their_fields_are_registered_on_one_page() {
+	/**
+	 * The templates are on the Templates tab and nothing else is.
+	 *
+	 * Each tab is a Settings API page of its own, which is the whole of what
+	 * keeps one tab from drawing the other's fields -- so this asserts both
+	 * halves: every section is on the tab it belongs to, and on no other.
+	 *
+	 * @return void
+	 */
+	public function test_each_section_is_registered_on_the_tab_it_belongs_to_and_no_other() {
 		global $wp_settings_sections, $wp_settings_fields;
 
-		$page = WP_UserOnline_Settings::PAGE;
+		$expected = array(
+			WP_UserOnline_Admin::TAB_SETTINGS  => array(
+				WP_UserOnline_Settings::SECTION_GENERAL,
+				WP_UserOnline_Settings::SECTION_NAMING,
+				WP_UserOnline_Settings::SECTION_WPSTATS,
+			),
+			WP_UserOnline_Admin::TAB_TEMPLATES => array(
+				WP_UserOnline_Settings::SECTION_TEMPLATES,
+			),
+		);
 
-		$this->assertArrayHasKey( $page, $wp_settings_sections, 'nothing was registered on the settings page' );
+		foreach ( $expected as $tab => $sections ) {
+			$bucket = WP_UserOnline_Settings::tab_bucket( $tab );
 
-		foreach ( array(
-			WP_UserOnline_Settings::SECTION_GENERAL,
-			WP_UserOnline_Settings::SECTION_NAMING,
-			WP_UserOnline_Settings::SECTION_TEMPLATES,
-			WP_UserOnline_Settings::SECTION_WPSTATS,
-		) as $section ) {
-			$this->assertArrayHasKey( $section, $wp_settings_sections[ $page ], $section . ' is missing' );
-			$this->assertArrayHasKey( $section, $wp_settings_fields[ $page ], $section . ' has no fields' );
+			$this->assertArrayHasKey( $bucket, $wp_settings_sections, 'nothing was registered on the ' . $tab . ' tab' );
+			$this->assertSame( $sections, array_keys( $wp_settings_sections[ $bucket ] ), 'the ' . $tab . ' tab holds the wrong sections' );
+
+			foreach ( $sections as $section ) {
+				$this->assertArrayHasKey( $section, $wp_settings_fields[ $bucket ], $section . ' has no fields' );
+			}
 		}
+	}
+
+	public function test_the_three_template_fields_are_all_on_the_templates_tab() {
+		global $wp_settings_fields;
+
+		$bucket = WP_UserOnline_Settings::tab_bucket( WP_UserOnline_Admin::TAB_TEMPLATES );
+
+		$this->assertSame(
+			array( 'template_useronline', 'template_browsingsite', 'template_browsingpage' ),
+			array_keys( $wp_settings_fields[ $bucket ][ WP_UserOnline_Settings::SECTION_TEMPLATES ] ),
+			'a template field was left behind on the settings tab'
+		);
 	}
 
 	public function test_every_section_id_carries_the_plugin_prefix() {
@@ -208,41 +237,208 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	public function test_rendering_the_form_requires_the_settings_capability() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'editor' ) ) );
 
+		$_GET['tab'] = WP_UserOnline_Admin::TAB_SETTINGS;
+
 		$this->expectException( 'WPDieException' );
 
-		WP_UserOnline_Settings::render_page();
+		WP_UserOnline_Admin::render_page();
 	}
 
 	/**
 	 * The option group and its nonce are what make the Settings API save at all.
 	 */
-	public function test_the_form_posts_to_options_php_with_the_group_and_a_nonce() {
+	public function test_both_settings_tabs_post_to_options_php_with_the_group_and_a_nonce() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
-		$html = $this->capture( array( 'WP_UserOnline_Settings', 'render_page' ) );
+		foreach ( array( WP_UserOnline_Admin::TAB_SETTINGS, WP_UserOnline_Admin::TAB_TEMPLATES ) as $tab ) {
+			$_GET['tab'] = $tab;
 
-		$this->assertStringContainsString( 'action="options.php"', $html, 'the form does not post to options.php' );
-		$this->assertStringContainsString( "value='" . WP_UserOnline_Settings::GROUP . "'", $html, 'the option group is missing' );
-		$this->assertStringContainsString( '_wpnonce', $html, 'the nonce is missing' );
+			$html = $this->capture( array( 'WP_UserOnline_Admin', 'render_page' ) );
+
+			$this->assertStringContainsString( 'action="options.php"', $html, $tab . ' does not post to options.php' );
+			$this->assertStringContainsString( "value='" . WP_UserOnline_Settings::GROUP . "'", $html, $tab . ' posts under no option group' );
+			$this->assertStringContainsString( '_wpnonce', $html, $tab . ' has no nonce' );
+		}
+	}
+
+	/**
+	 * One register_setting(), one option row, whichever tab is saving.
+	 *
+	 * Two groups against one row is what made wp-postratings' two halves
+	 * reachable by different URLs; a tab is a rendering decision and must not
+	 * become a storage one.
+	 */
+	public function test_there_is_one_registered_setting_for_all_three_tabs() {
+		$registered = get_registered_settings();
+
+		$ours = array_filter(
+			array_keys( $registered ),
+			static function ( $name ) {
+				return 0 === strpos( $name, 'wp_useronline' );
+			}
+		);
+
+		$this->assertSame( array( WP_UserOnline_Options::OPTION ), array_values( $ours ), 'the tabs must share one registered setting' );
+	}
+
+	/**
+	 * Saving one tab must not blank what the others own.
+	 *
+	 * The Settings API hands the sanitize_callback only the fields the
+	 * submitting form posted, so a sanitiser that returned just what it was
+	 * given would wipe the other two tabs on every save -- silently, which is
+	 * why this is a test rather than a comment.
+	 */
+	public function test_saving_the_settings_tab_leaves_the_templates_alone() {
+		WP_UserOnline_Options::update(
+			WP_UserOnline_Options::sanitize(
+				array(
+					'templates' => array(
+						'useronline'   => 'Customised: %USERS%',
+						'browsingsite' => array(
+							'text'       => 'Customised site: %USERS%',
+							'separators' => array( 'members' => ' | ' ),
+						),
+					),
+				)
+			)
+		);
+
+		// The path options.php takes, and exactly what the Settings tab posts:
+		// no templates key at all.
+		update_option(
+			WP_UserOnline_Options::OPTION,
+			array(
+				'timeout'       => '900',
+				'url'           => 'https://example.com/online',
+				'names'         => '1',
+				'stats_display' => '0',
+				'naming'        => array( 'user' => 'One soul' ),
+			)
+		);
+
+		$stored = WP_UserOnline_Options::get();
+
+		$this->assertSame( 900, $stored['timeout'], 'the tab that saved did not save' );
+		$this->assertSame( 'Customised: %USERS%', $stored['templates']['useronline'], 'saving the settings tab wiped a template' );
+		$this->assertSame( 'Customised site: %USERS%', $stored['templates']['browsingsite']['text'], 'saving the settings tab wiped a template' );
+		$this->assertSame( ' | ', $stored['templates']['browsingsite']['separators']['members'], 'saving the settings tab wiped a separator' );
+	}
+
+	public function test_saving_the_templates_tab_leaves_the_settings_alone() {
+		$this->set_option( 'timeout', 900 );
+		$this->set_option( 'url', 'https://example.com/online' );
+		$this->set_option( 'names', 1 );
+		$this->set_option( 'stats_display', false );
+		$this->set_option( 'naming', array_merge( WP_UserOnline_Options::get( 'naming' ), array( 'user' => 'One soul' ) ) );
+
+		// Exactly what the Templates tab posts: templates, and nothing else.
+		update_option(
+			WP_UserOnline_Options::OPTION,
+			array( 'templates' => array( 'useronline' => 'Customised: %USERS%' ) )
+		);
+
+		$stored = WP_UserOnline_Options::get();
+
+		$this->assertSame( 'Customised: %USERS%', $stored['templates']['useronline'], 'the tab that saved did not save' );
+		$this->assertSame( 900, $stored['timeout'], 'saving the templates tab reset the timeout' );
+		$this->assertSame( 'https://example.com/online', $stored['url'], 'saving the templates tab reset the URL' );
+		$this->assertSame( 1, $stored['names'], 'saving the templates tab reset the name linking' );
+		$this->assertFalse( $stored['stats_display'], 'saving the templates tab turned the WP-Stats section back on' );
+		$this->assertSame( 'One soul', $stored['naming']['user'], 'saving the templates tab reset a naming convention' );
+	}
+
+	/**
+	 * The other half of the merge: a checkbox that posts nothing when off would
+	 * be read as "not submitted" and could never be turned off again.
+	 */
+	public function test_the_wp_stats_checkbox_can_still_be_turned_off_under_the_merge() {
+		$this->set_option( 'stats_display', true );
+
+		$html = $this->render( 'field_stats_display' );
+
+		$this->assertStringContainsString(
+			'<input type="hidden" name="wp_useronline_options[stats_display]" value="0" />',
+			$html,
+			'without the hidden zero an unticked box posts nothing and the merge keeps the old value'
+		);
+
+		update_option( WP_UserOnline_Options::OPTION, array( 'stats_display' => '0' ) );
+
+		$this->assertFalse( WP_UserOnline_Options::get( 'stats_display' ), 'the box could be ticked and never unticked' );
+	}
+
+	public function test_a_settings_tab_carries_the_active_tab_through_the_save() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		$_GET['tab'] = WP_UserOnline_Admin::TAB_TEMPLATES;
+
+		$html = $this->capture( array( 'WP_UserOnline_Admin', 'render_page' ) );
+
+		// options.php redirects to the referer, and the one settings_fields()
+		// writes is whatever URL this request came in on -- which carries no tab
+		// when the tab was reached as the page's default.
+		$this->assertStringContainsString(
+			'name="_wp_http_referer" value="' . esc_url( WP_UserOnline_Admin::tab_url( WP_UserOnline_Admin::TAB_TEMPLATES ) ) . '"',
+			$html,
+			'the save would come back on a different tab'
+		);
+	}
+
+	/**
+	 * The confirmation notice belongs to the page rather than to a tab.
+	 *
+	 * It is printed above the tab strip, so whichever tab the save redirect
+	 * comes back to shows it.
+	 */
+	public function test_the_saved_notice_prints_on_all_three_tabs() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		foreach ( array_keys( WP_UserOnline_Admin::tabs() ) as $tab ) {
+			add_settings_error( 'general', 'settings_updated', 'Settings saved.', 'success' );
+
+			$_GET['tab'] = $tab;
+
+			$this->assertStringContainsString(
+				'Settings saved.',
+				$this->capture( array( 'WP_UserOnline_Admin', 'render_page' ) ),
+				'the ' . $tab . ' tab swallowed the confirmation notice'
+			);
+
+			$GLOBALS['wp_settings_errors'] = array();
+		}
 	}
 
 	public function test_the_screen_carries_no_inline_script_block_any_more() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
-		$this->assertStringNotContainsString( '<script', $this->capture( array( 'WP_UserOnline_Settings', 'render_page' ) ), 'the screen still prints an inline script' );
+		$_GET['tab'] = WP_UserOnline_Admin::TAB_SETTINGS;
+
+		$this->assertStringNotContainsString( '<script', $this->capture( array( 'WP_UserOnline_Admin', 'render_page' ) ), 'the screen still prints an inline script' );
 	}
 
-	public function test_the_restore_defaults_script_loads_on_the_settings_screen_only() {
+	public function test_the_restore_defaults_script_loads_on_the_settings_tabs_only() {
 		// WP_Dependencies remembers registrations and enqueues for the whole
 		// process, so "is it enqueued" answers for every test that ran before
 		// this one too. Without a fresh instance the negative half of this test
 		// passes or fails on execution order rather than on the code.
 		$GLOBALS['wp_scripts'] = new WP_Scripts();
 
-		WP_UserOnline_Settings::enqueue_scripts( 'toplevel_page_' . WP_UserOnline_Admin::PAGE );
-		$this->assertFalse( wp_script_is( 'wp-useronline-admin', 'enqueued' ), 'the script loaded on the wrong screen' );
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
-		WP_UserOnline_Settings::enqueue_scripts( 'wp-useronline_page_' . WP_UserOnline_Settings::PAGE );
-		$this->assertTrue( wp_script_is( 'wp-useronline-admin', 'enqueued' ), 'the script did not load on the settings screen' );
+		WP_UserOnline_Admin::add_page();
+
+		$hook = WP_UserOnline_Admin::screen_hook();
+
+		WP_UserOnline_Settings::enqueue_scripts( 'index.php' );
+		$this->assertFalse( wp_script_is( 'wp-useronline-admin', 'enqueued' ), 'the script loaded on another screen entirely' );
+
+		$_GET['tab'] = WP_UserOnline_Admin::TAB_USERONLINE;
+		WP_UserOnline_Settings::enqueue_scripts( $hook );
+		$this->assertFalse( wp_script_is( 'wp-useronline-admin', 'enqueued' ), 'the script loaded on the report tab, which has no field to restore' );
+
+		$_GET['tab'] = WP_UserOnline_Admin::TAB_TEMPLATES;
+		WP_UserOnline_Settings::enqueue_scripts( $hook );
+		$this->assertTrue( wp_script_is( 'wp-useronline-admin', 'enqueued' ), 'the script did not load on the templates tab' );
 	}
 }

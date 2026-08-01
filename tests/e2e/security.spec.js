@@ -29,6 +29,7 @@ const {
 	insertOnline,
 	installProbe,
 	openSettings,
+	openTemplates,
 	removeProbe,
 	resetOptions,
 	setOptions,
@@ -236,6 +237,10 @@ test.describe( 'Hostile rows in the users online table', () => {
 		// The row a compromised install has: written past the sanitiser
 		// entirely. The settings screen has to show an administrator what is in
 		// it without running it, or cleaning up means hand-editing the database.
+		//
+		// Both tabs, because the payloads are split across them now: the naming
+		// conventions are on Settings and the templates on Templates, and each
+		// tab renders its own fields.
 		setOptions( {
 			naming: { user: `1 ${ SCRIPT_PAYLOAD }`, users: `%COUNT% ${ IMG_PAYLOAD }` },
 			templates: { useronline: `<span>%USERS%</span> ${ ATTR_PAYLOAD }` },
@@ -251,6 +256,12 @@ test.describe( 'Hostile rows in the users online table', () => {
 		await expect( page.locator( field( 'naming', 'user' ) ) ).toHaveValue(
 			`1 ${ SCRIPT_PAYLOAD }`,
 		);
+
+		await openTemplates( page );
+
+		expect( await pwned( page ) ).toBe( false );
+		await expectNothingArmed( page.locator( '#wpbody' ) );
+
 		await expect( page.locator( field( 'templates', 'useronline' ) ) ).toHaveValue(
 			`<span>%USERS%</span> ${ ATTR_PAYLOAD }`,
 		);

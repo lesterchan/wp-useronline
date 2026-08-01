@@ -33,8 +33,16 @@ const { expect } = require( '@wordpress/e2e-test-utils-playwright' );
 /** The plugin root, which is where wp-env reads .wp-env.json from. */
 const PLUGIN_ROOT = path.join( __dirname, '../..' );
 
+/**
+ * The plugin's one admin page, and its three tabs.
+ *
+ * There is a single screen under the WP-UserOnline menu; the report, the
+ * settings and the templates are tabs of it at ?tab=. The report is the first
+ * tab, so the page's own URL opens on it.
+ */
 const ONLINE_URL = '/wp-admin/admin.php?page=wp-useronline';
-const SETTINGS_URL = '/wp-admin/admin.php?page=wp-useronline-settings';
+const SETTINGS_URL = '/wp-admin/admin.php?page=wp-useronline&tab=settings';
+const TEMPLATES_URL = '/wp-admin/admin.php?page=wp-useronline&tab=templates';
 
 /** A user agent from the plugin's own bot list, matched as 'googlebot'. */
 const BOT_USER_AGENT = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
@@ -344,6 +352,60 @@ function removeProbe() {
 }
 
 /**
+ * Drop a mu-plugin that answers wp_useronline_capability for one context.
+ *
+ * The three tabs are one admin page, and the page is registered under the
+ * report's capability because that is the one a site widens. Everything then
+ * rests on each tab checking its own context, so the filter has to be installed
+ * for real -- in the same process the browser is driving -- rather than
+ * simulated.
+ *
+ * @param {string} context    Which context to answer: 'useronline' or 'settings'.
+ * @param {string} capability Capability to return for it.
+ * @return {void}
+ */
+function widenCapability( context, capability ) {
+	const source = `<?php
+/**
+ * Plugin Name: WP-UserOnline E2E capability filter
+ */
+add_filter(
+	'wp_useronline_capability',
+	function ( $capability, $asking ) {
+		return '${ context }' === $asking ? '${ capability }' : $capability;
+	},
+	10,
+	2
+);
+`;
+
+	const encoded = Buffer.from( source, 'utf8' ).toString( 'base64' );
+
+	wpEval(
+		`if ( ! is_dir( WPMU_PLUGIN_DIR ) ) {
+			mkdir( WPMU_PLUGIN_DIR, 0777, true );
+		}
+		file_put_contents( WPMU_PLUGIN_DIR . '/wp-useronline-e2e-capability.php', base64_decode( '${ encoded }' ) );
+		echo '<<<done>>>';`,
+	);
+}
+
+/**
+ * Remove the capability filter mu-plugin.
+ *
+ * @return {void}
+ */
+function restoreCapabilities() {
+	wpEval(
+		`$file = WPMU_PLUGIN_DIR . '/wp-useronline-e2e-capability.php';
+		if ( file_exists( $file ) ) {
+			unlink( $file );
+		}
+		echo '<<<done>>>';`,
+	);
+}
+
+/**
  * Tell the probe which user id to ask is_user_online() about.
  *
  * @param {number} userId User id.
@@ -416,15 +478,33 @@ async function asGuest( page, options, run ) {
 }
 
 /**
- * Open the settings screen.
+ * Open the Settings tab.
+ *
+ * The active tab is asserted as well as the heading: both settings tabs share
+ * one heading, so the heading alone would pass on either of them and a spec
+ * that filled a field on the wrong tab would silently find nothing.
  *
  * @param {import('@playwright/test').Page} page Page under test.
- * @return {Promise<void>} Resolves once the screen is up.
+ * @return {Promise<void>} Resolves once the tab is up.
  */
 async function openSettings( page ) {
 	await page.goto( SETTINGS_URL );
 
 	await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
+	await expect( page.locator( '.nav-tab-active' ) ).toHaveText( 'Settings' );
+}
+
+/**
+ * Open the Templates tab.
+ *
+ * @param {import('@playwright/test').Page} page Page under test.
+ * @return {Promise<void>} Resolves once the tab is up.
+ */
+async function openTemplates( page ) {
+	await page.goto( TEMPLATES_URL );
+
+	await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
+	await expect( page.locator( '.nav-tab-active' ) ).toHaveText( 'Templates' );
 }
 
 /**
@@ -438,14 +518,23 @@ async function openSettings( page ) {
  * precondition of every save, because every assertion in this suite is about
  * what was stored, and a missing notice must not hide all of them.
  *
+ * The tab is waited for as well as the redirect: options.php sends the browser
+ * to the referer, and a form that did not carry its tab through the save would
+ * land back on the first one -- which is the report, where none of these fields
+ * exist.
+ *
  * @param {import('@playwright/test').Page} page Page under test.
+ * @param {string}                          tab  Tab the form was submitted from.
  * @return {Promise<void>} Resolves once options.php has sent the browser back.
  */
-async function saveSettings( page ) {
+async function saveSettings( page, tab = 'settings' ) {
+	const label = tab === 'templates' ? 'Templates' : 'Settings';
+
 	await page.getByRole( 'button', { name: 'Save Changes' } ).click();
 
 	await page.waitForURL( /settings-updated=true/ );
 	await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
+	await expect( page.locator( '.nav-tab-active' ) ).toHaveText( label );
 }
 
 /**
@@ -542,6 +631,7 @@ module.exports = {
 	HUMAN_USER_AGENT,
 	ONLINE_URL,
 	SETTINGS_URL,
+	TEMPLATES_URL,
 	addUserOnlineWidget,
 	asGuest,
 	cookieHash,
@@ -553,16 +643,19 @@ module.exports = {
 	most,
 	onlineRows,
 	openSettings,
+	openTemplates,
 	option,
 	probeUser,
 	removeProbe,
 	removeUserOnlineWidget,
 	resetOptions,
+	restoreCapabilities,
 	saveSettings,
 	setMost,
 	setOptions,
 	truncateOnline,
 	uniqueTitle,
+	widenCapability,
 	wpEval,
 	wpEvalJson,
 };

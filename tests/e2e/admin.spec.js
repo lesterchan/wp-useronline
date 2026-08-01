@@ -1,10 +1,14 @@
 /**
- * The admin surface: the menu and its two screens, the At a Glance summary,
- * the capability that gates the lot, and the admin-ajax.php endpoint the
- * refresh script talks to.
+ * The admin surface: the menu, the one page under it and its three tabs, the At
+ * a Glance summary, the capability that gates the lot, and the admin-ajax.php
+ * endpoint the refresh script talks to.
  *
  * Two capabilities are at work and they are not the same thing. 'useronline'
- * and 'settings' gate whole screens. 'details' gates two pieces of the listing
+ * gates the report tab and 'settings' gates the other two -- and since all three
+ * are one page now, the page is registered under the *lower* of the two and each
+ * tab checks its own. Widening the report must not hand over the settings form,
+ * which is the whole reason the split exists. 'details' gates two pieces of the
+ * listing
  * that are nobody else's business -- every visitor's IP address, and the
  * location of anyone who is inside wp-admin -- on the screen and in the
  * front-end shortcode alike, which is why it is tested through both.
@@ -14,16 +18,20 @@ const { test, expect } = require( '@wordpress/e2e-test-utils-playwright' );
 const {
 	ONLINE_URL,
 	SETTINGS_URL,
+	TEMPLATES_URL,
 	asGuest,
 	ensureUser,
+	field,
 	insertOnline,
 	loginAs,
 	onlineRows,
 	resetOptions,
+	restoreCapabilities,
 	setMost,
 	setOptions,
 	truncateOnline,
 	uniqueTitle,
+	widenCapability,
 } = require( './helpers.js' );
 
 /** A password for the throwaway accounts the capability tests log in as. */
@@ -47,46 +55,63 @@ test.describe( 'The admin screens', () => {
 		truncateOnline();
 	} );
 
-	test( 'the fixture really is one menu with both screens under it', async ( { page } ) => {
+	test( 'the fixture really is one menu entry with no submenu of its own', async ( { page } ) => {
 		// Every navigation test below leans on the menu existing at all, and on
-		// both entries being under the same top-level item rather than
-		// scattered between Dashboard and Settings the way they were before
-		// 4.0.0.
+		// the plugin having exactly one page: the report, the settings and the
+		// templates are tabs, not submenu entries, and before 4.0.0 two of them
+		// were scattered between Dashboard and Settings entirely.
 		await page.goto( '/wp-admin/index.php' );
 
 		const menu = page.locator( '#adminmenu li', { hasText: 'WP-UserOnline' } ).first();
 
-		await expect( menu.getByRole( 'link', { name: 'Users Online', exact: true } ) ).toBeAttached();
-		await expect( menu.getByRole( 'link', { name: 'Settings', exact: true } ) ).toBeAttached();
+		await expect( menu.getByRole( 'link', { name: 'WP-UserOnline', exact: true } ) ).toBeAttached();
+		// Scoped to this plugin's own menu item: core's Settings menu is in
+		// #adminmenu too, and an unscoped role query matches both.
+		await expect( menu.getByRole( 'link', { name: 'Settings', exact: true } ) ).toHaveCount( 0 );
+		await expect( menu.locator( '.wp-submenu li' ) ).toHaveCount( 0 );
 	} );
 
-	test( 'the Users Online entry opens the report screen', async ( { page } ) => {
+	test( 'the menu entry opens the page on the report tab', async ( { page } ) => {
 		await page.goto( '/wp-admin/index.php' );
 
-		// Through the menu, the way a person reaches it: the submenu is only
-		// drawn out on hover, so the hover is part of the sequence.
-		await page.locator( '#adminmenu li', { hasText: 'WP-UserOnline' } ).first().hover();
-		await page.getByRole( 'link', { name: 'Users Online', exact: true } ).click();
+		// Through the menu, the way a person reaches it.
+		await page
+			.locator( '#adminmenu li', { hasText: 'WP-UserOnline' } )
+			.first()
+			.getByRole( 'link', { name: 'WP-UserOnline', exact: true } )
+			.click();
 
 		await expect( page.getByRole( 'heading', { name: 'Users Online Now' } ) ).toBeVisible();
 		expect( page.url() ).toContain( 'admin.php?page=wp-useronline' );
 		await expect( page.locator( '#useronline-details' ) ).toBeAttached();
+		await expect( page.locator( '.nav-tab-active' ) ).toHaveText( 'Users Online' );
 	} );
 
-	test( 'the Settings entry opens the settings screen', async ( { page } ) => {
-		await page.goto( '/wp-admin/index.php' );
+	test( 'the three tabs are the report, the settings and the templates, in that order', async ( {
+		page,
+	} ) => {
+		await page.goto( ONLINE_URL );
 
-		// Scoped to this plugin's own menu item: core's Settings menu is in
-		// #adminmenu too, and an unscoped role query matches both.
-		const menu = page.locator( '#adminmenu li', { hasText: 'WP-UserOnline' } ).first();
-		await menu.hover();
-		await menu.getByRole( 'link', { name: 'Settings', exact: true } ).click();
+		await expect( page.locator( '.nav-tab-wrapper .nav-tab' ) ).toHaveText( [
+			'Users Online',
+			'Settings',
+			'Templates',
+		] );
+
+		// Scoped to the tab strip: core's own Settings menu is a link in
+		// #adminmenu, and an unscoped role query matches both.
+		await page
+			.locator( '.nav-tab-wrapper' )
+			.getByRole( 'link', { name: 'Settings', exact: true } )
+			.click();
 
 		await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
-		expect( page.url() ).toContain( 'page=wp-useronline-settings' );
+		expect( page.url() ).toContain( 'page=wp-useronline&tab=settings' );
 	} );
 
-	test( 'a subscriber gets neither screen, and an administrator gets both', async ( { page } ) => {
+	test( 'a subscriber gets no tab at all, and an administrator gets all three', async ( {
+		page,
+	} ) => {
 		// Both directions in one test on purpose. "The subscriber sees nothing"
 		// passes just as well with the plugin deactivated; the administrator
 		// half is what proves the gate is the capability rather than a missing
@@ -97,6 +122,8 @@ test.describe( 'The admin screens', () => {
 		await page.goto( ONLINE_URL );
 		await expect( page.getByRole( 'heading', { name: 'Users Online Now' } ) ).toBeVisible();
 		await page.goto( SETTINGS_URL );
+		await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
+		await page.goto( TEMPLATES_URL );
 		await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
 
 		ensureUser( 'useronline_subscriber', 'subscriber', PASSWORD );
@@ -112,6 +139,45 @@ test.describe( 'The admin screens', () => {
 		await expect( other.locator( 'body' ) ).toContainText( /not allowed to access this page/ );
 
 		await other.context().close();
+	} );
+
+	test( 'widening the report tab does not hand over the settings tabs', async ( { page } ) => {
+		// The one that would be a privilege escalation rather than a bug. All
+		// three tabs are one admin page, and that page has to be registered
+		// under the report's capability -- the lower of the two -- or widening
+		// the report would not reach it at all. So each tab checks its own
+		// context, and this is what says so: an editor handed the report must
+		// not be handed the settings form with it.
+		widenCapability( 'useronline', 'edit_posts' );
+
+		try {
+			ensureUser( 'useronline_editor', 'editor', PASSWORD );
+			const editor = await loginAs( page, 'useronline_editor', PASSWORD );
+
+			await editor.goto( ONLINE_URL );
+			await expect( editor.getByRole( 'heading', { name: 'Users Online Now' } ) ).toBeVisible();
+
+			// And the tab strip does not even offer the other two, because a
+			// link that dies on arrival is worse than no link.
+			await expect( editor.locator( '.nav-tab-wrapper .nav-tab' ) ).toHaveText( [
+				'Users Online',
+			] );
+
+			for ( const url of [ SETTINGS_URL, TEMPLATES_URL ] ) {
+				await editor.goto( url );
+				await expect( editor.locator( 'body' ) ).toContainText(
+					/do not have permission to access this page/,
+				);
+				await expect( editor.locator( field( 'timeout' ) ) ).toHaveCount( 0 );
+				await expect(
+					editor.locator( field( 'templates', 'useronline' ) ),
+				).toHaveCount( 0 );
+			}
+
+			await editor.context().close();
+		} finally {
+			restoreCapabilities();
+		}
 	} );
 
 	test( 'the At a Glance panel carries the count, the browsing list and the record', async ( {

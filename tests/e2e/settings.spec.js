@@ -1,5 +1,5 @@
 /**
- * WP-UserOnline > Settings, and what each row stores.
+ * WP-UserOnline > Settings and Templates, and what each row stores.
  *
  * A setting that saves but does nothing, and a setting that does something but
  * will not save, are the two failures a screenshot cannot tell apart. The
@@ -10,18 +10,22 @@
  * row ends up holding, through the sanitiser, and that reloading the screen
  * shows it back.
  *
- * Every field on this screen is nested inside one option array, and the
- * sanitiser rebuilds that array from the defaults on every save rather than
- * merging into the stored value. So a test that types into one field and saves
- * is also asserting that the other twenty came back off the form intact.
+ * Every field on this screen is nested inside one option array, and the screen
+ * is two tabs posting disjoint slices of it. The sanitiser therefore merges what
+ * a tab posted over what is stored -- which is the only thing standing between a
+ * site owner and six customised templates vanishing because they changed the
+ * timeout. That merge gets a test of its own below, in both directions, because
+ * getting it wrong destroys data and says nothing.
  */
 
 const { test, expect } = require( '@wordpress/e2e-test-utils-playwright' );
 const {
+	ONLINE_URL,
 	asGuest,
 	field,
 	installProbe,
 	openSettings,
+	openTemplates,
 	option,
 	removeProbe,
 	resetOptions,
@@ -63,7 +67,7 @@ test.describe( 'The settings screen', () => {
 		resetOptions();
 	} );
 
-	test( 'the fixture really is the four sections, each with its fields on screen', async ( {
+	test( 'the fixture really is the Settings tab with its three sections on screen', async ( {
 		page,
 	} ) => {
 		// Every test below fills a field by name. If do_settings_sections()
@@ -74,14 +78,30 @@ test.describe( 'The settings screen', () => {
 
 		await expect( page.getByRole( 'heading', { name: 'General' } ) ).toBeVisible();
 		await expect( page.getByRole( 'heading', { name: 'Naming Conventions' } ) ).toBeVisible();
-		await expect( page.getByRole( 'heading', { name: 'Templates' } ) ).toBeVisible();
 		await expect( page.getByRole( 'heading', { name: 'WP-Stats' } ) ).toBeVisible();
 
 		await expect( page.locator( field( 'timeout' ) ) ).toHaveValue( '300' );
 		await expect( page.locator( field( 'url' ) ) ).toBeVisible();
 		await expect( page.locator( '#wp-useronline-naming input' ) ).toHaveCount( 8 );
-		await expect( page.locator( field( 'templates', 'useronline' ) ) ).toBeVisible();
 		await expect( page.locator( field( 'stats_display' ) ) ).toBeChecked();
+
+		// And nothing of the other tab's: the tabs are kept apart by the
+		// Settings API page each section is registered against, and a section
+		// registered against the wrong one would draw here.
+		await expect( page.locator( field( 'templates', 'useronline' ) ) ).toHaveCount( 0 );
+	} );
+
+	test( 'the Templates tab carries the templates, and only those', async ( { page } ) => {
+		await openTemplates( page );
+
+		await expect( page.getByRole( 'heading', { name: 'Templates' } ) ).toBeVisible();
+
+		await expect( page.locator( field( 'templates', 'useronline' ) ) ).toBeVisible();
+		await expect( page.locator( field( 'templates', 'browsingsite', 'text' ) ) ).toBeVisible();
+		await expect( page.locator( field( 'templates', 'browsingpage', 'text' ) ) ).toBeVisible();
+
+		await expect( page.locator( field( 'timeout' ) ) ).toHaveCount( 0 );
+		await expect( page.locator( '#wp-useronline-naming' ) ).toHaveCount( 0 );
 	} );
 
 	test( 'the Time Out field stores a number of seconds', async ( { page } ) => {
@@ -192,9 +212,9 @@ test.describe( 'The settings screen', () => {
 	test( 'the users online template stores multi-line markup', async ( { page } ) => {
 		const markup = '<a href="%PAGE_URL%">\n\t<strong>%USERS%</strong> here\n</a>';
 
-		await openSettings( page );
+		await openTemplates( page );
 		await page.locator( field( 'templates', 'useronline' ) ).fill( markup );
-		await saveSettings( page );
+		await saveSettings( page, 'templates' );
 
 		// trim() on the outside is all the sanitiser does to the shape of the
 		// value, so the inner newlines and the tab have to survive.
@@ -209,7 +229,7 @@ test.describe( 'The settings screen', () => {
 
 	for ( const key of [ 'browsingsite', 'browsingpage' ] ) {
 		test( `the ${ key } template and its three separators all store`, async ( { page } ) => {
-			await openSettings( page );
+			await openTemplates( page );
 
 			await page
 				.locator( field( 'templates', key, 'text' ) )
@@ -221,7 +241,7 @@ test.describe( 'The settings screen', () => {
 			await page.locator( field( 'templates', key, 'separators', 'guests' ) ).fill( ' / ' );
 			await page.locator( field( 'templates', key, 'separators', 'bots' ) ).fill( ' ~ ' );
 
-			await saveSettings( page );
+			await saveSettings( page, 'templates' );
 
 			const stored = option( 'templates' )[ key ];
 
@@ -238,9 +258,9 @@ test.describe( 'The settings screen', () => {
 	test( 'a template is stored unslashed, so an apostrophe stays an apostrophe', async ( {
 		page,
 	} ) => {
-		await openSettings( page );
+		await openTemplates( page );
 		await page.locator( field( 'templates', 'useronline' ) ).fill( "%USERS% reader's view" );
-		await saveSettings( page );
+		await saveSettings( page, 'templates' );
 
 		expect( option( 'templates' ).useronline ).toBe( "%USERS% reader's view" );
 	} );
@@ -267,23 +287,25 @@ test.describe( 'The settings screen', () => {
 
 	test( 'each Restore Defaults button is scoped to its own group of fields', async ( { page } ) => {
 		setOptions( {
-			naming: { user: 'kept as is' },
 			templates: {
 				useronline: 'replaced',
-				browsingsite: { text: 'kept as is too' },
+				browsingsite: { text: 'kept as is' },
+				browsingpage: { text: 'kept as is too' },
 			},
 		} );
 
-		await openSettings( page );
+		await openTemplates( page );
 		await page
 			.locator( '.wp-useronline-restore[data-target="#wp-useronline-template-useronline"]' )
 			.click();
 
 		await expect( page.locator( field( 'templates', 'useronline' ) ) ).toHaveValue( /%USERS%/ );
 		// Neither of the other two scopes moved, which is what makes the button
-		// bound to its own group rather than to the whole screen.
-		await expect( page.locator( field( 'naming', 'user' ) ) ).toHaveValue( 'kept as is' );
+		// bound to its own group rather than to the whole tab.
 		await expect( page.locator( field( 'templates', 'browsingsite', 'text' ) ) ).toHaveValue(
+			'kept as is',
+		);
+		await expect( page.locator( field( 'templates', 'browsingpage', 'text' ) ) ).toHaveValue(
 			'kept as is too',
 		);
 	} );
@@ -312,9 +334,10 @@ test.describe( 'The settings screen', () => {
 		await page.locator( field( 'stats_display' ) ).uncheck();
 		await saveSettings( page );
 
-		// An unticked checkbox posts nothing at all, so this is the row the
-		// sanitiser has to read as absent-means-off. Getting it wrong gives a
-		// checkbox that can be ticked and never unticked.
+		// An unticked checkbox posts nothing at all, and the sanitiser keeps
+		// whatever a tab did not post -- so "off" travels as the hidden zero
+		// printed in front of the box. Without it this could be ticked and
+		// never unticked.
 		expect( option( 'stats_display' ) ).toBe( false );
 
 		await openSettings( page );
@@ -356,7 +379,7 @@ test.describe( 'The settings screen', () => {
 	} );
 
 	test( 'the screen lists the tokens each template accepts', async ( { page } ) => {
-		await openSettings( page );
+		await openTemplates( page );
 
 		// The token lists are the only documentation a site owner has for what
 		// may go in these fields, and they are markup inside a field callback,
@@ -369,7 +392,72 @@ test.describe( 'The settings screen', () => {
 		).toContainText( [ '%MEMBER_NAMES%' ] );
 	} );
 
-	test( 'saving shows the confirmation notice', async ( { page } ) => {
+	test( 'saving one tab leaves the other tab\'s values alone', async ( { page } ) => {
+		// The regression this design invites, and it is silent: the Settings API
+		// hands the sanitiser only the fields the submitting form posted, so a
+		// sanitiser that returned just what it was given would blank the other
+		// tab on every save. Somebody customises the templates, later changes
+		// the timeout, and the templates are gone with no error.
+		await openTemplates( page );
+		await page.locator( field( 'templates', 'useronline' ) ).fill( 'Customised: %USERS%' );
+		await page
+			.locator( field( 'templates', 'browsingsite', 'separators', 'members' ) )
+			.fill( ' + ' );
+		await saveSettings( page, 'templates' );
+
+		await openSettings( page );
+		await page.locator( field( 'timeout' ) ).fill( '900' );
+		await page.locator( field( 'naming', 'user' ) ).fill( 'One soul' );
+		await page.locator( field( 'stats_display' ) ).uncheck();
+		await saveSettings( page );
+
+		// The tab that saved saved, and the tab that did not is untouched.
+		expect( option( 'timeout' ) ).toBe( 900 );
+		expect( option( 'templates' ).useronline ).toBe( 'Customised: %USERS%' );
+		expect( option( 'templates' ).browsingsite.separators.members ).toBe( ' + ' );
+
+		// And back the other way, including the checkbox: a merge that read an
+		// absent checkbox as "off" would turn WP-Stats back off here, and one
+		// that read it as "leave alone" without the hidden zero could never have
+		// turned it off above.
+		await openTemplates( page );
+		await page.locator( field( 'templates', 'browsingpage', 'text' ) ).fill( 'Here: %USERS%' );
+		await saveSettings( page, 'templates' );
+
+		expect( option( 'templates' ).browsingpage.text ).toBe( 'Here: %USERS%' );
+		expect( option( 'timeout' ) ).toBe( 900 );
+		expect( option( 'naming' ).user ).toBe( 'One soul' );
+		expect( option( 'stats_display' ) ).toBe( false );
+	} );
+
+	test( 'the tabs reach each other, and a save comes back to the tab it was made on', async ( {
+		page,
+	} ) => {
+		await page.goto( ONLINE_URL );
+
+		// The report is the first tab, so the page's own URL opens on it.
+		await expect( page.locator( '.nav-tab-active' ) ).toHaveText( 'Users Online' );
+
+		const tabs = page.locator( '.nav-tab-wrapper' );
+
+		// Scoped to the tab strip: core's own Settings menu is a link in
+		// #adminmenu, and an unscoped role query matches both.
+		await tabs.getByRole( 'link', { name: 'Templates', exact: true } ).click();
+		await expect( page.locator( '.nav-tab-active' ) ).toHaveText( 'Templates' );
+
+		// options.php redirects to the referer, and the referer settings_fields()
+		// writes is the URL the request came in on -- so a form that did not
+		// carry its own tab would land the save back on the report.
+		await page.getByRole( 'button', { name: 'Save Changes' } ).click();
+		await page.waitForURL( /settings-updated=true/ );
+		await expect( page.locator( '.nav-tab-active' ) ).toHaveText( 'Templates' );
+
+		await tabs.getByRole( 'link', { name: 'Settings', exact: true } ).click();
+		await expect( page.locator( '.nav-tab-active' ) ).toHaveText( 'Settings' );
+		await expect( page.locator( field( 'timeout' ) ) ).toBeVisible();
+	} );
+
+	test( 'saving shows the confirmation notice, on either tab', async ( { page } ) => {
 		await openSettings( page );
 
 		// options.php registers "Settings saved." and redirects back here. Core
@@ -377,6 +465,15 @@ test.describe( 'The settings screen', () => {
 		// includes and admin.php does not -- so a plugin screen under a menu of
 		// its own has to call settings_errors() itself, as WP-Stats' settings
 		// screen does. Without it the form saves and says nothing at all.
+		await page.getByRole( 'button', { name: 'Save Changes' } ).click();
+
+		await expect( page.locator( '.settings-error, .notice-success' ).first() ).toContainText(
+			'Settings saved.',
+		);
+
+		// Both tabs, because settings_errors() is printed once above the tab
+		// strip rather than inside a tab's form.
+		await openTemplates( page );
 		await page.getByRole( 'button', { name: 'Save Changes' } ).click();
 
 		await expect( page.locator( '.settings-error, .notice-success' ).first() ).toContainText(

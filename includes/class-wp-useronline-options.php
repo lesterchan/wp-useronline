@@ -24,9 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * shipped the bug recorded in the 3.0.0 changelog: the marker could not be
  * saved at all once the settings screen had been loaded, so the migration and
  * the table check re-ran on every single request. With the markers in a row of
- * their own that failure is impossible by construction, the plumbing is gone,
- * and sanitize() below is what a sanitize_callback is supposed to be: posted
- * input in, clean settings out, with no reach back into get_option().
+ * their own that failure is impossible by construction and the plumbing is
+ * gone: nothing in this row is hidden from the screen any more.
  *
  * @since 4.0.0
  */
@@ -254,11 +253,22 @@ class WP_UserOnline_Options {
 	 * absent for the renderer.
 	 *
 	 * Registered as the sanitize_callback for the setting, so the Settings API
-	 * runs it on every save. A pure function of its argument: there is no
-	 * get_option() call anywhere below, and nothing lives in the settings row
-	 * that the form does not post.
+	 * runs it on every save.
 	 *
-	 * @param mixed $options Submitted settings.
+	 * **The submitted subset is merged over the stored value first, and that is
+	 * load bearing.** register_setting() hands a sanitize_callback only the
+	 * fields the submitting form actually posted, and this row is written by
+	 * three tabs of one screen. A sanitiser that returned just what it was given
+	 * would blank whatever the other tabs own the moment any one of them saved:
+	 * change the timeout, lose six customised templates, with no error and
+	 * nothing to say it happened. So the stored value is the starting point and
+	 * the submission is laid over it.
+	 *
+	 * Merged rather than patched in afterwards, so everything that survives is
+	 * re-sanitised too -- which is what lets the 4.0.0 migration hand its whole
+	 * legacy array to this same function and get clean settings back.
+	 *
+	 * @param mixed $options Submitted settings, which may be one tab's worth.
 	 *
 	 * @return array
 	 */
@@ -268,6 +278,9 @@ class WP_UserOnline_Options {
 		}
 
 		$defaults = self::defaults();
+
+		$stored  = get_option( self::OPTION, array() );
+		$options = array_replace_recursive( is_array( $stored ) ? $stored : array(), $options );
 
 		$clean                  = array();
 		$clean['timeout']       = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : $defaults['timeout'];

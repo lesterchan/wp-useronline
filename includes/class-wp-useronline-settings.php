@@ -10,12 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * The settings screen, built on the Settings API.
+ * The two settings tabs, built on the Settings API.
  *
- * WP_UserOnline_Admin owns the menu and the screens; this class owns
- * register_setting(), the sections, the field_<name>() callbacks and the
- * sanitiser. Everything the screen renders comes out of do_settings_sections(),
- * so there is no hand-written form table anywhere below.
+ * WP_UserOnline_Admin owns the menu, the tab strip and the report; this class
+ * owns register_setting(), the sections, the field_<name>() callbacks, the form
+ * on each of the two settings tabs and the sanitiser. Everything the tabs render
+ * comes out of do_settings_sections(), so there is no hand-written form table
+ * anywhere below.
+ *
+ * One register_setting() and one option row across both tabs: a tab is a
+ * rendering decision, not a storage one. What separates them is the Settings API
+ * page each section is registered against -- see tab_bucket() -- which is what
+ * stops one tab drawing the other's fields.
  *
  * @since 4.0.0
  */
@@ -25,11 +31,6 @@ class WP_UserOnline_Settings {
 	 * Settings group used by register_setting() and settings_fields().
 	 */
 	const GROUP = 'wp_useronline_options';
-
-	/**
-	 * Settings page slug.
-	 */
-	const PAGE = 'wp-useronline-settings';
 
 	/**
 	 * General settings section.
@@ -62,11 +63,29 @@ class WP_UserOnline_Settings {
 	}
 
 	/**
+	 * The Settings API page a tab's sections and fields are registered against.
+	 *
+	 * Not a page in any URL sense -- there is one of those and it is
+	 * WP_UserOnline_Admin::PAGE. It is the bucket do_settings_sections() reads,
+	 * and giving each tab one of its own is all that keeps the tabs apart.
+	 *
+	 * @param string $tab Tab slug.
+	 *
+	 * @return string
+	 */
+	public static function tab_bucket( $tab ) {
+		return WP_UserOnline_Admin::PAGE . '-' . $tab;
+	}
+
+	/**
 	 * Register the setting, its sections and its fields.
 	 *
 	 * @return void
 	 */
 	public static function register_settings() {
+		$settings  = self::tab_bucket( WP_UserOnline_Admin::TAB_SETTINGS );
+		$templates = self::tab_bucket( WP_UserOnline_Admin::TAB_TEMPLATES );
+
 		register_setting(
 			self::GROUP,
 			WP_UserOnline_Options::OPTION,
@@ -81,14 +100,14 @@ class WP_UserOnline_Settings {
 			self::SECTION_GENERAL,
 			__( 'General', 'wp-useronline' ),
 			'__return_empty_string',
-			self::PAGE
+			$settings
 		);
 
 		add_settings_field(
 			'timeout',
 			__( 'Time Out', 'wp-useronline' ),
 			array( __CLASS__, 'field_timeout' ),
-			self::PAGE,
+			$settings,
 			self::SECTION_GENERAL
 		);
 
@@ -96,7 +115,7 @@ class WP_UserOnline_Settings {
 			'url',
 			__( 'UserOnline URL', 'wp-useronline' ),
 			array( __CLASS__, 'field_url' ),
-			self::PAGE,
+			$settings,
 			self::SECTION_GENERAL
 		);
 
@@ -104,7 +123,7 @@ class WP_UserOnline_Settings {
 			'names',
 			__( 'Link user names?', 'wp-useronline' ),
 			array( __CLASS__, 'field_names' ),
-			self::PAGE,
+			$settings,
 			self::SECTION_GENERAL
 		);
 
@@ -112,14 +131,14 @@ class WP_UserOnline_Settings {
 			self::SECTION_NAMING,
 			__( 'Naming Conventions', 'wp-useronline' ),
 			array( __CLASS__, 'section_naming' ),
-			self::PAGE
+			$settings
 		);
 
 		add_settings_field(
 			'naming',
 			__( 'Names', 'wp-useronline' ),
 			array( __CLASS__, 'field_naming' ),
-			self::PAGE,
+			$settings,
 			self::SECTION_NAMING
 		);
 
@@ -127,14 +146,14 @@ class WP_UserOnline_Settings {
 			self::SECTION_TEMPLATES,
 			__( 'Templates', 'wp-useronline' ),
 			'__return_empty_string',
-			self::PAGE
+			$templates
 		);
 
 		add_settings_field(
 			'template_useronline',
 			__( 'User(s) Online', 'wp-useronline' ),
 			array( __CLASS__, 'field_template_useronline' ),
-			self::PAGE,
+			$templates,
 			self::SECTION_TEMPLATES
 		);
 
@@ -142,7 +161,7 @@ class WP_UserOnline_Settings {
 			'template_browsingsite',
 			__( 'User(s) Browsing Site', 'wp-useronline' ),
 			array( __CLASS__, 'field_template_browsingsite' ),
-			self::PAGE,
+			$templates,
 			self::SECTION_TEMPLATES
 		);
 
@@ -150,7 +169,7 @@ class WP_UserOnline_Settings {
 			'template_browsingpage',
 			__( 'User(s) Browsing Page', 'wp-useronline' ),
 			array( __CLASS__, 'field_template_browsingpage' ),
-			self::PAGE,
+			$templates,
 			self::SECTION_TEMPLATES
 		);
 
@@ -158,27 +177,38 @@ class WP_UserOnline_Settings {
 			self::SECTION_WPSTATS,
 			__( 'WP-Stats', 'wp-useronline' ),
 			array( __CLASS__, 'section_wpstats' ),
-			self::PAGE
+			$settings
 		);
 
 		add_settings_field(
 			'stats_display',
 			__( 'Show a users online section?', 'wp-useronline' ),
 			array( __CLASS__, 'field_stats_display' ),
-			self::PAGE,
+			$settings,
 			self::SECTION_WPSTATS
 		);
 	}
 
 	/**
-	 * Load the Restore Defaults behaviour, on the settings screen only.
+	 * Load the Restore Defaults behaviour, on the two settings tabs only.
+	 *
+	 * The hook is compared against the one add_menu_page() handed back rather
+	 * than against a string spelled out here, which is what survives the screen
+	 * being moved or renamed. The tab is checked as well: the report tab is the
+	 * same admin page and carries no field with a default to restore.
 	 *
 	 * @param string $hook_suffix Current admin screen.
 	 *
 	 * @return void
 	 */
 	public static function enqueue_scripts( $hook_suffix ) {
-		if ( ! is_string( $hook_suffix ) || false === strpos( $hook_suffix, self::PAGE ) ) {
+		$screen_hook = WP_UserOnline_Admin::screen_hook();
+
+		if ( ! is_string( $hook_suffix ) || '' === $screen_hook || $screen_hook !== $hook_suffix ) {
+			return;
+		}
+
+		if ( WP_UserOnline_Admin::TAB_USERONLINE === WP_UserOnline_Admin::current_tab() ) {
 			return;
 		}
 
@@ -451,6 +481,22 @@ class WP_UserOnline_Settings {
 	public static function field_stats_display() {
 		?>
 		<fieldset>
+			<?php
+			/*
+			 * A hidden 0 in front of the box, sharing its name.
+			 *
+			 * An unticked checkbox posts nothing at all, and the sanitiser keeps
+			 * whatever the submission did not mention -- deliberately, because
+			 * three tabs write one option row and none of them may blank the
+			 * others. Together those would mean this box could be ticked and
+			 * never unticked: turning it off posts nothing, the sanitiser reads
+			 * the silence as "leave it alone", and it comes back ticked.
+			 *
+			 * With the hidden field the control always says something. PHP keeps
+			 * the last of a repeated name, so ticked posts 1 and unticked 0.
+			 */
+			?>
+			<input type="hidden" name="<?php echo esc_attr( self::name( 'stats_display' ) ); ?>" value="0" />
 			<label>
 				<input type="checkbox" value="1"
 					name="<?php echo esc_attr( self::name( 'stats_display' ) ); ?>"
@@ -462,34 +508,41 @@ class WP_UserOnline_Settings {
 	}
 
 	/**
-	 * Render the settings page.
+	 * Render one settings tab's form.
+	 *
+	 * Called by WP_UserOnline_Admin::render_page(), which owns the wrap, the
+	 * heading, the notices and the tab strip above this. The capability was
+	 * checked there, against the tab's own context.
+	 *
+	 * @param string $tab Tab slug, one of the two settings tabs.
 	 *
 	 * @return void
 	 */
-	public static function render_page() {
-		if ( ! current_user_can( WP_UserOnline_Admin::capability( 'settings' ) ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'wp-useronline' ) );
-		}
+	public static function render_tab( $tab ) {
 		?>
-		<div class="wrap">
-			<h1><?php esc_html_e( 'UserOnline Settings', 'wp-useronline' ); ?></h1>
-
+		<form method="post" action="options.php">
 			<?php
-			// Core only calls this from wp-admin/options-head.php, which runs
-			// for its own settings screens. A plugin page is dispatched by
-			// admin.php instead, so without this the save redirect lands back
-			// here with no confirmation at all.
-			settings_errors();
-			?>
+			settings_fields( self::GROUP );
 
-			<form method="post" action="options.php">
-				<?php
-				settings_fields( self::GROUP );
-				do_settings_sections( self::PAGE );
-				submit_button();
-				?>
-			</form>
-		</div>
+			/*
+			 * The active tab, carried through the save.
+			 *
+			 * options.php sends the browser back to the referer, and
+			 * settings_fields() records the URL this request came in on -- which
+			 * has no tab on it at all when a tab was reached as the page's
+			 * default. Saving the settings would then land on the report.
+			 * Printing the field again overrides it: PHP keeps the last of a
+			 * repeated name.
+			 */
+			printf(
+				'<input type="hidden" name="_wp_http_referer" value="%s" />',
+				esc_url( WP_UserOnline_Admin::tab_url( $tab ) )
+			);
+
+			do_settings_sections( self::tab_bucket( $tab ) );
+			submit_button();
+			?>
+		</form>
 		<?php
 	}
 }
