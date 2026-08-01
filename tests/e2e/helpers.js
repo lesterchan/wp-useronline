@@ -424,7 +424,7 @@ async function asGuest( page, options, run ) {
 async function openSettings( page ) {
 	await page.goto( SETTINGS_URL );
 
-	await expect( page.getByRole( 'heading', { name: 'UserOnline Options' } ) ).toBeVisible();
+	await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
 }
 
 /**
@@ -445,7 +445,7 @@ async function saveSettings( page ) {
 	await page.getByRole( 'button', { name: 'Save Changes' } ).click();
 
 	await page.waitForURL( /settings-updated=true/ );
-	await expect( page.getByRole( 'heading', { name: 'UserOnline Options' } ) ).toBeVisible();
+	await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
 }
 
 /**

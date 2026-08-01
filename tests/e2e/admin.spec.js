@@ -82,7 +82,7 @@ test.describe( 'The admin screens', () => {
 		await menu.hover();
 		await menu.getByRole( 'link', { name: 'Settings', exact: true } ).click();
 
-		await expect( page.getByRole( 'heading', { name: 'UserOnline Options' } ) ).toBeVisible();
+		await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
 		expect( page.url() ).toContain( 'page=wp-useronline-settings' );
 	} );
 
@@ -97,7 +97,7 @@ test.describe( 'The admin screens', () => {
 		await page.goto( ONLINE_URL );
 		await expect( page.getByRole( 'heading', { name: 'Users Online Now' } ) ).toBeVisible();
 		await page.goto( SETTINGS_URL );
-		await expect( page.getByRole( 'heading', { name: 'UserOnline Options' } ) ).toBeVisible();
+		await expect( page.getByRole( 'heading', { name: 'UserOnline Settings' } ) ).toBeVisible();
 
 		ensureUser( 'useronline_subscriber', 'subscriber', PASSWORD );
 		const other = await loginAs( page, 'useronline_subscriber', PASSWORD );

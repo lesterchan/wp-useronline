@@ -472,7 +472,15 @@ class WP_UserOnline_Settings {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'UserOnline Options', 'wp-useronline' ); ?></h1>
+			<h1><?php esc_html_e( 'UserOnline Settings', 'wp-useronline' ); ?></h1>
+
+			<?php
+			// Core only calls this from wp-admin/options-head.php, which runs
+			// for its own settings screens. A plugin page is dispatched by
+			// admin.php instead, so without this the save redirect lands back
+			// here with no confirmation at all.
+			settings_errors();
+			?>
 
 			<form method="post" action="options.php">
 				<?php

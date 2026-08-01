@@ -177,11 +177,14 @@ test.describe( 'The settings screen', () => {
 		await page.locator( field( 'naming', 'user' ) ).fill( 'Exactly one soul' );
 		await saveSettings( page );
 
+		// Emptied first: opening the settings screen recorded the administrator,
+		// and the singular naming is only reached when exactly one person is
+		// online -- which is the whole point of having a singular cell.
+		truncateOnline();
+
 		await asGuest( page, {}, async ( guest ) => {
 			await guest.goto( post.link );
 
-			// One visitor, so the singular form is the one that must appear --
-			// which is also what tells the singular cell from the plural one.
 			await expect( guest.locator( '#uo-online' ) ).toContainText( 'Exactly one soul' );
 		} );
 	} );
@@ -212,7 +215,10 @@ test.describe( 'The settings screen', () => {
 				.locator( field( 'templates', key, 'text' ) )
 				.fill( '%MEMBER_NAMES%%GUESTS_SEPARATOR%%GUESTS%%BOTS_SEPARATOR%%BOTS%' );
 			await page.locator( field( 'templates', key, 'separators', 'members' ) ).fill( ' + ' );
-			await page.locator( field( 'templates', key, 'separators', 'guests' ) ).fill( ' & ' );
+			// Not an ampersand: wp_kses_post() encodes a bare "&" to "&amp;",
+			// which is correct and is core's doing rather than this plugin's --
+			// asserting on it would be asserting that WordPress stops escaping.
+			await page.locator( field( 'templates', key, 'separators', 'guests' ) ).fill( ' / ' );
 			await page.locator( field( 'templates', key, 'separators', 'bots' ) ).fill( ' ~ ' );
 
 			await saveSettings( page );
@@ -225,7 +231,7 @@ test.describe( 'The settings screen', () => {
 			// Not trimmed, unlike the template above: the surrounding spaces are
 			// the whole point of a separator, and trimming them would run two
 			// names together.
-			expect( stored.separators ).toEqual( { members: ' + ', guests: ' & ', bots: ' ~ ' } );
+			expect( stored.separators ).toEqual( { members: ' + ', guests: ' / ', bots: ' ~ ' } );
 		} );
 	}
 

@@ -354,7 +354,17 @@ class WP_UserOnline_Template {
 		$naming = WP_UserOnline_Options::get( 'naming' );
 		$key    = ( 1 === (int) $count ) ? $user_type : $user_type . 's';
 
-		$out = str_ireplace( '%COUNT%', number_format_i18n( $count ), $naming[ $key ] );
+		/*
+		 * Filtered here, where the stored value enters the markup, rather than
+		 * at the call sites. Two of the three -- the admin screen and the AJAX
+		 * endpoint -- already wrapped the result in wp_kses_post(); the
+		 * [page_useronline] shortcode did not, and handed the raw setting to
+		 * the front end. Three callers each deciding this separately is the
+		 * defect, and a third wrapper would only have been a fourth place to
+		 * forget. kses rather than esc_html because these strings are meant to
+		 * carry markup: the stock naming uses <strong>.
+		 */
+		$out = str_ireplace( '%COUNT%', number_format_i18n( $count ), wp_kses_post( $naming[ $key ] ) );
 
 		if ( false === $template ) {
 			return $out;

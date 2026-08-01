@@ -111,7 +111,7 @@ class WP_UserOnline_Admin {
 
 		add_submenu_page(
 			self::PAGE,
-			__( 'UserOnline Options', 'wp-useronline' ),
+			__( 'UserOnline Settings', 'wp-useronline' ),
 			__( 'Settings', 'wp-useronline' ),
 			self::capability( 'settings' ),
 			WP_UserOnline_Settings::PAGE,

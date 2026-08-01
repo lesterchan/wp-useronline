@@ -35,6 +35,7 @@ const {
 	truncateOnline,
 	uniqueTitle,
 	wpEval,
+	wpEvalJson,
 } = require( './helpers.js' );
 
 const SCRIPT_PAYLOAD = '<script>window.__pwned = 1;</script>';
@@ -303,6 +304,11 @@ test.describe( 'Hostile markup in the refresh response', () => {
 		`Hostile ${ SCRIPT_PAYLOAD }`,
 		'utf8',
 	).toString( 'base64' ) }' ) ), array( 'ID' => $id ), array( '%s' ), array( '%d' ) );
+				// The admin bar is switched off for this account on purpose.
+				// Core builds its "Howdy, %s" out of the display name without
+				// escaping it, so with the bar on the payload would run from
+				// core's markup and this would stop being a test of this plugin.
+				update_user_meta( $id, 'show_admin_bar_front', 'false' );
 				clean_user_cache( $id );
 				echo '<<<' . $id . '>>>';`,
 			),
@@ -321,9 +327,12 @@ test.describe( 'Hostile markup in the refresh response', () => {
 	} );
 
 	test( 'the fixture really is a user whose display name is the payload', () => {
-		const stored = wpEval(
-			`global $wpdb;
-			echo '<<<' . $wpdb->get_var( $wpdb->prepare( "SELECT display_name FROM {$wpdb->users} WHERE ID = %d", ${ userId } ) ) . '>>>';`,
+		// Through JSON rather than as bare text. wpEval() reads back whatever
+		// sits between <<< and the first >>>, and this payload ends in a ">" --
+		// so printed raw it would run into the closing marker and come back a
+		// character short. Inside a JSON string the quote separates them.
+		const stored = wpEvalJson(
+			`$GLOBALS['wpdb']->get_var( $GLOBALS['wpdb']->prepare( "SELECT display_name FROM {$GLOBALS['wpdb']->users} WHERE ID = %d", ${ userId } ) )`,
 		);
 
 		expect( stored ).toContain( '<script>window.__pwned = 1;</script>' );
