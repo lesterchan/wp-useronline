@@ -43,3 +43,10 @@ require $_tests_dir . '/includes/bootstrap.php';
 // is by the test- prefix now, so a helper is never picked up on its own and has
 // to be required here explicitly.
 require_once __DIR__ . '/helper-testcase.php';
+
+// The shared metadata contract. helper-metadata-testcase.php is a byte-identical
+// copy of _standards/templates/helper-metadata-testcase.php in all nineteen
+// plugins, so it cannot name WP_UserOnline_TestCase; it extends Plugin_TestCase
+// and this alias is the one per-plugin line the mechanism needs.
+class_alias( 'WP_UserOnline_TestCase', 'Plugin_TestCase' );
+require_once __DIR__ . '/helper-metadata-testcase.php';

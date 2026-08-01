@@ -86,6 +86,28 @@ abstract class WP_UserOnline_TestCase extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Run the uninstaller's option work, repeatably.
+	 *
+	 * Deliberately not a require of uninstall.php. That file reaches
+	 * WP_UserOnline_Install::uninstall_site(), which drops the useronline
+	 * table - DDL, which MySQL commits, so it survives the transaction wrapping
+	 * the rest of the suite and one test would take the table away from every
+	 * test after it. The deletions are performed here instead, over the same
+	 * WP_UserOnline_Options::all_option_names() list the uninstaller loops
+	 * over, so a row missing from that list still fails the shared uninstall
+	 * test - and a shared WP-Stats row wrongly added to it still fails the
+	 * shared §13.2 one. That uninstall.php delegates to the installer and loops
+	 * the network is asserted against the source in test-install.php.
+	 *
+	 * @return void
+	 */
+	protected function run_uninstall() {
+		foreach ( WP_UserOnline_Options::all_option_names() as $option_name ) {
+			delete_option( $option_name );
+		}
+	}
+
+	/**
 	 * Set one plugin setting.
 	 *
 	 * @param string $key   Top level setting name.
