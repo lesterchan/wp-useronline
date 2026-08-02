@@ -91,6 +91,9 @@ class WP_UserOnline_Options {
 	public static function defaults() {
 		return array(
 			'timeout'       => 300,
+			// Blank means REMOTE_ADDR, which is the only address the web server
+			// vouches for. See WP_UserOnline_Recorder::get_ip().
+			'ip_header'     => '',
 			'url'           => trailingslashit( home_url() ) . 'useronline',
 			'names'         => 0,
 			// The plugin's half of the WP-Stats contract. Its own setting now,
@@ -287,6 +290,17 @@ class WP_UserOnline_Options {
 		$clean['url']           = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
 		$clean['names']         = empty( $options['names'] ) ? 0 : 1;
 		$clean['stats_display'] = ! empty( $options['stats_display'] );
+
+		/*
+		 * A header name, not a value: uppercased and restricted to the character
+		 * set PHP builds $_SERVER keys from, so nothing that could not be a key
+		 * can be stored and every lookup is a plain array read. Anything else
+		 * becomes blank, which means "use REMOTE_ADDR" rather than "look up a key
+		 * that cannot exist" -- a typo should fall back to the trustworthy
+		 * address, not to no address at all.
+		 */
+		$header             = isset( $options['ip_header'] ) ? sanitize_text_field( (string) $options['ip_header'] ) : '';
+		$clean['ip_header'] = preg_match( '/^[A-Za-z0-9_]+$/', $header ) ? strtoupper( $header ) : '';
 
 		// A timeout of zero would purge every row on the next request.
 		if ( 0 === $clean['timeout'] ) {

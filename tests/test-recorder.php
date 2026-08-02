@@ -81,6 +81,77 @@ class WP_UserOnline_Recorder_Test extends WP_UserOnline_TestCase {
 		$this->assertSame( '203.0.113.1', $this->last_row()['user_ip'], 'an invalid address was stored' );
 	}
 
+	/**
+	 * Set the named-header setting without going through the settings screen.
+	 *
+	 * @param string $header Header name, or '' to clear it.
+	 * @return void
+	 */
+	private function name_the_header( $header ) {
+		$options              = WP_UserOnline_Options::get();
+		$options['ip_header'] = $header;
+
+		update_option( WP_UserOnline_Options::OPTION, $options );
+	}
+
+	public function test_a_named_header_is_used_ahead_of_remote_addr() {
+		$_SERVER['HTTP_CF_CONNECTING_IP'] = '1.2.3.4';
+		$this->name_the_header( 'HTTP_CF_CONNECTING_IP' );
+
+		WP_UserOnline_Recorder::record( '/ip-named', 'probe' );
+
+		$this->assertSame( '1.2.3.4', $this->last_row()['user_ip'], 'the named header was not consulted' );
+	}
+
+	/**
+	 * The ordering, which is the whole of this feature and is easy to get
+	 * backwards.
+	 *
+	 * A site that names the header its own proxy sets has given the precise
+	 * answer; trust_proxy is the blunt one that takes X-Forwarded-For whoever
+	 * set it. Adding the name to the front of the list *before* the trust_proxy
+	 * branch reads as the natural place for it and quietly demotes the precise
+	 * answer beneath the blunt one on every site that has both -- with no error,
+	 * and only on sites where the two disagree, which is exactly the site being
+	 * attacked.
+	 */
+	public function test_the_named_header_outranks_the_trusted_proxy_headers() {
+		$_SERVER['HTTP_CF_CONNECTING_IP'] = '1.2.3.4';
+		$_SERVER['HTTP_X_FORWARDED_FOR']  = '5.6.7.8';
+		$this->name_the_header( 'HTTP_CF_CONNECTING_IP' );
+		add_filter( 'wp_useronline_trust_proxy', '__return_true' );
+
+		WP_UserOnline_Recorder::record( '/ip-both', 'probe' );
+
+		remove_filter( 'wp_useronline_trust_proxy', '__return_true' );
+
+		$this->assertSame(
+			'1.2.3.4',
+			$this->last_row()['user_ip'],
+			'X-Forwarded-For beat the header the site actually named'
+		);
+	}
+
+	public function test_a_named_header_that_is_absent_falls_back_to_remote_addr() {
+		$this->name_the_header( 'HTTP_CF_CONNECTING_IP' );
+
+		WP_UserOnline_Recorder::record( '/ip-named-absent', 'probe' );
+
+		$this->assertSame( '203.0.113.1', $this->last_row()['user_ip'], 'a missing named header should fall through' );
+	}
+
+	public function test_a_header_name_that_could_not_be_a_server_key_is_not_stored() {
+		$stored = WP_UserOnline_Options::sanitize( array( 'ip_header' => 'HTTP_X FORWARDED; rm -rf' ) );
+
+		$this->assertSame( '', $stored['ip_header'], 'a name outside the $_SERVER character set was kept' );
+	}
+
+	public function test_a_header_name_is_stored_uppercased() {
+		$stored = WP_UserOnline_Options::sanitize( array( 'ip_header' => 'http_cf_connecting_ip' ) );
+
+		$this->assertSame( 'HTTP_CF_CONNECTING_IP', $stored['ip_header'], '$_SERVER keys are uppercase' );
+	}
+
 	public function test_no_remote_addr_at_all_still_records_without_fatalling() {
 		unset( $_SERVER['REMOTE_ADDR'] );
 

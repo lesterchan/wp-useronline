@@ -127,6 +127,14 @@ class WP_UserOnline_Settings {
 			self::SECTION_GENERAL
 		);
 
+		add_settings_field(
+			'ip_header',
+			__( 'Header That Contains The IP', 'wp-useronline' ),
+			array( __CLASS__, 'field_ip_header' ),
+			$settings,
+			self::SECTION_GENERAL
+		);
+
 		add_settings_section(
 			self::SECTION_NAMING,
 			__( 'Naming Conventions', 'wp-useronline' ),
@@ -345,6 +353,40 @@ class WP_UserOnline_Settings {
 		</fieldset>
 		<p class="description"><?php esc_html_e( 'Link user names to their author page.', 'wp-useronline' ); ?></p>
 		<?php
+	}
+
+	/**
+	 * Which request header carries the visitor's address.
+	 *
+	 * Worded exactly as wp-polls, wp-postratings, wp-email and wp-ban word it.
+	 * A site owner meeting the same setting in five of these plugins should not
+	 * have to work out five times whether it means the same thing.
+	 *
+	 * @return void
+	 */
+	public static function field_ip_header() {
+		printf(
+			'<input type="text" class="regular-text code" id="wp-useronline-ip-header" name="%s" value="%s" placeholder="HTTP_X_FORWARDED_FOR" />',
+			esc_attr( self::name( 'ip_header' ) ),
+			esc_attr( (string) WP_UserOnline_Options::get( 'ip_header' ) )
+		);
+
+		echo '<p class="description">';
+		esc_html_e( 'Leave this blank unless the site is behind a reverse proxy or CDN. Blank means the address the web server saw is used.', 'wp-useronline' );
+		echo '<br />';
+		printf(
+			/* translators: 1: an example header name, 2: the WP_USERONLINE_TRUST_PROXY constant, 3: the wp_useronline_trust_proxy filter, all in code spans. */
+			esc_html__( 'Example: %1$s. You can also opt in with the %2$s constant or the %3$s filter, which trust the usual proxy headers instead of one you name.', 'wp-useronline' ),
+			'<code>HTTP_X_FORWARDED_FOR</code>',
+			'<code>WP_USERONLINE_TRUST_PROXY</code>',
+			'<code>wp_useronline_trust_proxy</code>'
+		);
+		echo '<br />';
+		printf(
+			'<strong>%s</strong>',
+			esc_html__( 'Only name a header your proxy sets and overwrites. A visitor can send any header they like, so trusting one your stack does not control lets anyone appear at any address they choose.', 'wp-useronline' )
+		);
+		echo '</p>';
 	}
 
 	/**

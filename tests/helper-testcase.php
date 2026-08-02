@@ -38,9 +38,27 @@ abstract class WP_UserOnline_TestCase extends WP_UnitTestCase {
 
 		$this->reset_statics();
 
+		/*
+		 * $_SERVER is process-wide and no transaction rolls it back (§7.2.1), so
+		 * a request header one test sets is still there for every test after it.
+		 * That matters more than it looks: get_ip() consults REMOTE_ADDR, the
+		 * usual forwarding headers, and whichever header the ip_header setting
+		 * names -- which a test may make up. A leftover one makes a later test
+		 * pass or fail for a reason that is nowhere in the test.
+		 *
+		 * Cleared by derivation rather than by name. This used to unset
+		 * HTTP_X_FORWARDED_FOR alone, which was every header the suite happened
+		 * to use at the time, and the first test to reach for a different one
+		 * broke a test three cases further down.
+		 */
+		foreach ( array_keys( $_SERVER ) as $key ) {
+			if ( str_starts_with( (string) $key, 'HTTP_' ) ) {
+				unset( $_SERVER[ $key ] );
+			}
+		}
+
 		$_SERVER['REMOTE_ADDR']     = '203.0.113.1';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (phpunit)';
-		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 	}
 
 	/**

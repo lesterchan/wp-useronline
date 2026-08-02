@@ -220,6 +220,25 @@ class WP_UserOnline_Recorder {
 			array_unshift( $headers, 'HTTP_X_FORWARDED_FOR' );
 		}
 
+		/*
+		 * The named header goes on last, so it ends up first and outranks both
+		 * of the above. Order is the whole of this: a site that names the header
+		 * its own proxy sets and overwrites has given the precise answer, and
+		 * the trust_proxy path is the blunt one that takes X-Forwarded-For
+		 * whoever set it. Unshifting the name before the trust_proxy block --
+		 * which reads as the natural place for it -- silently demotes the
+		 * precise answer beneath the blunt one on every site that has both.
+		 *
+		 * Same field, same label and same description as wp-ban, wp-polls,
+		 * wp-postratings and wp-email, so a site owner meets one setting rather
+		 * than five.
+		 */
+		$named = (string) WP_UserOnline_Options::get( 'ip_header' );
+
+		if ( '' !== $named ) {
+			array_unshift( $headers, $named );
+		}
+
 		foreach ( $headers as $header ) {
 			if ( empty( $_SERVER[ $header ] ) ) {
 				continue;
