@@ -190,12 +190,40 @@ class WP_UserOnline_Recorder {
 	}
 
 	/**
+	 * The forwarding headers the trust_proxy opt-in consults, in order.
+	 *
+	 * The same list, in the same order, as wp-ban, wp-polls, wp-postratings and
+	 * wp-email. This plugin used to trust HTTP_X_FORWARDED_FOR alone, so a
+	 * Cloudflare site that opted in got the proxy's own address recorded for
+	 * every visitor while its four siblings resolved the visitor correctly --
+	 * one setting, described in the same words on five screens, doing something
+	 * different on one of them.
+	 *
+	 * Trusting whichever of seven happens to be present is the blunt instrument
+	 * and the settings screen says so: naming the one header your proxy sets and
+	 * overwrites is the answer, and this is the fallback for owners who do not
+	 * know which that is.
+	 *
+	 * @var string[]
+	 */
+	private const PROXY_HEADERS = array(
+		'HTTP_CF_CONNECTING_IP',
+		'HTTP_CLIENT_IP',
+		'HTTP_X_FORWARDED_FOR',
+		'HTTP_X_FORWARDED',
+		'HTTP_X_CLUSTER_CLIENT_IP',
+		'HTTP_FORWARDED_FOR',
+		'HTTP_FORWARDED',
+	);
+
+	/**
 	 * Determine the visitor's IP address.
 	 *
-	 * X-Forwarded-For is set by the client and can say anything at all, so it
-	 * is only consulted when the site declares that it sits behind a trusted
-	 * proxy. Otherwise a visitor could forge an address on every request, which
-	 * both falsifies the log and defeats the de-duplication in record().
+	 * Forwarding headers are set by the client and can say anything at all, so
+	 * they are only consulted when the site says which one to read, or declares
+	 * that it sits behind a trusted proxy. Otherwise a visitor could forge an
+	 * address on every request, which both falsifies the log and defeats the
+	 * de-duplication in record().
 	 *
 	 * @return string Validated IP, or an empty string when none can be trusted.
 	 */
@@ -203,7 +231,7 @@ class WP_UserOnline_Recorder {
 		$headers = array( 'REMOTE_ADDR' );
 
 		/**
-		 * Filter whether X-Forwarded-For may be trusted.
+		 * Filter whether the usual proxy headers may be trusted.
 		 *
 		 * Renamed from useronline_trust_proxy in 4.0.0; the old name is gone.
 		 *
@@ -217,17 +245,18 @@ class WP_UserOnline_Recorder {
 		);
 
 		if ( $trust_proxy ) {
-			array_unshift( $headers, 'HTTP_X_FORWARDED_FOR' );
+			$headers = array_merge( self::PROXY_HEADERS, $headers );
 		}
 
 		/*
 		 * The named header goes on last, so it ends up first and outranks both
 		 * of the above. Order is the whole of this: a site that names the header
 		 * its own proxy sets and overwrites has given the precise answer, and
-		 * the trust_proxy path is the blunt one that takes X-Forwarded-For
-		 * whoever set it. Unshifting the name before the trust_proxy block --
-		 * which reads as the natural place for it -- silently demotes the
-		 * precise answer beneath the blunt one on every site that has both.
+		 * the trust_proxy list is the blunt one that takes whichever of seven
+		 * headers is present, whoever set it. Unshifting the name before the
+		 * trust_proxy block -- which reads as the natural place for it --
+		 * silently demotes the precise answer beneath the blunt one on every
+		 * site that has both.
 		 *
 		 * Same field, same label and same description as wp-ban, wp-polls,
 		 * wp-postratings and wp-email, so a site owner meets one setting rather
