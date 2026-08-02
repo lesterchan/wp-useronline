@@ -251,4 +251,23 @@ class WP_UserOnline_Template_Tags_Test extends WP_UserOnline_TestCase {
 		$this->assertTrue( shortcode_exists( 'page_useronline' ) );
 		$this->assertStringContainsString( 'useronline-details', do_shortcode( '[page_useronline]' ) );
 	}
+
+	/**
+	 * The tag owns the container, and owns exactly one of it.
+	 *
+	 * Everything downstream is built on this: the shortcode has no theme markup
+	 * to sit inside, the AJAX endpoint answers with the whole element, and the
+	 * refresh script replaces #useronline-details with what it gets back. A
+	 * second wrapper in here would be a duplicate id on the page, and the
+	 * script would then carry it forward on every poll.
+	 */
+	public function test_the_page_tag_returns_exactly_one_container() {
+		WP_UserOnline_Recorder::record( '/one', 'one' );
+
+		$output = users_online_page();
+
+		$this->assertSame( 1, substr_count( $output, 'id="useronline-details"' ), 'the page tag returned more than one container' );
+		$this->assertStringStartsWith( '<div id="useronline-details">', $output, 'the page tag does not open with its container' );
+		$this->assertStringEndsWith( '</div>', $output, 'the page tag does not close its container last' );
+	}
 }

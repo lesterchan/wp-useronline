@@ -224,6 +224,19 @@ class WP_UserOnline {
 				users_browsing_page( (string) $page_url );
 				break;
 			case 'details':
+				/*
+				 * The only mode that answers with its own container. The three
+				 * above return bare content for a container the theme or the
+				 * widget already wrote, but users_online_page() carries
+				 * #useronline-details in what it returns -- [page_useronline]
+				 * has no theme markup to sit inside -- and the wp_useronline_page
+				 * filter is applied to the whole element, so an answer without
+				 * the wrapper would be a different thing from what the page
+				 * first rendered. The script therefore replaces the element
+				 * with this rather than writing it inside; see WRAPPED_MODES in
+				 * js/wp-useronline.js. Exactly one wrapper in this response is
+				 * the half of that contract this file owns.
+				 */
 				echo wp_kses_post( users_online_page() );
 				break;
 		}

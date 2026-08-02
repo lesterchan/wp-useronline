@@ -173,6 +173,78 @@ class WP_UserOnline_Ajax_Test extends WP_UserOnline_TestCase {
 	}
 
 	/**
+	 * The details answer is the container, not something to put inside one.
+	 *
+	 * This is the server's half of the contract js/wp-useronline.js reads as
+	 * WRAPPED_MODES. The script replaces #useronline-details with this answer;
+	 * a second wrapper in here, or a stray sibling beside it, would leave the
+	 * page holding a duplicate id.
+	 */
+	public function test_the_details_answer_carries_exactly_one_container() {
+		$this->record_row( array( 'user_name' => 'Ada' ) );
+
+		$response = $this->do_ajax( array( 'mode' => 'details' ) );
+
+		$this->assertSame( 1, substr_count( $response, 'id="useronline-details"' ), 'the details answer did not carry exactly one container' );
+		$this->assertStringStartsWith( '<div id="useronline-details">', trim( $response ), 'the details answer does not open with its container' );
+		$this->assertStringEndsWith( '</div>', trim( $response ), 'the details answer does not close its container last' );
+	}
+
+	/**
+	 * Asked twice, it answers the same shape twice.
+	 *
+	 * The refresh is a poll, so the answer that is right once has to stay right
+	 * for as long as the page is open: the nesting bug this pins compounded
+	 * silently, one level per timeout, and nothing about the first response
+	 * showed it.
+	 */
+	public function test_repeating_the_details_request_answers_one_container_every_time() {
+		$this->record_row( array( 'user_name' => 'Ada' ) );
+
+		foreach ( range( 1, 3 ) as $poll ) {
+			$response = $this->do_ajax( array( 'mode' => 'details' ) );
+
+			$this->assertSame( 1, substr_count( $response, 'id="useronline-details"' ), 'poll ' . $poll . ' answered with more than one container' );
+		}
+	}
+
+	/**
+	 * The other three answer with bare content for a container somebody else
+	 * wrote -- the theme, per the readme, or the widget. The script fills those
+	 * rather than replacing them, so an id arriving in one of these answers
+	 * would be the same duplication from the other end.
+	 *
+	 * @dataProvider data_unwrapped_modes
+	 *
+	 * @param string $mode Mode name.
+	 */
+	public function test_the_other_modes_answer_without_a_container_of_their_own( $mode ) {
+		$this->record_row( array( 'user_name' => 'Ada' ) );
+
+		$response = $this->do_ajax(
+			array(
+				'mode'     => $mode,
+				'page_url' => home_url( '/a-page/' ),
+			)
+		);
+
+		$this->assertStringNotContainsString( 'id="useronline-', $response, 'mode ' . $mode . ' answered with a container the page already has' );
+	}
+
+	/**
+	 * Modes whose answer is content rather than a container.
+	 *
+	 * @return array
+	 */
+	public function data_unwrapped_modes() {
+		return array(
+			'count'         => array( 'count' ),
+			'browsing-site' => array( 'browsing-site' ),
+			'browsing-page' => array( 'browsing-page' ),
+		);
+	}
+
+	/**
 	 * The recorded path matches what wp_head would have stored, so the
 	 * browsing-page lookup can find it.
 	 */

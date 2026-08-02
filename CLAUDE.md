@@ -71,6 +71,14 @@ are unchanged." This release renames all four filters plus
   reports the same IP.
 * All four public filters were renamed with **no shims**, per the collection's
   decision. They fail silently.
+* **Three of the four refresh modes answer with content; `details` answers with
+  its own container.** `users_online_page()` bakes `#useronline-details` into
+  what it returns and the `wp_useronline_page` filter is applied to the whole
+  element, because `[page_useronline]` has no theme markup to sit inside. So the
+  script replaces that element rather than filling it (`WRAPPED_MODES` in
+  `js/wp-useronline.js`), and it re-reads the element on every poll, since the
+  one it replaced is no longer in the page. Filling it is what nested a second
+  `#useronline-details` inside the first on every timeout.
 * `useronline.js` → `js/wp-useronline.js`, `useronlineL10n` → `wpUserOnlineL10n`,
   AJAX action `useronline` → `wp_useronline`. The element ids
   (`useronline-count`, `useronline-browsing-site`, `useronline-browsing-page`,
