@@ -140,7 +140,7 @@ class WP_UserOnline_Admin {
 	 */
 	public static function add_page() {
 		self::$screen_hook = (string) add_menu_page(
-			__( 'WP-UserOnline', 'wp-useronline' ),
+			__( 'Users Online', 'wp-useronline' ),
 			__( 'WP-UserOnline', 'wp-useronline' ),
 			self::capability( 'useronline' ),
 			self::PAGE,
