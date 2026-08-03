@@ -29,6 +29,7 @@ const {
 	setOptions,
 	truncateOnline,
 	uniqueTitle,
+	wpEval,
 } = require( './helpers.js' );
 
 /**
@@ -334,7 +335,21 @@ test.describe( 'Front-end output', () => {
 			await guest.goto( post.link );
 			const link = guest.locator( '#uo-browsing-site a' );
 			await expect( link ).toHaveText( 'useronline_author' );
-			await expect( link ).toHaveAttribute( 'href', /author=/ );
+
+			// Asked of WordPress rather than spelled out here, because the two
+			// permalink structures give this link two different shapes:
+			// ?author=5 on a plain site and /author/name/ on a pretty one. The
+			// old assertion was /author=/, which is the plain form, so it passed
+			// only where the site happened to be plain -- true of a long-lived
+			// local wp-env and false of every fresh install, since WordPress
+			// turns pretty permalinks on at install time. Comparing against
+			// get_author_posts_url() also asserts something stronger than a
+			// substring: that the link the plugin renders IS the author archive.
+			const archive = wpEval(
+				`echo '<<<' . get_author_posts_url( ${ authorId } ) . '>>>';`,
+			);
+
+			await expect( link ).toHaveAttribute( 'href', archive );
 		} );
 	} );
 
