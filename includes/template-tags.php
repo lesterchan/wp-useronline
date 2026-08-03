@@ -5,7 +5,7 @@
  * The public API for themes. These names and their behaviour are stable across
  * the 3.0.0 restructure.
  *
- * @package wp-useronline
+ * @package WP-UserOnline
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

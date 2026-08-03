@@ -2,7 +2,7 @@
 /**
  * WP-UserOnline class-wp-useronline-options.php
  *
- * @package wp-useronline
+ * @package WP-UserOnline
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
