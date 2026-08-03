@@ -59,8 +59,8 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 	public function test_users_online_renders_count_container() {
 		$html = $this->render( array( 'type' => 'users_online' ) );
 
-		$this->assertStringContainsString( 'id="useronline-count"', $html );
-		$this->assertStringContainsString( '<aside>', $html );
+		$this->assertStringContainsString( 'id="useronline-count"', $html, 'The count variant emits the container the refresh script targets.' );
+		$this->assertStringContainsString( '<aside>', $html, 'The widget is wrapped in the before_widget markup the theme passed.' );
 	}
 
 	/**
@@ -69,15 +69,15 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 	public function test_combined_variant_renders_both_containers() {
 		$html = $this->render( array( 'type' => 'users_online_browsing_site' ) );
 
-		$this->assertStringContainsString( 'id="useronline-count"', $html );
-		$this->assertStringContainsString( 'id="useronline-browsing-site"', $html );
+		$this->assertStringContainsString( 'id="useronline-count"', $html, 'The combined variant emits the count container.' );
+		$this->assertStringContainsString( 'id="useronline-browsing-site"', $html, 'The combined variant emits the browsing-site container as well.' );
 	}
 
 	/**
 	 * An unknown type renders nothing at all, not an empty shell.
 	 */
 	public function test_unknown_type_renders_nothing() {
-		$this->assertSame( '', $this->render( array( 'type' => 'nonsense' ) ) );
+		$this->assertSame( '', $this->render( array( 'type' => 'nonsense' ) ), 'An unknown type renders nothing at all, not an empty shell.' );
 	}
 
 	/**
@@ -91,8 +91,8 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 			)
 		);
 
-		$this->assertStringNotContainsString( '<script', $html );
-		$this->assertStringContainsString( '<h2>', $html );
+		$this->assertStringNotContainsString( '<script', $html, 'The title is escaped rather than rendered as markup.' );
+		$this->assertStringContainsString( '<h2>', $html, 'The escaped title still renders inside the heading.' );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 	public function test_absent_title_emits_no_heading() {
 		$html = $this->render( array( 'type' => 'users_online' ) );
 
-		$this->assertStringNotContainsString( '<h2>', $html );
+		$this->assertStringNotContainsString( '<h2>', $html, 'No title means no heading markup.' );
 	}
 
 	/**
@@ -110,7 +110,7 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 	public function test_render_requests_the_refresh_script() {
 		$this->render( array( 'type' => 'users_online' ) );
 
-		$this->assertTrue( WP_UserOnline_Template::needs_script() );
+		$this->assertTrue( WP_UserOnline_Template::needs_script(), 'Rendering the widget marks the request as needing the refresh script.' );
 	}
 
 	/**
@@ -125,7 +125,7 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 			array()
 		);
 
-		$this->assertStringNotContainsString( '<script', $saved['title'] );
+		$this->assertStringNotContainsString( '<script', $saved['title'], 'The submitted title is sanitized before it is stored.' );
 	}
 
 	/**
@@ -140,7 +140,7 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 			array()
 		);
 
-		$this->assertSame( 'users_online', $saved['type'] );
+		$this->assertSame( 'users_online', $saved['type'], 'An unknown type falls back to the default rather than being stored.' );
 	}
 
 	/**
@@ -155,7 +155,7 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 			array()
 		);
 
-		$this->assertSame( 'users_browsing_site', $saved['type'] );
+		$this->assertSame( 'users_browsing_site', $saved['type'], 'A known type is stored as submitted.' );
 	}
 
 	/**
@@ -167,7 +167,7 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 		$html = ob_get_clean();
 
 		foreach ( array( 'users_online', 'users_browsing_page', 'users_browsing_site', 'users_online_browsing_page', 'users_online_browsing_site' ) as $type ) {
-			$this->assertStringContainsString( 'value="' . $type . '"', $html );
+			$this->assertStringContainsString( 'value="' . $type . '"', $html, 'The form offers the ' . $type . ' option.' );
 		}
 	}
 }
