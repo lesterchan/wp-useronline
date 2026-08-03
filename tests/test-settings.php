@@ -248,7 +248,7 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	 * The option group and its nonce are what make the Settings API save at all.
 	 */
 	public function test_both_settings_tabs_post_to_options_php_with_the_group_and_a_nonce() {
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 
 		foreach ( array( WP_UserOnline_Admin::TAB_SETTINGS, WP_UserOnline_Admin::TAB_TEMPLATES ) as $tab ) {
 			$_GET['tab'] = $tab;
@@ -369,7 +369,7 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_a_settings_tab_carries_the_active_tab_through_the_save() {
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 
 		$_GET['tab'] = WP_UserOnline_Admin::TAB_TEMPLATES;
 
@@ -392,7 +392,7 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	 * comes back to shows it.
 	 */
 	public function test_the_saved_notice_prints_on_all_three_tabs() {
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 
 		foreach ( array_keys( WP_UserOnline_Admin::tabs() ) as $tab ) {
 			add_settings_error( 'general', 'settings_updated', 'Settings saved.', 'success' );
@@ -410,7 +410,7 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_the_screen_carries_no_inline_script_block_any_more() {
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 
 		$_GET['tab'] = WP_UserOnline_Admin::TAB_SETTINGS;
 
@@ -424,7 +424,7 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 		// passes or fails on execution order rather than on the code.
 		$GLOBALS['wp_scripts'] = new WP_Scripts();
 
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 
 		WP_UserOnline_Admin::add_page();
 

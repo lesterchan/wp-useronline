@@ -16,7 +16,7 @@ class WP_UserOnline_Admin_Test extends WP_UserOnline_TestCase {
 	 * @return void
 	 */
 	private function login_as_admin() {
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 	}
 
 	public function test_there_is_one_top_level_menu_rather_than_two_scattered_entries() {

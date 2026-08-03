@@ -70,7 +70,7 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 
 	public function test_a_viewer_with_edit_users_sees_everything() {
 		$this->seed_visible_then_hidden();
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 
 		$output = users_online_page();
 
@@ -92,7 +92,7 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 				'user_agent' => 'Mozilla/5.0 "quoted" <b>bold</b>',
 			)
 		);
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 
 		$output = users_online_page();
 
@@ -109,7 +109,7 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 	 */
 	public function test_the_detail_gate_can_be_tightened_through_the_capability_filter() {
 		$this->seed_visible_then_hidden();
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->create_admin() );
 
 		add_filter(
 			'wp_useronline_capability',
