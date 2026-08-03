@@ -177,7 +177,16 @@ test.describe( 'Recording who is online', () => {
 
 		const [ row ] = onlineRows();
 
-		expect( row.page_url ).toContain( `p=${ post.id }` );
+		// Taken from the link that was actually requested rather than spelled
+		// out here, because page_url is the REQUEST_URI and the two permalink
+		// structures give that two different shapes: ?p=12 on a plain site and
+		// /2026/08/03/recorded-post/ on a pretty one. The old assertion was the
+		// plain form, so it passed only where the site happened to be plain --
+		// true of a long-lived local wp-env and false of every fresh install,
+		// since WordPress turns pretty permalinks on at install time.
+		const requested = new URL( post.link );
+
+		expect( row.page_url ).toBe( requested.pathname + requested.search );
 		expect( row.page_title ).toContain( 'Recorded post' );
 	} );
 
