@@ -241,6 +241,165 @@ function resetOptions() {
 }
 
 /**
+ * The settings row as the database holds it, with no defaults merged in.
+ *
+ * Not the same question as option() above, and the difference is the whole of
+ * §7.6.1: WP_UserOnline_Options::get() merges over the defaults, so it answers
+ * identically for a row holding the defaults and for no row at all -- which is
+ * what a migration that read, deleted and never wrote leaves behind. Ask the
+ * database when the question is "was it written".
+ *
+ * @return {Object|false} The stored array, or false when there is no row.
+ */
+function rawOptions() {
+	return wpEvalJson( "get_option( 'wp_useronline_options' )" );
+}
+
+/**
+ * The defaults the running code would fall back to.
+ *
+ * Asked of the install rather than transcribed: the URL is built from the
+ * site's own home_url() and every naming and template string is translated.
+ *
+ * @return {Object} The default settings.
+ */
+function defaultOptions() {
+	return wpEvalJson( 'WP_UserOnline_Options::defaults()' );
+}
+
+/**
+ * Put the install back into the shape a pre-4.0.0 site is in.
+ *
+ * The three prefixed rows go away and the unprefixed ones take their place:
+ * `useronline` for the settings, `useronline_most` for the record, and the
+ * shared `stats_display` row seven plugins wrote their toggle into.
+ *
+ * **It hands back what it can see, and that is not a convenience.**
+ * maybe_upgrade() runs from add_hooks() on plugins_loaded, which every request
+ * reaches -- including a WP-CLI one. So the moment this call ends, the next
+ * `wp eval` boots WordPress with the markers missing and performs the upgrade
+ * itself, before it runs a line of the code it was given. A test that seeded the
+ * rows here and then read them back through another helper would find them
+ * already migrated, would be asserting on WP-CLI's run rather than the browser's,
+ * and the browser request it went on to make would have nothing left to do.
+ *
+ * Reading them back inside this same process is the only place they can be
+ * observed: this request's upgrade already ran, at bootstrap, before these rows
+ * existed.
+ *
+ * @param {Object}      settings The legacy settings row, exactly as given.
+ * @param {Object|null} extra    Optional 'most' and 'statsDisplay' rows.
+ * @return {{legacy: string[], options: *, most: *, version: *}} The state as just seeded.
+ */
+function installLegacyRows( settings, extra = {} ) {
+	const encoded = Buffer.from(
+		JSON.stringify( { settings, most: null, statsDisplay: null, ...extra } ),
+		'utf8',
+	).toString( 'base64' );
+
+	return JSON.parse(
+		wpEval(
+			`$data = json_decode( base64_decode( '${ encoded }' ), true );
+			delete_option( WP_UserOnline_Options::OPTION );
+			delete_option( WP_UserOnline_Options::VERSION );
+			delete_option( WP_UserOnline_Options::MOST );
+			delete_option( 'useronline_most' );
+			delete_option( 'stats_display' );
+			update_option( 'useronline', $data['settings'] );
+			if ( null !== $data['most'] ) {
+				update_option( 'useronline_most', $data['most'] );
+			}
+			if ( null !== $data['statsDisplay'] ) {
+				update_option( 'stats_display', $data['statsDisplay'] );
+			}
+
+			$legacy = array();
+			foreach ( array( 'useronline', 'useronline_most', 'stats_display' ) as $name ) {
+				if ( false !== get_option( $name, false ) ) {
+					$legacy[] = $name;
+				}
+			}
+
+			echo '<<<' . wp_json_encode( array(
+				'legacy'  => $legacy,
+				'options' => get_option( WP_UserOnline_Options::OPTION ),
+				'most'    => get_option( WP_UserOnline_Options::MOST ),
+				'version' => get_option( WP_UserOnline_Options::VERSION ),
+			) ) . '>>>';`,
+		),
+	);
+}
+
+/**
+ * Which pre-4.0.0 rows are still in the database.
+ *
+ * @return {string[]} The legacy rows that survive.
+ */
+function survivingLegacyRows() {
+	return wpEvalJson(
+		`array_values( array_filter(
+			array( 'useronline', 'useronline_most', 'stats_display' ),
+			static function ( $name ) {
+				return false !== get_option( $name, false );
+			}
+		) )`,
+	);
+}
+
+/**
+ * The most-ever-online record as the database holds it, under its new name.
+ *
+ * @return {Object|false} The stored array, or false when there is no row.
+ */
+function rawMost() {
+	return wpEvalJson( 'get_option( WP_UserOnline_Options::MOST )' );
+}
+
+/**
+ * The upgrade markers, as the database holds them.
+ *
+ * @return {Object|false} The stored array, or false when there is no row.
+ */
+function versionRow() {
+	return wpEvalJson( "get_option( 'wp_useronline_version' )" );
+}
+
+/**
+ * Stamp the upgrade markers, or take them away.
+ *
+ * @param {Object|null} versions The two markers, or null to remove the row.
+ * @return {void}
+ */
+function setVersionRow( versions ) {
+	if ( null === versions ) {
+		wpEval( "delete_option( 'wp_useronline_version' ); echo '<<<done>>>';" );
+
+		return;
+	}
+
+	const encoded = Buffer.from( JSON.stringify( versions ), 'utf8' ).toString( 'base64' );
+
+	wpEval(
+		`update_option( 'wp_useronline_version', json_decode( base64_decode( '${ encoded }' ), true ) );
+		echo '<<<done>>>';`,
+	);
+}
+
+/**
+ * The version numbers the running code expects to find stamped.
+ *
+ * @return {{plugin: string, db: string}} The two markers.
+ */
+function runningVersions() {
+	return wpEvalJson(
+		`array(
+			'plugin' => WP_USERONLINE_VERSION,
+			'db'     => WP_USERONLINE_DB_VERSION,
+		)`,
+	);
+}
+
+/**
  * The most-ever-online record.
  *
  * @return {Object} count and date, as stored.
@@ -652,9 +811,11 @@ module.exports = {
 	asGuest,
 	checkbox,
 	cookieHash,
+	defaultOptions,
 	ensureUser,
 	field,
 	insertOnline,
+	installLegacyRows,
 	installProbe,
 	loginAs,
 	most,
@@ -663,15 +824,21 @@ module.exports = {
 	openTemplates,
 	option,
 	probeUser,
+	rawMost,
+	rawOptions,
 	removeProbe,
 	removeUserOnlineWidget,
 	resetOptions,
 	restoreCapabilities,
+	runningVersions,
 	saveSettings,
 	setMost,
 	setOptions,
+	setVersionRow,
+	survivingLegacyRows,
 	truncateOnline,
 	uniqueTitle,
+	versionRow,
 	widenCapability,
 	wpEval,
 	wpEvalJson,
