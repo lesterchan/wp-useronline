@@ -237,7 +237,7 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 
 		WP_UserOnline_Options::maybe_migrate();
 
-		$stored = get_option( WP_UserOnline_Options::OPTION );
+		$stored = get_option( WP_UserOnline_Options::OPTION, false );
 
 		$this->assertStringNotContainsString( '<script', $stored['templates']['useronline'], 'a stored script tag survived the upgrade' );
 	}
@@ -247,11 +247,11 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 		update_option( 'useronline', array( 'timeout' => 111 ) );
 
 		WP_UserOnline_Options::maybe_migrate();
-		$once = get_option( WP_UserOnline_Options::OPTION );
+		$once = get_option( WP_UserOnline_Options::OPTION, false );
 
 		WP_UserOnline_Options::maybe_migrate();
 
-		$this->assertSame( $once, get_option( WP_UserOnline_Options::OPTION ), 'the migration is not idempotent' );
+		$this->assertSame( $once, get_option( WP_UserOnline_Options::OPTION, false ), 'the migration is not idempotent' );
 	}
 
 	public function test_the_migration_leaves_an_already_migrated_record_alone() {
