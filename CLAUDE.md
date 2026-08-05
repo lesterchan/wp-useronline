@@ -2,10 +2,6 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-WP-UserOnline follows `_standards/STANDARDS.md` in the parent folder, which is
-the contract for all nineteen plugins in the collection. Where this file and
-that one disagree, that one wins.
-
 ## What it is
 
 Records who is on the site right now — logged-in users, guests and bots, with
@@ -20,22 +16,24 @@ the page each is viewing — and renders that as template tags, a
   Every visitor's row is deleted and rewritten on each request;
   `WP_UserOnline_Recorder::record()` does the delete-then-insert in one
   statement that also purges timed-out rows.
-* `wp_useronline_options` (from `useronline`) and `wp_useronline_version`.
+* `wp_useronline_options` (from `useronline`) and `wp_useronline_version`, which
+  holds the `plugin` and `db` upgrade markers and nothing else.
 * `wp_useronline_most` (from `useronline_most`) — the highest ever count.
   **Migrated by rename, never rebuilt**: there is nowhere else to recover it
   from. No longer autoloaded.
-* One of the seven WP-Stats plugins (§13).
+* It contributes a section to **WP-Stats**, a separate plugin, by answering the
+  `wp_stats_sections` filter.
 
-**This plugin is the reason §2.1 exists.** Its 3.0.0 kept the upgrade markers
-*inside* the settings array, so every save had to manually rescue them from the
-stored value — fourteen lines of plumbing — and the marker could not be saved
-once the settings screen had been loaded, which made the sanitise step and the
-table check re-run on every request. Read §2.1 before proposing anything that
-puts a marker back in the settings row.
+**Never put an upgrade marker back inside the settings array.** 3.0.0 did, and
+every save had to manually rescue it from the stored value — fourteen lines of
+plumbing — because a sanitize callback is a function from what the form posted
+to what gets stored, and the settings form never posts a marker. Worse, the
+marker could not be saved once the settings screen had been loaded, so the
+sanitise step and the table check re-ran on every request.
 
 ## Version
 
-**4.0.0, not 3.0.1** (§14). The released 3.0.0 shipped a changelog entry
+**4.0.0, not 3.0.1.** The released 3.0.0 shipped a changelog entry
 promising "Template tags, the `[page_useronline]` shortcode and all four filters
 are unchanged." This release renames all four filters plus
 `USERONLINE_TRUST_PROXY`, which a patch number cannot carry.
@@ -51,7 +49,7 @@ are unchanged." This release renames all four filters plus
   `map_meta_cap()` adds `manage_network_users` to that, so a site administrator
   could not see the visitors to their own site and no site could correct it. Now
   `capability( 'details' )` (commit `23bcac1`).
-* **Three flat tabs, never nested** (§4.2.1). A Settings tab containing its own
+* **Three flat tabs, never nested.** A Settings tab containing its own
   Settings/Templates strip is worse than the sprawl either was meant to fix. And
   because the tabs are gated differently, the *page* takes the lower capability
   and **each tab checks its own** — skip the second half and filtering the report
@@ -69,8 +67,8 @@ are unchanged." This release renames all four filters plus
 * **`USERONLINE_TRUST_PROXY` became `WP_USERONLINE_TRUST_PROXY`.** Left unrenamed
   in `wp-config.php` the plugin stops trusting the proxy and every visitor
   reports the same IP.
-* All four public filters were renamed with **no shims**, per the collection's
-  decision. They fail silently.
+* All four public filters were renamed with **no shims**. They fail silently:
+  nothing errors, the plugin just stops asking the site's code what it thinks.
 * **Three of the four refresh modes answer with content; `details` answers with
   its own container.** `users_online_page()` bakes `#useronline-details` into
   what it returns and the `wp_useronline_page` filter is applied to the whole
@@ -89,26 +87,50 @@ are unchanged." This release renames all four filters plus
 
 ## WP-Stats coupling
 
-`migrate_stats_display()` reads the shared `stats_display` row honouring both
-in-the-wild array shapes, defaults to **on** when the row is absent (a sibling
-already migrated), and the migration then deletes the shared row — which is what
-§13.2 requires.
+`stats_display` was an unprefixed row that WP-Stats and several companion
+plugins all wrote into; none of them owned it. `migrate_stats_display()` reads
+it honouring both in-the-wild array shapes and defaults to **on** when the row
+is absent — absent means "a sibling migrated it away first", never "the site
+opted out". Reading absence as an opt-out would make this plugin's block vanish
+from the stats page of any site that updated a sibling first, silently.
 
-`_standards/RESUME.md` flags `class-wp-useronline-options.php:381` as a hazard
-because no test covers it (the family test checks uninstall only). The
-uninstall list is clean, which is the half that matters. If you touch this,
-check it against §13.2 rather than against that note.
+The migration deletes the shared row once it has folded it in. **Uninstall must
+not**, because a sibling that has not upgraded is still reading it — which is
+why the row is deliberately absent from `all_option_names()`.
+
+## Migrations, and why they are tested through a browser
+
+`maybe_upgrade()` runs from `add_hooks()` on `plugins_loaded`, so every request
+reaches it — activation hooks do not fire on a plugin update, which is the usual
+reason a migration never runs at all. Three rows move and each fails
+differently, which is what `tests/e2e/upgrade.spec.js` is organised around:
+
+* `useronline` becomes `wp_useronline_options`, re-sanitised on the way, with
+  the `versions` key 3.0.0 kept inside the settings dropped;
+* `useronline_most` becomes `wp_useronline_most` **by rename and never by
+  rebuild** — it is the site's highest ever count and there is nowhere else to
+  recover it from, so losing it is silent and permanent. The test reads the
+  renamed row raw *and* checks the figure reaches the Users Online screen;
+* `stats_display` folds in as above, in both directions.
+
+Two things its fixtures rely on: **a `wp eval` call is itself an upgrade
+request**, because WP-CLI reaches `plugins_loaded` like any other — so seed the
+fixture and read it back inside one call — and **read rows raw**, because
+`WP_UserOnline_Options::get()` merges over the defaults and cannot tell a
+written row from an absent one.
 
 ## Tests
 
+`bin/test.sh` runs PHPUnit, `bin/test-multisite.sh` the network pass, and
+`bin/test-e2e.sh` the Playwright suite. **Run them rather than trusting a note
+about their last result** — CI is the authority, and this file cannot be.
+
 `test-recorder.php` covers the delete-then-insert and the bot identification;
 `test-install.php` the table creation and the marker writes; `test-wpstats.php`
-the §13 contract. `tests/e2e/` (5 specs, 73 tests) reached 68/75 in the third
-sweep — two real bugs and five test-side fixes that were **never re-run**
-(`_standards/RESUME.md`). Verify before trusting.
+the sections contract.
 
 ## Pending, not started
 
-`_standards/RESUME.md` task #17 renames the settings screen heading from
-"Options" to "<Name> Settings"; task #20 brings the proxy-header field to the
-canonical label and description used by wp-polls and wp-postratings.
+The settings screen heading still reads "Options" and should name the plugin.
+The proxy-header field's label and description are also due to be brought into
+line with the wording WP-Polls and WP-PostRatings use.
