@@ -157,10 +157,10 @@ and PHP 7.4.
 
 ## Screenshots
 
-1. Admin - Dashboard's Right Now
-2. UserOnline Page
-3. Admin - Settings Tab
-4. Admin - Templates Tab
+1. WP-UserOnline, who is on the site now, split into members, guests and bots
+2. The Settings tab: the timeout, what is counted, and how a visitor is named
+3. The Templates tab, holding the wording of every line the plugin prints
+4. The users-online page a visitor sees, from the shortcode
 
 ## Changelog
 ### 4.0.0
