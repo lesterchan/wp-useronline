@@ -50,6 +50,27 @@ To give visitors a page of their own listing everyone online, create a page and 
 
 Everything the plugin has is at **WP-Admin -> WP-UserOnline**, on three tabs: **Users Online** for who is here right now, **Settings**, and **Templates** for the wording of everything the plugin prints.
 
+### WP-CLI
+```
+wp useronline list
+wp useronline list --format=count
+wp useronline count
+```
+
+The command reads and never writes. The table maintains itself — every visit purges rows that have timed out — and the admin screen offers no destructive action, so neither does the command.
+
+### REST API
+```
+GET  /wp-json/useronline/v1/count
+POST /wp-json/useronline/v1/visit
+```
+
+`count` reports how many are online now, the record and its date, and records nobody — so a monitoring script polling it does not appear in the figure it is reading. `visit` is the heartbeat: it records the caller and answers with one of the four views, given a `mode` of `count`, `browsing-site`, `browsing-page` or `details`, plus the `page_url` they are on.
+
+**Neither route takes a nonce, and that is deliberate.** A nonce cannot authenticate a logged-out visitor: anonymous nonces come from one session every such caller shares, so requiring one would prove nothing while breaking every visitor who is not signed in. A `page_url` that does not resolve to this site is ignored, and a heartbeat writes nothing but the caller's own row.
+
+**These routes are an addition.** The `admin-ajax.php` `wp_useronline` action is unchanged and still supported.
+
 ## Frequently Asked Questions
 
 ### Creating A UserOnline Page
@@ -164,6 +185,8 @@ and PHP 7.4.
 
 ## Changelog
 ### 4.0.0
+* NEW: A `wp useronline` WP-CLI command — `list` and `count`. It reads and never writes.
+* NEW: A `useronline/v1` REST API for reading the counts and for the visitor heartbeat. The `admin-ajax.php` `wp_useronline` action is unchanged and still supported.
 * BREAKING: Requires WordPress 6.8 and PHP 8.2, up from 6.0 and 7.4.
 * BREAKING: Every filter the plugin fires is renamed and the old names are dropped, with no deprecation shims: `useronline_bots`, `useronline_buckets`, `useronline_custom_template`, `useronline_page`, `useronline_display_user` and `useronline_trust_proxy` all become `wp_useronline_*`. This voids the promise made in the 3.0.0 changelog that the filters were unchanged, and is why this release is 4.0.0 rather than 3.0.1.
 * BREAKING: `USERONLINE_TRUST_PROXY` is now `WP_USERONLINE_TRUST_PROXY`. A site still defining the old name silently stops trusting its proxy and starts recording the proxy's address for every visitor. See the FAQ.
