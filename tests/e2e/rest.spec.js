@@ -13,7 +13,7 @@
  */
 
 const { test, expect } = require( '@wordpress/e2e-test-utils-playwright' );
-const { onlineRows, truncateOnline } = require( './helpers.js' );
+const { onlineRows, truncateOnline, uniqueTitle } = require( './helpers.js' );
 
 /** Every route lives under this namespace. */
 const NAMESPACE = '/useronline/v1';
@@ -119,18 +119,83 @@ test.describe( 'The REST routes', () => {
 		} );
 	} );
 
-	test( 'the AJAX endpoint these sit beside still answers', async ( { request } ) => {
-		// Kept on purpose: a theme or a cached script may still be calling it.
-		// If this ever 404s, the routes above stopped being an addition and
-		// became a replacement.
-		const response = await request.post( '/wp-admin/admin-ajax.php', {
-			form: {
-				action: 'wp_useronline',
-				mode: 'count',
-				page_url: '/hello-world/',
-			},
+	// Kept on purpose: a theme or a cached script may still be calling it. If
+	// this ever 404s, the routes above stopped being an addition and became a
+	// replacement.
+	test.describe( 'the AJAX endpoint these sit beside', () => {
+		test.describe( 'as a visitor who is not logged in', () => {
+			test.use( { storageState: { cookies: [], origins: [] } } );
+
+			test( 'still answers, with no nonce at all', async ( { request } ) => {
+				// Which is most of this endpoint's traffic. An anonymous nonce
+				// comes from a session every logged-out caller shares, so
+				// requiring one would authenticate nobody and break everybody.
+				const response = await request.post( '/wp-admin/admin-ajax.php', {
+					form: {
+						action: 'wp_useronline',
+						mode: 'count',
+						page_url: '/hello-world/',
+					},
+				} );
+
+				expect( response.status() ).toBe( 200 );
+			} );
 		} );
 
-		expect( response.status() ).toBe( 200 );
+		test( 'refuses a signed-in caller who sends no nonce', async ( { request } ) => {
+			// admin-ajax authenticates by cookie alone, so this shape of
+			// request is what a cross-site POST looks like: the browser sends
+			// the session and the page it came from supplies everything else.
+			// It used to be served, and the visitor's own row was overwritten
+			// with the attacker's page and title.
+			const response = await request.post( '/wp-admin/admin-ajax.php', {
+				form: {
+					action: 'wp_useronline',
+					mode: 'count',
+					page_url: '/hello-world/',
+				},
+			} );
+
+			expect( response.status() ).toBe( 403 );
+		} );
+
+		test( 'answers a signed-in caller who sends the nonce the page gave its script', async ( {
+			page,
+			request,
+			requestUtils,
+			baseURL,
+		} ) => {
+			// The nonce is minted against the browser's session, so it has to
+			// be read off a rendered page rather than made in the container:
+			// wp_create_nonce() under WP-CLI has no session token to bind to
+			// and produces one this endpoint would refuse.
+			//
+			// A post carrying the shortcode, because the script is enqueued
+			// only where something on the page needs it.
+			const shortcodePost = await requestUtils.createPost( {
+				title: uniqueTitle( 'Who is online nonce' ),
+				content: '[page_useronline]',
+				status: 'publish',
+			} );
+
+			await page.goto( shortcodePost.link );
+
+			const nonce = await page.evaluate(
+				() => window.wpUserOnlineL10n && window.wpUserOnlineL10n.nonce,
+			);
+
+			expect( nonce, 'The script was enqueued and localized.' ).toBeTruthy();
+
+			const response = await request.post( '/wp-admin/admin-ajax.php', {
+				form: {
+					action: 'wp_useronline',
+					mode: 'count',
+					page_url: `${ baseURL }/hello-world/`,
+					_ajax_nonce: nonce,
+				},
+			} );
+
+			expect( response.status() ).toBe( 200 );
+		} );
 	} );
 } );
