@@ -98,6 +98,29 @@ The migration deletes the shared row once it has folded it in. **Uninstall must
 not**, because a sibling that has not upgraded is still reading it — which is
 why the row is deliberately absent from `all_option_names()`.
 
+## WP-CLI and REST
+
+`wp useronline list|count`, and `useronline/v1` with two routes: a read that
+records nobody, and a heartbeat that records the caller.
+
+**Neither route takes a nonce, and that is deliberate.** A nonce cannot
+authenticate a logged-out visitor -- anonymous nonces come from one session every
+such caller shares, so verifying one proves only that the caller can compute a
+value everybody already has. Two tests pin the *absence*, because the obvious
+tidy-up is to add the check and it would break every visitor who is not signed
+in while protecting nobody. What actually holds is narrower: every field is
+validated, a `page_url` that does not resolve to this site is ignored, and the
+write touches nothing but the caller's own row.
+
+**The command reads and never writes.** No screen in this plugin offers a
+destructive action and the table maintains itself, since recording a visit also
+purges rows that have timed out. A `purge` subcommand would be a power the
+browser has never given anybody; a test asserts none exists.
+
+**Reading the count records nobody**, so a monitoring script polling it does not
+appear in the figure it is reading. That is why the read and the heartbeat are
+two routes rather than one.
+
 ## Migrations, and why they are tested through a browser
 
 `maybe_upgrade()` runs from `add_hooks()` on `plugins_loaded`, so every request
