@@ -28,6 +28,12 @@ WP-UserOnline shows how many people are on your site right now, and where they a
 ### Donations
 I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appreciate it. If not feel free to use it without any obligations.
 
+## Installation
+
+1. Install and activate the plugin. Counting starts immediately.
+1. Show it where you want it: add the **UserOnline** widget to a sidebar, add the block, put `[page_useronline]` on a page, or call the template tags from your theme.
+1. Go to `WP-Admin -> WP-UserOnline` for the timeout, the naming and the rest of the options.
+
 ## Usage
 
 The simplest way is the widget. Go to `WP-Admin -> Appearance -> Widgets`, add the **UserOnline** widget to a sidebar, and pick which of the five statistics types it should show.
