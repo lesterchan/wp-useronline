@@ -50,6 +50,18 @@ To give visitors a page of their own listing everyone online, create a page and 
 
 Everything the plugin has is at **WP-Admin -> WP-UserOnline**, on three tabs: **Users Online** for who is here right now, **Settings**, and **Templates** for the wording of everything the plugin prints.
 
+### Showing Users Online In A Block
+
+One block is available in the editor, under **Widgets**:
+
+* **Users Online** — everyone on the site right now, grouped into members, guests and bots, with the page each of them is reading and the most-ever-online record underneath. The same listing `[page_useronline]` produces.
+
+It renders on the server, so the preview in the editor is the real listing rather than an approximation, and the page updates itself while a visitor is reading it exactly as the shortcode's does. Only one goes in a post: the listing carries its own `useronline-details` element and the refresh script finds it by that name.
+
+**Rendering it records nobody.** Previewing the block in the editor does not add you to the figures you are previewing, however many times the preview refreshes — visitors are recorded when a page is loaded, not when the listing is drawn.
+
+**The shortcode still works and is not going anywhere.** `[page_useronline]` behaves exactly as it always has, and a page already containing it needs no change. The block calls the same code the shortcode calls, so the two render identically — use whichever suits the page.
+
 ### WP-CLI
 ```
 wp useronline list
@@ -187,6 +199,7 @@ and PHP 7.4.
 ### 4.0.0
 * NEW: A `wp useronline` WP-CLI command — `list` and `count`. It reads and never writes.
 * NEW: A `useronline/v1` REST API for reading the counts and for the visitor heartbeat. The `admin-ajax.php` `wp_useronline` action is unchanged and still supported.
+* NEW: A **Users Online** block, under Widgets in the editor, showing the same listing as `[page_useronline]`. The shortcode is unchanged and still supported; the block is an addition beside it, calls the same code, and records nobody when it renders.
 * BREAKING: Requires WordPress 6.8 and PHP 8.2, up from 6.0 and 7.4.
 * BREAKING: Every filter the plugin fires is renamed and the old names are dropped, with no deprecation shims: `useronline_bots`, `useronline_buckets`, `useronline_custom_template`, `useronline_page`, `useronline_display_user` and `useronline_trust_proxy` all become `wp_useronline_*`. This voids the promise made in the 3.0.0 changelog that the filters were unchanged, and is why this release is 4.0.0 rather than 3.0.1.
 * BREAKING: `USERONLINE_TRUST_PROXY` is now `WP_USERONLINE_TRUST_PROXY`. A site still defining the old name silently stops trusting its proxy and starts recording the proxy's address for every visitor. See the FAQ.

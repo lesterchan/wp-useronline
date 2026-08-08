@@ -85,6 +85,15 @@ class WP_UserOnline {
 
 		add_shortcode( 'page_useronline', 'users_online_page' );
 
+		/*
+		 * The block is a sibling of the shortcode above, not a replacement for
+		 * it and not a caller of it: both end up at users_online_page(). The
+		 * shortcode is not going anywhere -- it sits in published pages this
+		 * plugin cannot survey -- so the two are registered side by side, which
+		 * is why they are written side by side here.
+		 */
+		WP_UserOnline_Blocks::init();
+
 		new WP_UserOnline_API();
 
 		self::register_command();

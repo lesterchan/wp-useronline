@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-useronline/page-useronline",
+	"version": "4.0.0",
+	"title": "Users Online",
+	"category": "widgets",
+	"icon": "groups",
+	"description": "Everyone on the site right now, with the page each of them is reading.",
+	"keywords": [ "users", "online", "visitors" ],
+	"textdomain": "wp-useronline",
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js"
+}

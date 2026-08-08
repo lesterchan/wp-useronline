@@ -73,6 +73,7 @@ require_once __DIR__ . '/includes/class-wp-useronline-install.php';
 require_once __DIR__ . '/includes/class-wp-useronline-template.php';
 require_once __DIR__ . '/includes/class-wp-useronline-recorder.php';
 require_once __DIR__ . '/includes/class-wp-useronline-api.php';
+require_once __DIR__ . '/includes/class-wp-useronline-blocks.php';
 require_once __DIR__ . '/includes/class-wp-useronline-wpstats.php';
 require_once __DIR__ . '/includes/class-wp-useronline-widget.php';
 require_once __DIR__ . '/includes/class-wp-useronline-settings.php';
