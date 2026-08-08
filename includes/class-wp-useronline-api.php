@@ -180,14 +180,29 @@ class WP_UserOnline_API {
 	private function render( $mode, $page_url ) {
 		switch ( $mode ) {
 			case 'browsing-site':
-				return get_users_browsing_site();
+				$html = get_users_browsing_site();
+				break;
 			case 'browsing-page':
-				return get_users_browsing_page( null === $page_url ? '' : $page_url );
+				$html = get_users_browsing_page( null === $page_url ? '' : $page_url );
+				break;
 			case 'details':
-				return users_online_page();
+				$html = users_online_page();
+				break;
 			case 'count':
 			default:
-				return get_users_online();
+				$html = get_users_online();
+				break;
 		}
+
+		/*
+		 * Through kses on the way out, the way the AJAX endpoint and the admin
+		 * screen already do it. Everything here is escaped where it is built, so
+		 * this changes nothing about the plugin's own output -- but
+		 * `wp_useronline_page` and `wp_useronline_custom_template` are handed the
+		 * raw, visitor-controlled row and are documented as such, and those two
+		 * filters were reaching REST clients through a sink with no net under it
+		 * while reaching everybody else through one that had.
+		 */
+		return wp_kses_post( $html );
 	}
 }

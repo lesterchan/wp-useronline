@@ -17,6 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WP_UserOnline {
 
 	/**
+	 * Nonce action for the refresh endpoint.
+	 *
+	 * Checked only for a signed-in caller; see ajax().
+	 *
+	 * @since 4.0.0
+	 */
+	const AJAX_NONCE = 'wp_useronline_refresh';
+
+	/**
 	 * Static instance.
 	 *
 	 * @var WP_UserOnline|null
@@ -209,6 +218,15 @@ class WP_UserOnline {
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 				'timeout' => (int) WP_UserOnline_Options::get( 'timeout' ) * 1000,
+
+				/*
+				 * Only meaningful for a signed-in visitor, and only checked for
+				 * one. For everybody else this is the shared anonymous token,
+				 * which the endpoint ignores -- it is sent regardless so the
+				 * script has one code path and a page cached for logged-out
+				 * readers never carries a token that means anything.
+				 */
+				'nonce'   => is_user_logged_in() ? wp_create_nonce( self::AJAX_NONCE ) : '',
 			)
 		);
 	}
@@ -216,15 +234,26 @@ class WP_UserOnline {
 	/**
 	 * Serve the periodic refresh for the on-page counters and lists.
 	 *
-	 * No nonce is checked here on purpose: the endpoint has to answer
-	 * logged-out visitors, whose nonces come from a session shared by every
-	 * anonymous caller and so prove nothing. Every input is treated as hostile
-	 * instead.
+	 * No nonce is checked for a logged-out visitor, on purpose: their nonces come
+	 * from a session shared by every anonymous caller, so verifying one proves
+	 * nothing. Every input is treated as hostile instead.
+	 *
+	 * A *logged-in* caller is a different question, and it was not being asked.
+	 * admin-ajax authenticates by cookie alone, so a cross-site POST ran this as
+	 * whoever was signed in: their real row was deleted and replaced with the
+	 * attacker's page and title, which the listing then published under their
+	 * name. Their nonce is session-bound and does prove something, so it is
+	 * checked -- and only for them, which leaves the anonymous path exactly as
+	 * it was.
 	 *
 	 * @return void
 	 */
 	public function ajax() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing -- A nonce cannot authenticate a logged-out visitor: anonymous nonces come from one session shared by every such caller, so verifying one proves nothing. Each field below is validated instead, and the endpoint changes nothing but this visitor's own row.
+		if ( is_user_logged_in() && ! check_ajax_referer( self::AJAX_NONCE, '_ajax_nonce', false ) ) {
+			wp_die( '', '', array( 'response' => 403 ) );
+		}
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- A nonce cannot authenticate a logged-out visitor: anonymous nonces come from one session shared by every such caller, so verifying one proves nothing. Each field below is validated instead, and the endpoint changes nothing but this visitor's own row. A logged-in caller is checked above.
 		$modes = array( 'count', 'browsing-site', 'browsing-page', 'details' );
 
 		$mode = isset( $_POST['mode'] ) ? sanitize_key( wp_unslash( $_POST['mode'] ) ) : '';

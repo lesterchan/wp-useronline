@@ -221,10 +221,24 @@ class WP_UserOnline_Template {
 				$current_link  = '';
 				$referral_link = '';
 
-				if ( $can_see_all || false === strpos( $user->page_url, 'wp-admin' ) ) {
-					$page_title    = esc_html( $user->page_title );
-					$current_link  = self::format_link( $user->page_url, $label_url );
-					$referral_link = self::format_link( $user->referral, $label_referral );
+				if ( $can_see_all || ! self::is_admin_location( $user->page_url ) ) {
+					$page_title   = esc_html( $user->page_title );
+					$current_link = self::format_link( $user->page_url, $label_url );
+
+					/*
+					 * The referral is tested separately, and it was not tested at
+					 * all. The gate looked only at page_url, so a user who
+					 * clicked a front-end link *from* an admin screen produced a
+					 * row whose location passed and whose referral was the whole
+					 * admin URL -- WordPress sends
+					 * Referrer-Policy: strict-origin-when-cross-origin, and a
+					 * same-origin navigation under that policy carries the full
+					 * URL, query string and _wpnonce included. That was published
+					 * to anonymous visitors of the listing.
+					 */
+					if ( $can_see_all || ! self::is_admin_location( $user->referral ) ) {
+						$referral_link = self::format_link( $user->referral, $label_referral );
+					}
 				}
 
 				$markup = sprintf(
@@ -261,6 +275,46 @@ class WP_UserOnline_Template {
 		}
 
 		return $out;
+	}
+
+	/**
+	 * Whether a recorded location points inside the dashboard.
+	 *
+	 * Against the site's own admin path rather than the literal string
+	 * "wp-admin", which was the previous test: a site that has moved or aliased
+	 * its admin directory made that substring never match, so every admin
+	 * location was published. Both the site-relative form this plugin records
+	 * and the absolute form a referrer arrives in are handled.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string $url Recorded page URL or referrer.
+	 *
+	 * @return bool
+	 */
+	public static function is_admin_location( $url ) {
+		$url = (string) $url;
+
+		if ( '' === $url ) {
+			return false;
+		}
+
+		$admin = wp_parse_url( admin_url(), PHP_URL_PATH );
+		$admin = is_string( $admin ) && '' !== $admin ? $admin : '/wp-admin/';
+		$path  = wp_parse_url( $url, PHP_URL_PATH );
+
+		if ( ! is_string( $path ) || '' === $path ) {
+			return false;
+		}
+
+		if ( 0 === strpos( $path, $admin ) ) {
+			return true;
+		}
+
+		// The literal is kept as a second test rather than replaced by the
+		// first: a referrer from another WordPress install is still an admin URL
+		// worth withholding, and its admin path is not this site's.
+		return false !== strpos( $path, '/wp-admin/' ) || false !== strpos( $path, '/wp-login.php' );
 	}
 
 	/**

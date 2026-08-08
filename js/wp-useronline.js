@@ -53,6 +53,11 @@
 			mode,
 			page_url: location.protocol + '//' + location.host + location.pathname + location.search,
 			page_title: document.title,
+			// Empty for a logged-out visitor, and the endpoint asks for it only
+			// from a signed-in one -- their cookie alone would otherwise let a
+			// cross-site form post record them as reading a page of somebody
+			// else's choosing.
+			_ajax_nonce: wpUserOnlineL10n.nonce || '',
 		} );
 
 		fetch( wpUserOnlineL10n.ajaxUrl, {

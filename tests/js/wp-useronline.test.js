@@ -62,6 +62,31 @@ describe( 'wp-useronline front end', () => {
 		expect( body.get( 'mode' ) ).toBe( 'count' );
 	} );
 
+	it( 'sends the nonce a signed-in visitor was given', async () => {
+		boot( [ 'count' ], { nonce: 'abc123' } );
+
+		await vi.advanceTimersByTimeAsync( 30000 );
+
+		const body = new URLSearchParams( window.fetch.mock.calls[ 0 ][ 1 ].body );
+
+		// The endpoint asks for this only from a signed-in caller, whose cookie
+		// would otherwise be enough for a cross-site post to record them as
+		// reading a page of somebody else's choosing.
+		expect( body.get( '_ajax_nonce' ) ).toBe( 'abc123' );
+	} );
+
+	it( 'sends an empty nonce for a logged-out visitor rather than omitting it', async () => {
+		boot( [ 'count' ] );
+
+		await vi.advanceTimersByTimeAsync( 30000 );
+
+		const body = new URLSearchParams( window.fetch.mock.calls[ 0 ][ 1 ].body );
+
+		// One code path for both, and a page cached for logged-out readers never
+		// carries a token that means anything.
+		expect( body.get( '_ajax_nonce' ) ).toBe( '' );
+	} );
+
 	it( 'polls every container the page rendered', async () => {
 		boot( [ 'count', 'browsing-site', 'browsing-page', 'details' ] );
 

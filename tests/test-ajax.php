@@ -72,6 +72,57 @@ class WP_UserOnline_Ajax_Test extends WP_UserOnline_TestCase {
 	}
 
 	/**
+	 * The endpoint authenticates by cookie alone, so a cross-site POST ran this
+	 * as whoever was signed in: their real row was deleted and replaced with the
+	 * attacker's page and title, which the listing then published under their
+	 * name. A logged-in caller's nonce is session-bound and does prove
+	 * something, so it is checked -- for them only, which leaves the anonymous
+	 * path, where a nonce proves nothing, exactly as it was.
+	 */
+	public function test_a_logged_in_caller_without_a_nonce_records_nothing() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+
+		$this->do_ajax(
+			array(
+				'mode'       => 'count',
+				'page_url'   => home_url( '/somewhere-else/' ),
+				'page_title' => 'Somewhere else',
+			)
+		);
+
+		$this->assertSame( 0, $this->rows(), 'A signed-in caller with no nonce writes nothing.' );
+	}
+
+	public function test_a_logged_in_caller_with_a_nonce_is_recorded() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+
+		$this->do_ajax(
+			array(
+				'mode'        => 'count',
+				'page_url'    => home_url( '/a-page/' ),
+				'page_title'  => 'A page',
+				'_ajax_nonce' => wp_create_nonce( WP_UserOnline::AJAX_NONCE ),
+			)
+		);
+
+		$this->assertSame( 1, $this->rows(), 'With one, the refresh works as it always did.' );
+	}
+
+	public function test_a_logged_out_caller_still_needs_no_nonce() {
+		wp_set_current_user( 0 );
+
+		$this->do_ajax(
+			array(
+				'mode'       => 'count',
+				'page_url'   => home_url( '/a-page/' ),
+				'page_title' => 'A page',
+			)
+		);
+
+		$this->assertSame( 1, $this->rows(), 'An anonymous visitor is recorded without one, because a nonce cannot authenticate them.' );
+	}
+
+	/**
 	 * An unrecognised mode used to fall through the switch having already
 	 * written a row on the way in.
 	 */

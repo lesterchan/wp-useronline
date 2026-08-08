@@ -58,6 +58,62 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 		$this->assertStringNotContainsString( 'ref-admin', $output, 'an admin referrer leaked' );
 	}
 
+	/**
+	 * The gate looked at page_url only, and published referral from inside the
+	 * same branch without examining it. A user who clicks a front-end link
+	 * *from* an admin screen produces a row whose location passes and whose
+	 * referrer is the whole admin URL -- WordPress sends
+	 * Referrer-Policy: strict-origin-when-cross-origin, and a same-origin
+	 * navigation under that policy carries the full URL, `_wpnonce` included.
+	 */
+	public function test_an_admin_referrer_is_withheld_even_when_the_location_is_public() {
+		$this->record_row(
+			array(
+				'user_ip'    => '198.51.100.7',
+				'user_name'  => 'EditorUser',
+				'page_title' => 'A public post',
+				'page_url'   => '/a-public-post/',
+				'referral'   => home_url( '/wp-admin/post.php?post=42&action=edit&_wpnonce=abc123secret' ),
+			)
+		);
+
+		wp_set_current_user( 0 );
+
+		$output = users_online_page();
+
+		$this->assertStringContainsString( 'a-public-post', $output, 'The public location is still shown.' );
+		$this->assertStringNotContainsString( 'abc123secret', $output, 'The nonce in the referrer is not published.' );
+		$this->assertStringNotContainsString( 'post.php', $output, 'Nor the admin screen it came from.' );
+	}
+
+	public function test_a_privileged_viewer_still_sees_an_admin_referrer() {
+		$this->record_row(
+			array(
+				'user_ip'   => '198.51.100.7',
+				'user_name' => 'EditorUser',
+				'page_url'  => '/a-public-post/',
+				'referral'  => home_url( '/wp-admin/post.php?post=42' ),
+			)
+		);
+
+		wp_set_current_user( $this->create_admin() );
+
+		$this->assertStringContainsString( 'post.php', users_online_page(), 'Somebody entitled to the detail still gets it.' );
+	}
+
+	/**
+	 * The old test was `strpos( $url, 'wp-admin' )`, which never matches on a
+	 * site that has moved or aliased its admin directory -- so every admin
+	 * location was published there.
+	 */
+	public function test_the_admin_location_test_follows_the_sites_own_admin_path() {
+		$this->assertTrue( WP_UserOnline_Template::is_admin_location( '/wp-admin/options-general.php' ), 'The ordinary case.' );
+		$this->assertTrue( WP_UserOnline_Template::is_admin_location( home_url( '/wp-admin/post.php?post=1' ) ), 'And the absolute form a referrer arrives in.' );
+		$this->assertTrue( WP_UserOnline_Template::is_admin_location( 'https://other.example/wp-login.php' ), 'A sign-in screen anywhere is worth withholding.' );
+		$this->assertFalse( WP_UserOnline_Template::is_admin_location( '/a-public-post/' ), 'An ordinary page is not an admin location.' );
+		$this->assertFalse( WP_UserOnline_Template::is_admin_location( '/articles/wp-admin-tips/' ), 'And neither is a post that merely talks about one.' );
+	}
+
 	public function test_both_users_are_still_listed_and_only_the_location_is_withheld() {
 		$this->seed_visible_then_hidden();
 		wp_set_current_user( 0 );

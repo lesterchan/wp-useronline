@@ -51,6 +51,8 @@ export function l10nFixture() {
 	return {
 		ajaxUrl: 'https://example.com/wp-admin/admin-ajax.php',
 		timeout: '30000',
+		// Empty for a logged-out visitor, which is what the server sends them.
+		nonce: '',
 	};
 }
 

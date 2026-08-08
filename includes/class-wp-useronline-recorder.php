@@ -52,8 +52,14 @@ class WP_UserOnline_Recorder {
 		require_once __DIR__ . '/bots.php';
 
 		if ( '' === $page_url ) {
+			// Through local_path() for the same reason local_url() is: a request
+			// for "//evil.com/" arrives here in REQUEST_URI verbatim, and the
+			// column it lands in is rendered as an href.
+			// sanitize_text_field() inline so the sniff can see it; local_path()
+			// then does the part that matters, which is making the path unable to
+			// leave the site.
 			$page_url = isset( $_SERVER['REQUEST_URI'] )
-				? wp_strip_all_tags( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+				? self::local_path( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) )
 				: '';
 		}
 
@@ -108,6 +114,8 @@ class WP_UserOnline_Recorder {
 			)
 		);
 
+		self::prune_address( $user_ip );
+
 		// The table just changed, so anything already fetched this request is
 		// stale.
 		self::$count = null;
@@ -118,6 +126,75 @@ class WP_UserOnline_Recorder {
 		if ( $online > (int) WP_UserOnline_Options::most( 'count' ) ) {
 			WP_UserOnline_Options::update_most( $online, time() );
 		}
+	}
+
+	/**
+	 * Keep one address from filling the table.
+	 *
+	 * A guest's identity is their user agent *and* their address, so the
+	 * delete-then-insert above collapses repeat visits only while the user agent
+	 * stays the same. Varying it on each request defeats that, and the table's
+	 * unique key on ( timestamp, user_type, user_ip ) is then the only thing
+	 * left -- one row per second per type, which over a five-minute timeout is
+	 * six hundred rows from a single host, each of them counted as somebody
+	 * online and each able to push the all-time figure up. That figure has no
+	 * reset anywhere: no screen, no command, no filter.
+	 *
+	 * The identity is left alone. Collapsing guests onto the address instead
+	 * would bound this too, and would also count an office or a mobile carrier
+	 * behind one address as a single visitor, which is the wrong answer to a
+	 * question this plugin exists to answer. A ceiling per address keeps honest
+	 * sharing working and takes the flood away.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string $user_ip The address that has just been recorded.
+	 *
+	 * @return void
+	 */
+	private static function prune_address( $user_ip ) {
+		global $wpdb;
+
+		if ( '' === $user_ip || 'unknown' === $user_ip ) {
+			return;
+		}
+
+		/**
+		 * Filters how many simultaneous visitors one address may account for.
+		 *
+		 * Raise it for a site whose audience really does arrive from behind one
+		 * address in numbers; zero switches the ceiling off.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param int    $max     Rows kept per address.
+		 * @param string $user_ip The address being recorded.
+		 */
+		$max = (int) apply_filters( 'wp_useronline_max_per_address', 20, $user_ip );
+
+		if ( $max <= 0 ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- The plugin's own table, and a count that has to be of the rows as they are this instant rather than as a cache last saw them.
+		$rows = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->useronline} WHERE user_ip = %s", $user_ip ) );
+
+		if ( $rows <= $max ) {
+			return;
+		}
+
+		/*
+		 * Oldest first, and never the row just written -- the visitor doing the
+		 * recording is the one entitled to be in the list.
+		 */
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- As above; deleting rows is the point and there is nothing to cache.
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->useronline} WHERE user_ip = %s ORDER BY timestamp ASC LIMIT %d",
+				$user_ip,
+				$rows - $max
+			)
+		);
 	}
 
 	/**
@@ -324,6 +401,48 @@ class WP_UserOnline_Recorder {
 		}
 
 		// page_url is a varchar( 255 ).
-		return mb_substr( wp_strip_all_tags( $path ), 0, 255 );
+		return mb_substr( self::local_path( $path ), 0, 255 );
+	}
+
+	/**
+	 * Reduce a site-relative path to one that cannot leave the site.
+	 *
+	 * The host check above is not enough on its own, and the gap is small and
+	 * complete: `https://example.com//evil.com/` parses with the *site's* host
+	 * and a path of `//evil.com/`. That passed the host test, was stored, and
+	 * reached `esc_url()` -- which short-circuits its entire protocol check on a
+	 * leading slash, so `<a href="//evil.com/">` was emitted intact. A
+	 * protocol-relative URL is an absolute one; only the scheme is borrowed.
+	 *
+	 * Collapsing the run of leading slashes to a single one turns it back into
+	 * what it claimed to be, a path on this site, and leaves every ordinary path
+	 * untouched.
+	 *
+	 * Applied to REQUEST_URI as well as to a submitted URL, because a request
+	 * for `https://example.com//evil.com/` reaches the 404 template with exactly
+	 * that in REQUEST_URI and records the same row with no endpoint involved.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string $path Site-relative path, possibly with a query string.
+	 *
+	 * @return string
+	 */
+	public static function local_path( $path ) {
+		$path = wp_strip_all_tags( (string) $path );
+
+		// Backslashes first: some clients and some servers treat them as
+		// separators, so "/\evil.com" is the same trick in another spelling.
+		$path = str_replace( '\\', '/', $path );
+
+		if ( '' === $path ) {
+			return '/';
+		}
+
+		if ( '/' === $path[0] ) {
+			return '/' . ltrim( $path, '/' );
+		}
+
+		return $path;
 	}
 }

@@ -45,6 +45,97 @@ class WP_UserOnline_Recorder_Test extends WP_UserOnline_TestCase {
 		$this->assertNull( WP_UserOnline_Recorder::local_url( '' ), 'an empty URL should be rejected' );
 	}
 
+	/**
+	 * The host check passes and the path is still absolute: parse_url() reads
+	 * `https://example.com//evil.com/` as this site's host with a path of
+	 * `//evil.com/`, and esc_url() short-circuits its protocol check on a
+	 * leading slash -- so `<a href="//evil.com/">` reached the public listing
+	 * intact. A protocol-relative URL is an absolute one; only the scheme is
+	 * borrowed.
+	 */
+	public function test_a_protocol_relative_path_cannot_survive_the_host_check() {
+		$stored = WP_UserOnline_Recorder::local_url( home_url( '/' ) . '/evil.example.net/x' );
+
+		$this->assertNotNull( $stored, 'The URL is on this site, so it is recorded.' );
+		$this->assertStringStartsNotWith( '//', $stored, 'But not as a path that would leave it.' );
+		$this->assertSame( '/evil.example.net/x', $stored, 'The run of leading slashes collapses to one.' );
+	}
+
+	/**
+	 * A guest's identity is user agent *and* address, so the delete-then-insert
+	 * collapses repeat visits only while the agent stays the same. Varying it
+	 * leaves the unique key on ( timestamp, user_type, user_ip ) as the only
+	 * bound -- one row per second, six hundred over a five-minute timeout, each
+	 * counted as somebody online and each able to push the all-time figure up.
+	 * That figure has no reset anywhere.
+	 */
+	/**
+	 * Seeded row by row rather than driven through record() in a loop, and that
+	 * is not a shortcut: the table's unique key is
+	 * ( timestamp, user_type, user_ip ) and REPLACE collapses everything written
+	 * inside one second, so a loop produces a single row whether the ceiling
+	 * exists or not -- a test that passes for a reason unrelated to the code.
+	 * The flood this guards against accumulates across seconds, so the fixture
+	 * has to as well.
+	 *
+	 * @param string $ip    Address to seed.
+	 * @param int    $count How many rows.
+	 *
+	 * @return void
+	 */
+	private function seed_flood( $ip, $count ) {
+		$now = strtotime( current_time( 'mysql' ) );
+
+		for ( $i = 0; $i < $count; $i++ ) {
+			$this->record_row(
+				array(
+					'timestamp'  => gmdate( 'Y-m-d H:i:s', $now - $i ),
+					'user_ip'    => $ip,
+					'user_agent' => 'Mozilla/5.0 (build ' . $i . ')',
+				)
+			);
+		}
+	}
+
+	public function test_one_address_cannot_fill_the_table_by_varying_its_user_agent() {
+		$ip                     = '198.51.100.44';
+		$_SERVER['REMOTE_ADDR'] = $ip;
+
+		add_filter( 'wp_useronline_max_per_address', static fn() => 5 );
+
+		$this->seed_flood( $ip, 40 );
+
+		$this->assertSame( 40, $this->rows(), 'The premise: forty rows really are there before the next request.' );
+
+		WP_UserOnline_Recorder::record( '/a-page/', 'A page' );
+
+		$this->assertLessThanOrEqual( 5, $this->rows(), 'The next request from that address trims it back to the ceiling.' );
+	}
+
+	public function test_the_ceiling_can_be_lifted_for_a_site_that_needs_it() {
+		$ip                     = '198.51.100.45';
+		$_SERVER['REMOTE_ADDR'] = $ip;
+
+		add_filter( 'wp_useronline_max_per_address', '__return_zero' );
+
+		$this->seed_flood( $ip, 8 );
+
+		WP_UserOnline_Recorder::record( '/a-page/', 'A page' );
+
+		$this->assertGreaterThan( 5, $this->rows(), 'Zero switches the ceiling off, for an office genuinely behind one address.' );
+	}
+
+	public function test_a_backslash_prefixed_path_is_normalised_too() {
+		// Some clients and some servers treat a backslash as a separator, so
+		// "/\evil" is the same trick in another spelling.
+		$this->assertSame( '/evil.example.net/x', WP_UserOnline_Recorder::local_path( '/\\evil.example.net/x' ), 'A backslash is not a way back out.' );
+	}
+
+	public function test_an_ordinary_path_is_left_alone_by_the_normaliser() {
+		$this->assertSame( '/some/page/?x=1', WP_UserOnline_Recorder::local_path( '/some/page/?x=1' ), 'An ordinary path is untouched.' );
+		$this->assertSame( '/', WP_UserOnline_Recorder::local_path( '' ), 'And an empty one reduces to the site root.' );
+	}
+
 	public function test_the_path_is_capped_to_the_column_width() {
 		$long = home_url( '/' . str_repeat( 'a', 600 ) );
 
