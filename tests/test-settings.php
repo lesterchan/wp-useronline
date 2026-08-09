@@ -158,6 +158,28 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 		$this->assertStringNotContainsString( '%1$', $html, 'a token was numbered as a placeholder' );
 	}
 
+	/**
+	 * The token list is a hint about the control, so it follows the control.
+	 *
+	 * This screen printed it above the textarea, and it was one of four
+	 * arrangements across the five plugins that list template tokens. The rule
+	 * is WordPress's own: a field hint is a description paragraph directly
+	 * after the field it describes.
+	 */
+	public function test_the_token_list_follows_the_field_it_describes() {
+		foreach ( array( 'field_template_useronline', 'field_template_browsingsite' ) as $field ) {
+			$html = $this->render( $field );
+
+			$textarea = strpos( $html, '</textarea>' );
+			$hint     = strpos( $html, 'Allowed variables:' );
+
+			$this->assertNotFalse( $textarea, "$field renders a textarea" );
+			$this->assertNotFalse( $hint, "$field lists its tokens" );
+			$this->assertGreaterThan( $textarea, $hint, "$field puts the hint after the control, not above it" );
+			$this->assertStringContainsString( 'class="description"', substr( $html, $textarea, $hint - $textarea + 40 ), 'and in a description paragraph' );
+		}
+	}
+
 	public function test_every_field_exposes_the_default_the_restore_button_reads() {
 		$html = $this->render( 'field_naming' );
 

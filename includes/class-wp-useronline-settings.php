@@ -437,14 +437,14 @@ class WP_UserOnline_Settings {
 		$templates = WP_UserOnline_Options::get( 'templates' );
 		?>
 		<div id="wp-useronline-template-useronline">
-			<p class="description">
-				<?php esc_html_e( 'Allowed variables:', 'wp-useronline' ); ?>
-				<?php echo wp_kses_post( self::token_list( array( '%USERS%', '%PAGE_URL%', '%MOSTONLINE_COUNT%', '%MOSTONLINE_DATE%' ) ) ); ?>
-			</p>
 			<textarea class="large-text code" rows="3"
 				name="<?php echo esc_attr( self::name( 'templates', 'useronline' ) ); ?>"
 				data-wp-useronline-default="<?php echo esc_attr( self::default_for( array( 'templates', 'useronline' ) ) ); ?>"
 			><?php echo esc_textarea( $templates['useronline'] ); ?></textarea>
+			<p class="description">
+				<?php esc_html_e( 'Allowed variables:', 'wp-useronline' ); ?>
+				<?php echo wp_kses_post( self::token_list( array( '%USERS%', '%PAGE_URL%', '%MOSTONLINE_COUNT%', '%MOSTONLINE_DATE%' ) ) ); ?>
+			</p>
 		</div>
 		<?php
 		self::restore_button( '#wp-useronline-template-useronline' );
@@ -481,14 +481,14 @@ class WP_UserOnline_Settings {
 		$id        = 'wp-useronline-template-' . $key;
 		?>
 		<div id="<?php echo esc_attr( $id ); ?>">
-			<p class="description">
-				<?php esc_html_e( 'Allowed variables:', 'wp-useronline' ); ?>
-				<?php echo wp_kses_post( self::token_list( array( '%USERS%', '%MEMBERS%', '%MEMBER_NAMES%', '%GUESTS_SEPARATOR%', '%GUESTS%', '%BOTS_SEPARATOR%', '%BOTS%' ) ) ); ?>
-			</p>
 			<textarea class="large-text code" rows="3"
 				name="<?php echo esc_attr( self::name( 'templates', $key, 'text' ) ); ?>"
 				data-wp-useronline-default="<?php echo esc_attr( self::default_for( array( 'templates', $key, 'text' ) ) ); ?>"
 			><?php echo esc_textarea( $template['text'] ); ?></textarea>
+			<p class="description">
+				<?php esc_html_e( 'Allowed variables:', 'wp-useronline' ); ?>
+				<?php echo wp_kses_post( self::token_list( array( '%USERS%', '%MEMBERS%', '%MEMBER_NAMES%', '%GUESTS_SEPARATOR%', '%GUESTS%', '%BOTS_SEPARATOR%', '%BOTS%' ) ) ); ?>
+			</p>
 
 			<?php foreach ( array( 'members', 'guests', 'bots' ) as $separator ) : ?>
 				<p>
