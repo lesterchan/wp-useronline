@@ -231,6 +231,7 @@ and PHP 7.4.
 * FIXED: The WP-Stats checkbox posts an explicit off. An unticked box posts nothing at all, and the sanitiser keeps whatever a tab did not submit, so without it the section could be switched on and never off again.
 * FIXED: The periodic refresh no longer nests the `useronline-details` container inside itself. The detailed report is answered as a whole container, and the refresh wrote that answer inside the container it was already in — so a page left open gained another copy of the same element id every timeout, growing a level deeper each time. Nothing errored and the figures kept updating, but the markup was invalid and any theme CSS or JavaScript keyed to `#useronline-details` was looking at a different element after the first refresh. The refresh replaces that container now instead of filling it.
 * NOTE: The template tags, the `[page_useronline]` shortcode and the `useronline-count`, `useronline-browsing-site`, `useronline-browsing-page` and `useronline-details` element ids are unchanged. Everything else that was public has moved; see the Upgrade Notice.
+* NOTE: The "on", "url" and "referral" labels in the detailed listing carry translator context now, because a single word out of context is not enough to translate from. Those three msgids changed, so existing translations of them fall back to English until they are retranslated
 
 ## Upgrade Notice
 

@@ -194,9 +194,9 @@ class WP_UserOnline_Template {
 			return '<h2>' . esc_html__( 'No one is online now.', 'wp-useronline' ) . '</h2>';
 		}
 
-		$label_on       = __( 'on', 'wp-useronline' );
-		$label_url      = __( 'url', 'wp-useronline' );
-		$label_referral = __( 'referral', 'wp-useronline' );
+		$label_on       = _x( 'on', "Between a visitor's address and the time they were seen", 'wp-useronline' );
+		$label_url      = _x( 'url', 'Link label for the page a visitor is reading', 'wp-useronline' );
+		$label_referral = _x( 'referral', 'Link label for the page a visitor arrived from', 'wp-useronline' );
 
 		$can_see_all = current_user_can( WP_UserOnline_Admin::capability( 'details' ) );
 
