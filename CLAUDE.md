@@ -33,10 +33,10 @@ sanitise step and the table check re-ran on every request.
 
 ## Version
 
-**4.0.0, not 3.0.1.** The released 3.0.0 shipped a changelog entry
-promising "Template tags, the `[page_useronline]` shortcode and all four filters
-are unchanged." This release renames all four filters plus
-`USERONLINE_TRUST_PROXY`, which a patch number cannot carry.
+**4.0.0 — the major skipped a number.** The earlier 3.0.0 shipped a changelog
+entry promising "Template tags, the `[page_useronline]` shortcode and all four
+filters are unchanged", and 4.0.0 renames all four filters plus
+`USERONLINE_TRUST_PROXY` — a promise a patch number cannot break.
 
 ## Traps
 
@@ -182,8 +182,8 @@ about their last result** — CI is the authority, and this file cannot be.
 `test-install.php` the table creation and the marker writes; `test-wpstats.php`
 the sections contract.
 
-## Pending, not started
+## Pending
 
-The settings screen heading still reads "Options" and should name the plugin.
-The proxy-header field's label and description are also due to be brought into
-line with the wording WP-Polls and WP-PostRatings use.
+Nothing outstanding. The settings heading reads "UserOnline Settings" and the
+proxy-header field carries the canonical "Header That Contains The IP" label —
+check `class-wp-useronline-settings.php` before renaming either.
