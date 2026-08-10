@@ -210,7 +210,7 @@ and PHP 7.4.
 * NEW: A `wp useronline` WP-CLI command — `list` and `count`. It reads and never writes.
 * NEW: A `useronline/v1` REST API for reading the counts and for the visitor heartbeat. The `admin-ajax.php` `wp_useronline` action is unchanged and still supported.
 * NEW: A **Users Online** block, under Widgets in the editor, showing the same listing as `[page_useronline]`. The shortcode is unchanged and still supported; the block is an addition beside it, calls the same code, and records nobody when it renders.
-* BREAKING: Requires WordPress 6.8 and PHP 8.2, up from 6.0 and 7.4.
+* BREAKING: Requires WordPress 6.8 and PHP 8.2.
 * BREAKING: Every filter the plugin fires is renamed and the old names are dropped, with no deprecation shims: `useronline_bots`, `useronline_buckets`, `useronline_custom_template`, `useronline_page`, `useronline_display_user` and `useronline_trust_proxy` all become `wp_useronline_*`. This voids the promise made in the 3.0.0 changelog that the filters were unchanged, and is why this release is 4.0.0 rather than 3.0.1.
 * BREAKING: `USERONLINE_TRUST_PROXY` is now `WP_USERONLINE_TRUST_PROXY`. A site still defining the old name silently stops trusting its proxy and starts recording the proxy's address for every visitor. See the FAQ.
 * BREAKING: The plugin has one screen, at `admin.php?page=wp-useronline` under a top-level WP-UserOnline menu, with three tabs: Users Online, Settings and Templates. The report used to be under Dashboard and the settings under Settings.
