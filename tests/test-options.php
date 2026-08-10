@@ -313,4 +313,58 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 	public function test_the_shared_row_is_never_deleted_on_uninstall() {
 		$this->assertNotContains( 'stats_display', WP_UserOnline_Options::all_option_names(), 'uninstalling must not clear a row six siblings still read' );
 	}
+
+	/**
+	 * The write path creates the row even when the value equals the default.
+	 *
+	 * Pinned at the door rather than through maybe_migrate(), so the guarantee
+	 * belongs to update() rather than to whatever the migration happens to
+	 * compute. The migration tests above can only see this while their fixtures
+	 * keep producing a value that differs from the defaults; this one cannot stop
+	 * seeing it.
+	 *
+	 * @return void
+	 */
+	public function test_update_creates_the_row_when_the_value_equals_the_registered_default() {
+		delete_option( WP_UserOnline_Options::OPTION );
+
+		WP_UserOnline_Settings::register_settings();
+
+		// The precondition the defect needs: a bare read of an absent row answers
+		// with the defaults, so update_option() alone compares equal and declines
+		// to write. Core's add_option() fallback sits below that comparison.
+		$this->assertSame(
+			WP_UserOnline_Options::defaults(),
+			get_option( WP_UserOnline_Options::OPTION ),
+			'the registered default is what an absent row reads back as'
+		);
+
+		WP_UserOnline_Options::update( WP_UserOnline_Options::defaults() );
+
+		$this->assertIsArray( get_option( WP_UserOnline_Options::OPTION, false ), 'the row is really there, read raw' );
+	}
+
+	/**
+	 * The shipped defaults survive the sanitiser unchanged.
+	 *
+	 * The assertion whose absence would let a typo decide whether the test above
+	 * means anything. A sanitiser that alters one character of the defaults -- a
+	 * doubled space inside a template that kses collapses is enough -- makes the
+	 * written value differ from them, so update_option() finds a difference and
+	 * writes the row. The equal-value case then stops being exercised and the test
+	 * above passes for a reason unrelated to the code.
+	 *
+	 * @return void
+	 */
+	public function test_the_shipped_defaults_survive_sanitisation_unchanged() {
+		WP_UserOnline_Settings::register_settings();
+
+		$defaults = WP_UserOnline_Options::defaults();
+
+		$this->assertSame(
+			$defaults,
+			sanitize_option( WP_UserOnline_Options::OPTION, $defaults ),
+			'the registered sanitize callback leaves the defaults alone'
+		);
+	}
 }

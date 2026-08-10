@@ -155,11 +155,38 @@ class WP_UserOnline_Options {
 	/**
 	 * Store the settings.
 	 *
+	 * `update_option()` declines to write a value equal to the one `get_option()`
+	 * would return, and `register_setting()` is passed a `default`, which installs
+	 * a `default_option_wp_useronline_options` filter answering with the shipped
+	 * defaults for a row that does not exist. Core's `add_option()` fallback sits
+	 * immediately below that comparison and is unreachable once the two compare
+	 * equal. So a migration whose result happens to equal the defaults -- the
+	 * commonest install there is -- writes nothing at all, the row is never
+	 * created, and the markers are stamped complete either way, so the upgrade can
+	 * never run again while the pre-4.0.0 rows have been deleted regardless.
+	 *
+	 * It was held off by hook order alone: maybe_upgrade() runs from add_hooks()
+	 * on `plugins_loaded`, and the filter is registered on `admin_init`. One
+	 * registration moved earlier, or any third-party `default_option_*` filter,
+	 * reaches it silently.
+	 *
+	 * Passing an explicit default to `get_option()` defeats the registered one --
+	 * `filter_default_option()` returns early when a default was passed -- which
+	 * is what lets an absent row be told apart from a defaulted one and added
+	 * outright. `add_option()` runs the sanitize callback exactly as
+	 * `update_option()` does, so nothing else about the stored value changes.
+	 *
 	 * @param array $options Settings to store.
 	 *
 	 * @return void
 	 */
 	public static function update( array $options ) {
+		if ( false === get_option( self::OPTION, false ) ) {
+			add_option( self::OPTION, $options );
+
+			return;
+		}
+
 		update_option( self::OPTION, $options );
 	}
 
@@ -285,11 +312,20 @@ class WP_UserOnline_Options {
 		$stored  = get_option( self::OPTION, array() );
 		$options = array_replace_recursive( is_array( $stored ) ? $stored : array(), $options );
 
-		$clean                  = array();
-		$clean['timeout']       = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : $defaults['timeout'];
-		$clean['url']           = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
-		$clean['names']         = empty( $options['names'] ) ? 0 : 1;
-		$clean['stats_display'] = ! empty( $options['stats_display'] );
+		/*
+		 * Assembled in the order defaults() lists, and that is worth keeping.
+		 * Whether this leaves clean input alone is a question about the array as a
+		 * whole -- update_option() compares with ===, which is order sensitive --
+		 * so a value reordered on the way through is a different value to every
+		 * caller that asks whether anything changed.
+		 */
+		$clean            = array();
+		$clean['timeout'] = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : $defaults['timeout'];
+
+		// A timeout of zero would purge every row on the next request.
+		if ( 0 === $clean['timeout'] ) {
+			$clean['timeout'] = $defaults['timeout'];
+		}
 
 		/*
 		 * A header name, not a value: uppercased and restricted to the character
@@ -302,10 +338,9 @@ class WP_UserOnline_Options {
 		$header             = isset( $options['ip_header'] ) ? sanitize_text_field( (string) $options['ip_header'] ) : '';
 		$clean['ip_header'] = preg_match( '/^[A-Za-z0-9_]+$/', $header ) ? strtoupper( $header ) : '';
 
-		// A timeout of zero would purge every row on the next request.
-		if ( 0 === $clean['timeout'] ) {
-			$clean['timeout'] = $defaults['timeout'];
-		}
+		$clean['url']           = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
+		$clean['names']         = empty( $options['names'] ) ? 0 : 1;
+		$clean['stats_display'] = ! empty( $options['stats_display'] );
 
 		// Naming: fill gaps from the defaults, then sanitize every entry.
 		$naming = isset( $options['naming'] ) && is_array( $options['naming'] ) ? $options['naming'] : array();
@@ -331,8 +366,8 @@ class WP_UserOnline_Options {
 			$text   = isset( $stored['text'] ) && ! is_array( $stored['text'] ) ? $stored['text'] : $default_template['text'];
 
 			$clean['templates'][ $key ] = array(
-				'text'       => wp_kses_post( trim( (string) $text ) ),
 				'separators' => array(),
+				'text'       => wp_kses_post( trim( (string) $text ) ),
 			);
 
 			$stored_separators = isset( $stored['separators'] ) && is_array( $stored['separators'] ) ? $stored['separators'] : array();
