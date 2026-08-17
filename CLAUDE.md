@@ -33,10 +33,16 @@ sanitise step and the table check re-ran on every request.
 
 ## Version
 
-**4.0.0 — the major skipped a number.** The earlier 3.0.0 shipped a changelog
+**The major skipped a number.** The earlier 3.0.0 shipped a changelog
 entry promising "Template tags, the `[page_useronline]` shortcode and all four
 filters are unchanged", and 4.0.0 renames all four filters plus
 `USERONLINE_TRUST_PROXY` — a promise a patch number cannot break.
+
+4.0.1 is the patch on top of it: the address lookup goes to ipinfo.io rather
+than to a whois service that answers "Malformed Domain or IP" for every IPv6
+visitor, and `wp_useronline_ip_lookup_url` lets a site pick its own. **Adding a
+filter is a patch; renaming one is not** — the new name is an addition beside
+the six, and none of them moved.
 
 ## Traps
 

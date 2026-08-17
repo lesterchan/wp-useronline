@@ -141,6 +141,67 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 		$this->assertStringNotContainsString( '198.51.100.7', users_online_page(), 'an address was shown to a visitor' );
 	}
 
+	/**
+	 * The lookup has to survive a colon, which is the whole of the IPv6 bug.
+	 *
+	 * The address is percent-encoded on the way into the URL, so the assertion
+	 * is on what esc_url() finally emits rather than on the literal address:
+	 * the failure being pinned is a link that cannot resolve the visitor, and
+	 * that is decided by the href, not by the text beside it.
+	 */
+	public function test_an_ipv6_address_gets_a_lookup_link_it_can_resolve() {
+		$this->record_row( array( 'user_ip' => '2001:db8::1' ) );
+		wp_set_current_user( $this->create_admin() );
+
+		$output = users_online_page();
+
+		$this->assertStringContainsString(
+			'href="https://ipinfo.io/' . rawurlencode( '2001:db8::1' ) . '"',
+			$output,
+			'an IPv6 address did not reach the lookup intact'
+		);
+		$this->assertStringContainsString( '2001:db8::1', $output, 'the address itself was not shown' );
+	}
+
+	public function test_the_lookup_service_can_be_replaced_through_the_filter() {
+		$this->record_row( array( 'user_ip' => '198.51.100.7' ) );
+		wp_set_current_user( $this->create_admin() );
+
+		add_filter(
+			'wp_useronline_ip_lookup_url',
+			static function ( $url, $ip ) {
+				return 'https://example.org/lookup/' . rawurlencode( $ip );
+			},
+			10,
+			2
+		);
+
+		$output = users_online_page();
+
+		$this->assertStringContainsString( 'href="https://example.org/lookup/198.51.100.7"', $output, 'the filter did not choose the service' );
+		$this->assertStringNotContainsString( 'ipinfo.io', $output, 'the default service was linked anyway' );
+	}
+
+	/**
+	 * Blanking the URL drops the link rather than pointing it at nothing.
+	 *
+	 * An empty href resolves to the current page, so the obvious shape --
+	 * filter the URL, print it -- turns "do not link this" into "link this to
+	 * the screen you are already on", which looks like it worked.
+	 */
+	public function test_an_empty_lookup_url_leaves_the_address_as_plain_text() {
+		$this->record_row( array( 'user_ip' => '198.51.100.7' ) );
+		wp_set_current_user( $this->create_admin() );
+
+		add_filter( 'wp_useronline_ip_lookup_url', '__return_empty_string' );
+
+		$output = users_online_page();
+
+		$this->assertStringContainsString( '198.51.100.7', $output, 'the address itself was withheld' );
+		$this->assertStringNotContainsString( 'href=""', $output, 'the address was linked to the current page' );
+		$this->assertStringNotContainsString( 'ipinfo.io', $output, 'the address was linked anyway' );
+	}
+
 	public function test_the_user_agent_is_escaped_exactly_once_in_the_title_attribute() {
 		$this->record_row(
 			array(

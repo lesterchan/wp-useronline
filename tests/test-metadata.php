@@ -27,7 +27,7 @@ class WP_UserOnline_Metadata_Test extends Plugin_Metadata_TestCase {
 	 * @return string
 	 */
 	protected function expected_version() {
-		return '4.0.0';
+		return '4.0.1';
 	}
 
 	/**
@@ -160,18 +160,22 @@ class WP_UserOnline_Metadata_Test extends Plugin_Metadata_TestCase {
 	}
 
 	/**
-	 * 4.0.0, not 3.0.1.
+	 * The 4 major, not 3.0.1.
 	 *
-	 * 3.0.0 is live on wordpress.org and this release renames six filters it
-	 * promised were stable, so it cannot ship as a patch. §14 records this
-	 * plugin and wp-dbmanager as the two that take a new major rather than
-	 * folding into an unreleased one.
+	 * 3.0.0 is live on wordpress.org and 4.0.0 renames six filters it promised
+	 * were stable, so that could not ship as a patch. §14 records this plugin
+	 * and wp-dbmanager as the two that take a new major rather than folding
+	 * into an unreleased one.
+	 *
+	 * The major is what is pinned, not the whole version: patches on top of it
+	 * are ordinary, and a 3.0.x carrying the renames is what must stay
+	 * impossible.
 	 *
 	 * @return void
 	 */
 	public function test_the_version_is_the_major_the_filter_renames_require() {
-		$this->assertSame(
-			'4.0.0',
+		$this->assertStringStartsWith(
+			'4.',
 			$this->expected_version(),
 			'This release renames public filters and must be a major.'
 		);

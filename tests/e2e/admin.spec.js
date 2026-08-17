@@ -221,12 +221,12 @@ test.describe( 'The admin screens', () => {
 		} );
 
 		// The administrator, who has the 'details' capability. The fixture's own
-		// address rather than any whois link, because the administrator reading
+		// address rather than any lookup link, because the administrator reading
 		// the screen was recorded on the way in and has an address of their own.
 		await page.goto( ONLINE_URL );
 		await expect( page.locator( '#useronline-details' ) ).toContainText( '203.0.113.55' );
 		await expect(
-			page.locator( '#useronline-details a[href*="whois.domaintools.com/203.0.113.55"]' ),
+			page.locator( '#useronline-details a[href*="ipinfo.io/203.0.113.55"]' ),
 		).toBeAttached();
 
 		// The same list, rendered by the shortcode for a logged out visitor.
@@ -238,7 +238,7 @@ test.describe( 'The admin screens', () => {
 			await expect( guest.locator( '#useronline-details' ) ).toContainText( 'Passer-by' );
 			await expect( guest.locator( '#useronline-details' ) ).not.toContainText( '203.0.113.55' );
 			await expect(
-				guest.locator( '#useronline-details a[href*="whois.domaintools.com"]' ),
+				guest.locator( '#useronline-details a[href*="ipinfo.io"]' ),
 			).toHaveCount( 0 );
 		} );
 	} );

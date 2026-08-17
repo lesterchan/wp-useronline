@@ -334,7 +334,7 @@ class WP_UserOnline_Template {
 	}
 
 	/**
-	 * Format a user's IP as a whois link, for viewers allowed to see it.
+	 * Format a user's IP as a lookup link, for viewers allowed to see it.
 	 *
 	 * @param object $user Useronline row.
 	 *
@@ -347,9 +347,32 @@ class WP_UserOnline_Template {
 			return '';
 		}
 
+		/**
+		 * Filters where a visitor's address is looked up.
+		 *
+		 * The address is still encoded for the default service, because the
+		 * column holds whatever earlier releases wrote into it as well as what
+		 * get_ip() validates today. A site pointing this at another service
+		 * gets the address raw as the second argument and encodes to suit.
+		 *
+		 * Returning an empty string drops the link and leaves the address as
+		 * plain text, for a site that would rather not hand a visitor's
+		 * address to a third party at all.
+		 *
+		 * @since 4.0.1
+		 *
+		 * @param string $url Lookup URL for this address.
+		 * @param string $ip  The address, as it is stored.
+		 */
+		$url = (string) apply_filters( 'wp_useronline_ip_lookup_url', 'https://ipinfo.io/' . rawurlencode( $ip ), $ip );
+
+		if ( '' === $url ) {
+			return sprintf( '<span dir="ltr" title="%1$s">%2$s</span>', esc_attr( $user->user_agent ), esc_html( $ip ) );
+		}
+
 		return sprintf(
 			'<span dir="ltr"><a href="%1$s" title="%2$s">%3$s</a></span>',
-			esc_url( 'https://whois.domaintools.com/' . rawurlencode( $ip ) ),
+			esc_url( $url ),
 			esc_attr( $user->user_agent ),
 			esc_html( $ip )
 		);

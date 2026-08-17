@@ -156,7 +156,7 @@ test.describe( 'Hostile rows in the users online table', () => {
 		await expect( details ).toContainText( 'Title <img src=x onerror=' );
 	} );
 
-	test( 'hovering the whois link does not fire an attribute breakout in the user agent', async ( {
+	test( 'hovering the IP lookup link does not fire an attribute breakout in the user agent', async ( {
 		page,
 	} ) => {
 		// The user agent is written into the link's title attribute, which is
@@ -164,10 +164,10 @@ test.describe( 'Hostile rows in the users online table', () => {
 		// attribute rather than between tags.
 		await page.goto( ONLINE_URL );
 
-		// The fixture's own address, not any whois link: the administrator
+		// The fixture's own address, not any lookup link: the administrator
 		// reading this screen was recorded on the way in and has one too.
 		const link = page.locator(
-			'#useronline-details a[href*="whois.domaintools.com/203.0.113.99"]',
+			'#useronline-details a[href*="ipinfo.io/203.0.113.99"]',
 		);
 		await expect( link ).toBeAttached();
 		await expect( link ).toHaveAttribute( 'title', /Agent " onmouseover=/ );

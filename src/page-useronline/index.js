@@ -37,7 +37,7 @@ function Edit() {
 	return (
 		<div { ...useBlockProps() }>
 			{ /* The listing is made of links -- each visitor's page, their
-			     referrer, and a whois lookup for anyone allowed to see the
+			     referrer, and an address lookup for anyone allowed to see the
 			     addresses -- so a live preview is a preview that navigates the
 			     editor away from the post being written. */ }
 			<div inert="">

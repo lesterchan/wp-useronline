@@ -4,7 +4,7 @@ Donate link: https://lesterchan.net/site/donation/
 Tags: useronline, usersonline, wp-useronline, online, widget  
 Requires at least: 6.8  
 Tested up to: 7.0  
-Stable tag: 4.0.0  
+Stable tag: 4.0.1  
 Requires PHP: 8.2  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -169,6 +169,27 @@ add_filter( 'wp_useronline_capability', function ( $capability, $context ) {
 }, 10, 2 );
 ```
 
+### Can I change where an IP address links to?
+
+Yes. Each address in the detailed listing links to a lookup at
+[ipinfo.io](https://ipinfo.io/), which answers for IPv4 and IPv6 alike. Before 4.0.1 it
+went to a service that could not read an IPv6 address at all. To send it somewhere else,
+filter the URL — the address arrives raw as the second argument, so encode it however
+the service you pick wants it:
+
+```php
+add_filter( 'wp_useronline_ip_lookup_url', function ( $url, $ip ) {
+	return 'https://who.is/whois-ip/ip-address/' . rawurlencode( $ip );
+}, 10, 2 );
+```
+
+Return an empty string to drop the link entirely and show the address as plain text,
+which is what to do if you would rather not hand a visitor's address to a third party:
+
+```php
+add_filter( 'wp_useronline_ip_lookup_url', '__return_empty_string' );
+```
+
 ### Can I change the list of search bots?
 
 Yes. `wp_useronline_bots` filters the whole list, whose keys are the names shown in the
@@ -202,6 +223,10 @@ and PHP 7.4.
 4. The users-online page a visitor sees, from the shortcode
 
 ## Changelog
+### 4.0.1
+* FIXED: The address of a visitor arriving over IPv6 linked to a lookup that cannot read one. Every such visitor's link answered "Malformed Domain or IP", which is most of the detailed listing on a site whose host has IPv6 switched on. The lookups now go to ipinfo.io, which answers for IPv4 and IPv6 alike
+* NEW: `wp_useronline_ip_lookup_url` filters where an address is looked up, so a site can send it somewhere else — or return an empty string and keep the address as plain text with no link at all. See the FAQ
+
 ### 4.0.0
 * FIXED: A recorded location could be a protocol-relative URL, which is an absolute one wearing a path's clothes. `https://example.com//evil.com/` parses with this site's host, passed the host check, was stored as `//evil.com/`, and came out of `esc_url()` untouched — so the public listing carried a link to somebody else's site. Leading slashes now collapse to one, on the submitted URL and on `REQUEST_URI` alike
 * FIXED: The listing withheld the location of a visitor who was in the dashboard, but published their *referrer* from inside the same branch without ever looking at it. Anyone who clicked a front-end link from an admin screen therefore published the whole admin URL — screen, post ID and `_wpnonce` — to anonymous readers, because a same-origin navigation carries the full URL under WordPress's referrer policy. The referrer is now tested in its own right, and both tests compare against the site's own admin path rather than the literal string `wp-admin`, which never matched on a site that had moved it
