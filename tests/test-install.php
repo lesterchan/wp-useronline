@@ -197,4 +197,50 @@ class WP_UserOnline_Install_Test extends WP_UserOnline_TestCase {
 		$this->assertStringContainsString( 'wpUserOnlineL10n', (string) $data, 'the l10n object is not named wpUserOnlineL10n' );
 		$this->assertStringContainsString( 'ajaxUrl', (string) $data, 'the ajax URL is not localised' );
 	}
+	/**
+	 * The uninstaller names the same rows the suite deletes, and drops the table.
+	 *
+	 * The suite's run_uninstall() performs the option deletions rather than
+	 * requiring uninstall.php, because that file drops the useronline table --
+	 * DDL, which MySQL commits, so one test would take the table away from
+	 * every test after it. That indirection is only honest if what the file
+	 * reaches is checked to do the same work, which is what this does:
+	 * uninstall.php hands everything to the installer, and the installer's
+	 * per-site half deletes over the same all_option_names() list the suite
+	 * uses and drops the table.
+	 */
+	public function test_uninstall_php_names_the_same_rows_and_drops_the_table() {
+		$uninstall = (string) file_get_contents( dirname( __DIR__ ) . '/uninstall.php' );
+
+		$this->assertStringContainsString( 'WP_UserOnline_Install::uninstall()', $uninstall, 'uninstall.php does not delegate to the installer.' );
+		$this->assertStringContainsString( 'class-wp-useronline-options.php', $uninstall, 'uninstall.php does not load the options class the row list lives on.' );
+
+		$install = (string) php_strip_whitespace( dirname( __DIR__ ) . '/includes/class-wp-useronline-install.php' );
+
+		$this->assertStringContainsString( 'WP_UserOnline_Options::all_option_names()', $install, 'The uninstaller does not delete over the same row list the suite does.' );
+		$this->assertStringContainsString( 'DROP TABLE IF EXISTS', $install, 'The uninstaller does not drop the useronline table.' );
+	}
+
+	/**
+	 * The uninstaller walks the whole network, not the first hundred sites.
+	 *
+	 * A source guard because the thing it guards cannot be exercised: building
+	 * a 101-site network to prove the hundred-and-first is reached is not on.
+	 * php_strip_whitespace() rather than file_get_contents(), so a comment
+	 * merely describing the old wp_get_sites() call cannot fail the assertion
+	 * that the code no longer makes it.
+	 */
+	public function test_uninstall_walks_the_whole_network() {
+		$install = (string) php_strip_whitespace( dirname( __DIR__ ) . '/includes/class-wp-useronline-install.php' );
+
+		$this->assertStringContainsString( 'is_multisite()', $install, 'The uninstaller does not branch on multisite.' );
+		$this->assertStringContainsString( "'number' => 0", $install, 'The uninstaller stops at the default hundred sites.' );
+		$this->assertStringContainsString( "'fields' => 'ids'", $install, 'The uninstaller hydrates whole site objects to read one column.' );
+		$this->assertStringNotContainsString( 'wp_get_sites', $install, 'wp_get_sites() is capped at 100 sites, so a larger network uninstalls in part.' );
+		$this->assertMatchesRegularExpression(
+			'/switch_to_blog\([^}]*restore_current_blog\(\)/s',
+			$install,
+			'The uninstaller does not close a block between switch_to_blog() and restore_current_blog().'
+		);
+	}
 }
