@@ -27,14 +27,14 @@ require_once $_tests_dir . '/includes/functions.php';
  *
  * @return void
  */
-function _useronline_manually_load_plugin() {
+function _wp_useronline_manually_load_plugin() {
 	require dirname( __DIR__ ) . '/wp-useronline.php';
 
 	// register_activation_hook() never fires in the test environment, so the
 	// table has to be created by hand.
 	WP_UserOnline_Install::install();
 }
-tests_add_filter( 'muplugins_loaded', '_useronline_manually_load_plugin' );
+tests_add_filter( 'muplugins_loaded', '_wp_useronline_manually_load_plugin' );
 
 require $_tests_dir . '/includes/bootstrap.php';
 
