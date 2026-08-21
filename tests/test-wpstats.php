@@ -77,7 +77,7 @@ class WP_UserOnline_WPStats_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_opting_out_returns_the_sections_untouched() {
-		$this->set_option( 'stats_display', false );
+		$this->set_options( array( 'stats_display' => false ) );
 
 		$sections = WP_UserOnline_WPStats::register_section( array( 'wp_polls' => array( 'title' => 'Polls' ) ) );
 
@@ -91,7 +91,7 @@ class WP_UserOnline_WPStats_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_the_decision_is_made_from_this_plugins_own_row_alone() {
-		$this->set_option( 'stats_display', false );
+		$this->set_options( array( 'stats_display' => false ) );
 		update_option( 'stats_display', array( 'useronline' => 1 ) );
 
 		$this->assertNull( $this->section(), 'the shared legacy row must not be consulted any more' );

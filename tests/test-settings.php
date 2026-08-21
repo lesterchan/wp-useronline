@@ -188,13 +188,13 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_the_link_names_radio_reflects_the_stored_value() {
-		$this->set_option( 'names', 1 );
+		$this->set_options( array( 'names' => 1 ) );
 
 		$this->assertMatchesRegularExpression( '/value="1"\s+checked=/', $this->render( 'field_names' ), 'the stored choice is not selected' );
 	}
 
 	public function test_the_timeout_field_carries_the_stored_value_and_its_default() {
-		$this->set_option( 'timeout', 120 );
+		$this->set_options( array( 'timeout' => 120 ) );
 
 		$html = $this->render( 'field_timeout' );
 
@@ -204,7 +204,7 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_the_url_field_is_a_url_input_and_escapes_what_it_renders() {
-		$this->set_option( 'url', 'https://example.com/who/?a=1&b=2' );
+		$this->set_options( array( 'url' => 'https://example.com/who/?a=1&b=2' ) );
 
 		$html = $this->render( 'field_url' );
 
@@ -239,10 +239,10 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_the_wp_stats_toggle_reflects_the_stored_setting() {
-		$this->set_option( 'stats_display', true );
+		$this->set_options( array( 'stats_display' => true ) );
 		$this->assertStringContainsString( 'checked', $this->render( 'field_stats_display' ), 'the toggle should be on' );
 
-		$this->set_option( 'stats_display', false );
+		$this->set_options( array( 'stats_display' => false ) );
 		$this->assertStringNotContainsString( 'checked', $this->render( 'field_stats_display' ), 'the toggle should be off' );
 	}
 
@@ -348,11 +348,15 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	}
 
 	public function test_saving_the_templates_tab_leaves_the_settings_alone() {
-		$this->set_option( 'timeout', 900 );
-		$this->set_option( 'url', 'https://example.com/online' );
-		$this->set_option( 'names', 1 );
-		$this->set_option( 'stats_display', false );
-		$this->set_option( 'naming', array_merge( WP_UserOnline_Options::get( 'naming' ), array( 'user' => 'One soul' ) ) );
+		$this->set_options(
+			array(
+				'timeout'       => 900,
+				'url'           => 'https://example.com/online',
+				'names'         => 1,
+				'stats_display' => false,
+				'naming'        => array_merge( WP_UserOnline_Options::get( 'naming' ), array( 'user' => 'One soul' ) ),
+			)
+		);
 
 		// Exactly what the Templates tab posts: templates, and nothing else.
 		update_option(
@@ -375,7 +379,7 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	 * be read as "not submitted" and could never be turned off again.
 	 */
 	public function test_the_wp_stats_checkbox_can_still_be_turned_off_under_the_merge() {
-		$this->set_option( 'stats_display', true );
+		$this->set_options( array( 'stats_display' => true ) );
 
 		$html = $this->render( 'field_stats_display' );
 

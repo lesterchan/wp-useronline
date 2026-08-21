@@ -254,7 +254,7 @@ class WP_UserOnline_Blocks_Test extends WP_UserOnline_TestCase {
 		$naming          = WP_UserOnline_Options::get( 'naming' );
 		$naming['users'] = '%COUNT% people about the place';
 
-		$this->set_option( 'naming', $naming );
+		$this->set_options( array( 'naming' => $naming ) );
 		$this->reset_statics();
 
 		$this->assertStringContainsString( '4 people about the place', WP_UserOnline_Blocks::render_page_useronline(), 'The block uses the stored naming.' );

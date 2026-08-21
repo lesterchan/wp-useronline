@@ -149,17 +149,14 @@ abstract class WP_UserOnline_TestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Set one plugin setting.
+	 * Store the defaults with some keys overridden.
 	 *
-	 * @param string $key   Top level setting name.
-	 * @param mixed  $value Value to store.
+	 * @param array $overrides Values to change.
 	 *
 	 * @return void
 	 */
-	protected function set_option( $key, $value ) {
-		$options         = WP_UserOnline_Options::get();
-		$options[ $key ] = $value;
-		WP_UserOnline_Options::update( $options );
+	protected function set_options( array $overrides = array() ) {
+		WP_UserOnline_Options::update( array_merge( WP_UserOnline_Options::defaults(), $overrides ) );
 	}
 
 	/**

@@ -166,7 +166,7 @@ class WP_UserOnline_Template_Tags_Test extends WP_UserOnline_TestCase {
 	 * With the names option on, members link to their author archive.
 	 */
 	public function test_linked_names_filter_wraps_members() {
-		$this->set_option( 'names', 1 );
+		$this->set_options( array( 'names' => 1 ) );
 
 		$user_id = self::factory()->user->create( array( 'display_name' => 'Alice' ) );
 
@@ -191,7 +191,7 @@ class WP_UserOnline_Template_Tags_Test extends WP_UserOnline_TestCase {
 	 * warning. So the off case has to be answered here.
 	 */
 	public function test_linked_names_leaves_members_alone_when_the_option_is_off() {
-		$this->set_option( 'names', 0 );
+		$this->set_options( array( 'names' => 0 ) );
 
 		$user_id = self::factory()->user->create( array( 'display_name' => 'Alice' ) );
 
