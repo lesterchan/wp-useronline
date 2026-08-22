@@ -9,9 +9,7 @@
  * @package WP-UserOnline
  */
 
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit;
-}
+defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 require_once __DIR__ . '/includes/class-wp-useronline-options.php';
 require_once __DIR__ . '/includes/class-wp-useronline-install.php';

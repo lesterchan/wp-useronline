@@ -5,9 +5,7 @@
  * @package WP-UserOnline
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Sidebar widget rendering the users online count and browsing lists.

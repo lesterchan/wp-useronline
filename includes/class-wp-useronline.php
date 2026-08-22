@@ -5,9 +5,7 @@
  * @package WP-UserOnline
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Plugin bootstrap: registers the table, hooks and admin screens.

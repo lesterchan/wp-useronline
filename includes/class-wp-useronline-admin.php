@@ -5,9 +5,7 @@
  * @package WP-UserOnline
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * The WP-UserOnline menu, and the one screen underneath it.

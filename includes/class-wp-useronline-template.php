@@ -5,9 +5,7 @@
  * @package WP-UserOnline
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Formatting helpers behind the users online template tags.

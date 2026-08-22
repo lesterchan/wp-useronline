@@ -8,9 +8,7 @@
  * @package WP-UserOnline
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Display the users online template.
