@@ -39,7 +39,7 @@ class WP_UserOnline_Multisite_Test extends WP_UserOnline_TestCase {
 	 * @param int $count How many sites to create.
 	 * @return int[] Blog ids.
 	 */
-	private function make_torn_down_sites( $count = 2 ) {
+	private function seed_network( $count = 2 ) {
 		global $wpdb;
 
 		$site_ids = array();
@@ -66,7 +66,7 @@ class WP_UserOnline_Multisite_Test extends WP_UserOnline_TestCase {
 	public function test_network_activation_installs_on_every_site() {
 		global $wpdb;
 
-		$site_ids = $this->make_torn_down_sites( 2 );
+		$site_ids = $this->seed_network( 2 );
 
 		WP_UserOnline_Install::activate( true );
 
@@ -90,7 +90,7 @@ class WP_UserOnline_Multisite_Test extends WP_UserOnline_TestCase {
 	public function test_single_site_activation_leaves_other_sites_alone() {
 		global $wpdb;
 
-		$site_ids = $this->make_torn_down_sites( 1 );
+		$site_ids = $this->seed_network( 1 );
 		$other    = $site_ids[0];
 
 		WP_UserOnline_Install::activate( false );
@@ -112,7 +112,7 @@ class WP_UserOnline_Multisite_Test extends WP_UserOnline_TestCase {
 	 * @return void
 	 */
 	public function test_network_activation_queries_sites_without_a_cap() {
-		$this->make_torn_down_sites( 2 );
+		$this->seed_network( 2 );
 
 		$captured = array();
 		add_action(
@@ -130,23 +130,21 @@ class WP_UserOnline_Multisite_Test extends WP_UserOnline_TestCase {
 	}
 
 	/**
-	 * The switch stack is left balanced.
+	 * The blog stack is left unwound and the original site is current.
 	 *
-	 * Switching pushes onto a stack; restoring once after many switches leaves
-	 * it unwound by exactly one, and every later switch is then off by one
-	 * site.
+	 * Calling switch_to_blog() pushes onto a stack. Restoring once after the loop
+	 * rather than once per iteration leaves the stack short, so whatever runs next
+	 * operates against the last site visited instead of the one it thinks it is on.
 	 *
 	 * @return void
 	 */
-	public function test_network_activation_leaves_the_switch_stack_balanced() {
-		$this->make_torn_down_sites( 2 );
-
-		$before = get_current_blog_id();
-		$depth  = count( $GLOBALS['_wp_switched_stack'] );
+	public function test_network_activation_unwinds_the_blog_stack() {
+		$original = get_current_blog_id();
+		$this->seed_network( 2 );
 
 		WP_UserOnline_Install::activate( true );
 
-		$this->assertSame( $before, get_current_blog_id(), 'Activation left the wrong site current.' );
-		$this->assertCount( $depth, $GLOBALS['_wp_switched_stack'], 'The switch stack was left unbalanced.' );
+		$this->assertFalse( ms_is_switched(), 'The blog stack was left switched.' );
+		$this->assertSame( $original, get_current_blog_id(), 'The original site is no longer current.' );
 	}
 }
