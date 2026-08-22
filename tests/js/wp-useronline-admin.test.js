@@ -5,7 +5,7 @@
  * and each test only replaces the markup underneath it.
  */
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { loadScript, settingsMarkup } from './helper-dom.js';
+import { loadScript, settingsMarkup } from './helpers.js';
 
 /**
  * Click the Restore Defaults button.

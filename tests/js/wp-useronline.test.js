@@ -6,7 +6,7 @@
  * that moment. Fake timers stand in for the interval.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { containerMarkup, detailsMarkup, l10nFixture, loadScript } from './helper-dom.js';
+import { containerMarkup, detailsMarkup, l10nFixture, loadScript } from './helpers.js';
 
 /**
  * Put the page and the l10n object in place, then evaluate the script.
