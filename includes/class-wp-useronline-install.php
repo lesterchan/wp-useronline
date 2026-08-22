@@ -108,7 +108,9 @@ class WP_UserOnline_Install {
 				page_title text NOT NULL,
 				page_url varchar(255) NOT NULL default '',
 				referral varchar(255) NOT NULL default '',
-				UNIQUE KEY useronline_id (timestamp, user_type, user_ip)
+				UNIQUE KEY useronline_id (timestamp, user_type, user_ip),
+				KEY user_ip (user_ip),
+				KEY user_id (user_id)
 			) {$charset_collate};"
 		);
 	}

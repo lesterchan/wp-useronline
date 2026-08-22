@@ -85,6 +85,93 @@ class WP_UserOnline_Install_Test extends WP_UserOnline_TestCase {
 		WP_UserOnline_Install::install();
 
 		$this->assertSame( $wpdb->useronline, $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->useronline}'" ), 'the table did not survive a second install' );
+		$this->assertNotContains( 'user_ip_2', $this->index_names(), 'dbDelta re-added the user_ip key on a second install' );
+		$this->assertNotContains( 'user_id_2', $this->index_names(), 'dbDelta re-added the user_id key on a second install' );
+	}
+
+	/**
+	 * The recorder deletes by user_id and counts by user_ip on every request,
+	 * and the table's only other key starts with timestamp, so without these
+	 * two keys both statements read the whole table.
+	 */
+	public function test_a_fresh_install_indexes_the_columns_the_recorder_filters_on() {
+		global $wpdb;
+
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->useronline}" );
+
+		WP_UserOnline_Install::install_table();
+
+		$indexes = $this->index_names();
+
+		$this->assertContains( 'user_ip', $indexes, 'a fresh install does not index user_ip' );
+		$this->assertContains( 'user_id', $indexes, 'a fresh install does not index user_id' );
+	}
+
+	/**
+	 * A site already on 4.0.0 gains the keys through the upgrade gate, and
+	 * loses nothing on the way.
+	 *
+	 * The fixture is the CREATE TABLE transcribed from the 4.0.0 release on
+	 * wordpress.org rather than from the install code, so this meets the table
+	 * a real site has instead of asserting the code agrees with itself. The
+	 * DDL commits the wrapping transaction either way, and maybe_upgrade()
+	 * leaves the table in its current shape for the tests that follow.
+	 */
+	public function test_upgrading_the_released_schema_adds_the_keys_and_keeps_the_rows() {
+		global $wpdb;
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->useronline}" );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Building the legacy fixture, verbatim, is the test.
+		$wpdb->query(
+			"CREATE TABLE {$wpdb->useronline} (
+				timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				user_type varchar(20) NOT NULL default 'guest',
+				user_id bigint(20) NOT NULL default 0,
+				user_name varchar(250) NOT NULL default '',
+				user_ip varchar(39) NOT NULL default '',
+				user_agent text NOT NULL,
+				page_title text NOT NULL,
+				page_url varchar(255) NOT NULL default '',
+				referral varchar(255) NOT NULL default '',
+				UNIQUE KEY useronline_id (timestamp, user_type, user_ip)
+			) {$charset_collate}"
+		);
+		// phpcs:enable
+
+		$user_name = 'Sévère & "quoted" 訪客';
+
+		$this->record_row( array( 'user_name' => $user_name ) );
+
+		update_option(
+			WP_UserOnline_Options::VERSION,
+			array(
+				'plugin' => '4.0.0',
+				'db'     => '1',
+			)
+		);
+
+		WP_UserOnline_Install::maybe_upgrade();
+
+		$indexes = $this->index_names();
+
+		$this->assertContains( 'user_ip', $indexes, 'the upgrade did not add the user_ip key' );
+		$this->assertContains( 'user_id', $indexes, 'the upgrade did not add the user_id key' );
+		$this->assertSame( WP_USERONLINE_DB_VERSION, WP_UserOnline_Options::markers()['db'], 'the upgrade did not stamp the db marker' );
+		$this->assertSame( $user_name, $wpdb->get_var( "SELECT user_name FROM {$wpdb->useronline}" ), 'the row recorded before the upgrade did not survive it' );
+	}
+
+	/**
+	 * Every index name on the useronline table, each once.
+	 *
+	 * @return string[]
+	 */
+	private function index_names() {
+		global $wpdb;
+
+		return array_values( array_unique( $wpdb->get_col( "SHOW INDEX FROM {$wpdb->useronline}", 2 ) ) );
 	}
 
 	public function test_installing_stamps_both_markers_in_one_row() {

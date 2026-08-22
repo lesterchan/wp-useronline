@@ -44,7 +44,7 @@ define( 'WP_USERONLINE_VERSION', '4.0.1' );
 /**
  * Schema counter. Compared against the 'db' marker in wp_useronline_version.
  */
-define( 'WP_USERONLINE_DB_VERSION', '1' );
+define( 'WP_USERONLINE_DB_VERSION', '2' );
 
 /**
  * Plugin slug, text domain and menu slug.
