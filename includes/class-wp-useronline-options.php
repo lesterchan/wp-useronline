@@ -296,19 +296,19 @@ class WP_UserOnline_Options {
 	 * re-sanitised too -- which is what lets the 4.0.0 migration hand its whole
 	 * legacy array to this same function and get clean settings back.
 	 *
-	 * @param mixed $options Submitted settings, which may be one tab's worth.
+	 * @param mixed $input Submitted settings, which may be one tab's worth.
 	 *
 	 * @return array
 	 */
-	public static function sanitize( $options ) {
-		if ( ! is_array( $options ) ) {
-			$options = array();
+	public static function sanitize( $input ) {
+		if ( ! is_array( $input ) ) {
+			$input = array();
 		}
 
 		$defaults = self::defaults();
 
-		$stored  = get_option( self::OPTION, array() );
-		$options = array_replace_recursive( is_array( $stored ) ? $stored : array(), $options );
+		$stored = get_option( self::OPTION, array() );
+		$input  = array_replace_recursive( is_array( $stored ) ? $stored : array(), $input );
 
 		/*
 		 * Assembled in the order defaults() lists, and that is worth keeping.
@@ -318,7 +318,7 @@ class WP_UserOnline_Options {
 		 * caller that asks whether anything changed.
 		 */
 		$clean            = array();
-		$clean['timeout'] = isset( $options['timeout'] ) ? absint( $options['timeout'] ) : $defaults['timeout'];
+		$clean['timeout'] = isset( $input['timeout'] ) ? absint( $input['timeout'] ) : $defaults['timeout'];
 
 		// A timeout of zero would purge every row on the next request.
 		if ( 0 === $clean['timeout'] ) {
@@ -333,15 +333,15 @@ class WP_UserOnline_Options {
 		 * that cannot exist" -- a typo should fall back to the trustworthy
 		 * address, not to no address at all.
 		 */
-		$header             = isset( $options['ip_header'] ) ? sanitize_text_field( (string) $options['ip_header'] ) : '';
+		$header             = isset( $input['ip_header'] ) ? sanitize_text_field( (string) $input['ip_header'] ) : '';
 		$clean['ip_header'] = preg_match( '/^[A-Za-z0-9_]+$/', $header ) ? strtoupper( $header ) : '';
 
-		$clean['url']           = ! empty( $options['url'] ) ? esc_url_raw( trim( $options['url'] ) ) : '';
-		$clean['names']         = empty( $options['names'] ) ? 0 : 1;
-		$clean['stats_display'] = ! empty( $options['stats_display'] );
+		$clean['url']           = ! empty( $input['url'] ) ? esc_url_raw( trim( $input['url'] ) ) : '';
+		$clean['names']         = empty( $input['names'] ) ? 0 : 1;
+		$clean['stats_display'] = ! empty( $input['stats_display'] );
 
 		// Naming: fill gaps from the defaults, then sanitize every entry.
-		$naming = isset( $options['naming'] ) && is_array( $options['naming'] ) ? $options['naming'] : array();
+		$naming = isset( $input['naming'] ) && is_array( $input['naming'] ) ? $input['naming'] : array();
 		$naming = array_merge( $defaults['naming'], $naming );
 
 		foreach ( $naming as $key => $value ) {
@@ -350,7 +350,7 @@ class WP_UserOnline_Options {
 		$clean['naming'] = $naming;
 
 		// Templates: rebuilt from the defaults so the shape is guaranteed.
-		$templates          = isset( $options['templates'] ) && is_array( $options['templates'] ) ? $options['templates'] : array();
+		$templates          = isset( $input['templates'] ) && is_array( $input['templates'] ) ? $input['templates'] : array();
 		$clean['templates'] = array();
 
 		foreach ( $defaults['templates'] as $key => $default_template ) {

@@ -6,7 +6,7 @@
  */
 
 /**
- * WP_UserOnline::ajax() is reachable by logged-out visitors and checks no
+ * WP_UserOnline::ajax_refresh() is reachable by logged-out visitors and checks no
  * nonce, so every input is hostile by assumption. These cover that contract.
  *
  * The handler is driven directly rather than through WP_Ajax_UnitTestCase, so
@@ -56,7 +56,7 @@ class WP_UserOnline_Ajax_Test extends WP_UserOnline_TestCase {
 
 		try {
 			ob_start();
-			WP_UserOnline::get_instance()->ajax();
+			WP_UserOnline::get_instance()->ajax_refresh();
 		} catch ( WPDieException $e ) {
 			unset( $e );
 		} finally {

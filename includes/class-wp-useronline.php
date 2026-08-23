@@ -17,7 +17,7 @@ class WP_UserOnline {
 	/**
 	 * Nonce action for the refresh endpoint.
 	 *
-	 * Checked only for a signed-in caller; see ajax().
+	 * Checked only for a signed-in caller; see ajax_refresh().
 	 *
 	 * @since 4.0.0
 	 */
@@ -31,15 +31,12 @@ class WP_UserOnline {
 	private static $instance;
 
 	/**
-	 * Constructor.
-	 *
-	 * Activation and deactivation hooks are registered here rather than on a
-	 * later hook: this runs while the main plugin file is being loaded, which
-	 * is where WordPress requires them to be registered.
+	 * Register hooks.
 	 */
-	public function __construct() {
+	private function __construct() {
 		$this->register_table();
 
+		// Must be registered at file-load time, which is when this runs.
 		register_activation_hook( WP_USERONLINE_MAIN_FILE, array( 'WP_UserOnline_Install', 'activate' ) );
 
 		add_action( 'plugins_loaded', array( $this, 'add_hooks' ) );
@@ -85,8 +82,8 @@ class WP_UserOnline {
 		add_action( 'admin_head', array( $this, 'record' ) );
 		add_action( 'wp_footer', array( $this, 'enqueue_scripts' ) );
 
-		add_action( 'wp_ajax_wp_useronline', array( $this, 'ajax' ) );
-		add_action( 'wp_ajax_nopriv_wp_useronline', array( $this, 'ajax' ) );
+		add_action( 'wp_ajax_wp_useronline', array( $this, 'ajax_refresh' ) );
+		add_action( 'wp_ajax_nopriv_wp_useronline', array( $this, 'ajax_refresh' ) );
 
 		add_action( 'widgets_init', array( $this, 'register_widget' ) );
 
@@ -246,7 +243,7 @@ class WP_UserOnline {
 	 *
 	 * @return void
 	 */
-	public function ajax() {
+	public function ajax_refresh() {
 		if ( is_user_logged_in() && ! check_ajax_referer( self::AJAX_NONCE, '_ajax_nonce', false ) ) {
 			wp_die( '', '', array( 'response' => 403 ) );
 		}

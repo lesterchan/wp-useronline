@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * The sibling plugins' voting and rating routes check a per-item nonce, because
  * the AJAX endpoints they were ported from check one. **This endpoint never
- * did, and the reason is written into `WP_UserOnline::ajax()`: a nonce cannot
+ * did, and the reason is written into `WP_UserOnline::ajax_refresh()`: a nonce cannot
  * authenticate a logged-out visitor.** Anonymous nonces are derived from one
  * session shared by every such caller, so verifying one proves only that the
  * caller can compute a value every visitor already has.

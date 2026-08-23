@@ -243,8 +243,8 @@ class WP_UserOnline_Install_Test extends WP_UserOnline_TestCase {
 		$this->assertNotFalse( has_action( 'wp_head', array( $plugin, 'record' ) ), 'nothing records on the front end' );
 		$this->assertNotFalse( has_action( 'admin_head', array( $plugin, 'record' ) ), 'nothing records in wp-admin' );
 		$this->assertNotFalse( has_action( 'wp_footer', array( $plugin, 'enqueue_scripts' ) ), 'the script is never enqueued' );
-		$this->assertNotFalse( has_action( 'wp_ajax_wp_useronline', array( $plugin, 'ajax' ) ), 'the endpoint is unreachable when logged in' );
-		$this->assertNotFalse( has_action( 'wp_ajax_nopriv_wp_useronline', array( $plugin, 'ajax' ) ), 'the endpoint is unreachable when logged out' );
+		$this->assertNotFalse( has_action( 'wp_ajax_wp_useronline', array( $plugin, 'ajax_refresh' ) ), 'the endpoint is unreachable when logged in' );
+		$this->assertNotFalse( has_action( 'wp_ajax_nopriv_wp_useronline', array( $plugin, 'ajax_refresh' ) ), 'the endpoint is unreachable when logged out' );
 	}
 
 	public function test_the_wp_stats_section_is_offered_without_probing_for_wp_stats() {
