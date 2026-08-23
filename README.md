@@ -224,6 +224,7 @@ and PHP 7.4.
 
 ## Changelog
 ### 4.0.1
+* NEW: A Settings link on the plugin's row of the Plugins screen, opening the Users Online screen's Settings tab.
 * FIXED: The address of a visitor arriving over IPv6 linked to a lookup that cannot read one. Every such visitor's link answered "Malformed Domain or IP", which is most of the detailed listing on a site whose host has IPv6 switched on. The lookups now go to ipinfo.io, which answers for IPv4 and IPv6 alike
 * NEW: `wp_useronline_ip_lookup_url` filters where an address is looked up, so a site can send it somewhere else — or return an empty string and keep the address as plain text with no link at all. See the FAQ
 * FIXED: Every page view read the whole table twice — dropping the visitor's previous row and counting what their address holds both filter on columns the table's only key does not start with. Keys on `user_ip` and `user_id` cover both now, and an existing install gains them on upgrade, so the per-request bookkeeping stops scanning the table as a busy site's list grows
