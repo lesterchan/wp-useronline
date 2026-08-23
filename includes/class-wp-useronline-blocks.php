@@ -75,7 +75,7 @@ class WP_UserOnline_Blocks {
 	}
 
 	/**
-	 * Hook block registration.
+	 * Hooks block registration.
 	 *
 	 * @return void
 	 */

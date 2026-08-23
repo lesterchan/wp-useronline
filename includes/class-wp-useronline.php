@@ -43,7 +43,7 @@ class WP_UserOnline {
 	}
 
 	/**
-	 * Initializes the plugin object and returns its instance.
+	 * Get the instance, creating it on first call.
 	 *
 	 * @return WP_UserOnline
 	 */
@@ -196,9 +196,7 @@ class WP_UserOnline {
 			return;
 		}
 
-		// Shipped unminified and served as-is: the file is under a kilobyte
-		// gzipped, and with no build step a separate minified copy would only
-		// drift out of sync with this one.
+		// Shipped unminified: it is small, and the review guidelines prefer readable sources.
 		wp_enqueue_script(
 			'wp-useronline',
 			WP_USERONLINE_URL . 'js/wp-useronline.js',

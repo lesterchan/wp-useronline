@@ -22,15 +22,13 @@ class WP_UserOnline_Install {
 	/**
 	 * Run on activation, for one site or every site on the network.
 	 *
-	 * @param bool $network_wide Whether the plugin is being network activated.
+	 * @param bool $network_wide Whether the plugin is being activated network-wide.
 	 *
 	 * @return void
 	 */
 	public static function activate( $network_wide = false ) {
 		if ( is_multisite() && $network_wide ) {
-			// 'number' => 0 lifts WP_Site_Query's default cap of 100, which
-			// would otherwise skip the install on every site past the
-			// hundredth.
+			// 'number' => 0 lifts WP_Site_Query's default cap of 100, which would otherwise skip every site past the hundredth while reporting success.
 			$site_ids = get_sites(
 				array(
 					'fields' => 'ids',
@@ -39,6 +37,7 @@ class WP_UserOnline_Install {
 			);
 
 			foreach ( $site_ids as $site_id ) {
+				// Inside the loop: switch_to_blog() pushes onto a stack, so restoring once after the loop unwinds it by exactly one.
 				switch_to_blog( (int) $site_id );
 				self::install();
 				restore_current_blog();

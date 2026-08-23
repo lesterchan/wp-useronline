@@ -51,7 +51,7 @@ class WP_UserOnline_Settings {
 	const SECTION_WPSTATS = 'wp_useronline_wpstats';
 
 	/**
-	 * Hook the settings up.
+	 * Hook registration.
 	 *
 	 * @return void
 	 */

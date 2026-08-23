@@ -67,7 +67,7 @@ class WP_UserOnline_Admin {
 	private static $screen_hook = '';
 
 	/**
-	 * Hook the screens up.
+	 * Hook registration.
 	 *
 	 * @return void
 	 */
@@ -137,11 +137,11 @@ class WP_UserOnline_Admin {
 	 */
 	public static function capability( $context = 'useronline' ) {
 		/**
-		 * Filter the capability a WP-UserOnline screen requires.
+		 * Filters the capability required to reach a WP-UserOnline screen.
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param string $capability Capability name.
+		 * @param string $capability The required capability.
 		 * @param string $context    Which screen is asking.
 		 */
 		return (string) apply_filters( 'wp_useronline_capability', self::CAPABILITY, $context );
