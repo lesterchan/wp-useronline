@@ -56,8 +56,8 @@ class WP_UserOnline_Settings {
 	 * @return void
 	 */
 	public static function init() {
-		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+		add_action( 'admin_init', array( __CLASS__, 'register' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
 	}
 
 	/**
@@ -80,7 +80,7 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public static function register_settings() {
+	public static function register() {
 		$settings  = self::tab_bucket( WP_UserOnline_Admin::TAB_SETTINGS );
 		$templates = self::tab_bucket( WP_UserOnline_Admin::TAB_TEMPLATES );
 
@@ -207,7 +207,7 @@ class WP_UserOnline_Settings {
 	 *
 	 * @return void
 	 */
-	public static function enqueue_scripts( $hook_suffix ) {
+	public static function enqueue( $hook_suffix ) {
 		$screen_hook = WP_UserOnline_Admin::screen_hook();
 
 		if ( ! is_string( $hook_suffix ) || '' === $screen_hook || $screen_hook !== $hook_suffix ) {

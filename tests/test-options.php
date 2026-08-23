@@ -328,7 +328,7 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 	public function test_update_creates_the_row_when_the_value_equals_the_registered_default() {
 		delete_option( WP_UserOnline_Options::OPTION );
 
-		WP_UserOnline_Settings::register_settings();
+		WP_UserOnline_Settings::register();
 
 		// The precondition the defect needs: a bare read of an absent row answers
 		// with the defaults, so update_option() alone compares equal and declines
@@ -357,7 +357,7 @@ class WP_UserOnline_Options_Test extends WP_UserOnline_TestCase {
 	 * @return void
 	 */
 	public function test_the_shipped_defaults_survive_sanitisation_unchanged() {
-		WP_UserOnline_Settings::register_settings();
+		WP_UserOnline_Settings::register();
 
 		$defaults = WP_UserOnline_Options::defaults();
 

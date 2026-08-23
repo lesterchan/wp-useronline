@@ -156,7 +156,7 @@ class WP_UserOnline_Metadata_Test extends Plugin_Metadata_TestCase {
 
 		$_GET['tab'] = WP_UserOnline_Admin::TAB_SETTINGS;
 
-		WP_UserOnline_Settings::enqueue_scripts( WP_UserOnline_Admin::screen_hook() );
+		WP_UserOnline_Settings::enqueue( WP_UserOnline_Admin::screen_hook() );
 	}
 
 	/**

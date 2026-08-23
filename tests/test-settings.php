@@ -18,7 +18,7 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		WP_UserOnline_Settings::register_settings();
+		WP_UserOnline_Settings::register();
 	}
 
 	/**
@@ -456,15 +456,15 @@ class WP_UserOnline_Settings_Test extends WP_UserOnline_TestCase {
 
 		$hook = WP_UserOnline_Admin::screen_hook();
 
-		WP_UserOnline_Settings::enqueue_scripts( 'index.php' );
+		WP_UserOnline_Settings::enqueue( 'index.php' );
 		$this->assertFalse( wp_script_is( 'wp-useronline-admin', 'enqueued' ), 'the script loaded on another screen entirely' );
 
 		$_GET['tab'] = WP_UserOnline_Admin::TAB_USERONLINE;
-		WP_UserOnline_Settings::enqueue_scripts( $hook );
+		WP_UserOnline_Settings::enqueue( $hook );
 		$this->assertFalse( wp_script_is( 'wp-useronline-admin', 'enqueued' ), 'the script loaded on the report tab, which has no field to restore' );
 
 		$_GET['tab'] = WP_UserOnline_Admin::TAB_TEMPLATES;
-		WP_UserOnline_Settings::enqueue_scripts( $hook );
+		WP_UserOnline_Settings::enqueue( $hook );
 		$this->assertTrue( wp_script_is( 'wp-useronline-admin', 'enqueued' ), 'the script did not load on the templates tab' );
 	}
 }
