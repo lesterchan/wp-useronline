@@ -1,11 +1,7 @@
 /**
- * WP-UserOnline periodic refresh.
- *
- * Vanilla ES2017 with no build step and no library: the script ships to users
- * exactly as it is here. It polls admin-ajax.php for whichever of the four
- * containers the page actually rendered, and writes each answer back into the
- * page -- filling the container, or replacing it outright where the answer
- * carries a container of its own. See WRAPPED_MODES.
+ * WP-UserOnline periodic refresh. Polls admin-ajax.php for whichever containers
+ * the page rendered, filling each -- or replacing it where the answer carries a
+ * container of its own. See WRAPPED_MODES.
  */
 
 ( function() {
@@ -13,14 +9,9 @@
 
 	const MODES = [ 'count', 'browsing-site', 'browsing-page', 'details' ];
 
-	// The modes whose answer arrives already wrapped in the container it belongs
-	// to. users_online_page() bakes #useronline-details into what it returns,
-	// because [page_useronline] has no theme markup of its own to sit inside;
-	// the other three answer with bare content that a theme or the widget has
-	// already put a container around. Writing a wrapped answer into innerHTML
-	// puts a second element carrying that id inside the first, and a third
-	// inside that on the next poll, for as long as the page stays open -- so a
-	// wrapped answer replaces the element rather than filling it.
+	// Modes whose answer already carries its own container. Writing one into
+	// innerHTML would nest a second element with that id inside the first, and
+	// another on every poll, so these replace the element instead.
 	const WRAPPED_MODES = [ 'details' ];
 
 	function swap( mode, target, html ) {
@@ -53,10 +44,8 @@
 			mode,
 			page_url: location.protocol + '//' + location.host + location.pathname + location.search,
 			page_title: document.title,
-			// Empty for a logged-out visitor, and the endpoint asks for it only
-			// from a signed-in one -- their cookie alone would otherwise let a
-			// cross-site form post record them as reading a page of somebody
-			// else's choosing.
+			// Signed-in visitors only: the cookie alone would let a cross-site
+			// post record them as reading a page of someone else's choosing.
 			_ajax_nonce: wpUserOnlineL10n.nonce || '',
 		} );
 

@@ -1,10 +1,6 @@
 /**
- * WP-UserOnline settings screen.
- *
- * One delegated listener on document, so the Restore Defaults buttons keep
- * working whatever the Settings API renders around them. Every field carries
- * its own default in a data attribute; there is nothing to look up and nothing
- * localised into the page.
+ * WP-UserOnline settings screen. One delegated listener; every field carries
+ * its own default in a data attribute, so nothing is localised into the page.
  */
 
 ( function() {
