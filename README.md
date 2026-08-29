@@ -4,7 +4,7 @@ Donate link: https://lesterchan.net/site/donation/
 Tags: useronline, usersonline, wp-useronline, online, widget  
 Requires at least: 6.8  
 Tested up to: 7.1  
-Stable tag: 4.0.1  
+Stable tag: 4.0.2  
 Requires PHP: 8.2  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -240,6 +240,11 @@ and PHP 7.4.
 4. The users-online page a visitor sees, from the shortcode
 
 ## Changelog
+### 4.0.2
+* NEW: A `wp_useronline_needs_scripts` filter, for code that renders the counters where WP-UserOnline cannot see it coming. The refresh script loads only when something on the page has rendered a counter or a listing, and it is enqueued from `wp_footer` — the one pass. Markup fetched over `admin-ajax.php` or the REST API into a page that shows none of its own reaches neither, so its numbers never refreshed. Returning true from the filter is how such a page asks for the script.
+
+* CHANGED: `WP_UserOnline_Template::needs_script()` and `request_script()` are now `needs_scripts()` and `request_scripts()`, plural, matching every other name the plugin uses for its front end assets. Neither was ever documented, but they are public, so a theme or plugin calling one by name needs the `s`.
+
 ### 4.0.1
 * NEW: A Settings link on the plugin's row of the Plugins screen, opening the Users Online screen's Settings tab.
 * FIXED: The address of a visitor arriving over IPv6 linked to a lookup that cannot read one. Every such visitor's link answered "Malformed Domain or IP", which is most of the detailed listing on a site whose host has IPv6 switched on. The lookups now go to ipinfo.io, which answers for IPv4 and IPv6 alike
