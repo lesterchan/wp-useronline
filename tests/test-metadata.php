@@ -27,7 +27,7 @@ class WP_UserOnline_Metadata_Test extends Plugin_Metadata_TestCase {
 	 * @return string
 	 */
 	protected function expected_version() {
-		return '4.0.1';
+		return '4.0.2';
 	}
 
 	/**

@@ -189,10 +189,15 @@ class WP_UserOnline {
 	/**
 	 * Enqueue the refresh script, if anything on this page needs it.
 	 *
+	 * Runs on `wp_footer`, so everything this plugin renders has already asked
+	 * via WP_UserOnline_Template::request_scripts(). A counter or listing built
+	 * by another route, such as markup fetched over AJAX into a page that shows
+	 * none itself, says so through the `wp_useronline_needs_scripts` filter.
+	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		if ( ! WP_UserOnline_Template::needs_script() ) {
+		if ( ! $this->needs_scripts() ) {
 			return;
 		}
 
@@ -222,6 +227,32 @@ class WP_UserOnline {
 				'nonce'   => is_user_logged_in() ? wp_create_nonce( self::AJAX_NONCE ) : '',
 			)
 		);
+	}
+
+	/**
+	 * Whether this request has rendered anything the refresh script drives.
+	 *
+	 * @return bool
+	 */
+	protected function needs_scripts() {
+		/**
+		 * Filters whether the refresh script is enqueued.
+		 *
+		 * Every counter and listing this plugin renders asks for the script as
+		 * it renders, so the value handed in is right for all of them. What it
+		 * cannot see is a container built by another route -- markup fetched
+		 * over AJAX into an already loaded page, a template writing the markup
+		 * itself -- and returning true says so.
+		 *
+		 * There is no second pass to fall back on: this is the only enqueue,
+		 * so returning false leaves the counters on the page frozen at the
+		 * numbers they were rendered with.
+		 *
+		 * @since 4.0.2
+		 *
+		 * @param bool $needs_scripts Whether anything rendered asked for the script.
+		 */
+		return (bool) apply_filters( 'wp_useronline_needs_scripts', WP_UserOnline_Template::needs_scripts() );
 	}
 
 	/**

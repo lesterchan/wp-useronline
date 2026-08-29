@@ -26,15 +26,15 @@ class WP_UserOnline_Template {
 	 *
 	 * @var bool
 	 */
-	private static $needs_script = false;
+	private static $needs_scripts = false;
 
 	/**
 	 * Whether the refresh script should be enqueued.
 	 *
 	 * @return bool
 	 */
-	public static function needs_script() {
-		return self::$needs_script;
+	public static function needs_scripts() {
+		return self::$needs_scripts;
 	}
 
 	/**
@@ -47,8 +47,8 @@ class WP_UserOnline_Template {
 	 *
 	 * @return void
 	 */
-	public static function request_script() {
-		self::$needs_script = true;
+	public static function request_scripts() {
+		self::$needs_scripts = true;
 	}
 
 	/**
@@ -108,7 +108,7 @@ class WP_UserOnline_Template {
 	 * @return mixed
 	 */
 	public static function compact_list( $type, $output = 'html', $page_url = '' ) {
-		self::request_script();
+		self::request_scripts();
 
 		if ( 'page' === $type && '' === $page_url ) {
 			$page_url = isset( $_SERVER['REQUEST_URI'] )
@@ -186,7 +186,7 @@ class WP_UserOnline_Template {
 	 * @return string
 	 */
 	public static function detailed_list( $counts, $user_buckets, $nicetexts ) {
-		self::request_script();
+		self::request_scripts();
 
 		if ( 0 === $counts['user'] ) {
 			return '<h2>' . esc_html__( 'No one is online now.', 'wp-useronline' ) . '</h2>';

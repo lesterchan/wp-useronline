@@ -113,8 +113,8 @@ abstract class WP_UserOnline_TestCase extends WP_UnitTestCase {
 		$targets = array(
 			'WP_UserOnline_Recorder' => array( 'count' => null ),
 			'WP_UserOnline_Template' => array(
-				'cache'        => array(),
-				'needs_script' => false,
+				'cache'         => array(),
+				'needs_scripts' => false,
 			),
 		);
 

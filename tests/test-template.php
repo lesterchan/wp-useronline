@@ -306,11 +306,11 @@ class WP_UserOnline_Template_Test extends WP_UserOnline_TestCase {
 	 * enqueued and the number never updated.
 	 */
 	public function test_rendering_a_list_asks_for_the_refresh_script() {
-		$this->assertFalse( WP_UserOnline_Template::needs_script(), 'nothing has rendered yet' );
+		$this->assertFalse( WP_UserOnline_Template::needs_scripts(), 'nothing has rendered yet' );
 
 		WP_UserOnline_Template::compact_list( 'site' );
 
-		$this->assertTrue( WP_UserOnline_Template::needs_script(), 'a rendered list did not ask for the script' );
+		$this->assertTrue( WP_UserOnline_Template::needs_scripts(), 'a rendered list did not ask for the script' );
 	}
 
 	public function test_an_empty_site_says_so_rather_than_rendering_an_empty_list() {

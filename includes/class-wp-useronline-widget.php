@@ -86,7 +86,7 @@ class WP_UserOnline_Widget extends WP_Widget {
 		// Every container above is a target the refresh script polls, so ask
 		// for it here. The count-only variants never reach compact_list(),
 		// which is what otherwise requests it.
-		WP_UserOnline_Template::request_script();
+		WP_UserOnline_Template::request_scripts();
 
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */

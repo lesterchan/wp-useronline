@@ -204,6 +204,23 @@ add_filter( 'wp_useronline_bots', function ( $bots ) {
 } );
 ```
 
+### My own code renders the counters and they never refresh
+
+The refresh script loads only when something on the page has already rendered a counter
+or a listing, and it is enqueued from `wp_footer` — the one pass. Markup fetched over
+`admin-ajax.php` or the REST API into a page that shows none of its own reaches neither:
+the fetch has no footer to enqueue into, and the page rendered nothing to ask. The
+numbers then sit at whatever they were when the markup was built.
+
+Say so from the page that will hold them:
+
+```php
+add_filter( 'wp_useronline_needs_scripts', '__return_true' );
+```
+
+Code that runs during the page itself can call `WP_UserOnline_Template::request_scripts()`
+instead, which is the same request every built-in render path makes.
+
 ### The plugin will not activate
 
 WP-UserOnline 4.0 and later requires WordPress 6.8 and PHP 8.2. WordPress checks both and

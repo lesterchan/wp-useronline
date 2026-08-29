@@ -355,11 +355,11 @@ class WP_UserOnline_Blocks_Test extends WP_UserOnline_TestCase {
 	 * @return void
 	 */
 	public function test_the_block_asks_for_the_refresh_script() {
-		$this->assertFalse( WP_UserOnline_Template::needs_script(), 'Nothing has asked for it yet.' );
+		$this->assertFalse( WP_UserOnline_Template::needs_scripts(), 'Nothing has asked for it yet.' );
 
 		WP_UserOnline_Blocks::render_page_useronline();
 
-		$this->assertTrue( WP_UserOnline_Template::needs_script(), 'A block-only page gets the refresh script.' );
+		$this->assertTrue( WP_UserOnline_Template::needs_scripts(), 'A block-only page gets the refresh script.' );
 	}
 
 	// --- rendering through the block parser -------------------------------

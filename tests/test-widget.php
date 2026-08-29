@@ -110,7 +110,7 @@ class WP_UserOnline_Widget_Test extends WP_UserOnline_TestCase {
 	public function test_render_requests_the_refresh_script() {
 		$this->render( array( 'type' => 'users_online' ) );
 
-		$this->assertTrue( WP_UserOnline_Template::needs_script(), 'Rendering the widget marks the request as needing the refresh script.' );
+		$this->assertTrue( WP_UserOnline_Template::needs_scripts(), 'Rendering the widget marks the request as needing the refresh script.' );
 	}
 
 	/**

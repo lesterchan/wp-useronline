@@ -274,6 +274,37 @@ class WP_UserOnline_Install_Test extends WP_UserOnline_TestCase {
 		$this->assertTrue( wp_script_is( 'wp-useronline', 'enqueued' ), 'the script was not enqueued for a page that needs it' );
 	}
 
+	public function test_the_filter_can_ask_for_the_script_on_a_page_that_rendered_nothing() {
+		// wp_scripts() is a process global, so the handle an earlier test
+		// enqueued would answer for this one.
+		unset( $GLOBALS['wp_scripts'] );
+		$this->reset_statics();
+		add_filter( 'wp_useronline_needs_scripts', '__return_true' );
+
+		WP_UserOnline::get_instance()->enqueue_scripts();
+
+		$this->assertTrue( wp_script_is( 'wp-useronline', 'enqueued' ), 'the filter asked for the script and did not get it' );
+	}
+
+	public function test_the_filter_sees_what_rendered_and_can_refuse_it() {
+		unset( $GLOBALS['wp_scripts'] );
+		WP_UserOnline_Template::compact_list( 'site' );
+
+		$seen = null;
+		add_filter(
+			'wp_useronline_needs_scripts',
+			function ( $needs_scripts ) use ( &$seen ) {
+				$seen = $needs_scripts;
+				return false;
+			}
+		);
+
+		WP_UserOnline::get_instance()->enqueue_scripts();
+
+		$this->assertTrue( $seen, 'the filter was not handed what the render asked for' );
+		$this->assertFalse( wp_script_is( 'wp-useronline', 'enqueued' ), 'the enqueue ran over the filter' );
+	}
+
 	public function test_the_script_carries_the_localised_object_the_standard_names() {
 		WP_UserOnline_Template::compact_list( 'site' );
 
