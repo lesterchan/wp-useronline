@@ -164,8 +164,8 @@ class WP_UserOnline {
 	/**
 	 * Link a member's name to their author archive.
 	 *
-	 * @param string $name Escaped display name.
-	 * @param object $user Useronline row.
+	 * @param string   $name Escaped display name.
+	 * @param stdClass $user Useronline row.
 	 *
 	 * @return string
 	 */

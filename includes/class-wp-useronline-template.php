@@ -266,7 +266,7 @@ class WP_UserOnline_Template {
 				 *
 				 * @param string $markup Escaped markup for this user.
 				 * @param string $nr     Formatted position in the list.
-				 * @param object $user   Raw useronline row. Unescaped.
+				 * @param stdClass $user   Raw useronline row. Unescaped.
 				 */
 				$out .= apply_filters( 'wp_useronline_custom_template', $markup, $nr, $user );
 			}
@@ -334,7 +334,7 @@ class WP_UserOnline_Template {
 	/**
 	 * Format a user's IP as a lookup link, for viewers allowed to see it.
 	 *
-	 * @param object $user Useronline row.
+	 * @param stdClass $user Useronline row.
 	 *
 	 * @return string
 	 */
@@ -398,7 +398,7 @@ class WP_UserOnline_Template {
 	/**
 	 * Format a user's display name.
 	 *
-	 * @param object $user Useronline row.
+	 * @param stdClass $user Useronline row.
 	 *
 	 * @return string
 	 */
@@ -411,7 +411,7 @@ class WP_UserOnline_Template {
 		 * @since 4.0.0
 		 *
 		 * @param string $name Escaped display name.
-		 * @param object $user Raw useronline row. Unescaped.
+		 * @param stdClass $user Raw useronline row. Unescaped.
 		 */
 		return apply_filters( 'wp_useronline_display_user', esc_html( $user->user_name ), $user );
 	}

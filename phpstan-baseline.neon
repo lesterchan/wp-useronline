@@ -1,0 +1,229 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method WP_UserOnline_Admin\:\:tabs\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-admin.php
+
+		-
+			message: '#^Constant WP_UserOnline_API\:\:MODES type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-api.php
+
+		-
+			message: '#^Method WP_UserOnline_Command\:\:count\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-command.php
+
+		-
+			message: '#^Method WP_UserOnline_Command\:\:count\(\) has parameter \$assoc_args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-command.php
+
+		-
+			message: '#^Method WP_UserOnline_Command\:\:list_\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-command.php
+
+		-
+			message: '#^Method WP_UserOnline_Command\:\:list_\(\) has parameter \$assoc_args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-command.php
+
+		-
+			message: '#^Method WP_UserOnline_Command\:\:print_rows\(\) has parameter \$fields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-command.php
+
+		-
+			message: '#^Method WP_UserOnline_Command\:\:print_rows\(\) has parameter \$rows with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-command.php
+
+		-
+			message: '#^Method WP_UserOnline_Options\:\:all_option_names\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-options.php
+
+		-
+			message: '#^Method WP_UserOnline_Options\:\:defaults\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-options.php
+
+		-
+			message: '#^Method WP_UserOnline_Options\:\:legacy_options\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-options.php
+
+		-
+			message: '#^Method WP_UserOnline_Options\:\:markers\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-options.php
+
+		-
+			message: '#^Method WP_UserOnline_Options\:\:migrate_stats_display\(\) has parameter \$merged with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-options.php
+
+		-
+			message: '#^Method WP_UserOnline_Options\:\:migrate_stats_display\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-options.php
+
+		-
+			message: '#^Method WP_UserOnline_Options\:\:sanitize\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-options.php
+
+		-
+			message: '#^Method WP_UserOnline_Options\:\:update\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-options.php
+
+		-
+			message: '#^Method WP_UserOnline_Settings\:\:default_for\(\) has parameter \$keys with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-settings.php
+
+		-
+			message: '#^Method WP_UserOnline_Settings\:\:text_input\(\) has parameter \$keys with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-settings.php
+
+		-
+			message: '#^Method WP_UserOnline_Template\:\:detailed_list\(\) has parameter \$counts with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Method WP_UserOnline_Template\:\:detailed_list\(\) has parameter \$nicetexts with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Method WP_UserOnline_Template\:\:detailed_list\(\) has parameter \$user_buckets with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Method WP_UserOnline_Template\:\:format_date\(\) should return string but returns int\|string\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Method WP_UserOnline_Template\:\:get_counts\(\) has parameter \$buckets with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Method WP_UserOnline_Template\:\:get_counts\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Method WP_UserOnline_Template\:\:query\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Parameter \#2 \$date of function mysql2date expects string, int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Parameter \#2 \$timestamp_with_offset of function date_i18n expects bool\|int, int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Property WP_UserOnline_Template\:\:\$cache type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-template.php
+
+		-
+			message: '#^Method WP_UserOnline_Widget\:\:form\(\) has parameter \$instance with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-widget.php
+
+		-
+			message: '#^Method WP_UserOnline_Widget\:\:update\(\) has parameter \$new_instance with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-widget.php
+
+		-
+			message: '#^Method WP_UserOnline_Widget\:\:update\(\) has parameter \$old_instance with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-widget.php
+
+		-
+			message: '#^Method WP_UserOnline_Widget\:\:update\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-widget.php
+
+		-
+			message: '#^Method WP_UserOnline_Widget\:\:widget\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-widget.php
+
+		-
+			message: '#^Method WP_UserOnline_Widget\:\:widget\(\) has parameter \$instance with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-widget.php
+
+		-
+			message: '#^Return type \(void\) of method WP_UserOnline_Widget\:\:form\(\) should be compatible with return type \(string\|null\) of method WP_Widget\<array\<string, mixed\>\>\:\:form\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: includes/class-wp-useronline-widget.php
+
+		-
+			message: '#^Method WP_UserOnline_WPStats\:\:register_section\(\) has parameter \$sections with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-wpstats.php
+
+		-
+			message: '#^Method WP_UserOnline_WPStats\:\:register_section\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: includes/class-wp-useronline-wpstats.php
+
+		-
+			message: '#^Parameter \#3 \$template of static method WP_UserOnline_Template\:\:format_count\(\) expects string\|false, array\<string\>\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: includes/template-tags.php
